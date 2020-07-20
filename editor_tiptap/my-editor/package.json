@@ -1,5 +1,5 @@
 {
-  "name": "test_tiptap",
+  "name": "my-editor",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "tiptap": "^1.29.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
