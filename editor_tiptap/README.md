@@ -27,3 +27,12 @@
    - [ ] 의미가 애매.
 
 <img src="images/image-20200721175929641.png" alt="image-20200721175929641" style="zoom:67%;" />
+
+4. 사용할 것들
+   1. https://bootstrap-vue.org/docs/components/dropdown#foo/bar
+5. 물어볼 것
+   1. electron의 sizing 정도
+   2. div안에 넣을지??
+   3. 문서 저장을 어떻게 할까??
+   4. 스크롤 했을 때 Button Bar가 우측으로 이동하도록
+   5. 
