@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import '../assets/sass/main.scss'
+// import '../assets/sass/main.scss'
 // import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
