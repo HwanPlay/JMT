@@ -12,7 +12,13 @@
   <body>
     <nav>
       <div id="titleshown">Team DNS</div>
-      <div id="buttons">
+      <div id="l-buttons">
+        <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
+        <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
+        <div id="refresh" onClick="window.location.reload()"><span>♬</span></div>
+    </div>
+
+      <div id="r-buttons">
           <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
           <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
           <div id="refresh"><span>♬</span></div> -->
@@ -51,8 +57,12 @@
 </script>
 
 <style>
+::-webkit-scrollbar{
+  display: none;
+}
+
 nav {
-  display: block;
+  display: inline-block;
   width: 100%;
   height: 30px;
   background-color: #333333;
@@ -63,7 +73,6 @@ nav {
 }
 
 nav #titleshown {
-  width: 30%;
   height: 100%;
   line-height: 30px;
   color: #f7f7f7;
@@ -71,7 +80,7 @@ nav #titleshown {
   padding: 0 0 0 1em;
 }
 
-nav #buttons {
+nav #r-buttons {
   float: right;
   width: 150px;
   height: 100%;
@@ -79,10 +88,28 @@ nav #buttons {
   background-color: #222222;
   -webkit-app-region: no-drag;
 }
+nav #l-buttons {
+  float: left;
+  width: 150px;
+  height: 100%;
+  line-height: 30px;
+  -webkit-app-region: no-drag;
+}
 
-nav #buttons #minimize,
-nav #buttons #maximize,
-nav #buttons #quit {
+nav #l-buttons #back,
+nav #l-buttons #forward,
+nav #l-buttons #refresh {
+  float: left;
+  height: 100%;
+  width: 20%;
+  text-align: center;
+  color: #f7f7f7;
+  cursor: default;
+}
+
+nav #r-buttons #minimize,
+nav #r-buttons #maximize,
+nav #r-buttons #quit {
   float: left;
   height: 100%;
   width: 33%;
@@ -91,13 +118,13 @@ nav #buttons #quit {
   cursor: default;
 }
 
-nav #buttons #minimize:hover {
+nav #r-buttons #minimize:hover {
   background-color: #333333aa;
 }
-nav #buttons #maximize:hover {
+nav #r-buttons #maximize:hover {
   background-color: #333333aa;
 }
-nav #buttons #quit:hover {
+nav #r-buttons #quit:hover {
   background-color: #ff0000dd;
 }
 
