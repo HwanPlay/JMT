@@ -33,5 +33,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
    1. pdf, md파일 export하기
 
-   
+   commit message
 
