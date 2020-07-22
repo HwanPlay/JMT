@@ -170,7 +170,7 @@
       </div>
     </editor-menu-bubble>
 
-    <div class="content_box">
+    <div class="content_box p-3 rounded border border-primary">
       <editor-content class="editor__content" :editor="editor" />
     </div>
   </div>
