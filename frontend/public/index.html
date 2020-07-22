@@ -10,10 +10,105 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+    <nav>
+      <div id="titleshown">Team DNS</div>
+      <div id="buttons">
+          <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
+          <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
+          <div id="refresh"><span>♬</span></div> -->
+          <div id="minimize"><span>&dash;</span></div>
+          <div id="maximize"><span>&square;</span></div>
+          <div id="quit"><span>&times;</span></div>
+      </div>
+    </nav>
+
+
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>
+
+<script>
+  const { remote } = require("electron");
+  var win = remote.BrowserWindow.getFocusedWindow();
+
+  var minimize = document.querySelector("#minimize");
+  var maximize = document.querySelector("#maximize");
+  var quit = document.querySelector("#quit");
+
+  minimize.addEventListener("click", () => {
+    console.log("mini")
+    win.minimize();
+  });
+
+  maximize.addEventListener("click", () => {
+    win.setFullScreen(!win.isFullScreen());
+  });
+
+  quit.addEventListener("click", () => {
+    win.close();
+  });
+</script>
+
+<style>
+nav {
+  display: block;
+  width: 100%;
+  height: 30px;
+  background-color: #333333;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  position: fixed;
+  z-index: 1;
+}
+
+nav #titleshown {
+  width: 30%;
+  height: 100%;
+  line-height: 30px;
+  color: #f7f7f7;
+  float: left;
+  padding: 0 0 0 1em;
+}
+
+nav #buttons {
+  float: right;
+  width: 150px;
+  height: 100%;
+  line-height: 30px;
+  background-color: #222222;
+  -webkit-app-region: no-drag;
+}
+
+nav #buttons #minimize,
+nav #buttons #maximize,
+nav #buttons #quit {
+  float: left;
+  height: 100%;
+  width: 33%;
+  text-align: center;
+  color: #f7f7f7;
+  cursor: default;
+}
+
+nav #buttons #minimize:hover {
+  background-color: #333333aa;
+}
+nav #buttons #maximize:hover {
+  background-color: #333333aa;
+}
+nav #buttons #quit:hover {
+  background-color: #ff0000dd;
+}
+
+main {
+  padding-top: 30px;
+  overflow: auto;
+  height: calc(100vh - 30px);
+  position: absolute;
+  top: 30px;
+  left: 0;
+  padding: 0;
+  width: 100%;
+}
+</style>
