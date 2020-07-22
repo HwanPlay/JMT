@@ -1,12 +1,17 @@
 <template>
-  <div>
-      노트
+  <div class="editor-box">
+      <EditorTiptap />
   </div>
 </template>
 
 <script>
-export default {
+import EditorTiptap from '../components/NoteEditor.vue'
 
+export default {
+    name: 'Editor',
+    components: {
+        EditorTiptap,
+    }
 }
 </script>
 
