@@ -2,7 +2,10 @@
   <div class="editor mt-3">
     <!-- Upper Menu -->
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <div class="menubar">
+
+      <div class="menubar fixed" >
+        <NoteContent />
+
         <button
           class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
@@ -177,6 +180,7 @@
 </template>
 
 <script>
+import NoteContent from "../components/NoteContent.vue";
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
 import {
   Blockquote,
@@ -201,7 +205,8 @@ export default {
   components: {
     EditorContent,
     EditorMenuBar,
-    EditorMenuBubble
+    EditorMenuBubble,
+    NoteContent
   },
   data() {
     return {
@@ -274,5 +279,9 @@ code {
   font-weight: 400 !important;
   line-height: 18.5714px !important;
 }
-
+.fixed{
+  position: sticky; 
+            top: 0px; 
+            padding: 10px 0px; 
+}
 </style>
