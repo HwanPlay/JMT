@@ -5,7 +5,7 @@
     <button id="open-or-join-room" @click="openRoom">채팅방 입장</button>
     <hr />
     <div id="chat-container">
-      <input type="text" id="input-text-chat" placeholder="Enter Text Chat" disabled />
+      <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
       <br />
       <div class="chat-output"></div>
     </div>
@@ -21,13 +21,26 @@
 
 <script>
 export default {
-  data() {
+  data(){
     return {
+      disableInputBool : true,
+      inputText : ""
 
-    };
+    }
   },
   methods: {
+    appendDIV(event) {
+      var connection = new RTCMultiConnection();
+    var chatContainer = document.querySelector('.chat-output');
+    var div = document.createElement('div');
+    div.innerHTML = event.data || event;
+    chatContainer.insertBefore(div, chatContainer.firstChild);
+    div.tabIndex = 0; div.focus();
+    
+    document.getElementById('input-text-chat').focus();
+    },
     openRoom() {
+      this.disableInputBool = false
       var connection = new RTCMultiConnection();
       connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
       connection.session = {
@@ -36,7 +49,29 @@ export default {
         data: true
       };
       connection.openOrJoin("jin");
+
+
+
+      connection.onstream = function(event) {
+          document.body.appendChild(event.mediaElement);
+      };
+      
+
+    },
+    textSend(e){
+      var connection = new RTCMultiConnection();
+      // removing trailing/leading whitespace
+      this.value = 'a'+':'+e.target.value.toString().replace(/^\s+|\s+$/g, '');
+      // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
+      console.log(this.value);
+      connection.send(this.value);
+      console.log(connection.send);
+      // connection.onmessage = this.appendDIV(this.value);
+      connection.onmessage = this.appendDIV(this.value);
+
+      e.target.value =  '';
     }
+    
   },
 
   created() {
@@ -60,6 +95,11 @@ export default {
       "https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"
     );
     document.body.appendChild(src3);
+
+
+
+
+    
   }
 };
 </script>
