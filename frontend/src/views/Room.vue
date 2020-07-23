@@ -2,7 +2,7 @@
   <div>
     <h1>화상회의를 만들어 보자꾸나</h1>
     <hr />
-    <button id="open-or-join-room" @click="openRoom">채팅방 입장</button>
+    <button id="open-or-join-room" @click="openRoom" :disabled="disableOpenChat">채팅방 입장</button>
     <hr />
     <div id="chat-container">
       <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
@@ -24,7 +24,8 @@ export default {
   data(){
     return {
       disableInputBool : true,
-      inputText : ""
+      inputText : "",
+      disableOpenChat : false
 
     }
   },
@@ -40,7 +41,8 @@ export default {
     document.getElementById('input-text-chat').focus();
     },
     openRoom() {
-      this.disableInputBool = false
+      this.disableInputBool = false;
+      this.disableOpenChat = true;
       var connection = new RTCMultiConnection();
       connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
       connection.session = {
@@ -49,8 +51,6 @@ export default {
         data: true
       };
       connection.openOrJoin("jin");
-
-
 
       connection.onstream = function(event) {
           document.body.appendChild(event.mediaElement);
