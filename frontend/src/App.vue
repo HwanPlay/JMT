@@ -1,12 +1,13 @@
 <template>
-  <v-app>
+  <v-app class="main">
+    <!-- Login Component -->
+    <div v-if="isLoggedIn === false">
+      <Login @loginConfirm="enterService"/>
+    </div>
+
     <!-- NavBar -->
-    <v-app-bar
-      app
-      color=""
-      dark
-      style="padding: 0px 10px; margin-top: 30px;"
-    >
+    <div v-else>
+    <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin-top: 30px;">
     <div style="height: 100%">
       <router-link to="/Home">
         <v-btn text style="height: 100%">
@@ -43,9 +44,9 @@
       </div>
 
       <!-- 검색창 -->
-      <div class="ml-5 mt-5" style="height: 99%; width: 35%">
+      <div class="ml-5 mt-5" style="height: 99%; width: 35% ">
         <v-spacer></v-spacer>
-        <v-toolbar flat dense style="width: 90%">
+        <v-toolbar flat color = "rgb(14, 23, 38)" dense style="width: 90%">
           <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
           </v-text-field>
         </v-toolbar>
@@ -64,27 +65,43 @@
 
     </v-app-bar>
     <v-main style="margin-top: 64px; padding-top:0px;">
-      <router-view />
+      <router-view/>
     </v-main>
+    </div>
+
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
+import Login from '../src/components/Login.vue'
+
 export default Vue.extend({
   name: 'App',
 
   components: {
+    Login,
   },
 
-  data: () => ({
-    //
-  }),
+  data () {
+    return {
+      isLoggedIn: false,
+    }
+  },
+  methods:{
+    enterService(){
+      this.isLoggedIn = true;
+    }
+  }
 });
 </script>
 
 <style>
+
+.main{
+  background-color: rgb(7, 14, 29);
+}
 .routerLink {
   color: white;
 }

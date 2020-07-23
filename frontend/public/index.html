@@ -22,7 +22,7 @@
           <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
           <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
           <div id="refresh"><span>♬</span></div> -->
-          <div id="minimize"><span>&dash;</span></div>
+          <div id="minimize"><span>_</span></div>
           <div id="maximize"><span>&square;</span></div>
           <div id="quit"><span>&times;</span></div>
       </div>
@@ -62,10 +62,11 @@
 }
 
 nav {
+  font-family: "Maison Neue", sans-serif;
   display: inline-block;
   width: 100%;
   height: 30px;
-  background-color: #333333;
+  background-color: rgb(4, 8, 19);
   -webkit-app-region: drag;
   -webkit-user-select: none;
   position: fixed;
@@ -85,7 +86,7 @@ nav #r-buttons {
   width: 150px;
   height: 100%;
   line-height: 30px;
-  background-color: #222222;
+  background-color: rgb(4, 8, 19);
   -webkit-app-region: no-drag;
 }
 nav #l-buttons {
@@ -104,7 +105,7 @@ nav #l-buttons #refresh {
   width: 20%;
   text-align: center;
   color: #f7f7f7;
-  cursor: default;
+  cursor: pointer;
 }
 
 nav #r-buttons #minimize,
