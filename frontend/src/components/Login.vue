@@ -4,13 +4,13 @@
       <v-row align="left" justify="left">
 
         <!-- 로그인 -->
-        <v-col cols="12" sm="8" md="5">
+        <v-col style="margin-bottom: 100px" cols="12" sm="8" md="5">
               <v-spacer></v-spacer>
               <v-form>
-                <h4 style="color: rgb(229, 235, 239);">모두를 위한 화상회의 플랫폼</h4>
+                <h3 style="color: rgb(229, 235, 239);">모두를 위한 화상회의 플랫폼</h3>
                 <h6 style="margin-top: 20px; color: rgb(187, 201, 224);">서비스를 시작하려면 로그인을 해주세요.</h6>
-                <v-text-field filled color="rgb(187, 201, 224)" background-color="rgb(52, 63, 87)" label="ID" name="login" style="margin-top: 30px;" append-icon="mdi-account" type="text"></v-text-field>
-                <v-text-field filled color="rgb(187, 201, 224)" background-color="rgb(52, 63, 87)" id="password" label="Password" name="password" append-icon="mdi-lock" type="password"></v-text-field>
+                <v-text-field filled dark color="rgb(255, 128, 74)" background-color="rgb(52, 63, 87)" label="ID" name="login" style="margin-top: 30px;" append-icon="mdi-account" type="text"></v-text-field>
+                <v-text-field filled dark color="rgb(255, 128, 74)" background-color="rgb(52, 63, 87)" id="password" label="Password" name="password" append-icon="mdi-lock" type="password"></v-text-field>
               </v-form>
             <div class="float-left">
               <v-spacer></v-spacer>
@@ -46,13 +46,13 @@
       {
       return {
         icons: [
-          "fas fa-solar-panel fas-4x",
-          "far fa-edit far-4x",
-          "fas fa-font fa-4x",
+          "fas fa-users",
+          "far fa-edit",
+          "fas fa-solar-panel",
         ],
         cycle: true,
         slides: [
-          '전 세계 사람들과, 언제 어디서든!',
+          '전세계 사람들과, 언제 어디서든!',
           '강의를 보면서 필기도 가능합니다!',
           "사용자 친화적인 UI로 누구나 간편하게!",
         ],

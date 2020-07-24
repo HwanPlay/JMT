@@ -21,7 +21,7 @@
         <!-- Profile Router -->
         <router-link to="/Info">
           <v-btn text style="height: 99%">
-            <v-icon>fas fa-user</v-icon>
+            <v-icon color="rgb(255, 128, 74)">fas fa-user</v-icon>
             <span class="routerLink mr-2 ml-2">Profile</span>
           </v-btn>
         </router-link>
@@ -29,7 +29,7 @@
         <!-- Room Router -->
         <router-link to="/Room">
           <v-btn text style="height: 99%">
-            <v-icon>fas fa-solar-panel</v-icon>
+            <v-icon color="rgb(255, 128, 74)">fas fa-solar-panel</v-icon>
             <span class="routerLink mr-2 ml-2">Conference</span>
           </v-btn>
         </router-link>
