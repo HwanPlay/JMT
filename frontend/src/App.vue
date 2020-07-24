@@ -1,13 +1,13 @@
 <template>
-  <v-app class="main">
-    <!-- Login Component -->
-    <div v-if="isLoggedIn === false">
-      <Login @loginConfirm="enterService"/>
-    </div>
-
+  <v-app>
+    <!-- <AppBar /> -->
     <!-- NavBar -->
-    <div v-else>
-    <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin-top: 30px;">
+    <v-app-bar
+      app
+      color=""
+      dark
+      style="padding: 0px 10px; margin-top: 30px;"
+    >
     <div style="height: 100%">
       <router-link to="/Home">
         <v-btn text style="height: 100%">
@@ -21,7 +21,7 @@
         <!-- Profile Router -->
         <router-link to="/Info">
           <v-btn text style="height: 99%">
-            <v-icon color="rgb(255, 128, 74)">fas fa-user</v-icon>
+            <v-icon>fas fa-user</v-icon>
             <span class="routerLink mr-2 ml-2">Profile</span>
           </v-btn>
         </router-link>
@@ -29,7 +29,7 @@
         <!-- Room Router -->
         <router-link to="/Room">
           <v-btn text style="height: 99%">
-            <v-icon color="rgb(255, 128, 74)">fas fa-solar-panel</v-icon>
+            <v-icon>fas fa-solar-panel</v-icon>
             <span class="routerLink mr-2 ml-2">Conference</span>
           </v-btn>
         </router-link>
@@ -44,9 +44,9 @@
       </div>
 
       <!-- 검색창 -->
-      <div class="ml-5 mt-5" style="height: 99%; width: 35% ">
+      <div class="ml-5 mt-5" style="height: 99%; width: 35%">
         <v-spacer></v-spacer>
-        <v-toolbar flat color = "rgb(14, 23, 38)" dense style="width: 90%">
+        <v-toolbar flat dense style="width: 90%">
           <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
           </v-text-field>
         </v-toolbar>
@@ -65,43 +65,29 @@
 
     </v-app-bar>
     <v-main style="margin-top: 64px; padding-top:0px;">
-      <router-view/>
+      <router-view />
     </v-main>
-    </div>
-
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-
-import Login from '../src/components/Login.vue'
+// import AppBar from '../src/components/AppBar.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    Login,
+    // AppBar
   },
 
-  data () {
-    return {
-      isLoggedIn: false,
-    }
-  },
-  methods:{
-    enterService(){
-      this.isLoggedIn = true;
-    }
-  }
+  data: () => ({
+    //
+  }),
 });
 </script>
 
 <style>
-
-.main{
-  background-color: rgb(7, 14, 29);
-}
 .routerLink {
   color: white;
 }
