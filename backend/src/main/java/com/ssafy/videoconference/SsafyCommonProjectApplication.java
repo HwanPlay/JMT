@@ -1,4 +1,4 @@
-package com.ssafy.facechat;
+package com.ssafy.videoconference;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
