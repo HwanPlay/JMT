@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <EditorTiptap />
+  <div class="container">
+      <NoteMain />
   </div>
 </template>
 
 <script>
-import EditorTiptap from "../components/NoteEditor.vue";
+import NoteMain from '../components/NoteMain.vue'
 
 export default {
-  name: "Editor",
+  name: "Note",
   components: {
-    EditorTiptap,
+    NoteMain
   }
-};
+}
 </script>
 
 <style>
+
 </style>

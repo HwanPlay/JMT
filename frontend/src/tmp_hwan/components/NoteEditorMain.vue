@@ -1,10 +1,12 @@
 <template>
-  <editor-content class="editor__content" :editor="editor" />
+  <div>
+
+  </div>
 </template>
 
 <script>
 export default {
-
+    name: "NoteEditorMain"
 }
 </script>
 
