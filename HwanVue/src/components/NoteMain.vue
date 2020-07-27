@@ -1,12 +1,14 @@
 <template>
   <div class="editor mt-3">
     <!-- Upper Menu -->
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+    <editor-menu-bar class="fixed" :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <!-- <NoteContent />
         <NoteDown :content="editor.content" />-->
-
-        <button class="menubar__button" @click="downHTMLDocument">
+        
+        <button 
+          class="menubar__button"
+        @click="downHTMLDocument">
           <b-icon-download v-b-tooltip.hover title="File Down" class="h3 mb-2 border rounded"></b-icon-download>
         </button>
 
@@ -177,10 +179,9 @@
       </div>
     </editor-menu-bubble>
 
-    <label for="docu-title">Title: </label>
-    <input type="text" id="docu-title" class="m-1 border rounded" placeholder="문서의 제목" v-model="htmlTitle" />
+    <input type="text" v-model="html_title" />
 
-    <div class="content_box border rounded border-primary p-3">
+    <div class="content_box">
       <editor-content class="editor__content" :editor="editor" />
     </div>
   </div>
@@ -267,11 +268,11 @@ export default {
           </blockquote>
         `,
         onUpdate: ({ getHTML }) => {
-          this.htmlText = getHTML();
+          this.html_text = getHTML();
         },
       }),
-      htmlTitle: "제목",
-      htmlText: "",
+      html_title: "",
+      html_text: "",
     };
   },
   beforeDestroy() {
@@ -279,9 +280,9 @@ export default {
   },
   methods: {
     downHTMLDocument() {
-      const content = this.htmlText;
+      const content = this.html_text;
       // any kind of extension (.txt,.cpp,.cs,.bat)
-      const filename = this.htmlTitle + ".html";
+      const filename = this.html_title + ".html";
 
       const blob = new Blob([content], {
         type: "text/plain;charset=utf-8",
@@ -294,40 +295,13 @@ export default {
 </script>
 
 <style>
-.fixed {
-  position: sticky;
-  top: 60px;
-  padding: 10px 0px;
-}
-</style>
-
-<style lang="scss">
 .content_box {
   width: 30em;
   margin: auto;
 }
-
-pre {
-  padding: 0.7rem 1rem !important;
-  border-radius: 5px !important;
-  background: #000000 !important;
-  color: #ffffff !important;
-  font-size: 0.8rem !important;
-  overflow-x: auto !important;
-
-  code {
-    display: block !important;
-    background: #dddddd !important;
-    color: #000000 !important;
-  }
-}
-
-p code {
-  padding: 0.2rem 0.4rem !important;
-  border-radius: 5px !important;
-  font-size: 0.8rem !important ;
-  font-weight: bold !important;
-  background: rgba(#000000, 0.1) !important;
-  color: rgba(#000000, 0.8) !important;
+.fixed {
+  position: sticky;
+  top: 60px;
+  padding: 10px 0px;
 }
 </style>
