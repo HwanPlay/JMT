@@ -57,8 +57,12 @@
 </script>
 
 <style>
+::-webkit-scrollbar{
+  display: none;
+}
+
 nav {
-  display: block;
+  display: inline-block;
   width: 100%;
   height: 30px;
   background-color: #333333;
@@ -77,7 +81,7 @@ nav #titleshown {
   padding: 0 0 0 1em;
 }
 
-nav #buttons {
+nav #r-buttons {
   float: right;
   width: 150px;
   height: 100%;
@@ -105,9 +109,9 @@ nav #l-buttons #refresh {
   cursor: pointer;
 }
 
-nav #buttons #minimize,
-nav #buttons #maximize,
-nav #buttons #quit {
+nav #r-buttons #minimize,
+nav #r-buttons #maximize,
+nav #r-buttons #quit {
   float: left;
   height: 100%;
   width: 33%;
@@ -116,13 +120,13 @@ nav #buttons #quit {
   cursor: default;
 }
 
-nav #buttons #minimize:hover {
+nav #r-buttons #minimize:hover {
   background-color: #333333aa;
 }
-nav #buttons #maximize:hover {
+nav #r-buttons #maximize:hover {
   background-color: #333333aa;
 }
-nav #buttons #quit:hover {
+nav #r-buttons #quit:hover {
   background-color: #ff0000dd;
 }
 

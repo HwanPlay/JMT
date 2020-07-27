@@ -27,13 +27,12 @@
             <v-text-field type="password" style="padding-top: 20px;" v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
             <v-text-field type="password" style="padding-top: 20px;" v-model="passwordConfirm" :rules="passwordConfirmRules" label="Password Confirmation" required></v-text-field>
           </v-form>
-
         </v-row>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">SignUp</v-btn>
+        <v-btn color="blue darken-1" text @click="close">Close</v-btn>
+        <v-btn color="blue darken-1" text @click="close">SignUp</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -70,6 +69,10 @@
       ],
     }),
     methods: {
+      close(){
+        this.dialog = false;
+        this.resetValidation();
+      },
       resetValidation(){
         this.$refs.form.resetValidation()
       }
