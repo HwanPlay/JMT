@@ -203,7 +203,8 @@ local.properties
 ### Vuejs ###
 # Recommended template: Node.gitignore
 
-node_modules/
+node_modules/**
+!node_modules/vue-webrtc/dist/index.js
 dist/
 npm-debug.log
 yarn-error.log
