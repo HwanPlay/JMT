@@ -1,6 +1,5 @@
 <template>
-  <div class="editor mt-3">
-    <!-- Upper Menu -->
+  <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <button
@@ -132,147 +131,12 @@
         </button>
       </div>
     </editor-menu-bar>
-
-    <!-- Bubble Menu -->
-    <editor-menu-bubble
-      :editor="editor"
-      :keep-in-bounds="keepInBounds"
-      v-slot="{ commands, isActive, menu }"
-    >
-      <div
-        class="menububble"
-        :class="{ 'is-active': menu.isActive }"
-        :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
-      >
-        <button
-          class="menububble__button"
-          :class="{ 'is-active': isActive.bold() }"
-          @click="commands.bold"
-        >
-          <b-icon-type-bold class="h5 border rounded"></b-icon-type-bold>
-        </button>
-
-        <button
-          class="menububble__button"
-          :class="{ 'is-active': isActive.italic() }"
-          @click="commands.italic"
-        >
-          <b-icon-type-italic class="h5 border rounded"></b-icon-type-italic>
-        </button>
-
-        <button
-          class="menububble__button"
-          :class="{ 'is-active': isActive.code() }"
-          @click="commands.code"
-        >
-          <b-icon-code class="h5 border rounded"></b-icon-code>
-        </button>
-      </div>
-    </editor-menu-bubble>
-
-    <div class="content_box p-3 rounded border border-primary">
-      <editor-content class="editor__content" :editor="editor" />
-    </div>
   </div>
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History
-} from "tiptap-extensions";
-export default {
-  components: {
-    EditorContent,
-    EditorMenuBar,
-    EditorMenuBubble
-  },
-  data() {
-    return {
-      keepInBounds: true,
-
-      editor: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new HorizontalRule(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History()
-        ],
-        content: `
-          <h2>
-            Hi there,
-          </h2>
-          <p>
-            this is a very <em>basic</em> example of tiptap.
-          </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
-        `
-      })
-    };
-  },
-  beforeDestroy() {
-    this.editor.destroy();
-  }
-};
+export default {};
 </script>
 
 <style>
-.content_box {
-  width: 30em;
-  margin: auto;
-}
-code {
-  /* Code block  */
-  color: #ffffff !important;
-  background-color: #001100 !important;
-  font-family: Consolas !important;
-  font-size: 16px !important;
-  font-style: normal !important;
-  font-variant: normal !important;
-  font-weight: 400 !important;
-  line-height: 18.5714px !important;
-}
-
 </style>
