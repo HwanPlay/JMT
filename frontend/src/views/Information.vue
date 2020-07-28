@@ -27,7 +27,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Information",
+  data(){
+    return{
+      
+    }
+  }
+};
 </script>
 
 <style scoped>
