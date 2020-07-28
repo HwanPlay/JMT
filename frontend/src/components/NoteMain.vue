@@ -176,11 +176,31 @@
       </div>
     </editor-menu-bubble>
 
-    <label for="titleBox">Title:</label>
-    <input class="my-1" type="text" id="titleBox" v-model="htmlTitle" />
+    <b-container fluid>
+      <b-row class="my-1">
+        <b-col sm="6">
+          <b-form-input
+            aria-describedby="input-live-feedback"
+            v-model="htmlTitle"
+            :state="titleState"
+            placeholder="Title"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-live-feedback">Enter at least 3 letters</b-form-invalid-feedback>
+        </b-col>
+        <b-col sm="4"></b-col>
+
+        <b-col sm="2">
+          <button>
+            <h3>
+              <b-badge variant="primary">Save</b-badge>
+            </h3>
+          </button>
+        </b-col>
+      </b-row>
+    </b-container>
 
     <div id="capture" class="content_box border border-secondary rounded">
-      <editor-content  class="editor__content scroll" :editor="editor" />
+      <editor-content class="editor__content scroll" :editor="editor" />
     </div>
   </div>
 </template>
@@ -273,33 +293,43 @@ export default {
           this.htmlText = getHTML();
         },
       }),
-      htmlTitle: "제목",
+      htmlTitle: "",
       htmlText: "",
-      };
+    };
+  },
+  computed: {
+    titleState() {
+      return this.htmlTitle.length > 2 ? true : false;
+    },
   },
   beforeDestroy() {
     this.editor.destroy();
   },
   methods: {
     downHTMLDocument() {
-
       // document.querySelector('#capture').lastChild.lastChild.innerHTML
-        const content = this.htmlText;
-        const filename = this.htmlTitle+".html";
-        const blob = new Blob([content], {
-          type: "text/plain;charset=utf-8",
-        });
-        saveAs(blob, filename);
+      const content = this.htmlText;
+      const filename = this.htmlTitle + ".html";
+      const blob = new Blob([content], {
+        type: "text/plain;charset=utf-8",
+      });
+      saveAs(blob, filename);
     },
   },
   mounted() {
     // document.querySelector('#capture').lastChild.lastChild.innerHTML = "<h2>Hi</h2>"
     // this.editor.content = 'hi'
-  }
+  },
 };
 </script>
 
 <style>
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
 .content_box {
   width: 30em;
   margin: auto;

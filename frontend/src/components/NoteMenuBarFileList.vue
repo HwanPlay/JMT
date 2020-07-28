@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <button class="menubar__button" v-b-toggle.sidebar-backdrop>
+  <div class="menubar__button">
+    <button v-b-toggle.sidebar-backdrop>
       <b-icon-files v-b-tooltip.hover title="File List" class="h3 mb-2 border rounded"></b-icon-files>
     </button>
 
