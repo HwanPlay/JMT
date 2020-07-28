@@ -1,14 +1,9 @@
 <template>
   <div class="editor mt-3">
     <!-- Upper Menu -->
-    <editor-menu-bar class="fixed" :editor="editor" v-slot="{ commands, isActive }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
-        <!-- <NoteContent />
-        <NoteDown :content="editor.content" />-->
-        
-        <button 
-          class="menubar__button"
-        @click="downHTMLDocument">
+        <button class="menubar__button" @click="downHTMLDocument">
           <b-icon-download v-b-tooltip.hover title="File Down" class="h3 mb-2 border rounded"></b-icon-download>
         </button>
 
@@ -139,6 +134,8 @@
         <button class="menubar__button" @click="commands.redo">
           <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" class="h3 mb-2 border rounded"></b-icon-arrow90deg-right>
         </button>
+
+        <NoteMenuBarFileList />
       </div>
     </editor-menu-bar>
 
@@ -179,10 +176,11 @@
       </div>
     </editor-menu-bubble>
 
-    <input type="text" v-model="html_title" />
+    <label for="titleBox">Title:</label>
+    <input class="my-1" type="text" id="titleBox" v-model="html_title" />
 
-    <div class="content_box">
-      <editor-content class="editor__content" :editor="editor" />
+    <div id="capture" class="content_box border border-secondary rounded">
+      <editor-content  class="editor__content scroll" :editor="editor" />
     </div>
   </div>
 </template>
@@ -191,6 +189,9 @@
 <script>
 // import NoteContent from "../components/NoteContent.vue";
 // import NoteDown from "../components/NoteDown.vue";
+import NoteMenuBarFileList from "../components/NoteMenuBarFileList.vue";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
@@ -218,6 +219,7 @@ export default {
     EditorContent,
     EditorMenuBar,
     EditorMenuBubble,
+    NoteMenuBarFileList,
     // NoteContent,
     // NoteDown,
   },
@@ -271,26 +273,29 @@ export default {
           this.html_text = getHTML();
         },
       }),
-      html_title: "",
+      html_title: "제목",
       html_text: "",
-    };
+      };
   },
   beforeDestroy() {
     this.editor.destroy();
   },
   methods: {
     downHTMLDocument() {
-      const content = this.html_text;
-      // any kind of extension (.txt,.cpp,.cs,.bat)
-      const filename = this.html_title + ".html";
 
-      const blob = new Blob([content], {
-        type: "text/plain;charset=utf-8",
-      });
-
-      saveAs(blob, filename);
+      // document.querySelector('#capture').lastChild.lastChild.innerHTML
+        const content = this.html_text;
+        const filename = this.html_title+".html";
+        const blob = new Blob([content], {
+          type: "text/plain;charset=utf-8",
+        });
+        saveAs(blob, filename);
     },
   },
+  mounted() {
+    // document.querySelector('#capture').lastChild.lastChild.innerHTML = "<h2>Hi</h2>"
+    // this.editor.content = 'hi'
+  }
 };
 </script>
 
@@ -298,10 +303,10 @@ export default {
 .content_box {
   width: 30em;
   margin: auto;
+  padding: 1rem;
 }
-.fixed {
-  position: sticky;
-  top: 60px;
-  padding: 10px 0px;
+.scroll {
+  overflow-y: auto;
+  height: 400px;
 }
 </style>
