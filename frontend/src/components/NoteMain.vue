@@ -300,15 +300,14 @@ export default {
 </script>
 
 <style>
-.fixed {
-  position: sticky;
-  top: 60px;
-  padding: 10px 0px;
+.content_box {
+  width: 30em;
+  margin: auto;
+  padding: 1rem;
 }
-.scroll-box {
-  overflow: scroll;
-  width: 100%;
-  height: 20em;
+.scroll {
+  overflow-y: auto;
+  height: 400px;
 }
 </style>
 
