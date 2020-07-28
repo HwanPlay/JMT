@@ -1,14 +1,16 @@
 <template>
-  <v-container fluid style="height: 100%; padding: 0px; margin: 0px;">
-    <v-row style="height: 100%">
-      <v-col class="box1" cols="5">
+  <div style="height: 100%; width: 100%;">
+    <v-row style="margin: 0px; height: 100%; width: 100%;">
+      <v-col class="box1" cols="4">
+        <v-row style="height:100%;" align="center" justify="center">
+          hi
+        </v-row>
       </v-col>
-      <v-col class="box2" cols="8" v-bind:style="{ backgroundImage: 'url(' + backImageUrl +')'}">
-        <div>
-        </div>
+      <v-col cols="8" style="background-color: blue;">
+        
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

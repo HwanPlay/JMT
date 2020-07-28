@@ -74,7 +74,7 @@
         this.resetValidation();
       },
       resetValidation(){
-        this.$refs.form.resetValidation()
+        this.$refs.form.reset()
       }
     },
     computed: {
@@ -82,9 +82,5 @@
         return (this.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.')
       }
     },
-    mounted() {
-      console.log(this)
-      this.resetValidation();
-    }
   }
 </script>

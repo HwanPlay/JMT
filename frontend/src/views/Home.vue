@@ -1,40 +1,37 @@
 <template>
-  <v-container fluid style="height: 100%; padding: 0px; margin: 0px;">
-    <v-row style="height: 100%">
-      <v-col class="box1" cols="5">
+  <div style="height: 100%; width: 100%;">
+    <v-row style="margin: 0px; height: 100%; width: 100%;">
+      <v-col class="box1" cols="4">
+        <v-row style="height:100%;" align="center" justify="center">
+        </v-row>
       </v-col>
-      <v-col class="box2" cols="8" v-bind:style="{ backgroundImage: 'url(' + backImageUrl +')'}">
-        <div>
-          <v-icon style="color: white">fas fa-globe-asia</v-icon>
-        </div>
+      <v-col cols="8">
+        
       </v-col>
     </v-row>
-  </v-container>
+  </div>
+
 </template>
 
 <script>
 export default {
-  data(){
-    return {
-      backImageUrl: "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-    }
-  }
-}
+  name: "Home",
+};
 </script>
 
-<style>
-  v-col {
-    height: 100%;
-    padding: 0px;
-  }
-  .box1 {
-    height: 100%;
-    background-color: rgb(52, 63, 87);
-    box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
-
-  }
-  .box2 {
-    /* background-color: #0B4F6C; */
-    height: 100%;  
-  }
+<style scoped>
+v-col {
+  height: 100%;
+  padding: 0px;
+}
+.box1 {
+  height: 100%;
+  background-color: rgb(52, 63, 87);
+  box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
+}
+.box2 {
+  /* background-color: #0B4F6C; */
+  background-color: blueviolet;
+  height: 100%;
+}
 </style>

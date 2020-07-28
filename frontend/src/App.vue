@@ -7,7 +7,7 @@
 
     <!-- NavBar -->
     <div v-else>
-      <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin-top: 30px;">
+      <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin: 30px 0 64px;">
         <div style="height: 100%">
           <router-link to="/Home">
             <v-btn text style="height: 100%">
@@ -65,7 +65,7 @@
 
 
       </v-app-bar>
-    <v-main style="margin-top: 64px; padding-top:0px;">
+    <v-main style="padding-top:0px;">
       <router-view/>
     </v-main>
     </div>
@@ -94,12 +94,17 @@ export default Vue.extend({
     enterService(){
       this.isLoggedIn = true;
     }
+  },
+  mounted(){
+    this.$router.push('Home')
   }
 });
 </script>
 
 <style>
-
+v-app-bar{
+  -webkit-app-region: no-drag;
+}
 .main{
   background-color: rgb(7, 14, 29);
 }
