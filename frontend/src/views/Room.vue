@@ -29,6 +29,12 @@
         </div>
       </div>
     </div>
+    <div id="chat-container">
+      <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
+      <br />
+      <div class="chat-output"></div>
+    </div>
+
     <div class="row">
       <div class="col-md-12">
         <h2>Captured Image</h2>
@@ -44,13 +50,17 @@
 import Vue from 'vue'
 import WebRTC from 'vue-webrtc'
 
-Vue.use(WebRTC)
+Vue.use(WebRTC) //asda
 
 export default {
   data() {
     return {
       img: null,
-      roomId: "public-room"
+      roomId: "public-room",
+      disableInputBool : true,
+      chatContainer : null,
+      value : "",
+      textArea: null   
     };
   },
   methods: {
@@ -59,6 +69,7 @@ export default {
     },
     onJoin() {
       this.$refs.webrtc.join();
+      this.disableInputBool = false;
     },
     onLeave() {
       this.$refs.webrtc.leave();
@@ -72,6 +83,29 @@ export default {
     logEvent(event) {
       console.log('Event : ', event);
     },
+    appendDIV(event) {
+          this.textArea = document.createElement('div');
+          this.textArea.innerHTML = event.data || event;
+          this.chatContainer.appendChild(this.textArea);
+          this.textArea.tabIndex = 0; 
+          this.textArea.focus();
+          document.getElementById('input-text-chat').focus();
+      },
+    textSend(e){
+      console.log(e.target.value);
+      // removing trailing/leading whitespace
+      this.value = 'a'+':'+e.target.value.toString().replace(/^\s+|\s+$/g, '');
+      // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
+      this.$refs.webrtc.rtcmConnection.send(this.value);
+      this.appendDIV(this.value);
+      e.target.value =  '';
+      },
+  },
+  updated() {
+      this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
+  },
+  mounted() {
+    this.chatContainer = document.querySelector('.chat-output');
   }
 }
 </script>
