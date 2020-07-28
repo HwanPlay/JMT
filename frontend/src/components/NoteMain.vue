@@ -177,11 +177,17 @@
       </div>
     </editor-menu-bubble>
 
-    <label for="docu-title">Title: </label>
-    <input type="text" id="docu-title" class="m-1 border rounded" placeholder="문서의 제목" v-model="htmlTitle" />
+    <label for="docu-title">Title:</label>
+    <input
+      type="text"
+      id="docu-title"
+      class="m-1 border rounded"
+      placeholder="문서의 제목"
+      v-model="htmlTitle"
+    />
 
     <div class="content_box border rounded border-primary p-3">
-      <editor-content class="editor__content" :editor="editor" />
+      <editor-content data-spy="scroll" class="editor__content scroll-box" :editor="editor" />
     </div>
   </div>
 </template>
@@ -298,6 +304,31 @@ export default {
   position: sticky;
   top: 60px;
   padding: 10px 0px;
+}
+::-webkit-scrollbar {
+  width: 20px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey !important; 
+  border-radius: 10px !important;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: red !important; 
+  border-radius: 10px !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+.scroll-box {
+  overflow: scroll;
+  width: 100%;
+  height: 20em;
 }
 </style>
 
