@@ -1,14 +1,9 @@
 <template>
   <div class="editor mt-3">
     <!-- Upper Menu -->
-    <editor-menu-bar class="fixed" :editor="editor" v-slot="{ commands, isActive }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
-        <!-- <NoteContent />
-        <NoteDown :content="editor.content" />-->
-        
-        <button 
-          class="menubar__button"
-        @click="downHTMLDocument">
+        <button class="menubar__button" @click="downHTMLDocument">
           <b-icon-download v-b-tooltip.hover title="File Down" class="h3 mb-2 border rounded"></b-icon-download>
         </button>
 
@@ -139,6 +134,8 @@
         <button class="menubar__button" @click="commands.redo">
           <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" class="h3 mb-2 border rounded"></b-icon-arrow90deg-right>
         </button>
+
+        <NoteMenuBarFileList />
       </div>
     </editor-menu-bar>
 
@@ -179,10 +176,11 @@
       </div>
     </editor-menu-bubble>
 
-    <input type="text" v-model="html_title" />
+    <label for="titleBox">Title:</label>
+    <input class="my-1" type="text" id="titleBox" v-model="html_title" />
 
-    <div class="content_box">
-      <editor-content class="editor__content" :editor="editor" />
+    <div class="content_box border border-secondary rounded">
+      <editor-content class="editor__content scroll" :editor="editor" />
     </div>
   </div>
 </template>
@@ -191,7 +189,9 @@
 <script>
 // import NoteContent from "../components/NoteContent.vue";
 // import NoteDown from "../components/NoteDown.vue";
-import { saveAs } from "file-saver";
+import NoteMenuBarFileList from "../components/NoteMenuBarFileList.vue"
+import jsPDF from 'jspdf'
+// import { saveAs } from "file-saver";
 
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
 import {
@@ -218,6 +218,7 @@ export default {
     EditorContent,
     EditorMenuBar,
     EditorMenuBubble,
+    NoteMenuBarFileList,
     // NoteContent,
     // NoteDown,
   },
@@ -271,24 +272,32 @@ export default {
           this.html_text = getHTML();
         },
       }),
-      html_title: "",
+      html_title: "제목",
       html_text: "",
-    };
+      css: "<style>.editor { position: relative; max-width: 30rem; margin: 0 auto 5rem auto; &__content { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; * { caret-color: currentColor; //추가 text-align: left; } pre { padding: 0.7rem 1rem !important; border-radius: 5px !important; background: $color-black !important; color: $color-white !important; font-size: 0.8rem !important; overflow-x: auto !important; code { display: block !important; } } p code { padding: 0.2rem 0.4rem !important; border-radius: 5px !important; font-size: 0.8rem !important ; font-weight: bold !important; background: rgba($color-black, 0.1) !important; color: rgba($color-black, 0.8) !important; } ul, ol { padding-left: 1rem; } li > p, li > ol, li > ul { margin: 0; } a { color: inherit; } blockquote { border-left: 3px solid rgba($color-black, 0.1); color: rgba($color-black, 0.8); padding-left: 0.8rem; font-style: italic; p { margin: 0; } } img { max-width: 100%; border-radius: 3px; } table { border-collapse: collapse; table-layout: fixed; width: 100%; margin: 0; overflow: hidden; td, th { min-width: 1em; border: 2px solid $color-grey; padding: 3px 5px; vertical-align: top; box-sizing: border-box; position: relative; > * { margin-bottom: 0; } } th { font-weight: bold; text-align: left; } .selectedCell:after { z-index: 2; position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: rgba(200, 200, 255, 0.4); pointer-events: none; } .column-resize-handle { position: absolute; right: -2px; top: 0; bottom: 0; width: 4px; z-index: 20; background-color: #adf; pointer-events: none; } } .tableWrapper { margin: 1em 0; overflow-x: auto; } .resize-cursor { cursor: ew-resize; cursor: col-resize; } } } </style>"
+    }
   },
   beforeDestroy() {
     this.editor.destroy();
   },
   methods: {
     downHTMLDocument() {
-      const content = this.html_text;
-      // any kind of extension (.txt,.cpp,.cs,.bat)
-      const filename = this.html_title + ".html";
+      var doc = new jsPDF()
 
-      const blob = new Blob([content], {
-        type: "text/plain;charset=utf-8",
-      });
+      doc.text(this.html_text,10,10)
+      doc.save('a4.pdf')
+      // console.log(doc)
 
-      saveAs(blob, filename);
+    //   // this.css = this.css.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    //   const content = this.html_text;
+    //   // any kind of extension (.txt,.cpp,.cs,.bat)
+    //   const filename = this.html_title;
+    // console.log(content)
+    //   const blob = new Blob([content], {
+    //     type: "application/pdf",
+    //   });
+    //   console.log(blob)
+    //   saveAs(blob, filename);
     },
   },
 };
@@ -298,10 +307,10 @@ export default {
 .content_box {
   width: 30em;
   margin: auto;
+  padding: 1rem;
 }
-.fixed {
-  position: sticky;
-  top: 60px;
-  padding: 10px 0px;
+.scroll {
+  overflow-y: auto;
+  height: 400px;
 }
 </style>
