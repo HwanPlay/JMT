@@ -53,4 +53,8 @@ export default {
     color: rgb(229, 235, 239);
     height: 100%;  
   }
+  .select-btn{
+    color:white;
+    width: 510%;
+  }
 </style>
