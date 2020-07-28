@@ -1,10 +1,7 @@
 <template>
-  <v-container fluid style="height: 100%; padding: 0px">
+  <v-container fluid style="height: 100%; padding: 0px; margin: 0px;">
     <v-row style="height: 100%">
-      <v-col class="box1" cols="16">
-        <div>
-          hello
-        </div>
+      <v-col class="box1" cols="5">
       </v-col>
       <v-col class="box2" cols="8" v-bind:style="{ backgroundImage: 'url(' + backImageUrl +')'}">
         <div>
@@ -32,7 +29,7 @@ export default {
   }
   .box1 {
     height: 100%;
-    background-color: rgb(19, 28, 46);
+    background-color: rgb(52, 63, 87);
     box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
 
   }

@@ -1,26 +1,13 @@
 <template>
-  <v-container fluid style="height: 100%; padding: 0px">
-    <v-card>
-      <v-row style="height: 100%">
-        <v-col class="box1" cols="16">
-          <v-tabs vertical>
-            <v-tab class="box1">
-              <!-- <v-icon left></v-icon> -->
-              App 세팅
-            </v-tab>
-            <v-tab>
-              <!-- <v-icon left></v-icon> -->
-              개발자
-            </v-tab>
-          </v-tabs>
-        </v-col>
-        <v-col class="box2" cols="8">
-          <div>
-            <v-icon style="color: white">fas fa-globe-asia</v-icon>
-          </div>
-        </v-col>
-      </v-row>
-    </v-card>
+  <v-container fluid style="height: 100%; padding: 0px; margin: 0px;">
+    <v-row style="height: 100%">
+      <v-col class="box1" cols="5">
+      </v-col>
+      <v-col class="box2" cols="8" v-bind:style="{ backgroundImage: 'url(' + backImageUrl +')'}">
+        <div>
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -37,7 +24,7 @@ export default {
   }
   .box1 {
     height: 100%;
-    background-color: rgb(19, 28, 46);
+    background-color: rgb(52, 63, 87);
     box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
 
   }
