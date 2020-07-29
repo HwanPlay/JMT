@@ -17,25 +17,25 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "member")
+@Table(name = "user")
 public class User{
 	@Id
 	@NotBlank(message = "")
 	@Size(min=5, max=20, message = "")
-	private String uid;
+	private String id;
 	
 	@NotBlank(message = "")
-	private String upw;
+	private String pw;
 	
 	@NotBlank(message = "")
-	private String uname;
+	private String name;
 	
 	@Email
 	@NotBlank(message = "")
 	private String email;
 	
 	@Enumerated(EnumType.STRING)
-	private MemberRole role;
+	private UserRole role;
 	
 	private String profile_img;
 }

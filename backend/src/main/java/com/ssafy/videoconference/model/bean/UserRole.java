@@ -1,5 +1,5 @@
 package com.ssafy.videoconference.model.bean;
 
-public enum MemberRole {
+public enum UserRole {
 	ROLE_USER, ROLE_HOST, ROLE_ADMIN
 }
