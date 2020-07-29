@@ -1,13 +1,20 @@
 .editor {
   position: relative;
-  max-width: 30rem;
+  padding: 2rem;
+  // editor 크기
+
   margin: 0 auto 5rem auto;
 
   &__content {
-
+    padding: 1.5rem;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
+    
+    // 추가
+    overflow-y: auto;
+    height: 26rem;
+    max-width: 100%;
 
     * {
       caret-color: currentColor;
