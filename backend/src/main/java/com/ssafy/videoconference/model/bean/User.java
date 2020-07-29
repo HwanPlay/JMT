@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "member")
-public class Member{
+public class User{
 	@Id
 	@NotBlank(message = "")
 	@Size(min=5, max=20, message = "")
