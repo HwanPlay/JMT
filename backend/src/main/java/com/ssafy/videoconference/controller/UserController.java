@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/member")
 public class UserController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
