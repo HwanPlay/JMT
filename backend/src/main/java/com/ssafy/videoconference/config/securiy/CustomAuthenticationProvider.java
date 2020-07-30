@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.ssafy.videoconference.model.bean.UserDetail;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +23,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @NonNull
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Override
+	@Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
         // AuthenticaionFilter에서 생성된 토큰으로부터 아이디와 비밀번호를 조회함
-        String userEmail = token.getName();
+        String userId = token.getName();
         String userPw = (String) token.getCredentials();
+        
         // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
-        UserDetail userDetailsVO = (UserDetail) userDetailsService.loadUserByUsername(userEmail);
+        UserDetail userDetailsVO = (UserDetail) userDetailsService.loadUserByUsername(userId);
         if (!passwordEncoder.matches(userPw, userDetailsVO.getPassword())) {
             throw new BadCredentialsException(userDetailsVO.getUsername() + "Invalid password");
         }

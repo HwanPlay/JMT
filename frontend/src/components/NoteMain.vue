@@ -1,5 +1,5 @@
 <template>
-  <div class="editor mt-3">
+  <div class="editor" style="margin-top: 100px;">
     <!-- Upper Menu -->
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">

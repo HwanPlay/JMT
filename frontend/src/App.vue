@@ -7,65 +7,66 @@
 
     <!-- NavBar -->
     <div v-else>
-    <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin-top: 30px;">
-    <div style="height: 100%">
-      <router-link to="/Home">
-        <v-btn text style="height: 100%">
-          <!-- <v-icon>fas fa-user</v-icon> 로고를 만들어서 추가하자-->
-          <span class="routerLink mr-2">서비스 로고</span>
-        </v-btn>
-      </router-link>
-    </div>
+      <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin: 30px 0 64px;">
+        <div style="height: 100%">
+          <router-link to="/Home">
+            <v-btn text style="height: 100%">
+              <span class="routerLink mr-2">
+                <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
+              </span>
+            </v-btn>
+          </router-link>
+        </div>
 
-      <div class="text-center" style="height: 100%">
-        <!-- Profile Router -->
-        <router-link to="/Info">
-          <v-btn text style="height: 99%">
-            <v-icon>fas fa-user</v-icon>
-            <span class="routerLink mr-2 ml-2">Profile</span>
-          </v-btn>
-        </router-link>
+        <div class="text-center" style="height: 100%">
+          <!-- Group Router -->
+          <router-link to="/Group">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-user</v-icon>
+              <span class="routerLink mr-2 ml-2">Group</span>
+            </v-btn>
+          </router-link>
 
-        <!-- Room Router -->
-        <router-link to="/Room">
-          <v-btn text style="height: 99%">
-            <v-icon>fas fa-solar-panel</v-icon>
-            <span class="routerLink mr-2 ml-2">Conference</span>
-          </v-btn>
-        </router-link>
+          <!-- Room Router -->
+          <router-link to="/Room">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-solar-panel</v-icon>
+              <span class="routerLink mr-2 ml-2">Conference</span>
+            </v-btn>
+          </router-link>
 
-        <!-- Note Router -->
-        <router-link to="/Note">
-          <v-btn text style="height: 99%">
-            <v-icon>fas fa-sticky-note</v-icon>
-            <span class="routerLink mr-2 ml-2">Note</span>
-          </v-btn>
-        </router-link>
-      </div>
+          <!-- Note Router -->
+          <router-link to="/Note">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-sticky-note</v-icon>
+              <span class="routerLink mr-2 ml-2">Note</span>
+            </v-btn>
+          </router-link>
+        </div>
 
-      <!-- 검색창 -->
-      <div class="ml-5 mt-5" style="height: 99%; width: 35% ">
+        <!-- 검색창 -->
+        <div class="ml-5 mt-5" style="height: 99%; width: 35% ">
+          <v-spacer></v-spacer>
+          <v-toolbar flat color = "rgb(14, 23, 38)" dense style="width: 90%">
+            <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
+            </v-text-field>
+          </v-toolbar>
+        </div>
         <v-spacer></v-spacer>
-        <v-toolbar flat color = "rgb(14, 23, 38)" dense style="width: 90%">
-          <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
-          </v-text-field>
-        </v-toolbar>
-      </div>
-      <v-spacer></v-spacer>
 
-      <!-- Settings Router -->
-      <div class="text-center" style="height: 97%">
-        <router-link to="/Settings">
-          <v-btn text class="ml-3" style="height: 100%; width:100%">
-            <v-icon>fas fa-cog</v-icon>
-          </v-btn>
-        </router-link>
-      </div>
+        <!-- Settings Router -->
+        <div class="text-center" style="height: 97%">
+          <router-link to="/Settings">
+            <v-btn text class="ml-3" style="height: 100%; width:100%">
+              <v-icon>fas fa-cog</v-icon>
+            </v-btn>
+          </router-link>
+        </div>
 
 
-    </v-app-bar>
-    <v-main style="margin-top: 64px; padding-top:0px;">
-      <router-view/>
+      </v-app-bar>
+    <v-main style="padding-top:0px;">
+      <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
     </v-main>
     </div>
 
@@ -92,13 +93,24 @@ export default Vue.extend({
   methods:{
     enterService(){
       this.isLoggedIn = true;
+    },
+    goToGroup(){
+      this.$router.push('Group')
+    },
+    goToNote(){
+      this.$router.push('Note')
     }
+  },
+  mounted(){
+    this.$router.push('Home')
   }
 });
 </script>
 
 <style>
-
+v-app-bar{
+  -webkit-app-region: no-drag;
+}
 .main{
   background-color: rgb(7, 14, 29);
 }

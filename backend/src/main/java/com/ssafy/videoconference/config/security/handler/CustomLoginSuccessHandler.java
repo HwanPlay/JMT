@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-import com.mang.example.security.utils.TokenUtils;
-import com.ssafy.videoconference.model.bean.User;
-import com.ssafy.videoconference.model.bean.UserDetail;
+import com.ssafy.videoconference.config.util.TokenUtils;
+import com.ssafy.videoconference.model.user.bean.User;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,7 +22,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
-        User user = ((UserDetail)authentication.getPrincipal()).getUserVO();
+        User user = ((UserDetail)authentication.getPrincipal()).getUser();
         String token = tokenUtils.generateJwtToken(user);
         response.addHeader("Authorization", "Bearer " + token);
     }
