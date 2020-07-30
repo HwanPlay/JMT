@@ -1,41 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-  </head>
-  <body>
-    <nav>
-      <div id="titleshown">JMT</div>
-      <div id="l-buttons">
-        <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
-        <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
-        <div id="refresh" onClick="window.location.reload()"><span>♬</span></div>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+</head>
+
+<body>
+  <nav>
+    <div id="titleshown">JMT</div>
+    <div id="l-buttons">
+      <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
+      <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
+      <div id="refresh" onClick="window.location.reload()"><span>♬</span></div>
     </div>
 
-      <div id="r-buttons">
-          <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
+    <div id="r-buttons">
+      <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
           <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
           <div id="refresh"><span>♬</span></div> -->
-          <div id="minimize"><span>&dash;</span></div>
-          <div id="maximize"><span>&square;</span></div>
-          <div id="quit"><span>&times;</span></div>
-      </div>
-    </nav>
+      <div id="minimize"><span>&dash;</span></div>
+      <div id="maximize"><span>&square;</span></div>
+      <div id="quit"><span>&times;</span></div>
+      <input type="button" id="save" value="Save" />
+    </div>
+  </nav>
 
 
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-  </body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+</body>
+
 </html>
 
 <script>
+  //태환
+  const { dialog } = require('electron').remote;
+  const fs = require('fs');
+  
+  document.getElementById("save").addEventListener("click", () => {
+    console.log(dialog)
+    const content = "Some text to save into the file";
+    
+    console.log("this")
+
+    filename = dialog.showSaveDialog({}
+    ).then(result => {
+      filename = result.filePath;
+      if (filename === undefined) {
+        alert('the user clicked the btn but didn\'t created a file');
+        return;
+      }
+      fs.writeFile(filename, content, (err) => {
+        if (err) {
+          alert('an error ocurred with file creation ' + err.message);
+          return
+        }
+        alert('WE CREATED YOUR FILE SUCCESFULLY');
+      })
+      alert('we End');
+    }).catch(err => {
+      alert(err)
+    })
+  });
+
+  //
+
   const { remote } = require("electron");
   var win = remote.BrowserWindow.getFocusedWindow();
 
@@ -58,87 +94,89 @@
 </script>
 
 <style>
-::-webkit-scrollbar{
-  display: none;
-}
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-nav {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background-color: #333333;
-  -webkit-app-region: drag;
-  -webkit-user-select: none;
-  position: fixed;
-  z-index: 1;
-}
+  nav {
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    background-color: #333333;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    position: fixed;
+    z-index: 1;
+  }
 
-nav #titleshown {
-  margin-right: 15px;
-  height: 100%;
-  line-height: 30px;
-  color: #f7f7f7;
-  float: left;
-  padding: 0 0 0 1em;
-}
+  nav #titleshown {
+    margin-right: 15px;
+    height: 100%;
+    line-height: 30px;
+    color: #f7f7f7;
+    float: left;
+    padding: 0 0 0 1em;
+  }
 
-nav #r-buttons {
-  float: right;
-  width: 150px;
-  height: 100%;
-  line-height: 30px;
-  background-color: #222222;
-  -webkit-app-region: no-drag;
-}
+  nav #r-buttons {
+    float: right;
+    width: 150px;
+    height: 100%;
+    line-height: 30px;
+    background-color: #222222;
+    -webkit-app-region: no-drag;
+  }
 
-nav #l-buttons {
-  float: left;
-  width: 150px;
-  height: 100%;
-  line-height: 30px;
-  -webkit-app-region: no-drag;
-}
+  nav #l-buttons {
+    float: left;
+    width: 150px;
+    height: 100%;
+    line-height: 30px;
+    -webkit-app-region: no-drag;
+  }
 
-nav #l-buttons #back,
-nav #l-buttons #forward,
-nav #l-buttons #refresh {
-  float: left;
-  height: 100%;
-  width: 20%;
-  text-align: center;
-  color: rgb(229, 235, 239);
-  cursor: pointer;
-}
+  nav #l-buttons #back,
+  nav #l-buttons #forward,
+  nav #l-buttons #refresh {
+    float: left;
+    height: 100%;
+    width: 20%;
+    text-align: center;
+    color: rgb(229, 235, 239);
+    cursor: pointer;
+  }
 
-nav #r-buttons #minimize,
-nav #r-buttons #maximize,
-nav #r-buttons #quit {
-  float: left;
-  height: 100%;
-  width: 33%;
-  text-align: center;
-  color: #f7f7f7;
-  cursor: default;
-}
+  nav #r-buttons #minimize,
+  nav #r-buttons #maximize,
+  nav #r-buttons #quit {
+    float: left;
+    height: 100%;
+    width: 33%;
+    text-align: center;
+    color: #f7f7f7;
+    cursor: default;
+  }
 
-nav #r-buttons #minimize:hover {
-  background-color: #333333aa;
-}
-nav #r-buttons #maximize:hover {
-  background-color: #333333aa;
-}
-nav #r-buttons #quit:hover {
-  background-color: #ff0000dd;
-}
+  nav #r-buttons #minimize:hover {
+    background-color: #333333aa;
+  }
 
-main {
-  padding-top: 30px;
-  overflow: auto;
-  height: calc(100vh - 30px);
-  position: absolute;
-  top: 30px;
-  left: 0;
-  padding: 0;
-  width: 100%;
-}
+  nav #r-buttons #maximize:hover {
+    background-color: #333333aa;
+  }
+
+  nav #r-buttons #quit:hover {
+    background-color: #ff0000dd;
+  }
+
+  main {
+    padding-top: 30px;
+    overflow: auto;
+    height: calc(100vh - 30px);
+    position: absolute;
+    top: 30px;
+    left: 0;
+    padding: 0;
+    width: 100%;
+  }
 </style>
