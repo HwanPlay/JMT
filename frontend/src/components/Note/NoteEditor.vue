@@ -136,6 +136,11 @@
           <button class="menubar__button" @click="commands.redo">
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
+
+          <button  class="menubar__button" @click="UploadHTML">
+            <h4><b-badge variant="primary">Save</b-badge></h4>
+          </button>
+
         </div>
       </editor-menu-bar>
 
@@ -176,6 +181,8 @@
         </div>
       </editor-menu-bubble>
 
+      <!-- {{dataHTML}} -->
+      
       <div class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
@@ -262,12 +269,16 @@ export default {
           this.dataHTML = getHTML()
         },
       }),
+      dataHTML : null
     };
   },
   methods: {
     setContent() {
       this.editor.setContent(this.dataHTML)
       this.editor.focus()
+    },
+    UploadHTML() {
+      console.log("UploadHTML")
     }
   },
   beforeDestroy() {
