@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -11,9 +10,9 @@ Vue.use(VueRouter)
     component: () => import('../views/Home.vue')
   },
   {
-    path: '/Info',
-    name: 'Information',
-    component: () => import('../views/Information.vue')
+    path: '/Group',
+    name: 'Group',
+    component: () => import('../views/Group.vue')
   },
   {
     path: '/Note',

@@ -1,6 +1,6 @@
 <template>
   <div>
-      유저 정보
+    SomeThing
   </div>
 </template>
 

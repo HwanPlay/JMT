@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.model.bean;
+package com.ssafy.videoconference.model.user.bean;
 
 import java.util.Collection;
 
