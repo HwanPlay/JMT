@@ -21,8 +21,7 @@
           <div style="margin-top: 80px;">
             <div style="font-size: 13px; line-height: 18px; color:rgb(121, 134, 163);">
               계정 / 비밀번호가 기억이 안나신다면 
-              <span style="text-decoration: underline; cursor: pointer;">이곳</span>
-              을 클릭해주세요
+              <span style="text-decoration: underline; cursor: pointer;">이곳</span>을 클릭해주세요
             </div>
           </div>
         </v-col>
