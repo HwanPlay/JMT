@@ -15,9 +15,9 @@
       <div id="l-buttons">
         <img class="logo" src='JMTLogo.png'>
         <img class="logo" src="JMT.png">
-        <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
-        <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
-        <div id="refresh" onClick="window.location.reload()"><span>♬</span></div>
+        <div id="back" onclick="window.history.back()"><i class="fas fa-less-than icns"></i></div>
+        <div id="forward" onclick="window.history.forward()"><i class="fas fa-greater-than icns"></i></div>
+        <div id="refresh" onClick="window.location.reload()"><i class="fas fa-redo icns"></i></div>
     </div>
 
       <div id="r-buttons">
@@ -102,7 +102,7 @@ nav #r-buttons {
 nav #l-buttons {
   float: left;
   margin-left: 15px;
-  width: 150px;
+  width: 170px;
   height: 100%;
   line-height: 30px;
   -webkit-app-region: no-drag;
@@ -138,6 +138,12 @@ nav #r-buttons #maximize:hover {
 }
 nav #r-buttons #quit:hover {
   background-color: #ff0000dd;
+}
+.icns{
+  color: rgb(121, 134, 163)
+}
+.icns:hover{
+  color: white;
 }
 
 main {

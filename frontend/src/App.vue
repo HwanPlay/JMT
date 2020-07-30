@@ -19,11 +19,11 @@
         </div>
 
         <div class="text-center" style="height: 100%">
-          <!-- Profile Router -->
-          <router-link to="/Info">
+          <!-- Group Router -->
+          <router-link to="/Group">
             <v-btn text style="height: 99%">
               <v-icon>fas fa-user</v-icon>
-              <span class="routerLink mr-2 ml-2">Profile</span>
+              <span class="routerLink mr-2 ml-2">Group</span>
             </v-btn>
           </router-link>
 
@@ -66,7 +66,7 @@
 
       </v-app-bar>
     <v-main style="padding-top:0px;">
-      <router-view/>
+      <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
     </v-main>
     </div>
 
@@ -93,6 +93,12 @@ export default Vue.extend({
   methods:{
     enterService(){
       this.isLoggedIn = true;
+    },
+    goToGroup(){
+      this.$router.push('Group')
+    },
+    goToNote(){
+      this.$router.push('Note')
     }
   },
   mounted(){
