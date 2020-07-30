@@ -1,5 +1,5 @@
 package com.ssafy.videoconference.model.service;
 
-public interface IMemberService {
+public interface UserService {
 
 }

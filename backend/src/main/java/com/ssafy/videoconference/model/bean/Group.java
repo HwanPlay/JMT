@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@Table(name = "`group`")
+@Table(name = "conference")
 public class Group {
 	
 	@Id
