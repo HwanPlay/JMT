@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container class="py-8" fluid>
     <b-row>
       <NoteSearch />
       <NoteEditor 
