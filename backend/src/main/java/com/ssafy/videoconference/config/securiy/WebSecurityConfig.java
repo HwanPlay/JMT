@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ssafy.videoconference.config.security.filter.CustomAuthenticationFilter;
 import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandler;
@@ -34,20 +34,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 세션 사용 X
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-//				.and()
-//				// jwt token 필터를 id/password 인증 필터 전에 추가
-//				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//
 				.and()
+				// jwt token 필터를 id/password 인증 필터 전에 추가
+				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
+				
 				// form login 사용 X. JSON 형식으로 사용자 정보 요청
 				.formLogin().disable();
 
 	}
 
+    // AuthenticationFilter가 로그인 정보를 이용해 UsernamePasswordAuthenticationToken 생성
     @Bean
     public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+    	//
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-        customAuthenticationFilter.setFilterProcessesUrl("/user/login");
+        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
         customAuthenticationFilter.afterPropertiesSet();
         return customAuthenticationFilter;
@@ -63,6 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAuthenticationProvider(passwordEncoder());
     }
 
+    
+    // AuthenticationProviders를 추가 및 인증 메커니즘을 설정하는 데 사용
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider());
@@ -76,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }

@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import com.mang.example.security.app.user.model.UserVO;
-import com.mang.example.security.app.user.service.UserDetailsServiceImpl;
+import com.ssafy.videoconference.model.user.bean.User;
+import com.ssafy.videoconference.model.user.service.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,11 +38,11 @@ public class TokenUtils {
     @Resource(name = "userDetailsService")
     private UserDetailsService userDetailsService;
 
-    public String generateJwtToken(UserVO userVO) {
+    public String generateJwtToken(User user) {
         JwtBuilder builder = Jwts.builder()
-                .setSubject(userVO.getUserEmail())
+                .setSubject(user.getId())
                 .setHeader(createHeader())
-                .setClaims(createClaims(userVO))
+                .setClaims(createClaims(user))
                 .setExpiration(createExpireDateForOneYear())
                 .signWith(SignatureAlgorithm.HS256, createSigningKey());
 
@@ -97,12 +97,12 @@ public class TokenUtils {
         return header;
     }
 
-    private Map<String, Object> createClaims(UserVO userVO) {
+    private Map<String, Object> createClaims(User user) {
         // 비공개 클레임으로 사용자의 이름과 이메일을 설정, 세션 처럼 정보를 넣고 빼서 쓸 수 있다.
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("id", userVO.getId());
-        claims.put("name", userVO.getUserEmail());
+        claims.put("id", user.getId());
+        claims.put("name", user.getName());
 
         return claims;
     }
