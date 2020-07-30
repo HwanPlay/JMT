@@ -2,7 +2,10 @@
   <b-container fluid>
     <b-row>
       <NoteSearch />
-      <NoteEditor :receivedHTML=receivedHTML />
+      <NoteEditor 
+        :receivedHTML=receivedHTML
+        @onUploadHTML=UploadHTML
+       />
     </b-row>
   </b-container>
 </template>
@@ -24,6 +27,7 @@ export default {
     return {
       NoteList: null,
       receivedHTML: '',
+      dataHTML : '',
     };
   },
   methods: {
@@ -33,6 +37,10 @@ export default {
         this.receivedHTML = res.value
       });
     },
+    UploadHTML(res) {
+      console.log(res)
+      // axios로 요청 보낼것
+    }
   },
 };
 </script>

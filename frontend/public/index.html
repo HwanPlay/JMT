@@ -27,7 +27,6 @@
       <div id="minimize"><span>&dash;</span></div>
       <div id="maximize"><span>&square;</span></div>
       <div id="quit"><span>&times;</span></div>
-      <input type="button" id="save" value="Save" />
     </div>
   </nav>
 
@@ -36,45 +35,12 @@
   <!-- built files will be auto injected -->
   <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 </body>
-
 </html>
 
 <script>
-  //태환
-  const { dialog } = require('electron').remote;
-  const fs = require('fs');
-  
-  document.getElementById("save").addEventListener("click", () => {
-    console.log(dialog)
-    const content = "Some text to save into the file";
-    
-    console.log("this")
-
-    filename = dialog.showSaveDialog({}
-    ).then(result => {
-      filename = result.filePath;
-      if (filename === undefined) {
-        alert('the user clicked the btn but didn\'t created a file');
-        return;
-      }
-      fs.writeFile(filename, content, (err) => {
-        if (err) {
-          alert('an error ocurred with file creation ' + err.message);
-          return
-        }
-        alert('WE CREATED YOUR FILE SUCCESFULLY');
-      })
-      alert('we End');
-    }).catch(err => {
-      alert(err)
-    })
-  });
-
-  //
-
-  const { remote } = require("electron");
+  const { remote, BrowserWindow } = require("electron");
   var win = remote.BrowserWindow.getFocusedWindow();
-
+ 
   var minimize = document.querySelector("#minimize");
   var maximize = document.querySelector("#maximize");
   var quit = document.querySelector("#quit");

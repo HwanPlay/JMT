@@ -137,7 +137,7 @@
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
 
-          <button  class="menubar__button" @click="UploadHTML">
+          <button id="editorSave" class="menubar__button" @click="UploadHTML">
             <h4><b-badge variant="primary">Save</b-badge></h4>
           </button>
 
@@ -218,7 +218,7 @@ export default {
     EditorMenuBubble,
   },
   props:{
-    receivedHTML: String
+    receivedHTML: String,
   },
   data() {
     return {
@@ -269,7 +269,7 @@ export default {
           this.dataHTML = getHTML()
         },
       }),
-      dataHTML : null
+      dataHTML : ''      
     };
   },
   methods: {
@@ -279,6 +279,7 @@ export default {
     },
     UploadHTML() {
       console.log("UploadHTML")
+      this.$emit('onUploadHTML', this.dataHTML)
     }
   },
   beforeDestroy() {
