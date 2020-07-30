@@ -3,14 +3,9 @@ package com.ssafy.videoconference.controller;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
-<<<<<<< HEAD
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-=======
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
->>>>>>> 342017477fcfde41d5bb961c914d827e6fabc086
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,22 +23,6 @@ import lombok.NonNull;
 @RestController
 //@RequestMapping("/api")
 public class UserController {
-<<<<<<< HEAD
-	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	private static final String SUCCESS = "success";
-	private static final String FAIL = "fail";
-	
-	
-	@ApiOperation(value = "로그인", response = String.class)
-	@PostMapping("/test")
-	public ResponseEntity<String> login(){
-		int a = 1;
-		if(a == 1) {
-			return ResponseEntity.ok(SUCCESS);
-		}else {
-			return ResponseEntity.ok(FAIL);
-=======
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
@@ -76,7 +55,6 @@ public class UserController {
 		user.setRole(UserRole.ADMIN);
 		if (userService.register(user) == null) {
 			System.out.println("Create Admin Error");
->>>>>>> 342017477fcfde41d5bb961c914d827e6fabc086
 		}
 		return "redirect:/index";
 	}

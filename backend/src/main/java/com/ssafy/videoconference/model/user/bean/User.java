@@ -1,10 +1,5 @@
-<<<<<<< HEAD:backend/src/main/java/com/ssafy/videoconference/model/bean/User.java
-package com.ssafy.videoconference.model.bean;
-
-=======
 package com.ssafy.videoconference.model.user.bean;
 
->>>>>>> 342017477fcfde41d5bb961c914d827e6fabc086:backend/src/main/java/com/ssafy/videoconference/model/user/bean/User.java
 import java.io.Serializable;
 import java.util.Date;
 

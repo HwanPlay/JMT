@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ssafy.videoconference.model.user.bean.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

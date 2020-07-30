@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ssafy.videoconference.model.user.bean.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
