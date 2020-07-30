@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.config.securiy;
+package com.ssafy.videoconference.config.security;
 
 import javax.annotation.Resource;
 

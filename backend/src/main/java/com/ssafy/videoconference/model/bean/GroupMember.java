@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.user.bean.User;
 
@@ -22,21 +23,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@Table(name = "Group_member", 
+@Table(name = "groupMember", 
 uniqueConstraints={
-	@UniqueConstraint(columnNames={"group_no","id"})
+	@UniqueConstraint(columnNames={"groupNo","id"})
 	})
 
-public class Group_member {
+public class GroupMember {
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Group_member_no;
-	
+	private int groupMemberNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_no", nullable = false)
+	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
 	
 	

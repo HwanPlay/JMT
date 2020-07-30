@@ -26,35 +26,21 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Table(name = "meeting")
-public class Meeting {
+public class Meeting extends BaseTimeEntity{
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int meeting_no;
+	private int meetingNo;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_no", nullable = false)
+	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
-	
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "meeting_date", nullable = false)
-	private Date meeting_date;
 	
 	
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "start_time", nullable = false)
-	private Date start_time;
-	
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_time", nullable = false)
-	private Date end_time;
 	
 }

@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.config.securiy;
+package com.ssafy.videoconference.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +17,14 @@ import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandl
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final String[] PUBLIC = new String[] { "/error", "/login", "/logout", "/register", "/mypage",
-			"/api/registrations" };
+	private static final String[] PUBLIC = new String[] { "/api/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+
+		http	
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/*")
+				.csrf().ignoringAntMatchers("/api/**")
 
 				.and()
 				// 다음 request에 대한 사용권한 check

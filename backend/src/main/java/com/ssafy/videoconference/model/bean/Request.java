@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.model.bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ssafy.videoconference.model.user.bean.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Table(name = "request")
-public class Request {
+public class Request extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,17 +30,15 @@ public class Request {
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_no", nullable = false)
+	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "host_id", nullable = false)
-	private User user1;
+	@Column(name = "hostId", nullable = false)
+	private String hostId;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)	
-	private User user2;
+	@Column(name = "userId", nullable = false)
+	private String userId;
 	
 }
