@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.model.repository.Impl;
+package com.ssafy.videoconference.model.repository.custom;
 
 import com.ssafy.videoconference.model.bean.Group;
 

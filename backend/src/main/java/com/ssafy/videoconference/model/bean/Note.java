@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Table(name = "note")
-public class Note {
+public class Note extends BaseTimeEntity{
 	
 	
 	@Id
@@ -37,7 +37,7 @@ public class Note {
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_no", nullable = false)
+	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
 	
 	
@@ -54,13 +54,9 @@ public class Note {
 	private String content;
 	
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "write_date", nullable = false)
-	private Date write_date;
-	
 	
 	@OneToOne
-	@JoinColumn(name = "meeting_no", nullable = false)
+	@JoinColumn(name = "meetingNo", nullable = false)
 	private Meeting meeting;
 	
 	
