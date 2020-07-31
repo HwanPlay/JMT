@@ -17,13 +17,15 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
+    width: 1345,
+    minWidth: 1200,
+    height: 750,
+    minHeight: 700,
+    frame: false,
+    webPreferences: { 
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: (process.env
-          .ELECTRON_NODE_INTEGRATION as unknown) as boolean
+      nodeIntegration: true
     }
   })
 
@@ -88,3 +90,40 @@ if (isDevelopment) {
     })
   }
 }
+
+//태환
+// const { dialog } = require('electron').remote;
+// const fs = require('fs');
+// console.log(win)
+
+  // BrowserWindow.getFocusedWindow().webContents.executeJavaScript('document.getElementById("editorSave").value')
+  // .then(result => {
+  //   console.log("electron",result)
+  // })
+  // document.getElementById("save").addEventListener("click", () => {
+  //   console.log(dialog)
+  //   const content = "Some text to save into the file";
+    
+  //   console.log("this")
+
+  //   filename = dialog.showSaveDialog({}
+  //   ).then(result => {
+  //     filename = result.filePath;
+  //     if (filename === undefined) {
+  //       alert('the user clicked the btn but didn\'t created a file');
+  //       return;
+  //     }
+  //     fs.writeFile(filename, content, (err) => {
+  //       if (err) {
+  //         alert('an error ocurred with file creation ' + err.message);
+  //         return
+  //       }
+  //       alert('WE CREATED YOUR FILE SUCCESFULLY');
+  //     })
+  //     alert('we End');
+  //   }).catch(err => {
+  //     alert(err)
+  //   })
+  // });
+
+  //

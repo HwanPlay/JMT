@@ -1,90 +1,114 @@
 <template>
-  <v-app>
-    <!-- NavBar -->
-    <v-app-bar
-      app
-      color=""
-      dark
-      style="padding: 0px 10px;"
-    >
-    <div style="height: 100%">
-      <router-link to="/Home">
-        <v-btn style="height: 100%">
-          <!-- <v-icon>fas fa-user</v-icon> 로고를 만들어서 추가하자-->
-          <span class="routerLink mr-2">서비스 로고</span>
-        </v-btn>
-      </router-link>
+  <v-app class="main">
+    <!-- Login Component -->
+    <div v-if="isLoggedIn === false">
+      <Login @loginConfirm="enterService" />
     </div>
 
-      <div class="text-center" style="height: 100%">
-        <!-- Profile Router -->
-        <router-link to="/Info">
-          <v-btn style="height: 99%">
-            <v-icon>fas fa-user</v-icon>
-            <span class="routerLink mr-2 ml-2">Profile</span>
-          </v-btn>
-        </router-link>
+    <!-- NavBar -->
+    <div v-else>
+      <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin: 30px 0 64px;">
+        <div style="height: 100%;">
+          <router-link to="/Home">
+            <v-btn text style="height: 100%">
+              <!-- <v-icon>fas fa-home</v-icon> -->
+              <span class="routerLink mr-2">
+                <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
+                <!-- Home -->
+              </span>
+            </v-btn>
+          </router-link>
+        </div>
 
-        <!-- Room Router -->
-        <router-link to="/Room">
-          <v-btn style="height: 99%">
-            <v-icon>fas fa-solar-panel</v-icon>
-            <span class="routerLink mr-2 ml-2">Conference</span>
-          </v-btn>
-        </router-link>
+        <div class="text-center" style="height: 100%">
+          <!-- Group Router -->
+          <router-link to="/Group">
+            <v-btn text style="height: 99%;">
+              <v-icon>fas fa-users</v-icon>
+              <span class="routerLink mr-2 ml-2">Group</span>
+            </v-btn>
+          </router-link>
 
-        <!-- Note Router -->
-        <router-link to="/Note">
-          <v-btn style="height: 99%">
-            <v-icon>fas fa-sticky-note</v-icon>
-            <span class="routerLink mr-2 ml-2">Note</span>
-          </v-btn>
-        </router-link>
-      </div>
+          <!-- Room Router -->
+          <router-link to="/Room">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-solar-panel</v-icon>
+              <span class="routerLink mr-2 ml-2">Conference</span>
+            </v-btn>
+          </router-link>
 
-      <!-- 검색창 -->
-      <div class="ml-5 mt-5" style="height: 99%; width: 35%">
+          <!-- Note Router -->
+          <router-link to="/Note">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-sticky-note</v-icon>
+              <span class="routerLink mr-2 ml-2">Note</span>
+            </v-btn>
+          </router-link>
+        </div>
+
         <v-spacer></v-spacer>
-        <v-toolbar dense style="width: 90%">
-          <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
-          </v-text-field>
-        </v-toolbar>
-      </div>
-      <v-spacer></v-spacer>
-      <!-- Settings Router -->
-      <div class="text-center" style="height: 97%">
-        <router-link to="/Settings">
-          <v-btn class="ml-3" style="height: 100%; width:100%">
-            <v-icon>fas fa-cog</v-icon>
-          </v-btn>
-        </router-link>
-      </div>
+
+        <MyProfile />
+
+        <!-- Settings Router -->
+        <div class="text-center" style="height: 97%">
+          <router-link to="/Settings">
+            <v-btn text class="ml-2" style="height: 100%; width:100%">
+              <v-icon size=30>fas fa-cog</v-icon>
+            </v-btn>
+          </router-link>
+        </div>
 
 
-    </v-app-bar>
-    <v-content>
-      <router-view />
-    </v-content>
+      </v-app-bar>
+    <v-main style="padding-top:0px;">
+      <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
+    </v-main>
+    </div>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
+
+import Login from '../src/components/Login.vue'
+import MyProfile from '../src/components/MyProfile.vue'
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
 
   components: {
+    Login,
+    MyProfile
   },
 
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+  methods: {
+    enterService() {
+      this.isLoggedIn = true;
+    },
+    goToGroup(){
+      this.$router.push('Group')
+    },
+    goToNote(){
+      this.$router.push('Note')
+    }
+  },
+  mounted(){
+    this.$router.push('Home')
+  }
 });
 </script>
 
 <style>
-.routerLink {
-  color: white;
+v-app-bar{
+  -webkit-app-region: no-drag;
+}
+.main{
+  background-color: rgb(7, 14, 29);
 }
 </style>
