@@ -16,6 +16,10 @@ Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// moment
+import vueMoment from 'vue-moment'
+Vue.use(vueMoment)
+
 
 Vue.config.productionTip = false
 
