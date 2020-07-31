@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.videoconference.model.user.bean.User;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -29,7 +28,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		UsernamePasswordAuthenticationToken authRequestToken;
-		
+		System.out.println("token : " + request.getMethod());
 		// 로그인 request method는 POST로 전달하자
 		if (!HttpMethod.POST.name().equals(request.getMethod())) {
 			if (logger.isDebugEnabled()) {
@@ -37,18 +36,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			}
 			throw new AuthenticationServiceException("Authentication method not supported");
 		}
+		System.out.println("여기?");
+		System.out.println(request.getParameter("id"));
+		// login 정보를 한 번에 User클래스에 매핑
+//			User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
-		try {
-			// login 정보를 한 번에 User클래스에 매핑
-			User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			
-			//UsernamePasswordAuthenticationToken으로 반환
-			authRequestToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPw());
-			logger.info("User attempt authentication. userId={}", user.getId());
-
-		} catch (IOException exception) {
-			throw new AuthenticationServiceException("userId or password is not valid.");
-		}
+		User user = new User();
+		user.setId(request.getParameter("id"));
+		user.setPw(request.getParameter("pw"));
+		
+		System.out.println(user.toString());
+		
+		// UsernamePasswordAuthenticationToken으로 반환
+		authRequestToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPw());
+		logger.info("User attempt authentication. userId={}", user.getId());
 
 		// Allow sebclasses to set the "details" property
 		setDetails(request, authRequestToken);

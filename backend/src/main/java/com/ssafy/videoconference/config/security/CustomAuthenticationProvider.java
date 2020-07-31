@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.config.securiy;
+package com.ssafy.videoconference.config.security;
 
 import javax.annotation.Resource;
 
@@ -30,13 +30,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userId = token.getName();
         String userPw = (String) token.getCredentials();
         
+        System.out.println("authenticate");
+        System.out.println("userId : " + userId);
+        System.out.println("userPw : " + userPw);
+        
+        System.out.println("user service : " + userDetailsService.loadUserByUsername(userId).toString());
+        
         // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
-        UserDetail userDetailsVO = (UserDetail) userDetailsService.loadUserByUsername(userId);
-        if (!passwordEncoder.matches(userPw, userDetailsVO.getPassword())) {
-            throw new BadCredentialsException(userDetailsVO.getUsername() + "Invalid password");
-        }
-
-        return new UsernamePasswordAuthenticationToken(userDetailsVO, userPw, userDetailsVO.getAuthorities());
+        UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(userId);
+//        if (!passwordEncoder.matches(userPw, userDetail.getPassword())) {
+//            throw new BadCredentialsException(userDetail.getUsername() + "Invalid password");
+//        }
+        System.out.println("good?");
+        return new UsernamePasswordAuthenticationToken(userDetail, userPw, userDetail.getAuthorities());
     }
 
     @Override
