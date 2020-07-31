@@ -1,6 +1,6 @@
 <template>
   <div>
-      {{timerCount}}
+      <!-- {{timerCount}} -->
       <p>{{ new Date() | moment('YYYY-MM-DD HH:mm:ss') }}</p>
   </div>
 </template>
