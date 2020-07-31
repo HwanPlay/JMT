@@ -8,11 +8,13 @@
     <!-- NavBar -->
     <div v-else>
       <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin: 30px 0 64px;">
-        <div style="height: 100%">
+        <div style="height: 100%;">
           <router-link to="/Home">
             <v-btn text style="height: 100%">
+              <!-- <v-icon>fas fa-home</v-icon> -->
               <span class="routerLink mr-2">
                 <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
+                <!-- Home -->
               </span>
             </v-btn>
           </router-link>
@@ -21,8 +23,8 @@
         <div class="text-center" style="height: 100%">
           <!-- Group Router -->
           <router-link to="/Group">
-            <v-btn text style="height: 99%">
-              <v-icon>fas fa-user</v-icon>
+            <v-btn text style="height: 99%;">
+              <v-icon>fas fa-users</v-icon>
               <span class="routerLink mr-2 ml-2">Group</span>
             </v-btn>
           </router-link>
@@ -44,21 +46,15 @@
           </router-link>
         </div>
 
-        <!-- 검색창 -->
-        <div class="ml-5 mt-5" style="height: 99%; width: 35% ">
-          <v-spacer></v-spacer>
-          <v-toolbar flat color = "rgb(14, 23, 38)" dense style="width: 90%">
-            <v-text-field append-icon="fas fa-search" hint="검색어를 입력해달라">
-            </v-text-field>
-          </v-toolbar>
-        </div>
         <v-spacer></v-spacer>
+
+        <MyProfile />
 
         <!-- Settings Router -->
         <div class="text-center" style="height: 97%">
           <router-link to="/Settings">
-            <v-btn text class="ml-3" style="height: 100%; width:100%">
-              <v-icon>fas fa-cog</v-icon>
+            <v-btn text class="ml-2" style="height: 100%; width:100%">
+              <v-icon size=30>fas fa-cog</v-icon>
             </v-btn>
           </router-link>
         </div>
@@ -77,12 +73,14 @@
 import Vue from 'vue';
 
 import Login from '../src/components/Login.vue'
+import MyProfile from '../src/components/MyProfile.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components: {
     Login,
+    MyProfile
   },
 
   data () {
@@ -113,8 +111,5 @@ v-app-bar{
 }
 .main{
   background-color: rgb(7, 14, 29);
-}
-.routerLink {
-  color: white;
 }
 </style>

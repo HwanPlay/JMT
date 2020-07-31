@@ -1,6 +1,6 @@
 <template>
   <v-row style="height: 85%; width: 100%; margin-top:64px;">
-    <!-- 좌츨 버튼 부분 -->
+    <!-- 좌측 버튼 부분 -->
     <v-col cols="7" style="height: 100%;">
       <v-row style="height: 100%; margin-right: 60px;" align="center" justify="end">
         <v-col class="text-center" cols="12" sm="4">
@@ -11,7 +11,7 @@
           </div>
           <h5 style="margin-top: 20px;">새 회의</h5>
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="blue darken-1" @click="goToGroup">
+            <v-btn class="rounded-xl blue-btns" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="rgb(52, 63, 87)" @click="goToGroup">
               <v-icon size="60">fas fa-user-friends</v-icon>
             </v-btn>
           </div> 
@@ -19,13 +19,13 @@
         </v-col>
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px;" color="blue darken-1">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px;" color="rgb(52, 63, 87)">
               <v-icon size="60">fas fa-plus-square</v-icon>
             </v-btn>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
           <div class="my-2 underbox">
-            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="blue darken-1" @click="goToNote">
+            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="rgb(52, 63, 87)" @click="goToNote">
               <v-icon size="60">fas fa-file-alt</v-icon>
             </v-btn>
           </div>
@@ -39,23 +39,20 @@
       <v-row style="height: 100%; width: 100%; margin-top: 20px;;" align="start" justify="center">
 
         <v-card class="mx-auto" width="100%">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <h3>10 : 22</h3>
+          <v-img class="white--text align-center" height="200px" :src="require('../assets/watch/watch50.jpg')">
+            <h1 class="justify-content-center ml-5">10 : 08</h1>
+            <h4 class="justify-sm-center ml-5" style="color:rgb(187, 201, 224)">2020년 07월 30일</h4>
           </v-img>
 
-          <h4><v-card-subtitle class="pb-0">현재 회의중</v-card-subtitle></h4>
-
-          <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
+          <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
+          <hr class="m-2">
+          <v-card-text class="text--primary" style="height: 250px;">
+            <h4>Team DNS</h4>
+            <div>How to complete the Project : JMT</div>
+            <div class="m-3"></div>
+            <h4>SSAFY 3기 대전 1반</h4>
+            <div>Make our own Service</div>
           </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text>Share</v-btn>
-
-            <v-btn color="orange" text>Explore</v-btn>
-          </v-card-actions>
         </v-card>
 
       </v-row>
@@ -73,6 +70,11 @@ export default {
     goToNote(){
       this.$emit('goToNote')
     }
+  },
+  data (){
+    return {
+      now : new Date(),
+    }
   }
 };
 </script>
@@ -88,6 +90,6 @@ v-col {
   box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
 }
 .blue-btns:hover{
-  size: 110%;
+  color: white;
 }
 </style>
