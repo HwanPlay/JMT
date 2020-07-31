@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.model.bean;
+package com.ssafy.videoconference.model.user.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,23 +14,26 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.ssafy.videoconference.model.bean.BaseTimeEntity;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "user")
-public class User implements Serializable{
+public class User implements Serializable {
    @Id
    @Email(message = "이메일 형식으로 입력해 주세요.")
    @NotBlank(message = "아이디를 입력해 주세요.")
-   
    private String id;
 
    @NotBlank(message = "이름을 입력해주세요")

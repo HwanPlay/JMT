@@ -20,8 +20,15 @@
         <div id="refresh" onClick="window.location.reload()"><i class="fas fa-redo icns"></i></div>
     </div>
 
+<<<<<<< HEAD
       <div id="r-buttons">
 
+=======
+    <div id="r-buttons">
+      <!-- <div id="back" onclick="window.history.back()"><span>&lt;</span></div>
+          <div id="forward" onclick="window.history.forward()"><span>&gt;</span></div>
+          <div id="refresh"><span>♬</span></div> -->
+>>>>>>> bf51783980cb3fdaef090f195b95ed9882e3941a
           <div id="minimize"><span>ㅡ</span></div>
           <div id="maximize"><span>ㅁ</span></div>
           <div id="quit"><span>&times;</span></div>
@@ -29,16 +36,16 @@
     </nav>
 
 
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-  </body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+</body>
 </html>
 
 <script>
-  const { remote } = require("electron");
+  const { remote, BrowserWindow } = require("electron");
   var win = remote.BrowserWindow.getFocusedWindow();
-
+ 
   var minimize = document.querySelector("#minimize");
   var maximize = document.querySelector("#maximize");
   var quit = document.querySelector("#quit");

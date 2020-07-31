@@ -4,7 +4,7 @@
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <button class="menubar__button" @click="downHTMLDocument">
-          <b-icon-download v-b-tooltip.hover title="File Down" class="h3 mb-2 border rounded"></b-icon-download>
+          <b-icon-download v-b-tooltip.top title="File Down" class="h3 mb-2 border rounded"></b-icon-download>
         </button>
 
         <button

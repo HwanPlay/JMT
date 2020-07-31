@@ -2,7 +2,7 @@
   <v-app class="main">
     <!-- Login Component -->
     <div v-if="isLoggedIn === false">
-      <Login @loginConfirm="enterService"/>
+      <Login @loginConfirm="enterService" />
     </div>
 
     <!-- NavBar -->
@@ -65,31 +65,30 @@
       <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
     </v-main>
     </div>
-
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 import Login from '../src/components/Login.vue'
 import MyProfile from '../src/components/MyProfile.vue'
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
 
   components: {
     Login,
     MyProfile
   },
 
-  data () {
+  data() {
     return {
       isLoggedIn: false,
-    }
+    };
   },
-  methods:{
-    enterService(){
+  methods: {
+    enterService() {
       this.isLoggedIn = true;
     },
     goToGroup(){
