@@ -41,16 +41,15 @@ public class User implements Serializable {
    private String name;
    
    @NotBlank(message = "패스워드를 입력해주세요.")
-   @Size(max=50)
+   @Size(max=200)
    private String pw;
    
    @Temporal(TemporalType.TIMESTAMP)
-   private Date register_date;
+   private Date register_date = new Date();
    
    private String profile_img;
    
    @Enumerated(EnumType.STRING)
-   @Size(max=50)
    private UserRole role;
    
    

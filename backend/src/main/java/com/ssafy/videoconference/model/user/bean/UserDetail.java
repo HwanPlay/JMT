@@ -7,11 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Delegate;
 
 
 @AllArgsConstructor
 @Getter
+@ToString
 public class UserDetail implements UserDetails{
 	
 	//정적 메서드 또는 클래스 인스턴스 및 해당 클래스의 인스턴스 메서드를 참조하는 데이터 구조
