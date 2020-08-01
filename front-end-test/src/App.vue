@@ -1,60 +1,116 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <v-app class="main">
+    <!-- Login Component -->
+    <div v-if="isLoggedIn === false">
+      <Login @loginConfirm="enterService" />
+    </div>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <!-- NavBar -->
+    <div v-else>
+      <v-app-bar app color = "rgb(14, 23, 38)" dark style="padding: 0px 10px; margin: 30px 0 64px;">
+        <div style="height: 100%;">
+          <router-link to="/Home">
+            <v-btn text style="height: 100%">
+              <!-- <v-icon>fas fa-home</v-icon> -->
+              <span class="routerLink mr-2">
+                <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
+                <!-- Home -->
+              </span>
+            </v-btn>
+          </router-link>
+        </div>
 
-      <v-spacer></v-spacer>
+        <div class="text-center" style="height: 100%">
+          <!-- Group Router -->
+          <router-link to="/Group">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-users</v-icon>
+              <span class="routerLink mr-2 ml-2">Group</span>
+            </v-btn>
+          </router-link>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+          <!-- Conference Router -->
+          <router-link to="/Conference">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-solar-panel</v-icon>
+              <span class="routerLink mr-2 ml-2">Conference</span>
+            </v-btn>
+          </router-link>
 
-    <v-main>
-      <HelloWorld/>
+          <!-- Note Router -->
+          <router-link to="/Note">
+            <v-btn text style="height: 99%">
+              <v-icon>fas fa-sticky-note</v-icon>
+              <span class="routerLink mr-2 ml-2">Note</span>
+            </v-btn>
+          </router-link>
+        </div>
+
+        <v-spacer></v-spacer>
+
+        <MyProfile />
+
+        <!-- Settings Router -->
+        <div class="text-center" style="height: 97%">
+          <router-link to="/Settings">
+            <v-btn text class="ml-2" style="height: 100%; width:100%">
+              <v-icon size=30>fas fa-cog</v-icon>
+            </v-btn>
+          </router-link>
+        </div>
+
+      </v-app-bar>
+    <v-main style="padding-top:0px;">
+      <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
     </v-main>
+    </div>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Vue from 'vue';
 
-export default {
+import Login from '../src/components/Account/Login.vue';
+import MyProfile from '../src/components/Account/MyProfile.vue';
+
+export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld
+    Login,
+    MyProfile
   },
 
-  data: () => ({
-    //
-  })
-}
+  data () {
+    return {
+      isLoggedIn: false
+    };
+  },
+  methods: {
+    enterService () {
+      this.isLoggedIn = true;
+    },
+    goToGroup () {
+      this.$router.push('Group');
+    },
+    goToConference () {
+      this.$router.push('Conference');
+    },
+    goToNote () {
+      this.$router.push('Note');
+    }
+  },
+  mounted () {
+    this.$router.push('Home');
+  }
+});
 </script>
+
+<style>
+v-app-bar{
+  -webkit-app-region: no-drag;
+}
+.main{
+  background-color: rgb(7, 14, 29);
+}
+</style>
