@@ -6,12 +6,151 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <nav>
+      <!-- <div id="titleshown">JMT</div> -->
+      <div id="l-buttons">
+        <!-- <img class="logo" src='JMTLogo.png'>
+        <img class="logo" src="JMT.png"> -->
+        <div id="back" onclick="window.history.back()"><i class="fas fa-less-than icns"></i></div>
+        <div id="forward" onclick="window.history.forward()"><i class="fas fa-greater-than icns"></i></div>
+        <div id="refresh" onClick="window.location.reload()"><i class="fas fa-redo icns"></i></div>
+    </div>
+
+      <div id="r-buttons">
+          <div id="minimize"><span>ㅡ</span></div>
+          <div id="maximize"><span>ㅁ</span></div>
+          <div id="quit"><span>&times;</span></div>
+      </div>
+    </nav>
+
+
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+</body>
 </html>
+
+<script>
+  const { remote, BrowserWindow } = require("electron");
+  var win = remote.BrowserWindow.getFocusedWindow();
+ 
+  var minimize = document.querySelector("#minimize");
+  var maximize = document.querySelector("#maximize");
+  var quit = document.querySelector("#quit");
+
+  minimize.addEventListener("click", () => {
+    console.log("mini")
+    win.minimize();
+  });
+
+  maximize.addEventListener("click", () => {
+    win.setFullScreen(!win.isFullScreen());
+  });
+
+  quit.addEventListener("click", () => {
+    win.close();
+  });
+</script>
+
+<style>
+::-webkit-scrollbar{
+  display: none;
+}
+
+nav {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background-color: rgb(4, 8, 19);
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  position: fixed;
+  z-index: 1;
+}
+
+.logo {
+  height: 100%;
+  width: 20%;
+  float: left;
+}
+
+nav #titleshown {
+  margin-right: 15px;
+  height: 100%;
+  line-height: 30px;
+  color: #f7f7f7;
+  float: left;
+  padding: 0 0 0 1em;
+}
+
+nav #r-buttons {
+  float: right;
+  width: 150px;
+  height: 100%;
+  line-height: 30px;
+  background-color: rgb(4, 8, 19);
+  -webkit-app-region: no-drag;
+}
+
+nav #l-buttons {
+  float: left;
+  margin-left: 15px;
+  width: 170px;
+  height: 100%;
+  line-height: 30px;
+  -webkit-app-region: no-drag;
+}
+
+nav #l-buttons #back,
+nav #l-buttons #forward,
+nav #l-buttons #refresh {
+  float: left;
+  height: 100%;
+  width: 20%;
+  text-align: center;
+  color: rgb(229, 235, 239);
+  cursor: pointer;
+}
+
+nav #r-buttons #minimize,
+nav #r-buttons #maximize,
+nav #r-buttons #quit {
+  float: left;
+  height: 100%;
+  width: 33%;
+  text-align: center;
+  color: #f7f7f7;
+  cursor: default;
+}
+
+nav #r-buttons #minimize:hover {
+  background-color: rgb(52, 63, 87);
+}
+nav #r-buttons #maximize:hover {
+  background-color: rgb(52, 63, 87);
+}
+nav #r-buttons #quit:hover {
+  background-color: #ff0000dd;
+}
+.icns{
+  color: rgb(121, 134, 163)
+}
+.icns:hover{
+  color: white;
+}
+
+main {
+  padding-top: 30px;
+  overflow: auto;
+  height: calc(100vh - 30px);
+  position: absolute;
+  top: 30px;
+  left: 0;
+  padding: 0;
+  width: 100%;
+}
+</style>
