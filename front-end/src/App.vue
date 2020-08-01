@@ -29,8 +29,8 @@
             </v-btn>
           </router-link>
 
-          <!-- Room Router -->
-          <router-link to="/Room">
+          <!-- Conference Router -->
+          <router-link to="/Conference">
             <v-btn text style="height: 99%">
               <v-icon>fas fa-solar-panel</v-icon>
               <span class="routerLink mr-2 ml-2">Conference</span>
@@ -59,7 +59,6 @@
           </router-link>
         </div>
 
-
       </v-app-bar>
     <v-main style="padding-top:0px;">
       <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
@@ -69,37 +68,40 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from 'vue';
 
-import Login from '../src/components/Account/Login.vue'
-import MyProfile from '../src/components/Account/MyProfile.vue'
+import Login from '../src/components/Account/Login.vue';
+import MyProfile from '../src/components/Account/MyProfile.vue';
 
 export default Vue.extend({
-  name: "App",
+  name: 'App',
 
   components: {
     Login,
     MyProfile
   },
 
-  data() {
+  data () {
     return {
-      isLoggedIn: false,
+      isLoggedIn: false
     };
   },
   methods: {
-    enterService() {
+    enterService () {
       this.isLoggedIn = true;
     },
-    goToGroup(){
-      this.$router.push('Group')
+    goToGroup () {
+      this.$router.push('Group');
     },
-    goToNote(){
-      this.$router.push('Note')
+    goToConference () {
+      this.$router.push('Conference');
+    },
+    goToNote () {
+      this.$router.push('Note');
     }
   },
-  mounted(){
-    this.$router.push('Home')
+  mounted () {
+    this.$router.push('Home');
   }
 });
 </script>

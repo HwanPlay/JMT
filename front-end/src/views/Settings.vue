@@ -23,10 +23,10 @@
 <script>
 export default {
   name: 'Settings',
-  data(){
+  data () {
     return {
       length: 2,
-      onboarding: 0,
+      onboarding: 0
     };
   },
   methods: {
@@ -37,7 +37,7 @@ export default {
       this.onboarding = 1;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -54,7 +54,7 @@ export default {
   .box2 {
     background: rgb(32, 43, 67);
     color: rgb(229, 235, 239);
-    height: 100%;  
+    height: 100%;
   }
   .select-btn{
     color: white;

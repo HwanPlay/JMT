@@ -44,10 +44,8 @@
       </div>
     </div>
   </div>
-  
-    
-</template>
 
+</template>
 
 <script src="app.js"></script>
 <script>
@@ -64,7 +62,7 @@ export default {
       disableInputBool : true,
       chatContainer : null,
       value : "",
-      textArea: null   
+      textArea: null
     };
   },
   methods: {
@@ -91,11 +89,11 @@ export default {
           this.textArea = document.createElement('div');
           this.textArea.innerHTML = event.data || event;
           this.chatContainer.appendChild(this.textArea);
-          this.textArea.tabIndex = 0; 
+          this.textArea.tabIndex = 0;
           this.textArea.focus();
           document.getElementById('input-text-chat').focus();
       },
-    textSend(e){
+    textSend(e) {
       console.log(e.target.value);
       // removing trailing/leading whitespace
       this.value = 'a'+':'+e.target.value.toString().replace(/^\s+|\s+$/g, '');

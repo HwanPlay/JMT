@@ -7,26 +7,26 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      timerCount: 5,
+      timerCount: 5
     };
   },
 
   watch: {
     timerCount: {
-      handler(value) {
+      handler (value) {
         if (value > 0) {
           setTimeout(() => {
             this.timerCount--;
           }, 1000);
-        } else if(value === 0){
-            this.timerCount = 5
+        } else if (value === 0) {
+          this.timerCount = 5;
         }
       },
-      immediate: true, // This ensures the watcher is triggered upon creation
-    },
-  },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
+  }
 };
 </script>
 

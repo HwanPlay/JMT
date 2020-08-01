@@ -185,16 +185,15 @@
   </div>
 </template>
 
-
 <script>
 // import NoteContent from "../components/NoteContent.vue";
 // import NoteDown from "../components/NoteDown.vue";
-import NoteMenuBarFileList from "../components/NoteMenuBarFileList.vue";
+import NoteMenuBarFileList from '../components/NoteMenuBarFileList.vue';
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
-import { saveAs } from "file-saver";
+import { saveAs } from 'file-saver';
 
-import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
+import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import {
   Blockquote,
   CodeBlock,
@@ -212,18 +211,18 @@ import {
   Link,
   Strike,
   Underline,
-  History,
-} from "tiptap-extensions";
+  History
+} from 'tiptap-extensions';
 export default {
   components: {
     EditorContent,
     EditorMenuBar,
     EditorMenuBubble,
-    NoteMenuBarFileList,
+    NoteMenuBarFileList
     // NoteContent,
     // NoteDown,
   },
-  data() {
+  data () {
     return {
       keepInBounds: true,
 
@@ -245,7 +244,7 @@ export default {
           new Italic(),
           new Strike(),
           new Underline(),
-          new History(),
+          new History()
         ],
         content: `
           <h2>
@@ -271,28 +270,27 @@ export default {
         `,
         onUpdate: ({ getHTML }) => {
           this.htmlText = getHTML();
-        },
+        }
       }),
-      htmlTitle: "제목",
-      htmlText: "",
-      };
+      htmlTitle: '제목',
+      htmlText: ''
+    };
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.editor.destroy();
   },
   methods: {
-    downHTMLDocument() {
-
+    downHTMLDocument () {
       // document.querySelector('#capture').lastChild.lastChild.innerHTML
-        const content = this.htmlText;
-        const filename = this.htmlTitle+".html";
-        const blob = new Blob([content], {
-          type: "text/plain;charset=utf-8",
-        });
-        saveAs(blob, filename);
-    },
+      const content = this.htmlText;
+      const filename = this.htmlTitle + '.html';
+      const blob = new Blob([content], {
+        type: 'text/plain;charset=utf-8'
+      });
+      saveAs(blob, filename);
+    }
   },
-  mounted() {
+  mounted () {
     // document.querySelector('#capture').lastChild.lastChild.innerHTML = "<h2>Hi</h2>"
     // this.editor.content = 'hi'
   }

@@ -182,7 +182,7 @@
       </editor-menu-bubble>
 
       <!-- {{dataHTML}} -->
-      
+
       <div class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from "tiptap";
+import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import {
   Blockquote,
   CodeBlock,
@@ -209,18 +209,18 @@ import {
   Link,
   Strike,
   Underline,
-  History,
-} from "tiptap-extensions";
+  History
+} from 'tiptap-extensions';
 export default {
   components: {
     EditorContent,
     EditorMenuBar,
-    EditorMenuBubble,
+    EditorMenuBubble
   },
-  props:{
-    receivedHTML: String,
+  props: {
+    receivedHTML: String
   },
-  data() {
+  data () {
     return {
       keepInBounds: true,
       editor: new Editor({
@@ -241,7 +241,7 @@ export default {
           new Italic(),
           new Strike(),
           new Underline(),
-          new History(),
+          new History()
         ],
         content: `
           <h2>
@@ -265,25 +265,25 @@ export default {
             – mom
           </blockquote>
         `,
-        onUpdate: ({getHTML}) => {
-          this.dataHTML = getHTML()
-        },
+        onUpdate: ({ getHTML }) => {
+          this.dataHTML = getHTML();
+        }
       }),
-      dataHTML : ''      
+      dataHTML: ''
     };
   },
   methods: {
-    setContent() {
-      this.editor.setContent(this.dataHTML)
-      this.editor.focus()
+    setContent () {
+      this.editor.setContent(this.dataHTML);
+      this.editor.focus();
     },
-    UploadHTML() {
-      console.log("UploadHTML")
-      this.$emit('onUploadHTML', this.dataHTML)
+    UploadHTML () {
+      console.log('UploadHTML');
+      this.$emit('onUploadHTML', this.dataHTML);
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.editor.destroy();
-  },
+  }
 };
 </script>

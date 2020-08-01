@@ -2,7 +2,7 @@
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
       <NoteSearch />
-      <NoteEditor 
+      <NoteEditor
         :receivedHTML=receivedHTML
         @onUploadHTML=UploadHTML
        />
@@ -11,37 +11,36 @@
 </template>
 
 <script>
-import NoteEditor from "../components/Note/NoteEditor.vue";
-import NoteSearch from "../components/Note/NoteSearch.vue";
+import NoteEditor from '../components/Note/NoteEditor.vue';
+import NoteSearch from '../components/Note/NoteSearch.vue';
 
-import axios from "axios";
-const SERVER_URL = "https://localhost:8080/";
+import axios from 'axios';
+const SERVER_URL = 'https://localhost:8080/';
 
 export default {
-  name: "Note",
+  name: 'Note',
   components: {
     NoteEditor,
-    NoteSearch,
+    NoteSearch
   },
-  data() {
+  data () {
     return {
       NoteList: null,
       receivedHTML: '',
-      dataHTML : '',
+      dataHTML: ''
     };
   },
   methods: {
-    getNoteList() {
-      axios.post(SERVER_URL, "DATA", "CONFIG")
-      .then(res=>{
-        this.receivedHTML = res.value
-      });
+    getNoteList () {
+      axios.post(SERVER_URL, 'DATA', 'CONFIG')
+        .then(res => {
+          this.receivedHTML = res.value;
+        });
     },
-    UploadHTML(res) {
-      console.log(res)
+    UploadHTML (res) {
+      console.log(res);
       // axios로 요청 보낼것
     }
-  },
+  }
 };
 </script>
-

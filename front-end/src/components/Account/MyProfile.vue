@@ -18,7 +18,7 @@
               <v-img :src="require('../../assets/profile/profile1.jpg')" class="rounded-circle" height="125" width="125"></v-img>
               <!-- </v-badge> -->
             </v-btn>
-          </v-col>      
+          </v-col>
           <v-col cols="8">
             <h2 style="color: rgb(4, 8, 19);">김싸피</h2>
             <h4 style="color: rgb(52, 63, 87);">SSAFY3@ssafy.com</h4>
@@ -36,18 +36,18 @@
 </template>
 
 <script>
-  export default {
-    name: 'Signup',
-    data() {
-      return {
-        dialog: false,
-      }
-    },
-    methods: {
-      close(){
-        this.dialog = false;
-        this.resetValidation();
-      },
-    },
+export default {
+  name: 'Signup',
+  data () {
+    return {
+      dialog: false
+    };
+  },
+  methods: {
+    close () {
+      this.dialog = false;
+      this.resetValidation();
+    }
   }
+};
 </script>

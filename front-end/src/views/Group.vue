@@ -48,39 +48,39 @@
 </template>
 
 <script>
-import MyProfile from "../components/Group/MyProfile.vue"
-import Group from '../components/Group/Group.vue'
-import Something from '../components/Group/Something.vue'
-import Meeting from '../components/Group/Meeting.vue'
+import MyProfile from '../components/Group/MyProfile.vue';
+import Group from '../components/Group/Group.vue';
+import Something from '../components/Group/Something.vue';
+import Meeting from '../components/Group/Meeting.vue';
 
 export default {
-  name: "Information",
-  components:{
+  name: 'Information',
+  components: {
     MyProfile,
     Group,
     Meeting,
-    Something,
+    Something
   },
-  data() {
+  data () {
     return {
       length: 4,
-      onboarding: 0,
+      onboarding: 0
     };
   },
   methods: {
-    toggle0(){
+    toggle0 () {
       this.onboarding = 0;
     },
-    toggle1(){
+    toggle1 () {
       this.onboarding = 1;
     },
-    toggle2(){
+    toggle2 () {
       this.onboarding = 2;
     },
-    toggle3(){
+    toggle3 () {
       this.onboarding = 3;
-    },
-  },
+    }
+  }
 };
 </script>
 

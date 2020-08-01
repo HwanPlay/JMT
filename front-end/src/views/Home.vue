@@ -14,7 +14,7 @@
             <v-btn class="rounded-xl blue-btns" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="rgb(52, 63, 87)" @click="goToGroup">
               <v-icon size="60">fas fa-user-friends</v-icon>
             </v-btn>
-          </div> 
+          </div>
           <h5 style="margin-top: 20px;">내 그룹</h5>
         </v-col>
         <v-col class="text-center" cols="12" sm="4">
@@ -62,19 +62,19 @@
 
 <script>
 export default {
-  name: "Home",
-  methods:{
-    goToGroup(){
-      this.$emit('goToGroup')
+  name: 'Home',
+  methods: {
+    goToGroup () {
+      this.$emit('goToGroup');
     },
-    goToNote(){
-      this.$emit('goToNote')
+    goToNote () {
+      this.$emit('goToNote');
     }
   },
-  data (){
+  data () {
     return {
-      now : new Date(),
-    }
+      now: new Date()
+    };
   }
 };
 </script>
