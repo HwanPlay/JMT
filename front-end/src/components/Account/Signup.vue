@@ -1,50 +1,76 @@
 <template>
-  <v-dialog Dark v-model="dialog" persistent max-width="750px">
+  <v-dialog Dark v-model="dialog" persistent max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" v-bind="attrs" v-on="on" class="mr-2" style="width: 92.88px; padding: 20px; color: white;">
+      <v-btn color="primary" v-bind="attrs" v-on="on" class="mr-2" style="width: 92.88px; padding: 20px; color: white; outline:none;">
         회원가입
       </v-btn>
     </template>
-    <v-card><!-- 회원가입 폼 양식을 주려면 여기서 -->
-      <v-card-title>
-        <span class="headline">회원가입</span>
-      </v-card-title>
-      <v-card-text>
-        <v-row align="center">
-          <v-row justify="center">
-            <v-carousel style="height: 250px; width:300px;">
-              <v-carousel-item v-for="(profile,i) in profiles" :key="i" reverse-transition="fade-transition" transition="fade-transition">
-                <v-row align="center" justify="center">
-                  <v-img height="200" width="200" :src="profile.src"></v-img>
-                </v-row>
-              </v-carousel-item>
-            </v-carousel>
-          </v-row>
+    <v-form ref="form" v-model="valid">
+      <v-card class="mx-auto" max-width="500" style="background-color: rgb(187, 201, 224);">
+        <v-card-title class="title font-weight-regular justify-space-between">
+          <span>{{ currentTitle }}</span>
+          <v-avatar color="primary lighten-2" class="subheading white--text" size="24" v-text="step"></v-avatar>
+        </v-card-title>
 
-          <v-form style="width: 300px; margin-right: 20px;" cols="12" md="6" sm="6" ref="form" v-model="valid">
-            <v-text-field style="padding-top: 20px;" v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-            <v-text-field style="padding-top: 20px;" v-model="email" :rules="emailRules" label="E-mail(ID)" required></v-text-field>
-            <v-text-field type="password" style="padding-top: 20px;" v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
-            <v-text-field type="password" style="padding-top: 20px;" v-model="passwordConfirm" :rules="passwordConfirmRules" label="Password Confirmation" required></v-text-field>
-          </v-form>
-        </v-row>
-      </v-card-text>
+        <v-window v-model="step">
+          <v-window-item :value="1">
+            <v-card-text>
+              <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
+              <v-text-field v-model="email" :rules="emailRules" label="E-mail(ID)" required></v-text-field>
+              <span class="caption grey--text text--darken-1">서비스 사용에 필요한 이름과 로그인 시 필요한 이메일을 입력해주세요</span>
+            </v-card-text>
+          </v-window-item>
+
+          <v-window-item :value="2">
+            <v-card-text>
+              <v-text-field v-model="password" label="Password" :rules="passwordRules" type="password" required></v-text-field>
+              <v-text-field v-model="passwordConfirm" label="Confirm Password" :rules="passwordConfirmRules" type="password" required></v-text-field>
+              <span class="caption grey--text text--darken-1">
+                로그인 시 사용할 비밀번호를 입력해주세요
+              </span>
+            </v-card-text>
+          </v-window-item>
+
+          <v-window-item :value="3">
+            <div class="pa-4 text-center">
+              <v-img contain height="200" :src="require('../../JMTwithLogo.png')"></v-img>
+              <h3 class="title mb-2">JMT는 당신을 환영합니다!</h3>
+              <span class="caption" style="color: rgb(52, 63, 87);">가입해주셔서 감사합니다</span>
+              <div>
+                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="close">닫기</v-btn>
+              </div>
+            </div>
+          </v-window-item>
+        </v-window>
+
+      <v-divider></v-divider>
+
       <v-card-actions>
+        <v-btn :disabled="step === 3" @click="alert = !alert" text style="outline:none;">Close</v-btn>
+        <!-- <v-btn :disabled="step === 1" text @click="step--" style="outline:none;">Back</v-btn> -->
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="close">SignUp</v-btn>
+        <v-btn :disabled="(!valid) || (step === 3)" text depressed @click="step++"> Next 
+        </v-btn>
       </v-card-actions>
+      <v-alert :value="alert" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+        <div>지금 취소하면 작성한 정보가 모두 사라집니다.</div>
+        <div>회원가입을 취소하시려면 <span style="text-decoration: underline; cursor: pointer;" @click="close">이곳</span>을 클릭해주세요.</div>
+      </v-alert>
     </v-card>
+    </v-form>
   </v-dialog>
 </template>
 
 <script>
+
 export default {
   name: 'Signup',
   data: () => ({
     dialog: false,
     valid: true,
+    step: 1,
     name: '',
+    alert: false,
     nameRules: [
       v => !!v || '이름을 입력해주세요',
       v => (v && v.length <= 10) || '10자 이내의 이름을 입력해주세요'
@@ -60,27 +86,32 @@ export default {
       v => (v && v.length >= 8) || '8자 이상의 비밀번호를 입력해주세요'
     ],
     passwordConfirm: '',
-    profiles: [
-      { src: require('../../assets/profile/profile1.jpg') },
-      { src: require('../../assets/profile/profile2.png') },
-      { src: require('../../assets/profile/profile3.png') },
-      { src: require('../../assets/profile/profile4.png') },
-      { src: require('../../assets/profile/profile5.png') }
-    ]
   }),
   methods: {
     close () {
-      this.dialog = false;
-      this.resetValidation();
+      this.alert = false;  // 닫기 창 제거
+      this.step = 1;  // 모달 처음으로 되돌리기
+      this.resetValidation();  // 유효성검사 제거
+      this.dialog = false;  // 모달 제거
     },
-    resetValidation () {
-      this.$refs.form.reset();
+    resetValidation() {
+      this.$refs.form.reset();  
+    },
+    validate(){
+      this.$refs.form.validate();
     }
   },
   computed: {
     passwordConfirmRules () {
       return (this.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
-    }
+    },
+    currentTitle(){
+      switch(this.step){
+      case 1: return 'JMT 회원 가입';
+      case 2: return '비밀번호 생성';
+      default: return '계정 생성 완료';
+      }
+    },
   }
 };
 </script>

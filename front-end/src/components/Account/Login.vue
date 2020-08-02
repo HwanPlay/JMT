@@ -14,9 +14,9 @@
           </v-form>
           <div class="float-left">
             <v-spacer></v-spacer>
-              <v-btn class="mr-2" style="padding: 20px; background-color:rgb(244, 67, 72); color: white;" >로그인</v-btn>
+              <v-btn class="mr-2" style="padding: 20px; background-color:rgb(244, 67, 72); color: white; outline:none;" >로그인</v-btn>
               <Signup>회원가입</Signup>
-              <v-btn class="mr-2" style="padding: 20px; background-color:#1A237E; color: white;" @click="developer">개발자</v-btn>
+              <v-btn class="mr-2" style="padding: 20px; background-color:#1A237E; color: white; outline:none;" @click="developer">개발자</v-btn>
           </div>
           <div style="margin-top: 80px;">
             <div style="font-size: 13px; line-height: 18px; color:rgb(121, 134, 163);">

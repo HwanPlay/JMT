@@ -1,7 +1,7 @@
 <template>
   <v-dialog Dark v-model="dialog" persistent max-width="650px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" color="rgb(14, 23, 38)" class="mr-0" style="height: 97%; width: 76px;">
+      <v-btn v-bind="attrs" v-on="on" color="rgb(14, 23, 38)" class="mr-0" style="height: 97%; width: 76px; outline: none;">
         <v-icon size=30>fas fa-user</v-icon>
       </v-btn>
     </template>
@@ -14,9 +14,7 @@
         <v-row>
           <v-col cols="4" justify="center">
             <v-btn text fab height="125" width="125" class="rounded-circle ml-10" style="outline: none;">
-              <!-- <v-badge color="rgb(229, 235, 239)" offset-x="40" offset-y="20" bordered bottom icon="fa-edit"> -->
               <v-img :src="require('../../assets/profile/profile1.jpg')" class="rounded-circle" height="125" width="125"></v-img>
-              <!-- </v-badge> -->
             </v-btn>
           </v-col>
           <v-col cols="8">
@@ -26,8 +24,7 @@
         </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-          <!-- <v-btn color="blue darken-1" text @click="close">Edit</v-btn> -->
+          <v-btn color="blue darken-1" style="outline: none;" text @click="close">Close</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -46,7 +43,6 @@ export default {
   methods: {
     close () {
       this.dialog = false;
-      this.resetValidation();
     }
   }
 };
