@@ -57,13 +57,12 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 
-	@Modifying
-	@Override
-	public Group update(Group group) {
-		// TODO Auto-generated method stub
-		Group group_update = groupRepository.update(group);
-		System.out.println(group_update);
-		return group_update;
-	}
+//	@Override
+//	public void update(Group group) {
+//		// TODO Auto-generated method stub
+//		Group group_update = groupRepository.findById(group.getGroupNo());
+//		group_update = group;
+//		groupRepository.save(group_update);
+//	}
 
 }

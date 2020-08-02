@@ -21,7 +21,7 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	@Override
 	public Group findById(int groupNo) {
 		String jpql = 
-				"select c.* from conference c where group_no = :groupNo ";
+				"select c.* from meeting_group c where group_no = :groupNo ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("groupNo", groupNo);
 		return query.getSingleResult();
@@ -32,7 +32,7 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	public List<Group> findByHostId(String hostId) {
 		// TODO Auto-generated method stub
 		String jpql =
-				"select * from conference where host_id = :hostId ";
+				"select * from meeting_group where host_id = :hostId ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("hostId", hostId);
 		return query.getResultList();
@@ -43,7 +43,7 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	public void deleteByHostId(String hostId) {
 		// TODO Auto-generated method stub
 		String jpql =
-				"delete from conference where host_id = :hostId ";
+				"delete from meeting_group where host_id = :hostId ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("hostId", hostId);
 		query.executeUpdate();
@@ -54,38 +54,11 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	public void deleteByNo(int groupNo) {
 		// TODO Auto-generated method stub
 		String jpql =
-				"delete from conference where group_no = :groupNo ";
+				"delete from meeting_group where group_no = :groupNo ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("groupNo", groupNo);
 		query.executeUpdate();
 	}
-
-
-//	@Override
-//	public Group add(Group group) {
-//		// TODO Auto-generated method stub
-//		String jpql =
-//				"insert into conference (host_id, group_name) value (:hostId, :groupName)";
-//		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
-//		query.setParameter("hostId", group.getHostId());
-//		query.setParameter("groupName", group.getGroupName());
-//		query.executeUpdate();
-//		return group;
-//	}
-
 	
-	@Override
-	public Group update(Group group) {
-		// TODO Auto-generated method stub
-		String jpql =
-				"update conference c set c.host_id = :hostId, c.group_name = :groupName where c.group_no = :groupNo";
-		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
-		query.setParameter("hostId", group.getHostId());
-		query.setParameter("groupName",  group.getGroupName());
-		query.setParameter("groupNo", group.getGroupNo());
-		query.executeUpdate();
-		return group;
-	}
-
-	
+		
 }
