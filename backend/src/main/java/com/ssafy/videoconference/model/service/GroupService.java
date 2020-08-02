@@ -26,7 +26,7 @@ public interface GroupService {
 	void deleteByNo(int groupNo);
 	
 	
-	Group update(Group group); 
+//	void update(Group group); 
 
 
 }
