@@ -1,7 +1,6 @@
 <template>
   <b-col cols="4">
     <div>
-      <NoteSearchTime />
       <b-card no-body>
         <b-tabs pills card vertical>
           <b-tab title="Group A" active>
@@ -28,11 +27,9 @@
 </template>
 
 <script>
-import NoteSearchTime from './NoteSearchTime.vue';
 export default {
   name: 'NoteSearch',
   components: {
-    NoteSearchTime
   }
 };
 </script>

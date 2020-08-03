@@ -1,7 +1,5 @@
 <template>
   <b-col id="NoteSearchList" cols="4">
-    <NoteSearchGroup />
-
     <div>
       <b-button v-b-toggle.collapse-1 variant="primary">Toggle Collapse</b-button>
       <b-collapse id="collapse-1" class="mt-2">
@@ -32,11 +30,9 @@
 </template>
 
 <script>
-import NoteSearchGroup from './NoteSearchGroup.vue';
 export default {
   name: 'NoteSearch',
   components: {
-    NoteSearchGroup
   },
   props: {
     NoteList: Object
