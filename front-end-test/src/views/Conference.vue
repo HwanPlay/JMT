@@ -43,12 +43,31 @@
         </figure>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+        <select id="picture" class="image-picker show-html"></select>
+        <video autoplay></video>
+        <p><button class="bttn">Enable Capture</button></p>
+      </div>
+    </div>
   </div>
 
 </template>
 
 <script src="app.js"></script>
 <script>
+import CanvasDesigner from "../assets/canvas-designer-widget";
+
+
+var designer = new CanvasDesigner();
+
+designer.widgetHtmlURL =
+  "https://www.webrtc-experiment.com/Canvas-Designer/widget.html"; // you can place this file anywhere
+designer.widgetJsURL =
+  "https://www.webrtc-experiment.com/Canvas-Designer/widget.js"; // you can place this file anywhere
+
+designer.appendTo(document.body || document.documentElement);
+
 import Vue from 'vue'
 import WebRTC from 'vue-webrtc'
 
@@ -58,7 +77,7 @@ export default {
   data() {
     return {
       img: null,
-      roomId: "public-room",
+      roomId: "jmt-room",
       disableInputBool : true,
       chatContainer : null,
       value : "",
@@ -112,6 +131,48 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  body {
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  video {
+    width: 480px;
+    height: 360px;
+    background: rgba(0,0,0,0.25);
+  }
+  .bttn {
+    display: inline-block;
+    background: -webkit-linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+    background: linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+    border: 1px solid #999;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+  .bttn:hover,
+  .bttn.active {
+    border-color: black;
+  }
+  .bttn:active,
+  .bttn.active {
+    background: -webkit-linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+    background: linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+  }
+  video {
+    background: gray;
+    border: 1px solid #e2e2e2;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  } 
 </style>
