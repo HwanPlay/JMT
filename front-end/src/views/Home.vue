@@ -36,12 +36,12 @@
 
     <!-- 우측 시계 + 일정 버튼 -->
     <v-col cols="4" style="height: 90%; width: 100%;">
-      <v-row style="height: 100%; width: 100%; margin-top: 20px;;" align="start" justify="center">
+      <v-row style="height: 100%; width: 100%; margin-top: 60px;" align="start" justify="center">
 
         <v-card class="mx-auto" width="100%">
           <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
             <h1 class="ml-5">{{ clock | moment('HH:mm:ss') }}</h1>
-            <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YY-MM-DD') }}</h4>
+            <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YYYY-MM-DD') }}</h4>
           </v-img>
 
           <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>

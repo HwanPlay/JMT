@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.videoconference.model.user.bean.UserDetail;
-import com.ssafy.videoconference.model.user.repository.UserRepository;
+import com.ssafy.videoconference.model.user.repository.JpaUserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private UserRepository userRepository;
+	private JpaUserRepository userRepository;
 
 	@Override
 	public UserDetail loadUserByUsername(String userId) {

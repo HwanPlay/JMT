@@ -15,13 +15,13 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-text-field v-model="name" :counter="10" :rules="Rules.name" label="Name" required></v-text-field>
+              <v-text-field v-model="signupData.name" :counter="10" :rules="Rules.name" label="Name" required></v-text-field>
               <v-row>
                 <v-col cols="10" class="pr-0 pb-0">
-                  <v-text-field v-model="email" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
+                  <v-text-field v-model="signupData.email" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pb-0">
-                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail">인증</v-btn>
+                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail" style="outline: none;">인증</v-btn>
                 </v-col>
               </v-row>
               <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
@@ -32,7 +32,7 @@
                   <v-text-field v-model="verificationWord" :disabled="isVerified" :rules="Rules.verificationWord" label="인증 문자 확인" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                  <v-btn :disabled="isVerified" class="ma-2" outlined color="black" @click="emailVerify">
+                  <v-btn :disabled="isVerified" class="ma-2" outlined style="outline: none;" color="black" @click="emailVerify">
                     <span v-if="!isVerified">확인</span>
                     <span v-if="isVerified">인증완료</span>
                     </v-btn>
@@ -47,7 +47,7 @@
 
           <v-window-item :value="2">
             <v-card-text>
-              <v-text-field v-model="password" label="Password" :rules="Rules.password" type="password" required></v-text-field>
+              <v-text-field v-model="signupData.password" label="Password" :rules="Rules.password" type="password" required></v-text-field>
               <v-text-field v-model="passwordConfirm" label="Confirm Password" :rules="passwordConfirmRules" type="password" required></v-text-field>
               <span class="caption grey--text text--darken-1">
                 로그인 시 사용할 비밀번호를 입력해주세요
@@ -69,15 +69,25 @@
       <v-divider></v-divider>
 
       <v-card-actions>
-        <v-btn :disabled="step === 3" @click="alert = !alert" text style="outline:none;">Close</v-btn>
+        <v-btn :disabled="step === 3" @click="alert = !alert" text style="outline: none;">
+          <div v-if="!alert">Close</div>
+          <div v-if="alert">Continue</div>
+          </v-btn>
         <!-- <v-btn :disabled="step === 1" text @click="step--" style="outline:none;">Back</v-btn> -->
         <v-spacer></v-spacer>
-        <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="step++"> Next 
+        <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="step++" style="outline: none;"> Next 
         </v-btn>
       </v-card-actions>
-      <v-alert :value="alert" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+      <v-alert :value="alert" color="pink" dark border="top" class="m-0" transition="scale-transition">
+        <v-row>
+          <v-col cols="1" class="ml-6">
+            <v-icon size="50">fas fa-exclamation</v-icon>
+          </v-col>
+          <v-col cols="10">
         <div>지금 취소하면 작성한 정보가 모두 사라집니다.</div>
-        <div>회원가입을 취소하시려면 <span style="text-decoration: underline; cursor: pointer;" @click="close">이곳</span>을 클릭해주세요.</div>
+        <div class="pb-1 mt-2">회원가입을 취소하시려면 <span style="text-decoration: underline; cursor: pointer;" @click="close">이곳</span>을 클릭해주세요.</div>
+          </v-col>
+        </v-row> 
       </v-alert>
     </v-card>
     </v-form>
@@ -93,12 +103,14 @@ export default {
     valid: true,
     step: 1,
     alert: false,
-    name: '',
+    signupData:{
+      name: '',
+      email: '',
+      password: '',
+    },
     isEmailOverlap: null,
-    email: '',
     verificationWord: '',
     isVerified: null,
-    password: '',
     passwordConfirm: '',
     Rules: {
       name: [
@@ -151,7 +163,7 @@ export default {
   },
   computed: {
     passwordConfirmRules () {
-      return (this.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
+      return (this.signupData.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
     },
     emailOverlapCheck(){
       return (this.emailOverlap === false) || Array('이미 가입되어있는 이메일입니다.');

@@ -21,6 +21,7 @@
     "tiptap": "^1.29.3",
     "tiptap-extensions": "^1.31.3",
     "vue": "^2.6.11",
+    "vue-cookies": "^1.7.3",
     "vue-router": "^3.2.0",
     "vue-webrtc": "^1.2.2",
     "vuetify": "^2.2.11",
