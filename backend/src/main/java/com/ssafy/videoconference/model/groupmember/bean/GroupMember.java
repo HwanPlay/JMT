@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.model.groupmember.bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,8 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ssafy.videoconference.model.common.BaseTimeEntity;
 import com.ssafy.videoconference.model.group.bean.Group;
 import com.ssafy.videoconference.model.user.bean.User;
 
@@ -29,7 +30,7 @@ uniqueConstraints={
 	@UniqueConstraint(columnNames={"groupNo","id"})
 	})
 
-public class GroupMember {
+public class GroupMember extends BaseTimeEntity {
 
 	
 	@Id
@@ -45,6 +46,19 @@ public class GroupMember {
 	@JoinColumn(name = "id", nullable = false)
 	private User user;
 	
+	@Column(name = "nickname")
+	private String nickname;
+	
+	
+	public static GroupMember create(int groupNo, String id, String nickname) {
+		GroupMember gm = new GroupMember();
+		gm.group = new Group();
+		gm.user = new User();
+		gm.getGroup().setGroupNo(groupNo);
+		gm.getUser().setId(id);
+		gm.nickname = nickname;
+		return gm;
+	}
 	
 	
 	
