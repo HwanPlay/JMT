@@ -54,20 +54,7 @@
 
 </template>
 
-<script src="app.js"></script>
 <script>
-import CanvasDesigner from "../assets/canvas-designer-widget";
-
-
-var designer = new CanvasDesigner();
-
-designer.widgetHtmlURL =
-  "https://www.webrtc-experiment.com/Canvas-Designer/widget.html"; // you can place this file anywhere
-designer.widgetJsURL =
-  "https://www.webrtc-experiment.com/Canvas-Designer/widget.js"; // you can place this file anywhere
-
-designer.appendTo(document.body || document.documentElement);
-
 import Vue from 'vue'
 import WebRTC from 'vue-webrtc'
 
