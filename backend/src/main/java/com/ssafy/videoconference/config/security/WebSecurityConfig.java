@@ -17,19 +17,25 @@ import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandl
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final String[] PUBLIC = new String[] { "/api/**" };
+
+	private static final String[] PUBLIC = new String[] { "/api/init" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		http	
+		http
+				// 기본 로그인 페이지 사용 안함
+				.httpBasic().disable()
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/**")
+				.csrf().ignoringAntMatchers("/api/*")
 
 				.and()
 				// 다음 request에 대한 사용권한 check
 				.authorizeRequests().antMatchers(PUBLIC).permitAll().anyRequest().authenticated()
-
+				
+//				.and()
+//					.authorizeRequests()	
+//	                .antMatchers("/api/*").hasRole("USER")
+	                
 				.and()
 				// 세션 사용 X
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -48,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
     	//
+    	System.out.println("login");
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
@@ -69,7 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // AuthenticationProviders를 추가 및 인증 메커니즘을 설정하는 데 사용
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
-        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider());
+        System.out.println("provider");
+    	authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider());
     }
     
     

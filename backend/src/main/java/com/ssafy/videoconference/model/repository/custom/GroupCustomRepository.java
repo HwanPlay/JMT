@@ -17,18 +17,15 @@ public interface GroupCustomRepository<T> {
 	List<Group> findByHostId(String hostId);
 	
 	
-	@Modifying(clearAutomatically = true)
+	@Modifying
 	void deleteByHostId(String hostId);
 	
 	
-	@Modifying(clearAutomatically = true)
+	@Modifying
 	void deleteByNo(int groupNo);
 	
 	
 //	Group add(Group group);
 	
-	
-	@Modifying(clearAutomatically = true)
-	Group update(Group group);
 	
 }

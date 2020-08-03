@@ -1,15 +1,24 @@
 <template>
   <b-col cols="4">
-    <div>
+    <div> 
+      <NoteSearchTime />    
       <b-card no-body>
         <b-tabs pills card vertical>
-          <b-tab title="Tab 1" active>
-            <div>sadsadasdsa</div>
+          <b-tab title="Group A" active>
+              <p>1월 1일</p>
+
+              <b-button variant="outline-primary">Button</b-button>
+              <b-button variant="outline-primary">Button</b-button>
+              <b-button variant="outline-primary">Button</b-button>
+              <p>1월 4일</p>
+              <b-button variant="outline-primary">Button</b-button>
+              <b-button variant="outline-primary">Button</b-button>
+
           </b-tab>
-          <b-tab title="Tab 2">
+          <b-tab title="Group B">
             <b-card-text>Tab contents 2</b-card-text>
           </b-tab>
-          <b-tab title="Tab 3">
+          <b-tab title="Group C">
             <b-card-text>Tab contents 3</b-card-text>
           </b-tab>
         </b-tabs>
@@ -19,8 +28,12 @@
 </template>
 
 <script>
+import NoteSearchTime from './NoteSearchTime.vue'
 export default {
-  methods: {},
+  name: 'NoteSearch',
+  components: {
+    NoteSearchTime,
+  }
 };
 </script>
 

@@ -1,0 +1,95 @@
+<template>
+  <v-row style="height: 85%; width: 100%; margin-top:64px;">
+    <!-- 좌측 버튼 부분 -->
+    <v-col cols="7" style="height: 100%;">
+      <v-row style="height: 100%; margin-right: 60px;" align="center" justify="end">
+        <v-col class="text-center" cols="12" sm="4">
+          <div class="my-2">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px;" color="warning">
+              <v-icon size="60">fas fa-video</v-icon>
+            </v-btn>
+          </div>
+          <h5 style="margin-top: 20px;">새 회의</h5>
+          <div class="my-2">
+            <v-btn class="rounded-xl blue-btns" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="rgb(52, 63, 87)" @click="goToGroup">
+              <v-icon size="60">fas fa-user-friends</v-icon>
+            </v-btn>
+          </div>
+          <h5 style="margin-top: 20px;">내 그룹</h5>
+        </v-col>
+        <v-col class="text-center" cols="12" sm="4">
+          <div class="my-2">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px;" color="rgb(52, 63, 87)">
+              <v-icon size="60">fas fa-plus-square</v-icon>
+            </v-btn>
+          </div>
+          <h5 style="margin-top: 20px;">새 그룹</h5>
+          <div class="my-2 underbox">
+            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px;" color="rgb(52, 63, 87)" @click="goToNote">
+              <v-icon size="60">fas fa-file-alt</v-icon>
+            </v-btn>
+          </div>
+          <h5 style="margin-top: 20px;">내 노트</h5>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <!-- 우측 시계 + 일정 버튼 -->
+    <v-col cols="4" style="height: 90%; width: 100%;">
+      <v-row style="height: 100%; width: 100%; margin-top: 20px;;" align="start" justify="center">
+
+        <v-card class="mx-auto" width="100%">
+          <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
+            <h1 class="justify-content-center ml-5">10 : 08</h1>
+            <h4 class="justify-sm-center ml-5" style="color:rgb(187, 201, 224)">2020년 07월 30일</h4>
+          </v-img>
+
+          <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
+          <hr class="m-2">
+          <v-card-text class="text--primary" style="height: 250px;">
+            <h4>Team DNS</h4>
+            <div>How to complete the Project : JMT</div>
+            <div class="m-3"></div>
+            <h4>SSAFY 3기 대전 1반</h4>
+            <div>Make our own Service</div>
+          </v-card-text>
+        </v-card>
+
+      </v-row>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+export default {
+  name: 'Home',
+  methods: {
+    goToGroup () {
+      this.$emit('goToGroup');
+    },
+    goToNote () {
+      this.$emit('goToNote');
+    }
+  },
+  data () {
+    return {
+      now: new Date()
+    };
+  }
+};
+</script>
+
+<style scoped>
+v-col {
+  height: 100%;
+  padding: 0px;
+}
+.box1 {
+  height: 100%;
+  background-color: rgb(52, 63, 87);
+  box-shadow: rgba(0, 0, 0, 0.1) 8px 0px 16px;
+}
+.blue-btns:hover{
+  color: white;
+}
+</style>
