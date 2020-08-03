@@ -40,8 +40,8 @@
 
         <v-card class="mx-auto" width="100%">
           <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
-            <h1 class="ml-5">10 : 08</h1>
-            <h4 class="ml-5" style="color:rgb(187, 201, 224)">2020년 07월 30일</h4>
+            <h1 class="ml-5">{{ clock | moment('HH:mm:ss') }}</h1>
+            <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YY-MM-DD') }}</h4>
           </v-img>
 
           <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
@@ -73,8 +73,25 @@ export default {
   },
   data () {
     return {
-      now: new Date()
+      clock: new Date(),
+      timerCount: 5,
     };
+  },
+  watch: {
+    timerCount: {
+      handler (value) {
+        if (value > 0) {
+          setTimeout(() => {
+            this.timerCount--;
+            this.clock = new Date();
+          }, 1000);
+        }else if(value === 0) {
+          this.timerCount = 5;
+          this.clock = new Date();
+        }
+      },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
   }
 };
 </script>
