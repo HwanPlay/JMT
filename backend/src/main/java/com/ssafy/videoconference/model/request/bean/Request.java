@@ -28,7 +28,7 @@ public class Request extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int no;
+	private int requestNo;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -42,5 +42,15 @@ public class Request extends BaseTimeEntity{
 	
 	@Column(name = "userId", nullable = false)
 	private String userId;
+	
+	
+	public static Request create(int groupNo, String hostId, String userId) {
+		Request req = new Request();
+		req.group = new Group();
+		req.getGroup().setGroupNo(groupNo);
+		req.hostId = hostId;
+		req.userId = userId;
+		return req;
+	}
 	
 }
