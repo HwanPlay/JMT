@@ -1,6 +1,6 @@
 <template>
   <div>
-      <NoteSearchGroupButton :GroupTitle=GroupTitle />
+      <NoteSearchGroupButton :GroupTitle=GroupTitle @getNote="onGetNote" />
 
 
 
@@ -33,6 +33,11 @@ export default {
   },
   props: {
     GroupTitle: Object,
+  },
+  methods: {
+    onGetNote(noteId) {
+      this.emit('GetNote', noteId)
+    }
   }
 };
 </script>

@@ -1,7 +1,8 @@
 <template>
   <b-col cols="4">
     <div>
-      <NoteSearchGroup v-for="GroupTitle in NoteList" :key="GroupTitle.id" />
+      <NoteSearchGroup v-for="GroupTitle in NoteList" :key="GroupTitle.id"
+      @GetNote="onGetNote" />
     </div>
     
     <!-- 주석 -->
@@ -47,7 +48,11 @@ export default {
   props: {
     NoteList: Object,
   },
-  methods: {},
+  methods: {
+    GetNote(noteId){
+      this.emit('onGetNote', noteId)
+    } 
+  },
   data() {
     return {
       test: ['collapse-a', 'collapse-b']
