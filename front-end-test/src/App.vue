@@ -32,7 +32,7 @@
           <!-- Conference Router -->
           <router-link to="/Conference">
             <v-btn text style="height: 99%">
-              <v-icon>fas fa-solar-panel</v-icon>
+              <v-icon>fas fa-chalkboard-teacher</v-icon>
               <span class="routerLink mr-2 ml-2">Conference</span>
             </v-btn>
           </router-link>
