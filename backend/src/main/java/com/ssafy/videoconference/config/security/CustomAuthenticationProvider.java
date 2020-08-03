@@ -30,16 +30,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userId = token.getName();
         String userPw = (String) token.getCredentials();
 
-        System.out.println("authenticate");
-        
-        System.out.println("user service : " + userDetailsService.loadUserByUsername(userId).toString());
         
         // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
         UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(userId);
 //        if (!passwordEncoder.matches(userPw, userDetail.getPassword())) {
 //            throw new BadCredentialsException(userDetail.getUsername() + "Invalid password");
 //        }
-        System.out.println("good?");
         return new UsernamePasswordAuthenticationToken(userDetail, userPw, userDetail.getAuthorities());
     }
 
