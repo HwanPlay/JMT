@@ -55,19 +55,19 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import WebRTC from 'vue-webrtc'
+import Vue from 'vue';
+import WebRTC from 'vue-webrtc';
 
-Vue.use(WebRTC) //asda
+Vue.use(WebRTC);
 
 export default {
   data() {
     return {
       img: null,
-      roomId: "jmt-room",
+      roomId: 'jmt-room',
       disableInputBool : true,
       chatContainer : null,
-      value : "",
+      value : '',
       textArea: null
     };
   },
@@ -92,13 +92,13 @@ export default {
       console.log('Event : ', event);
     },
     appendDIV(event) {
-          this.textArea = document.createElement('div');
-          this.textArea.innerHTML = event.data || event;
-          this.chatContainer.appendChild(this.textArea);
-          this.textArea.tabIndex = 0;
-          this.textArea.focus();
-          document.getElementById('input-text-chat').focus();
-      },
+      this.textArea = document.createElement('div');
+      this.textArea.innerHTML = event.data || event;
+      this.chatContainer.appendChild(this.textArea);
+      this.textArea.tabIndex = 0;
+      this.textArea.focus();
+      document.getElementById('input-text-chat').focus();
+    },
     textSend(e) {
       console.log(e.target.value);
       // removing trailing/leading whitespace
@@ -107,15 +107,15 @@ export default {
       this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);
       e.target.value =  '';
-      },
+    },
   },
   updated() {
-      this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
+    this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
   },
   mounted() {
     this.chatContainer = document.querySelector('.chat-output');
   }
-}
+};
 </script>
 
 <style scoped>
