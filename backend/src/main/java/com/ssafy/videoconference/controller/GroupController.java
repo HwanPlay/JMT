@@ -24,8 +24,8 @@ import com.ssafy.videoconference.controller.payload.CreateGroupPayload;
 import com.ssafy.videoconference.controller.result.ApiResult;
 import com.ssafy.videoconference.controller.result.GroupResult;
 import com.ssafy.videoconference.controller.result.Result;
-import com.ssafy.videoconference.model.bean.Group;
-import com.ssafy.videoconference.model.service.GroupService;
+import com.ssafy.videoconference.model.group.bean.Group;
+import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.User;
 
@@ -103,7 +103,7 @@ public class GroupController {
 	@PutMapping("/intro/{groupNo}")
 	public ResponseEntity<ApiResult> changeIntro(@PathVariable("groupNo") int groupNo,
 													@RequestBody ChangeIntroPayload payload) {
-		ChangeIntroCommand command = toCommand(payload);
+		ChangeIntroCommand command = payload.toCommand(groupNo);
 		groupService.changeIntro(command);
 		return Result.ok();
 	}
@@ -114,5 +114,6 @@ public class GroupController {
 		groupService.changeHasMeeting(groupNo);
 		return Result.ok();
 	}
+	
 	
 }

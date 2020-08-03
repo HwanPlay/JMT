@@ -15,22 +15,45 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-              <v-text-field v-model="email" :rules="emailRules" label="E-mail(ID)" required></v-text-field>
+              <v-text-field v-model="name" :counter="10" :rules="Rules.name" label="Name" required></v-text-field>
+              <v-row>
+                <v-col cols="10" class="pr-0 pb-0">
+                  <v-text-field v-model="email" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
+                </v-col>
+                <v-col cols="2" class="pl-0 pb-0">
+                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail">인증</v-btn>
+                </v-col>
+              </v-row>
+              <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+                <div>이미 사용중인 이메일입니다!</div>
+              </v-alert>
+              <v-row v-show="isEmailOverlap === false">
+                <v-col cols="8" class="pr-0 pt-0">
+                  <v-text-field v-model="verificationWord" :disabled="isVerified" :rules="Rules.verificationWord" label="인증 문자 확인" required></v-text-field>
+                </v-col>
+                <v-col cols="2" class="pl-0 pt-0">
+                  <v-btn :disabled="isVerified" class="ma-2" outlined color="black" @click="emailVerify">
+                    <span v-if="!isVerified">확인</span>
+                    <span v-if="isVerified">인증완료</span>
+                    </v-btn>
+                </v-col>
+              </v-row>
+              <v-alert :value="isVerified === false" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+                <div>인증 코드를 다시 확인해주세요!</div>
+              </v-alert>
               <span class="caption grey--text text--darken-1">서비스 사용에 필요한 이름과 로그인 시 필요한 이메일을 입력해주세요</span>
             </v-card-text>
           </v-window-item>
 
           <v-window-item :value="2">
             <v-card-text>
-              <v-text-field v-model="password" label="Password" :rules="passwordRules" type="password" required></v-text-field>
+              <v-text-field v-model="password" label="Password" :rules="Rules.password" type="password" required></v-text-field>
               <v-text-field v-model="passwordConfirm" label="Confirm Password" :rules="passwordConfirmRules" type="password" required></v-text-field>
               <span class="caption grey--text text--darken-1">
                 로그인 시 사용할 비밀번호를 입력해주세요
               </span>
             </v-card-text>
           </v-window-item>
-
           <v-window-item :value="3">
             <div class="pa-4 text-center">
               <v-img contain height="200" :src="require('../../JMTwithLogo.png')"></v-img>
@@ -49,7 +72,7 @@
         <v-btn :disabled="step === 3" @click="alert = !alert" text style="outline:none;">Close</v-btn>
         <!-- <v-btn :disabled="step === 1" text @click="step--" style="outline:none;">Back</v-btn> -->
         <v-spacer></v-spacer>
-        <v-btn :disabled="(!valid) || (step === 3)" text depressed @click="step++"> Next 
+        <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="step++"> Next 
         </v-btn>
       </v-card-actions>
       <v-alert :value="alert" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
@@ -69,23 +92,31 @@ export default {
     dialog: false,
     valid: true,
     step: 1,
-    name: '',
     alert: false,
-    nameRules: [
-      v => !!v || '이름을 입력해주세요',
-      v => (v && v.length <= 10) || '10자 이내의 이름을 입력해주세요'
-    ],
+    name: '',
+    isEmailOverlap: null,
     email: '',
-    emailRules: [
-      v => !!v || 'E-mail을 입력해주세요',
-      v => /.+@.+\..+/.test(v) || '바른 E-mail 형식을 입력해주세요'
-    ],
+    verificationWord: '',
+    isVerified: null,
     password: '',
-    passwordRules: [
-      v => !!v || '패스워드를 입력해주세요',
-      v => (v && v.length >= 8) || '8자 이상의 비밀번호를 입력해주세요'
-    ],
     passwordConfirm: '',
+    Rules: {
+      name: [
+        v => !!v || '이름을 입력해주세요',
+        v => (v && v.length <= 10) || '10자 이내의 이름을 입력해주세요'
+      ],
+      email: [
+        v => !!v || 'E-mail을 입력해주세요',
+        v => /.+@.+\..+/.test(v) || '바른 E-mail 형식을 입력해주세요',
+      ],
+      verificationWord: [
+        v => !!v || '인증번호를 입력해주세요'
+      ],
+      password: [
+        v => !!v || '패스워드를 입력해주세요',
+        v => (v && v.length >= 8) || '8자 이상의 비밀번호를 입력해주세요',
+      ],    
+    }
   }),
   methods: {
     close () {
@@ -93,17 +124,37 @@ export default {
       this.step = 1;  // 모달 처음으로 되돌리기
       this.resetValidation();  // 유효성검사 제거
       this.dialog = false;  // 모달 제거
+      this.isVerified = null;
+      this.isEmailOverlap = null;
     },
     resetValidation() {
       this.$refs.form.reset();  
     },
     validate(){
       this.$refs.form.validate();
+    },
+    checkEmail(){
+      console.log(this.email, this.isEmailOverlap);
+      if (this.email === 'ssafy@gmail.com'){
+        this.isEmailOverlap = true;
+      }else{
+        this.isEmailOverlap = false;
+      }
+    },
+    emailVerify(){
+      if (this.verificationWord === '1234'){
+        this.isVerified = true;
+      }else{
+        this.isVerified = false;
+      }
     }
   },
   computed: {
     passwordConfirmRules () {
       return (this.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
+    },
+    emailOverlapCheck(){
+      return (this.emailOverlap === false) || Array('이미 가입되어있는 이메일입니다.');
     },
     currentTitle(){
       switch(this.step){
@@ -112,6 +163,6 @@ export default {
       default: return '계정 생성 완료';
       }
     },
-  }
+  },
 };
 </script>
