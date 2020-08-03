@@ -1,6 +1,5 @@
 package com.ssafy.videoconference.model.note.bean;
 
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.common.BaseTimeEntity;
@@ -24,6 +21,7 @@ import com.ssafy.videoconference.model.user.bean.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @NoArgsConstructor
@@ -36,7 +34,7 @@ public class Note extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int note_no;
+	private int noteNo;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +53,6 @@ public class Note extends BaseTimeEntity{
 	
 	@Column(name = "content", nullable = false)
 	private String content;
-	
 	
 	
 	@OneToOne
