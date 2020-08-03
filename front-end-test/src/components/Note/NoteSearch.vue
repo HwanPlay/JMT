@@ -1,12 +1,11 @@
 <template>
   <b-col cols="4">
     <div>
-      <NoteSearchTime />
+      <!-- <NoteSearchTime /> -->
       <b-card no-body>
         <b-tabs pills card vertical>
           <b-tab title="Group A" active>
               <p>1월 1일</p>
-
               <b-button variant="outline-primary">Button</b-button>
               <b-button variant="outline-primary">Button</b-button>
               <b-button variant="outline-primary">Button</b-button>
@@ -28,11 +27,11 @@
 </template>
 
 <script>
-import NoteSearchTime from './NoteSearchTime.vue';
+// import NoteSearchTime from './NoteSearchTime.vue';
 export default {
   name: 'NoteSearch',
   components: {
-    NoteSearchTime
+    // NoteSearchTime
   }
 };
 </script>
