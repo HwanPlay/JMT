@@ -1,40 +1,53 @@
 <template>
-  <b-col cols="4">
-    <div>
-      <!-- <NoteSearchTime /> -->
-      <b-card no-body>
-        <b-tabs pills card vertical>
-          <b-tab title="Group A" active>
-              <p>1월 1일</p>
-              <b-button variant="outline-primary">Button</b-button>
-              <b-button variant="outline-primary">Button</b-button>
-              <b-button variant="outline-primary">Button</b-button>
-              <p>1월 4일</p>
-              <b-button variant="outline-primary">Button</b-button>
-              <b-button variant="outline-primary">Button</b-button>
+  <b-col id="NoteSearchList" cols="4">
+    <NoteSearchGroup />
 
-          </b-tab>
-          <b-tab title="Group B">
-            <b-card-text>Tab contents 2</b-card-text>
-          </b-tab>
-          <b-tab title="Group C">
-            <b-card-text>Tab contents 3</b-card-text>
-          </b-tab>
-        </b-tabs>
-      </b-card>
+    <div>
+      <b-button v-b-toggle.collapse-1 variant="primary">Toggle Collapse</b-button>
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card>
+          <p class="card-text">Collapse contents Here</p>
+          <b-button v-b-toggle.collapse-1-inner size="sm">Toggle Inner Collapse</b-button>
+          <b-collapse id="collapse-1-inner" class="mt-2">
+            <b-card>Hello!</b-card>
+          </b-collapse>
+        </b-card>
+      </b-collapse>
     </div>
+
+    <div>
+      <b-button v-b-toggle.collapse-2 variant="primary">Toggle Collapse</b-button>
+      <b-collapse id="collapse-2" class="mt-2">
+        <b-card>
+          <p class="card-text">Collapse contents Here</p>
+          <b-button v-b-toggle.collapse-1-inner size="sm">Toggle Inner Collapse</b-button>
+          <b-collapse id="collapse-1-inner" class="mt-2">
+            <b-card>Hello!</b-card>
+          </b-collapse>
+        </b-card>
+      </b-collapse>
+    </div>
+    
   </b-col>
 </template>
 
 <script>
-// import NoteSearchTime from './NoteSearchTime.vue';
+import NoteSearchGroup from './NoteSearchGroup.vue';
 export default {
   name: 'NoteSearch',
   components: {
-    // NoteSearchTime
+    NoteSearchGroup
+  },
+  props: {
+    NoteList: Object
+  },
+  methods: {
+    addGroup() {
+      const idGroupList = document.getElementById('NoteSearchList');
+      document.create;
+    }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

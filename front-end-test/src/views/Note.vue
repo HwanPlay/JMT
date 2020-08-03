@@ -1,11 +1,8 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch />
-      <NoteEditor
-        :receivedHTML=receivedHTML
-        @onUploadHTML=UploadHTML
-       />
+      <NoteSearch :NoteList="NoteList" />
+      <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
     </b-row>
   </b-container>
 </template>
@@ -21,26 +18,31 @@ export default {
   name: 'Note',
   components: {
     NoteEditor,
-    NoteSearch
+    NoteSearch,
   },
-  data () {
+  data() {
     return {
       NoteList: null,
       receivedHTML: '',
-      dataHTML: ''
+      dataHTML: '',
     };
   },
   methods: {
-    getNoteList () {
-      axios.post(SERVER_URL, 'DATA', 'CONFIG')
-        .then(res => {
-          this.receivedHTML = res.value;
+    getNoteList() {
+      axios
+        .post(SERVER_URL, 'DATA', 'CONFIG')
+        .then((res) => {
+          console.log(res);
+          this.NoteList = res;
+        })
+        .catch((err) => {
+          console.error(err);
         });
     },
-    UploadHTML (res) {
+    UploadHTML(res) {
       console.log(res);
       // axios로 요청 보낼것
-    }
-  }
+    },
+  },
 };
 </script>
