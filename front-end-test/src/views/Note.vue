@@ -22,7 +22,40 @@ export default {
   },
   data() {
     return {
-      NoteList: null,
+      NoteGroupList: [
+        {
+          id: 1,
+          group_title: '그룹 이름',
+          group_conf_data: [
+            {
+              date: '1월1일',
+              note_list: [
+                {
+                  note_id: 3,
+                  note_title: '주제A',
+                },
+                {
+                  note_id: 5,
+                  note_title: '주제B',
+                },
+              ],
+            },
+            {
+              date: '1월5일',
+              note_list: [
+                {
+                  note_id: 4,
+                  note_title: '주제c',
+                },
+                {
+                  note_id: 7,
+                  note_title: '주제d',
+                },
+              ],
+            },
+          ],
+        },
+      ],
       receivedHTML: '',
       dataHTML: '',
     };
