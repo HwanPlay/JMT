@@ -18,7 +18,7 @@ import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandl
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/init" };
+	private static final String[] PUBLIC = new String[] { "/api/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 기본 로그인 페이지 사용 안함
 				.httpBasic().disable()
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/*")
+				.csrf().ignoringAntMatchers("/api/**")
 
 				.and()
 				// 다음 request에 대한 사용권한 check

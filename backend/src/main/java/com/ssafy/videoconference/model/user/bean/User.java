@@ -14,7 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.ssafy.videoconference.model.bean.BaseTimeEntity;
+import com.ssafy.videoconference.model.common.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
