@@ -1,42 +1,42 @@
 <template>
   <div style="height: 100%; width: 100%;">
     <v-row style="margin: 0px; height: 100%; width: 100%; padding-top: 64px;">
-      <v-col class="box1" cols="3">
-        <v-row style="height:100%;" align="start" justify="end">
+      <v-col class="box1" cols="2">
+        <v-row style="height:100%; width: 100%;" align="start" justify="end">
           <v-btn-toggle mandatory style="background-color: rgb(52, 63, 87)">
-            <v-col class="text-center" cols="12" sm="4">
+            <v-col class="text-center" cols="12" sm="5">
               <div class="my-2">
-                <v-btn class="select-btn" text x-large @click="toggle0" value="left">Profile</v-btn>
+                <v-btn class="select-btn" style="outline: none;" text x-large @click="toggle0" value="left">Group1</v-btn>
               </div>
               <div class="my-2">
-                <v-btn right class="select-btn" text @click="toggle1" x-large value="center">Group</v-btn>
+                <v-btn right class="select-btn" style="outline: none;" text @click="toggle1" x-large value="center">Group2</v-btn>
               </div>
               <div class="my-2">
-                <v-btn right class="select-btn" text @click="toggle2" x-large value="right">Meeting</v-btn>
+                <v-btn right class="select-btn" style="outline: none;" text @click="toggle2" x-large value="right">Group3</v-btn>
               </div>
               <div class="my-2">
-                <v-btn class="select-btn" text @click="toggle3" x-large value="dis">Something</v-btn>
+                <v-btn class="select-btn" style="outline: none;" text @click="toggle3" x-large value="dis">Group4</v-btn>
               </div>
             </v-col>
           </v-btn-toggle>
         </v-row>
       </v-col>
-      <v-col class="box2" cols="9" style="padding: 0px;">
+      <v-col class="box2" cols="10" style="padding: 0px;">
         <!-- <v-img style="height: 101%; margin-top: -1px;" :src="require('./background.jpg')"> -->
         <v-window v-model="onboarding" vertical style="width: 100%; height: 100%">
           <v-window-item v-for="n in length" :key="`card-${n}`" style="height: 100%;">
-            <v-row class="fill-height" align="center" justify="center" style="margin: 0px;">
-              <div v-if="n==1">
-                <MyProfile />
+            <v-row class="fill-height" style="margin: 0px; width: 100%;">
+              <div style="width: 100%; margin-left: 15px;" v-if="n==1">
+                <Group1 />
               </div>
-              <div v-else-if="n==2">
-                <Group />
+              <div style="width: 100%;" v-else-if="n==2">
+                <Group2 />
               </div>
-              <div v-else-if="n==3">
-                <Meeting />
+              <div style="width: 100%" v-else-if="n==3">
+                <Group3 />
               </div>
-              <div v-else>
-                <Something />
+              <div style="width: 100%" v-else>
+                <Group4 />
               </div>
             </v-row>
           </v-window-item>
@@ -48,18 +48,18 @@
 </template>
 
 <script>
-import MyProfile from '../components/Group/MyProfile.vue';
-import Group from '../components/Group/Group.vue';
-import Something from '../components/Group/Something.vue';
-import Meeting from '../components/Group/Meeting.vue';
+import Group1 from '../components/Group/Group1.vue';
+import Group2 from '../components/Group/Group2.vue';
+import Group3 from '../components/Group/Group3.vue';
+import Group4 from '../components/Group/Group4.vue';
 
 export default {
   name: 'Information',
   components:{
-    MyProfile,
-    Group,
-    Meeting,
-    Something,
+    Group1,
+    Group2,
+    Group3,
+    Group4,
   },
   data() {
     return {
