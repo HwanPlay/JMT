@@ -22,10 +22,12 @@ function createWindow() {
     height: 750,
     minHeight: 700,
     frame: false,
+    show: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
