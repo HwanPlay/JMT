@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.ssafy.videoconference.model.bean.Group;
+import com.ssafy.videoconference.model.group.bean.Group;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
