@@ -59,7 +59,7 @@ function CanvasDesigner() {
     code: null
   };
 
-  var selectedIcon = "pencil";
+  var selectedIcon = 'pencil';
 
   function syncData(data) {
     if (!designer.iframe) return;
@@ -108,10 +108,10 @@ function CanvasDesigner() {
     if (
       window.crypto &&
       window.crypto.getRandomValues &&
-      navigator.userAgent.indexOf("Safari") === -1
+      navigator.userAgent.indexOf('Safari') === -1
     ) {
       var a = window.crypto.getRandomValues(new Uint32Array(3)),
-        token = "";
+        token = '';
       for (var i = 0, l = a.length; i < l; i++) {
         token += a[i].toString(36);
       }
@@ -119,7 +119,7 @@ function CanvasDesigner() {
     } else {
       return (Math.random() * new Date().getTime())
         .toString(36)
-        .replace(/\./g, "");
+        .replace(/\./g, '');
     }
   }
 
@@ -128,7 +128,7 @@ function CanvasDesigner() {
   designer.appendTo = function(parentNode, callback) {
     callback = callback || function() {};
 
-    designer.iframe = document.createElement("iframe");
+    designer.iframe = document.createElement('iframe');
 
     // designer load callback
     designer.iframe.onload = function() {
@@ -138,20 +138,20 @@ function CanvasDesigner() {
 
     designer.iframe.src =
       designer.widgetHtmlURL +
-      "?widgetJsURL=" +
+      '?widgetJsURL=' +
       designer.widgetJsURL +
-      "&tools=" +
+      '&tools=' +
       JSON.stringify(tools) +
-      "&selectedIcon=" +
+      '&selectedIcon=' +
       selectedIcon +
-      "&icons=" +
+      '&icons=' +
       JSON.stringify(designer.icons);
-    designer.iframe.style.width = "100%";
-    designer.iframe.style.height = "100%";
+    designer.iframe.style.width = '100%';
+    designer.iframe.style.height = '100%';
     designer.iframe.style.border = 0;
 
-    window.removeEventListener("message", onMessage);
-    window.addEventListener("message", onMessage, false);
+    window.removeEventListener('message', onMessage);
+    window.addEventListener('message', onMessage, false);
 
     parentNode.appendChild(designer.iframe);
   };
@@ -161,7 +161,7 @@ function CanvasDesigner() {
       designer.iframe.parentNode.removeChild(designer.iframe);
       designer.iframe = null;
     }
-    window.removeEventListener("message", onMessage);
+    window.removeEventListener('message', onMessage);
   };
 
   designer.addSyncListener = function(callback) {
@@ -175,7 +175,7 @@ function CanvasDesigner() {
   };
 
   designer.setSelected = function(icon) {
-    if (typeof tools[icon] !== "undefined") {
+    if (typeof tools[icon] !== 'undefined') {
       selectedIcon = icon;
     }
   };
@@ -202,7 +202,7 @@ function CanvasDesigner() {
   designer.undo = function(index) {
     if (!designer.iframe) return;
 
-    if (typeof index === "string" && tools[index]) {
+    if (typeof index === 'string' && tools[index]) {
       designer.postMessage({
         undo: true,
         tool: index
@@ -220,7 +220,7 @@ function CanvasDesigner() {
     if (!designer.iframe) return;
 
     message.uid = designer.uid;
-    designer.iframe.contentWindow.postMessage(message, "*");
+    designer.iframe.contentWindow.postMessage(message, '*');
   };
 
   designer.captureStream = function(callback) {
@@ -248,8 +248,8 @@ function CanvasDesigner() {
     });
   };
 
-  designer.widgetHtmlURL = "widget.html";
-  designer.widgetJsURL = "widget.min.js";
+  designer.widgetHtmlURL = 'widget.html';
+  designer.widgetJsURL = 'widget.min.js';
 }
 
 export default CanvasDesigner;
