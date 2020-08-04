@@ -39,7 +39,7 @@ public class Group_memberCustomRepositoryImpl implements Group_memberCustomRepos
 	@Override
 	public GroupMember findMember(int groupNo, String id) {
 		String jpql = 
-				"select * from group_member where group_no = :groupNo, id = :id";
+				"select * from group_member where group_no = :groupNo and id = :id";
 		NativeQuery<GroupMember> query = (NativeQuery<GroupMember>) em.createNativeQuery(jpql, GroupMember.class);
 		query.setParameter("groupNo", groupNo);
 		query.setParameter("id", id);

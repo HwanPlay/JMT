@@ -27,7 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic().disable()
 				
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/***")
+				.csrf().ignoringAntMatchers("/api/***", "/api/**")
+				
+				
 
 				.and()
 				// 다음 request에 대한 사용권한 check
