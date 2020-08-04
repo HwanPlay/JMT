@@ -6,7 +6,7 @@
   <button class="btn btn-success" @click="onLeave">Leave</button>
   <button class="btn btn-info" @click="onCapture">Capture Photo</button>
   <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-  <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
+  <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool">Canvas</button>
 </div>
   <div class="MainContent">
     <div class="video_list">
