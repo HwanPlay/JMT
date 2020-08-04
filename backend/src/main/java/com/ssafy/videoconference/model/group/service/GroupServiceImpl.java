@@ -62,7 +62,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void changeHostId(ChangeHostIdCommand command) {
 		Group group = findById(command.getGroupNo());
-		group.setHostId(command.getHostId());
+		group.getUser().setId(command.getHostId());;
 		groupRepository.save(group);
 	}
 	
