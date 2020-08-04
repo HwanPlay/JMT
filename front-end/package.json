@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open --port 5050",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
@@ -12,6 +12,7 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@mdi/font": "^3.6.95",
     "axios": "^0.19.2",

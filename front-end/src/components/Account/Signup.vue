@@ -18,10 +18,10 @@
               <v-text-field v-model="signupData.name" :counter="10" :rules="Rules.name" label="Name" required></v-text-field>
               <v-row>
                 <v-col cols="10" class="pr-0 pb-0">
-                  <v-text-field v-model="signupData.email" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
+                  <v-text-field v-model="signupData.id" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pb-0">
-                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail" style="outline: none;">인증</v-btn>
+                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail(signupData.id)" style="outline: none;">인증</v-btn>
                 </v-col>
               </v-row>
               <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
@@ -47,7 +47,7 @@
 
           <v-window-item :value="2">
             <v-card-text>
-              <v-text-field v-model="signupData.password" label="Password" :rules="Rules.password" type="password" required></v-text-field>
+              <v-text-field v-model="signupData.pw" label="Password" :rules="Rules.password" type="password" required></v-text-field>
               <v-text-field v-model="passwordConfirm" label="Confirm Password" :rules="passwordConfirmRules" type="password" required></v-text-field>
               <span class="caption grey--text text--darken-1">
                 로그인 시 사용할 비밀번호를 입력해주세요
@@ -60,7 +60,7 @@
               <h3 class="title mb-2">JMT는 당신을 환영합니다!</h3>
               <span class="caption" style="color: rgb(52, 63, 87);">가입해주셔서 감사합니다</span>
               <div>
-                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="close">닫기</v-btn>
+                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="signup">닫기</v-btn>
               </div>
             </div>
           </v-window-item>
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Signup',
@@ -105,10 +106,9 @@ export default {
     alert: false,
     signupData:{
       name: '',
-      email: '',
-      password: '',
+      id: '',
+      pw: '',
     },
-    isEmailOverlap: null,
     verificationWord: '',
     isVerified: null,
     passwordConfirm: '',
@@ -137,7 +137,7 @@ export default {
       this.resetValidation();  // 유효성검사 제거
       this.dialog = false;  // 모달 제거
       this.isVerified = null;
-      this.isEmailOverlap = null;
+      this.$store.state.isEmailOverlap = null;
     },
     resetValidation() {
       this.$refs.form.reset();  
@@ -145,28 +145,18 @@ export default {
     validate(){
       this.$refs.form.validate();
     },
-    checkEmail(){
-      console.log(this.email, this.isEmailOverlap);
-      if (this.email === 'ssafy@gmail.com'){
-        this.isEmailOverlap = true;
-      }else{
-        this.isEmailOverlap = false;
-      }
-    },
+    ...mapActions(['checkEmail', 'signup']),
     emailVerify(){
-      if (this.verificationWord === '1234'){
+      if (this.verificationWord === this.$store.state.emailValidationWord){
         this.isVerified = true;
       }else{
         this.isVerified = false;
       }
-    }
+    },
   },
   computed: {
     passwordConfirmRules () {
-      return (this.signupData.password === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
-    },
-    emailOverlapCheck(){
-      return (this.emailOverlap === false) || Array('이미 가입되어있는 이메일입니다.');
+      return (this.signupData.pw === this.passwordConfirm) || Array('패스워드가 일치하지 않습니다.');
     },
     currentTitle(){
       switch(this.step){
@@ -175,6 +165,9 @@ export default {
       default: return '계정 생성 완료';
       }
     },
+    isEmailOverlap(){
+      return this.$store.state.isEmailOverlap;
+    }
   },
 };
 </script>

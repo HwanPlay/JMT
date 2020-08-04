@@ -1,7 +1,7 @@
 <template>
   <v-main class="main">
     <v-container class="fill-height container" fluid>
-      <v-row align="left" justify="left">
+      <v-row>
 
         <!-- 로그인 -->
         <v-col cols="12" sm="8" md="5" style= "margin-bottom: 100px; margin-left: 30px;">
@@ -9,12 +9,12 @@
           <v-form>
             <h3 style="color: rgb(229, 235, 239);">모두를 위한 화상회의 플랫폼</h3>
             <h6 style=  "margin-top: 20px; color: rgb(187, 201, 224);">서비스를 시작하려면 로그인을 해주세요.</h6>
-            <v-text-field dark filled background-color="rgb(52, 63, 87)" label="Email(ID)" name="login" style="margin-top: 30px;" append-icon="mdi-account" type="text"></v-text-field>
-            <v-text-field dark filled background-color="rgb(52, 63, 87)" id="Password" label="Password" name="password" append-icon="mdi-lock" type="password"></v-text-field>
+            <v-text-field v-model="loginData.id" dark filled background-color="rgb(52, 63, 87)" label="Email(ID)" name="login" style="margin-top: 30px;" append-icon="mdi-account" type="text"></v-text-field>
+            <v-text-field v-model="loginData.pw" dark filled background-color="rgb(52, 63, 87)" id="Password" label="Password" name="password" append-icon="mdi-lock" type="password"></v-text-field>
           </v-form>
           <div class="float-left">
             <v-spacer></v-spacer>
-              <v-btn class="mr-2" style="padding: 20px; background-color:rgb(244, 67, 72); color: white; outline:none;" >로그인</v-btn>
+              <v-btn class="mr-2" @click="login(loginData)" style="padding: 20px; background-color:rgb(244, 67, 72); color: white; outline:none;" >로그인</v-btn>
               <Signup>회원가입</Signup>
               <v-btn class="mr-2" style="padding: 20px; background-color:#1A237E; color: white; outline:none;" @click="developer">개발자</v-btn>
           </div>
@@ -46,6 +46,7 @@
 
 <script>
 import Signup from './Signup';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Login',
@@ -67,7 +68,11 @@ export default {
           '강의를 보면서 필기도 가능합니다!',
           '사용자 친화적인 UI로 누구나 간편하게!'
         ],
-        modalOpen: false
+        modalOpen: false,
+        loginData: {
+          id: null,
+          pw: null,
+        }
       };
     }
   },
@@ -82,7 +87,9 @@ export default {
     },
     closeModal () {
       this.modalOpen = !this.modalOpen;
-    }
+    },
+    ...mapActions(['login'])
+    
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-app class="main">
     <!-- Login Component -->
-    <div v-if="isLoggedIn === false">
+    <div v-if="!isLoggedIn && !tmpLogin">
       <Login @loginConfirm="enterService" />
     </div>
 
@@ -52,11 +52,9 @@
 
         <!-- Settings Router -->
         <div class="text-center" style="height: 97%">
-          <router-link to="/Settings" style="text-decoration: none;">
-            <v-btn text class="ml-2" style="height: 100%; width:100%; outline:none;">
+            <v-btn text class="ml-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
               <v-icon size=30>fas fa-cog</v-icon>
             </v-btn>
-          </router-link>
         </div>
 
       </v-app-bar>
@@ -69,6 +67,7 @@
 
 <script>
 import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
 
 import Login from '../src/components/Account/Login.vue';
 import MyProfile from '../src/components/Account/MyProfile.vue';
@@ -83,13 +82,10 @@ export default Vue.extend({
 
   data () {
     return {
-      isLoggedIn: false
+      tmpLogin: false,
     };
   },
   methods: {
-    enterService () {
-      this.isLoggedIn = true;
-    },
     goToGroup () {
       this.$router.push('Group');
     },
@@ -98,11 +94,21 @@ export default Vue.extend({
     },
     goToNote () {
       this.$router.push('Note');
-    }
+    },
+    ...mapActions(['logout']),
+    enterService() {
+      this.tmpLogin = true;
+    },
   },
   mounted () {
+    console.log(!!null);
+    console.log(this.isLoggedIn);
     this.$router.push('Home');
-  }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
+
 });
 </script>
 
