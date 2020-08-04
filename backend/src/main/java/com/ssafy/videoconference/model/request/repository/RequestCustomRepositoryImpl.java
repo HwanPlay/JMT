@@ -29,7 +29,7 @@ public class RequestCustomRepositoryImpl implements RequestCustomRepository{
 	@Override
 	public List findSendRequest(int groupNo, String hostId) {
 		String jpql =
-				"select * from request where group_no = :groupNo, host_id = :hostId";
+				"select * from request where group_no = :groupNo and host_id = :hostId";
 		NativeQuery<Request> query = (NativeQuery<Request>) em.createNativeQuery(jpql, Request.class);
 		query.setParameter("groupNo", groupNo);
 		query.setParameter("hostId",  hostId);
@@ -50,7 +50,7 @@ public class RequestCustomRepositoryImpl implements RequestCustomRepository{
 	@Override
 	public Request findRequest(int groupNo, String hostId, String userId) {
 		String jpql =
-				"select * from request where group_no = :groupNo, host_id = :hostId, user_id = :userId";
+				"select * from request where group_no = :groupNo and host_id = :hostId and user_id = :userId";
 		NativeQuery<Request> query = (NativeQuery<Request>) em.createNativeQuery(jpql, Request.class);
 		query.setParameter("groupNo", groupNo);
 		query.setParameter("hostId",  hostId);

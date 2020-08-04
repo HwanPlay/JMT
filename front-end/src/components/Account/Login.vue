@@ -1,7 +1,7 @@
 <template>
   <v-main class="main">
     <v-container class="fill-height container" fluid>
-      <v-row align="left" justify="left">
+      <v-row>
 
         <!-- 로그인 -->
         <v-col cols="12" sm="8" md="5" style= "margin-bottom: 100px; margin-left: 30px;">
@@ -59,7 +59,7 @@ export default {
         icons: [
           'fas fa-users',
           'far fa-edit',
-          'fas fa-solar-panel'
+          'fas fa-chalkboard-teacher'
         ],
         cycle: true,
         slides: [

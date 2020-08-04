@@ -15,7 +15,7 @@ public class GroupResult {
 	public static ResponseEntity<ApiResult> build(Group group) {
 		ApiResult apiResult = ApiResult.blank()
 				.add("groupNo", group.getGroupNo())
-				.add("hostId",  group.getHostId())
+				.add("hostId",  group.getUser().getId())
 				.add("groupName", group.getGroupName())
 				.add("groupIntro",  group.getGroupIntro())
 				.add("hasMeeting", group.isHasmeeting());
@@ -26,7 +26,7 @@ public class GroupResult {
 		ArrayList<GroupData> groupsData = new ArrayList<>();
 		for(Group group : groups) {
 			groupsData.add(new GroupData(group.getGroupNo(),
-										group.getHostId(),
+										group.getUser().getId(),
 										group.getGroupName(),
 										group.getGroupIntro(),
 										group.isHasmeeting()));
