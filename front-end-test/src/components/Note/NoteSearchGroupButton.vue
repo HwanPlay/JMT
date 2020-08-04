@@ -27,14 +27,14 @@ export default {
     GroupTitle: Object,
   },
   data() {
-      return {
-          subject: this.GroupTitle.list
-      }
+    return {
+      subject: this.GroupTitle.list
+    };
   },
   methods: {
-      onGetNote(noteId) {
-          this.emit("GetNote", noteId)
-      }
+    onGetNote(noteId) {
+      this.emit('GetNote', noteId);
+    }
   }
 };
 </script>

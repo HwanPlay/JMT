@@ -1,44 +1,32 @@
 <template>
   <div>
-      <NoteSearchGroupButton :GroupTitle=GroupTitle @getNote="onGetNote" />
+    <b-button v-b-toggle.group.group_id>{{group.group_title}}</b-button>
 
-
-
-    <!-- 주석 -->
-
-      <b-button v-b-toggle.note_list>{{GroupTitle}}</b-button>
-
-      <!-- Elements to collapse -->
-      <b-collapse id="note_list" class="mt-2">
-        <p>이게 날짜</p>
-        <b-card>I am collapsible content A!</b-card>
-        <b-card>I am collapsible content A!</b-card>
-        <b-card>I am collapsible content A!</b-card>
-      </b-collapse>
-      
-      <b-collapse id="collapse-b" class="mt-2">
-        <p>이게 날짜</p>
-        <b-card>I am collapsible content A!</b-card>
-        <b-card>I am collapsible content B!</b-card>
-      </b-collapse>
-    </div>
+    <!-- Elements to collapse -->
+    <b-collapse :id="group.group_id" class="mt-2">
+      <p>{{group.group_conf_data.date}}</p>
+      <b-button
+        v-for="note in group.group_conf_data.note_list"
+        :key="note.note_id"
+        v-text="note.note_title"
+        @click="onGetNote(note.note_id)"
+      ></b-button>
+    </b-collapse>
+  </div>
 </template>
 
 <script>
-import NoteSearchGroupButton from './NoteSearchGroupButton.vue';
 export default {
   name: 'NoteSearchGroup',
-  components: {
-    NoteSearchGroupButton
-  },
+  components: {},
   props: {
-    GroupTitle: Object,
+    group: Object,
   },
   methods: {
     onGetNote(noteId) {
-      this.emit('GetNote', noteId)
-    }
-  }
+      this.emit('GetNote', noteId);
+    },
+  },
 };
 </script>
 
