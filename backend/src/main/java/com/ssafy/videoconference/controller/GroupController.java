@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,8 @@ import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.User;
 
+
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
@@ -60,9 +63,9 @@ public class GroupController {
 	}
 	
 	
-	@GetMapping("/get/me")
-	public ResponseEntity<ApiResult> getGroup(@CurrentUser User currentUser) {
-		List<Group> gp_list = groupService.findByHostId(currentUser.getId());
+	@GetMapping("/get/{id}")
+	public ResponseEntity<ApiResult> getGroup(@PathVariable("id") String id) {
+		List<Group> gp_list = groupService.findByHostId(id);
 		return GroupResult.build(gp_list);
 	}
 	
@@ -76,7 +79,7 @@ public class GroupController {
 	
 	
 	@DeleteMapping("/delhost/{hostId}")
-	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("hostId") String hostId) {
+	public ResponseEntity<ApiResult> deleteById(@PathVariable("hostId") String hostId) {
 		groupService.deleteByHostId(hostId);
 		return Result.ok();
 	}

@@ -60,7 +60,7 @@ export default {
         icons: [
           'fas fa-users',
           'far fa-edit',
-          'fas fa-solar-panel'
+          'fas fa-chalkboard-teacher'
         ],
         cycle: true,
         slides: [

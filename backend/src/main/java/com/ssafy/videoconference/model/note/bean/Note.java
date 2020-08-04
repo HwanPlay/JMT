@@ -1,6 +1,5 @@
 package com.ssafy.videoconference.model.note.bean;
 
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.common.BaseTimeEntity;
@@ -24,6 +20,7 @@ import com.ssafy.videoconference.model.user.bean.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @NoArgsConstructor
@@ -36,7 +33,7 @@ public class Note extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int note_no;
+	private int noteNo;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -57,10 +54,23 @@ public class Note extends BaseTimeEntity{
 	private String content;
 	
 	
-	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "meetingNo", nullable = false)
 	private Meeting meeting;
 	
 	
+	public static Note create(int groupNo, String id, String title, String content, int meetingNo) {
+		Note note = new Note();
+		note.group = new Group();
+		note.user = new User();
+		note.meeting = new Meeting();
+		
+		note.getGroup().setGroupNo(groupNo);
+		note.getUser().setId(id);
+		note.title = title;
+		note.content = content;
+		note.getMeeting().setMeetingNo(meetingNo);
+		return note;
+	}
+
 }

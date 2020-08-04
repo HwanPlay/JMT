@@ -32,7 +32,7 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	public List<Group> findByHostId(String hostId) {
 		// TODO Auto-generated method stub
 		String jpql =
-				"select * from meeting_group where host_id = :hostId ";
+				"select * from meeting_group where id = :hostId ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("hostId", hostId);
 		return query.getResultList();
@@ -43,7 +43,7 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 	public void deleteByHostId(String hostId) {
 		// TODO Auto-generated method stub
 		String jpql =
-				"delete from meeting_group where host_id = :hostId ";
+				"delete from meeting_group where id = :hostId ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("hostId", hostId);
 		query.executeUpdate();

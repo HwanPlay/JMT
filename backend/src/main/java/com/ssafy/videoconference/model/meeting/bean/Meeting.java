@@ -1,7 +1,5 @@
 package com.ssafy.videoconference.model.meeting.bean;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.common.BaseTimeEntity;
@@ -43,6 +39,15 @@ public class Meeting extends BaseTimeEntity{
 	
 	@Column(name = "title", nullable = false)
 	private String title;
+	
+	
+	public static Meeting create(int groupNo, String title) {
+		Meeting meeting = new Meeting();
+		meeting.group = new Group();
+		meeting.group.setGroupNo(groupNo);
+		meeting.title = title;
+		return meeting;
+	}
 	
 	
 }
