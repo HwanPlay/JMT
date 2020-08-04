@@ -22,10 +22,12 @@ function createWindow() {
     height: 850,
     minHeight: 810,
     frame: false,
+    backgroundColor: '#2e2c29',
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 

@@ -21,9 +21,9 @@
     </div>
 
     <div id="r-buttons">
-      <div id="minimize"><span>ㅡ</span></div>
-      <div id="maximize"><span>ㅁ</span></div>
-      <div id="quit"><span>&times;</span></div>
+      <div id="minimize"><i class="far fa-window-minimize"></i></div>
+      <div id="maximize"><i class="far fa-window-maximize"></i></div>
+      <div id="quit"><i class="far fa-window-close"></i></div>
     </div>
   </nav>
 
@@ -44,7 +44,6 @@
   var quit = document.querySelector("#quit");
 
   minimize.addEventListener("click", () => {
-    console.log("mini")
     win.minimize();
   });
 
