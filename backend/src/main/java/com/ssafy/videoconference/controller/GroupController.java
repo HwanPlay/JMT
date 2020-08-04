@@ -63,9 +63,9 @@ public class GroupController {
 	}
 	
 	
-	@GetMapping("/get/me")
-	public ResponseEntity<ApiResult> getGroup(@CurrentUser User currentUser) {
-		List<Group> gp_list = groupService.findByHostId(currentUser.getId());
+	@GetMapping("/get/{id}")
+	public ResponseEntity<ApiResult> getGroup(@PathVariable("id") String id) {
+		List<Group> gp_list = groupService.findByHostId(id);
 		return GroupResult.build(gp_list);
 	}
 	
