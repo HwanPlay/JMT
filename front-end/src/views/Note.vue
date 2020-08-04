@@ -2,10 +2,7 @@
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
       <NoteSearch />
-      <NoteEditor
-        :receivedHTML=receivedHTML
-        @onUploadHTML=UploadHTML
-       />
+      <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
     </b-row>
   </b-container>
 </template>
@@ -21,26 +18,42 @@ export default {
   name: 'Note',
   components: {
     NoteEditor,
-    NoteSearch
+    NoteSearch,
   },
-  data () {
+  data() {
     return {
       NoteList: null,
       receivedHTML: '',
-      dataHTML: ''
+      dataHTML: '',
+      group_list: Object,
     };
   },
   methods: {
-    getNoteList () {
-      axios.post(SERVER_URL, 'DATA', 'CONFIG')
-        .then(res => {
-          this.receivedHTML = res.value;
-        });
+    getNoteList() {
+      axios.post(SERVER_URL, 'DATA', 'CONFIG').then((res) => {
+        this.receivedHTML = res.value;
+      });
     },
-    UploadHTML (res) {
+    UploadHTML(res) {
       console.log(res);
       // axios로 요청 보낼것
-    }
+    },
+
+    // api 추가
+    get_group_list() {
+      const URL = 'videoconference/api/group/gethost/';
+      const ID = 'lwh1992@naver.com';
+
+      axios
+        .get(SERVER_URL + URL + ID)
+        .then((res)=>{
+          this.group_list = res;
+        })
+        .catch((err)=>console.error(err));
+    },
+  },
+  mounted() {
+    // this.get_group_list();
   }
 };
 </script>
