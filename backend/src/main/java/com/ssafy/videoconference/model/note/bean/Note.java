@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -55,9 +54,23 @@ public class Note extends BaseTimeEntity{
 	private String content;
 	
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "meetingNo", nullable = false)
 	private Meeting meeting;
 	
 	
+	public static Note create(int groupNo, String id, String title, String content, int meetingNo) {
+		Note note = new Note();
+		note.group = new Group();
+		note.user = new User();
+		note.meeting = new Meeting();
+		
+		note.getGroup().setGroupNo(groupNo);
+		note.getUser().setId(id);
+		note.title = title;
+		note.content = content;
+		note.getMeeting().setMeetingNo(meetingNo);
+		return note;
+	}
+
 }

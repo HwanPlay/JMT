@@ -21,7 +21,10 @@ import com.ssafy.videoconference.controller.payload.ChangeContentPayload;
 import com.ssafy.videoconference.controller.payload.ChangeTitlePayload;
 import com.ssafy.videoconference.controller.payload.SaveNotePayload;
 import com.ssafy.videoconference.controller.result.ApiResult;
+import com.ssafy.videoconference.controller.result.NoteResult;
 import com.ssafy.videoconference.controller.result.Result;
+import com.ssafy.videoconference.model.group.bean.Group;
+import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.note.bean.Note;
 import com.ssafy.videoconference.model.note.service.NoteService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
@@ -36,6 +39,7 @@ public class NoteController {
 	
 	@Autowired
 	private NoteService noteService;
+	private GroupService groupService;
 	
 	
 	@PostMapping("/save")
@@ -59,7 +63,7 @@ public class NoteController {
 	public ResponseEntity<ApiResult> changeContent(@PathVariable("noteNo") int noteNo,
 													@RequestBody ChangeContentPayload payload) {
 		ChangeContentCommand command = payload.toCommand(noteNo);
-		noteService.changeConent(command);
+		noteService.changeContent(command);
 		return Result.ok();
 	}
 	
@@ -71,18 +75,20 @@ public class NoteController {
 	}
 	
 	
-	@GetMapping("/get/group/{groupNo}") 
-	public ResponseEntity<ApiResult> getNoteByGroup(@PathVariable("groupNo") int groupNo,
-														@CurrentUser User currentUser) {
-		List<Note> note_list = noteService.findByGroup(groupNo, currentUser.getId());
+	@GetMapping("/get/group/{groupNo}/{id}") 
+	public ResponseEntity<ApiResult> getNoteByGroup(@PathVariable("groupNo") int groupNo, @PathVariable("id") String id) {
+//														@CurrentUser User currentUser) {
+		List<Note> note_list = noteService.findByGroup(groupNo, id);
 		return NoteResult.build(note_list);
 	}
 	
 	
 	@GetMapping("/getno/{noteNo}")
 	public ResponseEntity<ApiResult> getNoteByNo(@PathVariable("noteNo") int noteNo) {
-		Note note = noteService.getNoteByNo(noteNo);
-		return NoteResult.build(note);
+		Note note = noteService.findByNo(noteNo);
+		Group group = groupService.findById(note.getGroup().getGroupNo());
+		String groupName = group.getGroupName();
+		return NoteResult.build(note, groupName);
 	}
 	
 }
