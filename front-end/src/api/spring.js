@@ -2,8 +2,6 @@ export default {
   URL: 'http://localhost:8080/videoconference/api',
   ROUTES: {
     
-    isEmailOverlap: '/account/overlap/', // +뒤에 이메일, 결과값은 true or false
-    emailVerify: '/account/verity/', // 뒤에 인증코드? 딸려보내기 // 결과값은 true or false
     getProfile: '/account/', // 뒤에 사용자 ID, // 결과값은 ID, 프로필사진, 이름
     
     getGroupInfo: '/group/', // 뒤에 그룹 ID번호 붙이기  ==> 결과 값은 해당 그룹의 정보들(그룹이름, 호스트, 소속인원, 그룹소개)
@@ -19,8 +17,8 @@ export default {
     getGroupList: '/group/get/me/', // 리턴 값은 내가 속한 그룹들의 정보
     createGroup: '/group/add/',  // 그룹 만들기 ==> 사람들 정보가 나와야 한다.
     
-    checkEmail: '/register/duplicateId',
     signup: '/register',
+    checkEmail: '/register/duplicateId',
     login: '/login',
     logout: '/logout',
 

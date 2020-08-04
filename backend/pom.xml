@@ -21,6 +21,8 @@
 	</properties>
 
 	<dependencies>
+	
+	
 		<!-- gmail 인증 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
