@@ -274,7 +274,7 @@ export default {
   },
   watch: {
     receivedHTML: function(val){
-      this.dataHTML = val
+      this.dataHTML = val;
     }
   }
   ,
