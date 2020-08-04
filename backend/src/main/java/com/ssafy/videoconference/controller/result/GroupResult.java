@@ -14,15 +14,22 @@ public class GroupResult {
 	
 	public static ResponseEntity<ApiResult> build(Group group) {
 		ApiResult apiResult = ApiResult.blank()
+				.add("groupNo", group.getGroupNo())
+				.add("hostId",  group.getHostId())
 				.add("groupName", group.getGroupName())
-				.add("hostId",  group.getHostId());
+				.add("groupIntro",  group.getGroupIntro())
+				.add("hasMeeting", group.isHasmeeting());
 		return Result.ok(apiResult);
 	}
 	
 	public static ResponseEntity<ApiResult> build(List<Group> groups) {
 		ArrayList<GroupData> groupsData = new ArrayList<>();
 		for(Group group : groups) {
-			groupsData.add(new GroupData(group.getGroupNo(), group.getHostId(), group.getGroupName()));
+			groupsData.add(new GroupData(group.getGroupNo(),
+										group.getHostId(),
+										group.getGroupName(),
+										group.getGroupIntro(),
+										group.isHasmeeting()));
 		}
 		
 		ApiResult apiResult = ApiResult.blank()
@@ -36,5 +43,7 @@ public class GroupResult {
 		private int groupNo;
 		private String hostId;
 		private String groupName;
+		private String groupIntro;
+		private boolean hasMeeting;
 	}
 }

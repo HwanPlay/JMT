@@ -17,10 +17,10 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1345,
+    width: 1340,
     minWidth: 1200,
-    height: 750,
-    minHeight: 700,
+    height: 850,
+    minHeight: 810,
     frame: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
