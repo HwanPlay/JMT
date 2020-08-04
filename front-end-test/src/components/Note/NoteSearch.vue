@@ -1,10 +1,10 @@
 <template>
   <b-col cols="4">
     <div>
-      <NoteSearchGroup :v-for="group in group_list" :key="group.group_id"
-      @GetNote="onGetNote" />
-    </div>
-    
+      <div v-for="group in group_list" :key="group.group_id">
+        <NoteSearchGroup :group="group" />
+      </div>
+    </div>    
   </b-col>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     NoteSearchGroup,
   },
   props: {
-    group_list: Object,
+    group_list: Array,
   },
   methods: {
     GetNote(noteId){
@@ -25,7 +25,6 @@ export default {
   },
   data() {
     return {
-      test: ['collapse-a', 'collapse-b']
     };
   }
 };
