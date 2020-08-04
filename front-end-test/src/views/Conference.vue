@@ -1,5 +1,37 @@
 <template>
-  <div class="container">
+
+
+<div class="MainContainer" style="height : 100%">
+
+<div class="btn-group">
+
+<button class="btn btn-primary" @click="onJoin">Join</button>
+<button class="btn btn-success" @click="onLeave">Leave</button>
+<button class="btn btn-info" @click="onCapture">Capture Photo</button>
+<button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
+<button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
+</div>
+  <div class="MainContent">
+    <div class="video_list">
+        <vue-webrtc ref="webrtc"
+                    width="100%"
+                    :roomId="roomId"
+                    v-on:joined-room="logEvent"
+                    v-on:left-room="logEvent"
+                    v-on:opened-room="logEvent"
+                    v-on:share-started="logEvent"
+                    v-on:share-stopped="logEvent"
+                    @error="onError" />
+    </div>
+    <div id="chat-container">
+        <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
+        <br />
+        <div id="container">
+          <div class="chat-output"></div>
+        </div>  
+    </div>
+  </div>
+
     <div class="row">
       <div class="col-md-12 my-3">
         <h2>Room</h2>
@@ -9,31 +41,15 @@
     <div class="row">
       <div class="col-md-12">
         <div class="">
-          <vue-webrtc ref="webrtc"
-                      width="100%"
-                      :roomId="roomId"
-                      v-on:joined-room="logEvent"
-                      v-on:left-room="logEvent"
-                      v-on:opened-room="logEvent"
-                      v-on:share-started="logEvent"
-                      v-on:share-stopped="logEvent"
-                      @error="onError" />
+
         </div>
-        <div class="row">
-          <div class="col-md-12 my-3">
-            <button type="button" class="btn btn-primary" @click="onJoin">Join</button>
-            <button type="button" class="btn btn-primary" @click="onLeave">Leave</button>
-            <button type="button" class="btn btn-primary" @click="onCapture">Capture Photo</button>
-            <button type="button" class="btn btn-primary" @click="onShareScreen">Share Screen</button>
-          </div>
+
         </div>
       </div>
-    </div>
-    <div id="chat-container">
-      <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
-      <br />
-      <div class="chat-output"></div>
-    </div>
+    
+
+
+
 
     <div class="row">
       <div class="col-md-12">
@@ -50,33 +66,45 @@
         <p><button class="bttn">Enable Capture</button></p>
       </div>
     </div>
+    <div id="widget-container" style="position: relative;bottom: 0;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
   </div>
 
 </template>
 
 <script>
-import Vue from 'vue';
-import WebRTC from 'vue-webrtc';
+import Vue from 'vue'
+import WebRTC from 'vue-webrtc'
+import CanvasDesigner from "../assets/canvas-designer-widget";
+Vue.use(WebRTC) //asda
 
-Vue.use(WebRTC);
-
-export default {
+export default Vue.extend({
   data() {
     return {
       img: null,
-      roomId: 'jmt-room',
-      disableInputBool : true,
+      roomId: "public-room",
+      disableInputBool : true, 
+      disableCanvasBool : true,
       chatContainer : null,
-      value : '',
-      textArea: null
+      value : "",
+      textArea: null,
+      designer : null,
+      connection: null
     };
-  },
+  },  
   methods: {
+    onCanvas(){
+    this.disableCanvasBool = true;
+    this.designer.widgetHtmlURL = "https://www.webrtc-experiment.com/Canvas-Designer/widget.html"; 
+    this.designer.widgetJsURL = "https://www.webrtc-experiment.com/Canvas-Designer/widget.js"
+    this.designer.appendTo(document.getElementById('widget-container'));
+
+    },
     onCapture() {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
       this.$refs.webrtc.join();
+      this.disableCanvasBool = false;
       this.disableInputBool = false;
     },
     onLeave() {
@@ -112,54 +140,67 @@ export default {
   updated() {
     this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
   },
+
+
   mounted() {
     this.chatContainer = document.querySelector('.chat-output');
+    this.designer = new CanvasDesigner();
+
   }
-};
+});
 </script>
 
 <style scoped>
-  body {
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  video {
-    width: 480px;
-    height: 360px;
-    background: rgba(0,0,0,0.25);
-  }
-  .bttn {
-    display: inline-block;
-    background: -webkit-linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
-    background: linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
-    border: 1px solid #999;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-  }
-  .bttn:hover,
-  .bttn.active {
-    border-color: black;
-  }
-  .bttn:active,
-  .bttn.active {
-    background: -webkit-linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
-    background: linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
-  }
-  video {
-    background: gray;
-    border: 1px solid #e2e2e2;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
-  } 
+
+.video_list{
+  float: left;
+  position: relative;
+  height: 700px;
+  width: 50%;
+}
+
+.chat-container{
+  float: left;
+  width: 25%;
+  height: 100%;
+}
+#container {
+  background-color: darkgrey;
+  position: relative;
+  border: 1px #ddd solid;
+  height: 180px;
+  overflow-y: auto;
+}
+
+.chat-output {
+  background-color:lightblue;
+  position: absolute;
+  bottom: 0px;
+}
+
+.action {
+  font-style: italic;
+  color: gray;
+}
+
+.you {
+  font-weight: bold;
+}
+
+.btn-group{
+  position: relative;
+  top: 5px;
+  width: 100%;
+}
+.main{
+  background-color: rgb(7, 14, 29);
+}
+.MainContainer{
+    position: relative;
+    margin-top: 50px;
+    background-color: white;
+    border: 1px solid red;
+    width: 100%;
+    height: 100%;
+}
 </style>
