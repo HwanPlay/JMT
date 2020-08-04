@@ -18,6 +18,7 @@ export default new Vuex.Store({
     myprofile: [],
     emailValidationWord: '',
     isEmailOverlap: null,
+    loginError: false,
   },
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
@@ -49,7 +50,10 @@ export default new Vuex.Store({
         state.isEmailOverlap = false;
         console.log('correct', state.emailValidationWord);
       }
-    }
+    },
+    SET_LOGIN_ERROR(state, val){
+      state.loginError = val;
+    },
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함
     postAuthData({ commit }, info) {
@@ -61,7 +65,7 @@ export default new Vuex.Store({
         .catch(err => console.log(err.response));
     },
 
-    signup({ state }, signupData) {
+    signup({ commit }, signupData) {
       const data = {
         'id': signupData.id,
         'name': signupData.name,
@@ -71,7 +75,7 @@ export default new Vuex.Store({
       axios.post(SERVER.URL + SERVER.ROUTES.signup, data)
         .then(res => {
           console.log(res);
-          router.push({ name: 'Home'});
+          commit('SET_LOGIN_ERROR', false);
         })
         .catch(err => console.log(err.response));
     },
@@ -85,14 +89,16 @@ export default new Vuex.Store({
         });
     },
 
-    login({
-      dispatch
-    }, loginData) {
-      const info = {
-        data: loginData,
-        location: SERVER.ROUTES.login,
-      };
-      dispatch('postAuthData', info);
+    login({ commit }, loginData) {
+      axios.post(SERVER.URL + SERVER.ROUTES.login, loginData)
+        .then(res => {
+          commit('SET_TOKEN', res.headers);
+          commit('SET_LOGIN_ERROR', false);
+        })
+        .catch(err => {
+          commit('SET_LOGIN_ERROR', true);
+          console.log(err.response);
+        });
     },
 
     logout({
@@ -107,6 +113,7 @@ export default new Vuex.Store({
       //   .catch(err => console.log(err.response.data));
       console.log('logout!');
       commit('SET_TOKEN', null);
+      commit('SET_LOGIN_ERROR', false);
     },
 
   },

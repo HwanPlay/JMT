@@ -12,6 +12,7 @@
             <v-text-field v-model="loginData.id" dark filled background-color="rgb(52, 63, 87)" label="Email(ID)" name="login" style="margin-top: 30px;" append-icon="mdi-account" type="text"></v-text-field>
             <v-text-field v-model="loginData.pw" dark filled background-color="rgb(52, 63, 87)" id="Password" label="Password" name="password" append-icon="mdi-lock" type="password"></v-text-field>
           </v-form>
+          <div v-if="this.$store.state.loginError" style="color:#EF5350; margin-bottom: 20px;">ID / 비밀번호를 확인해주세요!</div>
           <div class="float-left">
             <v-spacer></v-spacer>
               <v-btn class="mr-2" @click="login(loginData)" style="padding: 20px; background-color:rgb(244, 67, 72); color: white; outline:none;" >로그인</v-btn>
