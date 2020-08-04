@@ -72,20 +72,20 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import WebRTC from 'vue-webrtc'
-import CanvasDesigner from "../assets/canvas-designer-widget";
-Vue.use(WebRTC) //asda
+import Vue from 'vue';
+import WebRTC from 'vue-webrtc';
+import CanvasDesigner from '../assets/canvas-designer-widget';
+Vue.use(WebRTC); //asda
 
 export default Vue.extend({
   data() {
     return {
       img: null,
-      roomId: "public-room",
+      roomId: 'public-room',
       disableInputBool : true, 
       disableCanvasBool : true,
       chatContainer : null,
-      value : "",
+      value : '',
       textArea: null,
       designer : null,
       connection: null
@@ -93,10 +93,10 @@ export default Vue.extend({
   },  
   methods: {
     onCanvas(){
-    this.disableCanvasBool = true;
-    this.designer.widgetHtmlURL = "https://www.webrtc-experiment.com/Canvas-Designer/widget.html"; 
-    this.designer.widgetJsURL = "https://www.webrtc-experiment.com/Canvas-Designer/widget.js"
-    this.designer.appendTo(document.getElementById('widget-container'));
+      this.disableCanvasBool = true;
+      this.designer.widgetHtmlURL = 'https://www.webrtc-experiment.com/Canvas-Designer/widget.html'; 
+      this.designer.widgetJsURL = 'https://www.webrtc-experiment.com/Canvas-Designer/widget.js';
+      this.designer.appendTo(document.getElementById('widget-container'));
 
     },
     onCapture() {
