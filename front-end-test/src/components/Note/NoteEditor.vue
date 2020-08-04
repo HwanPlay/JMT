@@ -272,6 +272,12 @@ export default {
       dataHTML: ''
     };
   },
+  watch: {
+    receivedHTML: function(val){
+      this.dataHTML = val
+    }
+  }
+  ,
   methods: {
     setContent () {
       this.editor.setContent(this.dataHTML);
