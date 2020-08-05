@@ -9,11 +9,12 @@
       <h1>Note List</h1>
       <div class="container-fluid">
         <div class="row">
-            <!-- <hr> -->
-            <b-card v-for="note in received_note_list" :key="note.noteNo" class="col-6" bg-variant="dark">
-              <span>{{note.createdDate}}</span>
-              <b-button @click="getNoteHTML(note.noteNo)" variant="primary"><h4>{{ note.title }}</h4></b-button>
-            </b-card>
+          <b-button v-for="note in received_note_list" :key="note.noteNo" class="col-3" bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
+            
+            <span>{{compute_date(note.createdDate)}}</span>
+            <p>{{ note.title }}</p>
+          
+          </b-button>
         </div>
       </div>
     </b-collapse>
@@ -39,6 +40,9 @@ export default {
     },
     getNoteHTML(NoteId){
       this.$emit('onGetNoteHTML', NoteId);
+    },
+    compute_date(date) {
+      return date.slice(2,10);
     }
   },
 };
