@@ -2,7 +2,7 @@
   <b-col cols="4">
     <div>
       <div v-for="group in group_list" :key="group.groupNo">
-        <NoteSearchGroup @onGetNoteList="getNoteList" :group="group" :received_note_list="received_note_list" />
+        <NoteSearchGroup @onGetNoteList="getNoteList" :group="group" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML" />
       </div>
     </div>    
   </b-col>
@@ -22,6 +22,10 @@ export default {
   methods: {
     getNoteList(groupId) {
       this.$emit('onGetNoteList', groupId);
+    },
+    getNoteHTML(NoteId) {
+      console.log(NoteId);
+      this.$emit('onGetNoteHTML', NoteId);
     }
   },
   data() {

@@ -269,18 +269,18 @@ export default {
           this.dataHTML = getHTML();
         }
       }),
-      dataHTML: ''
+      dataHTML: '',
     };
   },
   watch: {
     receivedHTML: function(val){
-      this.dataHTML = val;
+      this.changeReceiveHTML(val);
     }
   }
   ,
   methods: {
-    setContent () {
-      this.editor.setContent(this.dataHTML);
+    changeReceiveHTML (val) {
+      this.editor.setContent(val);
       this.editor.focus();
     },
     UploadHTML () {
