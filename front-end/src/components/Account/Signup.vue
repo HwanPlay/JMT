@@ -21,7 +21,7 @@
                   <v-text-field v-model="signupData.id" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pb-0">
-                  <v-btn :disabled="isEmailOverlap === false" class="ma-2" outlined color="black" @click="checkEmail(signupData.id)" style="outline: none;">인증</v-btn>
+                  <v-btn :disabled="(isEmailOverlap === false) || !mail" class="ma-2" outlined color="black" @click="checkEmail(signupData.id)" style="outline: none;">인증</v-btn>
                 </v-col>
               </v-row>
               <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
@@ -60,7 +60,7 @@
               <h3 class="title mb-2">JMT는 당신을 환영합니다!</h3>
               <span class="caption" style="color: rgb(52, 63, 87);">가입해주셔서 감사합니다</span>
               <div>
-                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="signup">닫기</v-btn>
+                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="signup(signupData); close();">닫기</v-btn>
               </div>
             </div>
           </v-window-item>
@@ -103,6 +103,7 @@ export default {
     dialog: false,
     valid: true,
     step: 1,
+    mail: false,
     alert: false,
     signupData:{
       name: '',
@@ -153,6 +154,16 @@ export default {
         this.isVerified = false;
       }
     },
+    emailValid(){
+      if (/.+@.+\..+/.test(this.signupData.id))
+      {
+        console.log('check', true);
+        this.mail = true;
+      } else{
+        console.log(false);
+        this.mail = false;
+      }
+    },
   },
   computed: {
     passwordConfirmRules () {
@@ -167,7 +178,15 @@ export default {
     },
     isEmailOverlap(){
       return this.$store.state.isEmailOverlap;
-    }
+    },
   },
+  watch: {
+    signupData:{
+      deep: true,
+      handler(){
+        this.emailValid();
+      }
+    }
+  }
 };
 </script>
