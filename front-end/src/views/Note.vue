@@ -83,7 +83,7 @@ export default {
     },
     editNoteHTML([noteId, noteContent]) {
       // 이거 url 수정할 것 contenet임.
-      const URLEdit = 'videoconference/api/note/contenet/';
+      const URLEdit = 'videoconference/api/note/content/';
       console.log(noteId);
       axios.put(SERVER_URL+URLEdit+noteId, {
         'content': noteContent,
