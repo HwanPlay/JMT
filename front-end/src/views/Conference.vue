@@ -5,12 +5,8 @@
               <videochat />
             </div>
       </div>
-      <div class="main_2 main_common">
-        <div class="NoteDiv" style="display:none;">
-            <NoteEditor />
-        </div>
-      </div>
-      <div class="main_3 main_common">test3</div>
+
+      
   </div>
 </template>
 
@@ -42,5 +38,6 @@ export default {
   background-color: orangered;
   position: relative;
 }
+
 
 </style>
