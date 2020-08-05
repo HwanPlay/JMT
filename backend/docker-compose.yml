@@ -1,17 +1,28 @@
 version: "3"
 services:
-    database_videoconference:
+    nginx:
+        image: nginx
+        ports:
+          - 80:80
+        volumes:
+          - ./nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+          - backend_videoconference
+
+    database:
+        container_name: mariadb
         image: mariadb
         environment:
           MYSQL_DATABASE: videoconference
           MYSQL_ROOT_PASSWORD: teamdnsb102
-          MYSQL_ROOT_HOST: 'root'
         ports:
           - 3306:3306        
 
-    videoconference:
+    backend_videoconference:
         build: .
         ports:
           - 5000:8080
+        environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/videoconference?autoReconnect=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
         depends_on:
-          - database_videoconference
+          - database
