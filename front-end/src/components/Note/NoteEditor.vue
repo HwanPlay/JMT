@@ -137,8 +137,8 @@
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
 
-          <button id="editorSave" class="menubar__button" @click="UploadHTML">
-            <h4><b-badge variant="primary">Save</b-badge></h4>
+          <button class="menubar__button" @click="editNoteHTML">
+            <h4><b-badge variant="primary">Edit Content</b-badge></h4>
           </button>
 
         </div>
@@ -218,7 +218,8 @@ export default {
     EditorMenuBubble
   },
   props: {
-    receivedHTML: String
+    noteId: Number,
+    noteContent: String,
   },
   data () {
     return {
@@ -273,7 +274,7 @@ export default {
     };
   },
   watch: {
-    receivedHTML: function(val){
+    noteContent: function(val){
       this.changeReceiveHTML(val);
     }
   },
@@ -281,10 +282,11 @@ export default {
     changeReceiveHTML (val) {
       this.editor.setContent(val);
       this.editor.focus();
+
     },
-    UploadHTML () {
-      console.log('UploadHTML');
-      this.$emit('onUploadHTML', this.dataHTML);
+    editNoteHTML () {
+      console.log('EditNoteHTML');
+      this.$emit('onEditNoteHTML', [this.noteId, this.dataHTML]);
     }
   },
   beforeDestroy () {
