@@ -1,8 +1,8 @@
 <template>
   <b-col cols="4">
     <div>
-      <div v-for="group in group_list" :key="group.group_id">
-        <NoteSearchGroup :group="group" />
+      <div v-for="group in group_list" :key="group.groupNo">
+        <NoteSearchGroup @onGetNoteList="getNoteList" :group="group" />
       </div>
     </div>    
   </b-col>
@@ -17,11 +17,12 @@ export default {
   },
   props: {
     group_list: Array,
+    notes_list: Array,
   },
   methods: {
-    GetNote(noteId){
-      this.emit('onGetNote', noteId);
-    } 
+    getNoteList(groupId) {
+      this.$emit('onGetNoteList', groupId);
+    }
   },
   data() {
     return {
