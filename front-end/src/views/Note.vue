@@ -1,8 +1,16 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML"/>
-      <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
+      <NoteSearch 
+        :group_list="group_list" 
+        @onGetNoteList="getNoteList" 
+        :received_note_list="received_note_list" 
+        @onGetNoteHTML="getNoteHTML"/>
+      <NoteEditor 
+      @onEditNoteHTML="editNoteHTML" 
+      :noteId="noteId"
+      :noteContent="noteContent"
+      />
     </b-row>
   </b-container>
 </template>
@@ -24,7 +32,9 @@ export default {
     return {      
       group_list: Object,
       received_note_list: Object,
-      receivedHTML: String,
+
+      noteContent: String,
+      noteId: Number,
     };
   },
   methods: {
@@ -61,12 +71,29 @@ export default {
       axios
         .get(SERVER_URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
-          this.receivedHTML = res.data;
+          this.noteContent = res.data.content;
+          this.noteId = NoteId;
           console.log(res);
         })
         .catch((err)=> {
           console.error(err);
-          this.receivedHTML = 'axios Error is occured';
+          this.noteContent = 'axios Error is occured';
+          this.noteId = NoteId;
+        });
+    },
+    editNoteHTML([noteId, noteContent]) {
+      // 이거 url 수정할 것 contenet임.
+      const URLEdit = 'videoconference/api/note/contenet/';
+      console.log(noteId);
+      axios.put(SERVER_URL+URLEdit+noteId, {
+        'content': noteContent,
+      }).then((res)=>{
+        console.log(noteContent);
+        alert('upload 성공');
+      })
+        .catch((err)=>{
+          console.log('error뜸');
+          console.error(err);
         });
     }
   },
