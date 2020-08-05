@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.controller;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.videoconference.config.util.JwtTokenUtil;
+import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserRole;
 import com.ssafy.videoconference.model.user.service.IUserService;
@@ -48,18 +50,6 @@ public class UserController {
 	
 	@Autowired
 	private JavaMailSender emailSender;
-
-	@ApiOperation(value = "로그인 test", response = String.class)
-	@PostMapping("/login")
-	public ResponseEntity<String> login(){
-		
-		if(true) {
-			return ResponseEntity.ok(SUCCESS);
-		}else {
-			return ResponseEntity.ok(FAIL);
-		}
-	}
-	
 	
 	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId", response = String.class)
 	@PostMapping("/modifyPw")
@@ -79,6 +69,19 @@ public class UserController {
 		
 		System.out.println("modify user : " + user.toString());
 		return ResponseEntity.ok(SUCCESS);
+	}
+	
+	@ApiOperation(value = "회원 찾기 - findUserByUserName / 친구 찾기(아이디,이름,프로필사진)", response = List.class)
+	@GetMapping("/findUserByName/{name}")
+	public ResponseEntity<List<FindUser>> findUserByUserName(@PathVariable String name) {
+		List<FindUser> userList = userService.findUserByUserName(name);
+		return ResponseEntity.ok(userList);
+	}
+		
+	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
+	@GetMapping("/findUserById/{id}")
+	public ResponseEntity<User> findUserByUserId(@PathVariable("id") String userId){
+		return ResponseEntity.ok(userService.findUserByUserId(userId));
 	}
 	
 	

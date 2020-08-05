@@ -1,7 +1,12 @@
 package com.ssafy.videoconference.model.user.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
+import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.repository.JpaUserRepository;
 
@@ -33,27 +38,41 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public void modifyPw(User user) {
-		User modifyUser = new User();
-		modifyUser = jpaUserRepo.findById(user.getId()).get();
-		modifyUser.setPw(user.getPw());
-		System.out.println(user.toString());
-		jpaUserRepo.save(modifyUser);
-		
-//		jpaUserRepo.updateUserPwByUserId(user);
+		jpaUserRepo.updateUserPwByUserId(user);
 	}
 	
 	@Override
 	public void modifyUser(User user) {
-		User preUser = new User();
-		preUser = jpaUserRepo.findById(user.getId()).get();
-		
-		user.setRole(preUser.getRole());
-		jpaUserRepo.save(user);
+		Optional<User> modifyUser = jpaUserRepo.findById(user.getId());
+		modifyUser.ifPresent(selectUser->{
+			selectUser.setName(user.getName());
+			selectUser.setProfile_img(user.getProfile_img());
+			selectUser.setPw(user.getPw());
+			jpaUserRepo.save(selectUser);
+		});
 	}
 
 	@Override
 	public void removeUser(String userId) {
-		jpaUserRepo.deleteUser(userId);
+		Optional<User> user = jpaUserRepo.findById(userId);
+		user.ifPresent(selectUser->{
+			jpaUserRepo.delete(selectUser);
+		});
+	}
+
+	@Override
+	public List<FindUser> findUserByUserName(String userName) {
+		
+		List<User> userList = jpaUserRepo.findByName(userName);
+		List<FindUser> findList = new ArrayList<FindUser>(); 
+		for(User user : userList) {
+			findList.add(new FindUser(
+					user.getId(),
+					user.getName(),
+					user.getProfile_img()
+					));
+		}
+		return findList;
 	}
 	
 	

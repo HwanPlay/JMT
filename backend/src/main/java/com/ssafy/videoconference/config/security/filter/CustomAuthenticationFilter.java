@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +55,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		// Allow sebclasses to set the "details" property
 		setDetails(request, authRequestToken);
 
-		return this.getAuthenticationManager().authenticate(authRequestToken);
+		Authentication authentication = this.getAuthenticationManager().authenticate(authRequestToken); // 로그인 인증
+		SecurityContextHolder.getContext().setAuthentication(authentication); // 접근 주체를 담음
+		
+		return authentication;
 	}
 
 }

@@ -21,7 +21,7 @@ import com.ssafy.videoconference.config.security.handler.CustomLogoutHandler;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/logout", "/api/register/**"  };
+	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/logout","/login", "/api/register/**"  };
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -45,8 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				// 세션 사용 X
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-				
 
 				.and()
 				.logout().permitAll()
