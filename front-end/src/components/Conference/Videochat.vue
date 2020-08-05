@@ -1,40 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <div class="MainContainer" style="height : 100%">
-
-    <div class="btn-group">
-      <button class="btn btn-primary" @click="onJoin">Join</button>
-      <button class="btn btn-success" @click="onLeave">Leave</button>
-      <button class="btn btn-info" @click="onCapture">Capture Photo</button>
-      <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-      <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool">Canvas</button>
-    </div>
-
-    <div class="MainContent">
-      <div class="video_list">
-          <vue-webrtc ref="webrtc"
-                      width="100%"
-                      :roomId="roomId"
-                      v-on:joined-room="logEvent"
-                      v-on:left-room="logEvent"
-                      v-on:opened-room="logEvent"
-                      v-on:share-started="logEvent"
-                      v-on:share-stopped="logEvent"
-                      @error="onError" />
-      </div>
-      <div id="chat-container">
-          <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool" />
-          <br />
-          <div id="container">
-            <div class="chat-output"></div>
-          </div>  
-      </div>
-    </div>
-
-    <div class="row">
-=======
 <div class="MainContainer">
-  <div class="MainContent">
+  <div class="MainContent">asdasdasdasdasd
     <div class="video_list">
         <vue-webrtc ref="webrtc"
                     width="100%"
@@ -45,23 +11,23 @@
                     v-on:share-started="logEvent"
                     v-on:share-stopped="logEvent"
                     @error="onError" />
-              <div class="footer">
-                <div class="RoomInput">
-                  채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput">
-                </div>
+        <div class="footer">
+          <div class="RoomInput">
+            채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput">
+          </div>
 
-                <div class="MenuBtn">
-                  <button class="btn btn-primary" @click="onJoin">Join</button>
-                  <button class="btn btn-success" @click="onLeave">Leave</button>
-                  <button class="btn btn-info" @click="onCapture">Capture Photo</button>
-                  <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-                  <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
-                  <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
-                  <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
-                  <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
-                </div>
-                <div id="widget-container"></div>
-            </div>
+          <div class="MenuBtn">
+            <button class="btn btn-primary" @click="onJoin">Join</button>
+            <button class="btn btn-success" @click="onLeave">Leave</button>
+            <button class="btn btn-info" @click="onCapture">Capture Photo</button>
+            <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
+            <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
+            <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
+            <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
+            <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
+          </div>
+          <div id="widget-container"></div>
+        </div>
     </div>
 
 
@@ -73,13 +39,11 @@
           <div class="chat-output"></div>
         </div>  
     </div>
-    <!-- <div class="row">
->>>>>>> feature-front-vue-WebRTC-Canvas
+    <div class="row">
       <div class="col-md-12 my-3">
         <h2>Room</h2>
         <input v-model="roomId">
       </div>
-<<<<<<< HEAD
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -88,12 +52,6 @@
     </div>
 
     <div class="row">
-=======
-    </div> -->
-
-
-    <!-- <div class="row">
->>>>>>> feature-front-vue-WebRTC-Canvas
       <div class="col-md-12">
         <h2>Captured Image</h2>
         <figure class="figure">
@@ -101,39 +59,20 @@
         </figure>
       </div>
     </div>
-<<<<<<< HEAD
     
     <div id="widget-container" style="position: relative;bottom: 0;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
-=======
-    <div class="row">
-      <div class="col-md-12">
-        <select id="picture" class="image-picker show-html"></select>
-        <video autoplay></video>
-        <p><button class="bttn">Enable Capture</button></p>
-      </div>
-    </div> -->
-    
-  </div>
->>>>>>> feature-front-vue-WebRTC-Canvas
 
   </div>
 </template>
 
 <script src="app.js"></script>
 <script>
-<<<<<<< HEAD
-import Vue from 'vue'
-import WebRTC from 'vue-webrtc'
-import CanvasDesigner from '@/assets/canvas/canvas-designer-widget';
-
 import Sharescreen from './Sharescreen.vue';
 
-=======
 import $ from 'jquery';
 import Vue from 'vue';
 import WebRTC from 'vue-webrtc';
-import CanvasDesigner from '@/assets/canvas-designer-widget';
->>>>>>> feature-front-vue-WebRTC-Canvas
+import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
 
 Vue.use(WebRTC)
 
@@ -225,13 +164,8 @@ export default {
 .video_list{
   float: left;
   position: relative;
-<<<<<<< HEAD
   height: 50%;
   width: 50%;
-=======
-  height: 700px;
-  width: 100%;
->>>>>>> feature-front-vue-WebRTC-Canvas
 }
 
 #chat-container{
