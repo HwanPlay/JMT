@@ -4,7 +4,7 @@
       <!-- Upper Menu -->
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
         <div class="menubar">
-          <button class="menubar__button">
+          <button v-if="false" class="menubar__button">
             <!-- @click="downHTMLDocument" -->
             <b-icon-download v-b-tooltip.hover title="Download File" font-scale="2" ></b-icon-download>
           </button>
