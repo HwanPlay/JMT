@@ -21,7 +21,7 @@ import com.ssafy.videoconference.config.security.handler.CustomLogoutHandler;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/logout", "/api/register/**"  };
+	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/api/logout", "/api/register/**"  };
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic().disable()
 				
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/logout")
+				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/api/logout")
 				
 				.and()
 				.cors()
@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and()
 				.logout().permitAll()
+				.logoutUrl("/api/logout")
 				.addLogoutHandler(logoutHandler()).permitAll()
 				.invalidateHttpSession(false)
 		

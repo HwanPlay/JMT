@@ -4,7 +4,7 @@
     <v-col cols="7" style="width: 100%;">
       <v-row style="height: 15%; width: 100%; margin-left: 20px; margin-top: 20px;">
         <v-col cols="8">
-          <h1>Team DNS</h1>
+          <h2>{{ groupInfo.groupName }}</h2>
           <v-row>
             <v-col cols="2" class="p-0 ml-3">
               <v-img :src="require('../../assets/profile/profile1.jpg')" class="rounded-circle p-0" height="60" width="60"></v-img>
@@ -13,22 +13,39 @@
               <div>
                 <span style="font-size: 20px;">정영진</span>
                 <br>
-                <span style="font-size: 16px;">wjddudwls13@gmail.com</span>
+                <span style="font-size: 16px;">{{ groupInfo.hostId }}</span>
               </div>
             </v-row>
           </v-row>
         </v-col>
         <v-col cols="4">
-          <v-btn dark color="red">회의 시작</v-btn>
+          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="red">회의 시작</v-btn>
+          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
+          <v-btn :disabled="true" v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
         </v-col>
       </v-row>
       <br>
-        <v-divider style="margin-bottom: 8px;"></v-divider>
+        <v-divider style="margin-bottom: 8px; margin-left: 10px;"></v-divider>
       <v-row style="width: 100%; height: 15%; margin-left: 20px;">
-        <div style="font-size: 24px;">삼성 청년 소프트웨어 아카데미 3기 대전 1반 2조 Team DNS</div>
+        <div style="font-size: 24px;">{{ groupInfo.groupIntro }}</div>
       </v-row>
       <v-row style="width: 100%; height: 60%; margin-left: 20px;">
-        여긴 뭐넣징
+        <v-col cols="6">
+          <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
+            <h2>Member</h2>
+            <v-divider></v-divider> 
+            <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
+            </v-img> -->
+            <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
+            <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
+              <memberCard :userInfo = memberInfo />
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <GroupMembers :membersInfo=members />
+            </v-card-actions>
+          </v-card>
+        </v-col>
       </v-row>
     </v-col>
 
@@ -55,9 +72,21 @@
 </template>
 
 <script>
+import axios from 'axios';
+import memberCard from './memberCard.vue';
+import GroupMembers from './GroupMembers.vue';
+
 export default {
-  name: 'info',
+  name: 'group',
+  components: {
+    memberCard,
+    GroupMembers
+  },
+  props: {
+    groupInfo: Object,
+  },
   data: () => ({
+    members : [],
     type: 'month',
     types: ['month', 'week', 'day', '4day'],
     mode: 'stack',
@@ -108,8 +137,32 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
   },
+  mounted() {
+    console.log('hi');
+    axios.get('http://localhost:8080/videoconference/api/groupmember/getno/'+this.groupInfo.groupNo)
+      .then(res => {
+        console.log('res:', res.data);
+        this.members = res.data.groupMembers;
+      })
+      .catch(err => console.log(err.response));
+  },
+  watch:{
+    groupInfo(){
+      axios.get('http://localhost:8080/videoconference/api/groupmember/getno/'+this.groupInfo.groupNo)
+        .then(res => {
+          console.log('res:', res.data);
+          this.members = res.data.groupMembers;
+        })
+        .catch(err => console.log(err.response));    }
+  }
 };
 </script>
 
 <style>
+  .showr{
+    font-size: 40px;
+  }
+  .long{
+    font-size: 30px;
+  }
 </style>
