@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import com.ssafy.videoconference.config.util.JwtTokenUtil;
-import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +31,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		response.addHeader("AccessToken", "Bearer " + accessToken);
 		response.addHeader("RefreshToken", "Bearer " + refreshToken);
 		
+		response.setStatus(HttpStatus.OK.value());
+		System.out.println(HttpStatus.OK.value());
 	}
 
 }

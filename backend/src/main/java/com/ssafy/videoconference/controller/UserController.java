@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,7 +63,7 @@ public class UserController {
 	
 	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId", response = String.class)
 	@PostMapping("/modifyPw")
-	public ResponseEntity<String> modifyUserPw(User user) {
+	public ResponseEntity<String> modifyUserPw(@RequestBody User user) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 		userService.modifyPw(user);
 		
@@ -72,7 +73,7 @@ public class UserController {
 	
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/modifyUser")
-	public ResponseEntity<String> modifyUser(User user) {
+	public ResponseEntity<String> modifyUser(@RequestBody  User user) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 		userService.modifyUser(user);
 		
@@ -83,7 +84,7 @@ public class UserController {
 	
 	@ApiOperation(value = "회원가입", response = String.class)
 	@PostMapping("/register")
-	public ResponseEntity<String> register(User user) {
+	public ResponseEntity<String> register(@RequestBody User user) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 		user.setProfile_img("");
 		user.setRole(UserRole.USER);
@@ -97,7 +98,7 @@ public class UserController {
 	
 	@ApiOperation(value = "회원탈퇴", response = String.class)
 	@DeleteMapping("/deleteUser")
-	public ResponseEntity<String> deleteUser(String userId){
+	public ResponseEntity<String> deleteUser(@RequestBody String userId){
 		userService.removeUser(userId);
 		return ResponseEntity.ok(SUCCESS);
 	}
