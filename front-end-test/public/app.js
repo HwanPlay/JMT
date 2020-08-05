@@ -11,39 +11,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // Author: Dongseong Hwang (dongseong.hwang@intel.com)
+const $ = require('jquery');
 
-const {desktopCapturer} = require('electron');
+const { desktopCapturer } = require('electron');
 
 let desktopSharing = false;
 let localStream;
 
 function refresh() {
   $('select').imagepicker({
-    hide_select : true
+    hide_select: true,
+    show_label: true
   });
 }
 
 function addSource(source) {
   $('select').append($('<option>', {
-    value: source.id.replace(":", ""),
+    value: source.id.replace(':', ''),
     text: source.name
   }));
-  $('select option[value="' + source.id.replace(":", "") + '"]').attr('data-img-src', source.thumbnail.toDataURL());
+  $('select option[value="' + source.id.replace(':', '') + '"]').attr('data-img-src', source.thumbnail.toDataURL());
   refresh();
 }
 
 function showSources() {
-  desktopCapturer.getSources({ types:['window', 'screen'] }).then(async sources => {
+  desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
     for (let source of sources) {
-      console.log("Name: " + source.name);
+      console.log('Name: ' + source.name);
       addSource(source);
     }
   });
 }
 
 function toggle() {
+  console.log('toggle');
   if (!desktopSharing) {
-    var id = ($('select').val()).replace(/window|screen/g, function(match) { return match + ":"; });
+    var id = ($('select').val()).replace(/window|screen/g, function (match) { return match + ':'; });
     onAccessApproved(id);
   } else {
     desktopSharing = false;
@@ -52,7 +55,7 @@ function toggle() {
       localStream.getTracks()[0].stop();
     localStream = null;
 
-    document.querySelector('button').innerHTML = "Enable Capture";
+    document.querySelector('button').innerHTML = 'Enable Capture';
 
     $('select').empty();
     showSources();
@@ -66,8 +69,8 @@ function onAccessApproved(desktop_id) {
     return;
   }
   desktopSharing = true;
-  document.querySelector('button').innerHTML = "Disable Capture";
-  console.log("Desktop sharing started.. desktop_id:" + desktop_id);
+  document.querySelector('button').innerHTML = 'Disable Capture';
+  console.log('Desktop sharing started.. desktop_id:' + desktop_id);
   navigator.webkitGetUserMedia({
     audio: false,
     video: {
@@ -86,8 +89,8 @@ function onAccessApproved(desktop_id) {
     localStream = stream;
     let video = document.querySelector('video');
     video.srcObject = stream;
-    video.onloadedmetadata = (e) => video.play();
-    stream.onended = function() {
+    video.onloadedmetadata = () => video.play();
+    stream.onended = function () {
       if (desktopSharing) {
         toggle();
       }
@@ -99,11 +102,8 @@ function onAccessApproved(desktop_id) {
   }
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   showSources();
   refresh();
 });
 
-document.querySelector('.bttn').addEventListener('click', function(e) {
-    toggle();
-});
