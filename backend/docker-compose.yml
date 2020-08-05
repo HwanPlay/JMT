@@ -1,0 +1,17 @@
+version: "3"
+services:
+    database_videoconference:
+        image: mariadb
+        environment:
+          MYSQL_DATABASE: videoconference
+          MYSQL_ROOT_PASSWORD: teamdnsb102
+          MYSQL_ROOT_HOST: 'root'
+        ports:
+          - 3306:3306        
+
+    videoconference:
+        build: .
+        ports:
+          - 5000:8080
+        depends_on:
+          - database_videoconference
