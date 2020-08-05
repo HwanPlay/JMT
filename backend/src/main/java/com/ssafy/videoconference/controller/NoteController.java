@@ -58,7 +58,7 @@ public class NoteController {
 	}
 	
 	
-	@PutMapping("/contenet/{noteNo}")
+	@PutMapping("/content/{noteNo}")
 	public ResponseEntity<ApiResult> changeContent(@PathVariable("noteNo") int noteNo,
 													@RequestBody ChangeContentPayload payload) {
 		ChangeContentCommand command = payload.toCommand(noteNo);
