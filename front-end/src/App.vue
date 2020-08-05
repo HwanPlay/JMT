@@ -58,9 +58,9 @@
         </div>
 
       </v-app-bar>
-    <v-main style="padding-top:0px;">
-      <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
-    </v-main>
+      <v-main style="padding-top:0px;">
+        <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
+      </v-main>
     </div>
   </v-app>
 </template>

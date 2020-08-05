@@ -3123,7 +3123,6 @@
       // START INIT PENCIL
 
 
-
       pencilStrokeStyle = hexToRGBA(fillStyleText.value, alpha);
 
       pencilSelectedColor.style.backgroundColor =
@@ -3223,7 +3222,6 @@
         alpha = 0.2;
 
       // START INIT MARKER
-
 
 
       markerStrokeStyle = hexToRGBA(fillStyleText.value, alpha);

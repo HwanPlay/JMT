@@ -71,6 +71,7 @@
 
 </template>
 
+<script src="app.js"></script>
 <script>
 import Vue from 'vue';
 import WebRTC from 'vue-webrtc';
