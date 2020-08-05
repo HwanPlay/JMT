@@ -24,7 +24,6 @@ export default {
       this.$emit('onGetNoteList', groupId);
     },
     getNoteHTML(NoteId) {
-      console.log(NoteId);
       this.$emit('onGetNoteHTML', NoteId);
     }
   },

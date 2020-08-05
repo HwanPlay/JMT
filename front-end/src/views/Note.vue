@@ -46,27 +46,21 @@ export default {
       axios
         .get(SERVER_URL + URL + ID)
         .then((res) => {
-          console.log('this is group'+res.data.groups);
           this.group_list = res.data.groups;
-          console.log(this.group_list);
         })
         .catch((err) => console.error(err));
     },
     getNoteList(groupId) {
-      console.log(groupId);
-      
       const URL = 'videoconference/api/note/get/group/';
       const groupNoAndId = '/lwh1992@naver.com';
       axios
         .get(SERVER_URL + URL + groupId + groupNoAndId)
         .then((res)=>{
           this.received_note_list = res.data.notes;
-          console.log(res);
         })
         .catch((err) => console.error(err));
     },
     getNoteHTML(NoteId) {
-      console.log('this is note.vue', NoteId);
       const URL_getNoteByNo = 'videoconference/api/note/getno/';
 
       axios
@@ -74,7 +68,6 @@ export default {
         .then((res)=> {
           this.noteContent = res.data.content;
           this.noteId = NoteId;
-          console.log(res);
         })
         .catch((err)=> {
           console.error(err);
@@ -89,7 +82,7 @@ export default {
       axios.put(SERVER_URL+URLEdit+noteId, {
         'content': noteContent,
       }).then((res)=>{
-        console.log(noteContent);
+        console.log(res);
         alert('upload 성공');
       })
         .catch((err)=>{
