@@ -1,11 +1,8 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch />
-      <NoteEditor
-        :receivedHTML=receivedHTML
-        @onUploadHTML=UploadHTML
-       />
+      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML"/>
+      <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
     </b-row>
   </b-container>
 </template>
@@ -15,32 +12,66 @@ import NoteEditor from '../components/Note/NoteEditor.vue';
 import NoteSearch from '../components/Note/NoteSearch.vue';
 
 import axios from 'axios';
-const SERVER_URL = 'https://localhost:8080/';
+const SERVER_URL = 'http://localhost:8080/';
 
 export default {
   name: 'Note',
   components: {
     NoteEditor,
-    NoteSearch
+    NoteSearch,
   },
-  data () {
-    return {
-      NoteList: null,
-      receivedHTML: '',
-      dataHTML: ''
+  data() {
+    return {      
+      group_list: Object,
+      received_note_list: Object,
+      receivedHTML: String,
     };
   },
   methods: {
-    getNoteList () {
-      axios.post(SERVER_URL, 'DATA', 'CONFIG')
-        .then(res => {
-          this.receivedHTML = res.value;
-        });
+    // api 추가
+    get_group_list() {
+      const URL = 'videoconference/api/group/gethost/';
+      const ID = 'lwh1992@naver.com/';
+
+      axios
+        .get(SERVER_URL + URL + ID)
+        .then((res) => {
+          console.log(res.data.groups);
+          this.group_list = res.data.groups;
+        })
+        .catch((err) => console.error(err));
     },
-    UploadHTML (res) {
-      console.log(res);
-      // axios로 요청 보낼것
+    getNoteList(groupId) {
+      console.log(groupId);
+      
+      const URL = 'videoconference/api/note/get/group/';
+      const groupNoAndId = '/lwh1992@naver.com';
+      axios
+        .get(SERVER_URL + URL + groupId + groupNoAndId)
+        .then((res)=>{
+          this.received_note_list = res.data.notes;
+          console.log(res);
+        })
+        .catch((err) => console.error(err));
+    },
+    getNoteHTML(NoteId) {
+      console.log('this is note.vue', NoteId);
+      const URL_getNoteByNo = 'videoconference/api/note/getno/';
+
+      axios
+        .get(SERVER_URL+URL_getNoteByNo+NoteId)
+        .then((res)=> {
+          this.receivedHTML = res.data;
+          console.log(res);
+        })
+        .catch((err)=> {
+          console.error(err);
+          this.receivedHTML = 'axios Error is occured';
+        });
     }
-  }
+  },
+  mounted() {
+    this.get_group_list();
+  },
 };
 </script>

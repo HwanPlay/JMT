@@ -10,16 +10,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.ssafy.videoconference.config.security.filter.CustomAuthenticationFilter;
 import com.ssafy.videoconference.config.security.handler.CustomLoginFailHandler;
 import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandler;
+import com.ssafy.videoconference.config.security.handler.CustomLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/api/register/**"  };
+	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/logout", "/api/register/**"  };
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -27,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic().disable()
 				
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/***", "/api/**")
+				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/logout")
 				
 				.and()
 				.cors()
@@ -44,13 +46,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 세션 사용 X
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-				.and()
-				// jwt token 필터를 id/password 인증 필터 전에 추가
-				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-
 				
+
+				.and()
+				.logout().permitAll()
+				.addLogoutHandler(logoutHandler()).permitAll()
+				.invalidateHttpSession(false)
+		
+				.and()	
 				// form login 사용 X. JSON 형식으로 사용자 정보 요청
-				.formLogin().disable();
+				.formLogin().disable()
+				
+				// jwt token 필터를 id/password 인증 필터 전에 추가
+				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				
 
 	}
 
@@ -73,6 +82,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CustomLoginFailHandler customLoginFailHandler() {
         return new CustomLoginFailHandler();
+    }
+    
+    @Bean
+    public LogoutHandler logoutHandler() {
+    	return new CustomLogoutHandler();
     }
 
     @Bean

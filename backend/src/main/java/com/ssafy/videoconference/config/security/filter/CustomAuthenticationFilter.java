@@ -38,11 +38,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			throw new AuthenticationServiceException("Authentication method not supported");
 		}
 		
-		
-		
-		// login 정보를 한 번에 User클래스에 매핑
-//			User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-
 		User user = new User();
 		try {
 			user = new ObjectMapper().readValue(request.getInputStream(), User.class);

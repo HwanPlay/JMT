@@ -1,23 +1,25 @@
 <template>
   <div style="height: 100%; width: 100%;">
-      <div class="mainCoference">
-            <div class="main_1 main_common">
-              <videochat />
-            </div>
+    <div class="mainCoference">
+      <div class="main_1 main_common">
+        <videochat />
       </div>
-
-      
+    </div>
+    <div class="main_2 main_common">
+      <Sharescreen />
+    </div>
   </div>
 </template>
 
 <script>
 import Videochat from '../components/Conference/Videochat.vue';
+import Sharescreen from '../components/Conference/Sharescreen.vue';
 
-import $ from 'jquery';
 export default {
   name: 'Conference',
   components: {
     Videochat,
+    Sharescreen
   },
 };
 </script>
