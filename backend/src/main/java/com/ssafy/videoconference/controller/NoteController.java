@@ -39,7 +39,6 @@ public class NoteController {
 	
 	@Autowired
 	private NoteService noteService;
-	private GroupService groupService;
 	
 	
 	@PostMapping("/save")
@@ -86,9 +85,7 @@ public class NoteController {
 	@GetMapping("/getno/{noteNo}")
 	public ResponseEntity<ApiResult> getNoteByNo(@PathVariable("noteNo") int noteNo) {
 		Note note = noteService.findByNo(noteNo);
-		Group group = groupService.findById(note.getGroup().getGroupNo());
-		String groupName = group.getGroupName();
-		return NoteResult.build(note, groupName);
+		return NoteResult.build(note);
 	}
 	
 }
