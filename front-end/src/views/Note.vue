@@ -1,7 +1,7 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :notes_list="notes_list" />
+      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :received_note_list="received_note_list" />
       <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
     </b-row>
   </b-container>
@@ -22,8 +22,8 @@ export default {
   },
   data() {
     return {      
-      group_list: Array,
-      notes_list: Array,
+      group_list: Object,
+      received_note_list: Object,
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       axios
         .get(SERVER_URL + URL + groupNoAndId)
         .then((res)=>{
-          this.notes_list = res.data.notes;
+          this.received_note_list = res.data.notes;
           console.log(res);
         })
         .catch((err) => console.error(err));
