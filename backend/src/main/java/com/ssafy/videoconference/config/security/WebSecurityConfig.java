@@ -1,5 +1,7 @@
 package com.ssafy.videoconference.config.security;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.ssafy.videoconference.config.security.filter.CustomAuthenticationFilter;
 import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandler;
@@ -18,8 +23,7 @@ import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandl
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login"  };
-
+	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/api/register/**"  };
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -29,8 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// rest api는 token authentication. csrf 보안 필요 X
 				.csrf().ignoringAntMatchers("/api/***", "/api/**")
 				
+				.and()
+				.cors()
 				
-
 				.and()
 				// 다음 request에 대한 사용권한 check
 				.authorizeRequests().antMatchers(PUBLIC).permitAll().anyRequest().authenticated()

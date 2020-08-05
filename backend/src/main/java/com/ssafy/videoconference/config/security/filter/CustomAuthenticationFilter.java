@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.videoconference.model.user.bean.User;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,16 +37,22 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			}
 			throw new AuthenticationServiceException("Authentication method not supported");
 		}
-		System.out.println("여기?");
 		System.out.println(request.getParameter("id"));
+		
+		
+		
 		// login 정보를 한 번에 User클래스에 매핑
 //			User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
 		User user = new User();
-		user.setId(request.getParameter("id"));
-		user.setPw(request.getParameter("pw"));
+		try {
+			user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+			System.out.println(user.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		System.out.println(user.toString());
+		
 		
 		// UsernamePasswordAuthenticationToken으로 반환
 		authRequestToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPw());

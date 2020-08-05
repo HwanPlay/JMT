@@ -102,13 +102,23 @@ public class UserController {
 		return ResponseEntity.ok(SUCCESS);
 	}
 	
-	@ApiOperation(value = "아이디 중복 체크 / 아이디로 패스워드 찾기", response = String.class)
-	@GetMapping("/register/{id}")
-	public ResponseEntity<String> findUserByUserId(@PathVariable("id") String userId){
+	@ApiOperation(value = "아이디 중복 체크", response = String.class)
+	@GetMapping("/register/duplicateId/{id}")
+	public ResponseEntity<String> duplicateId(@PathVariable("id") String userId){
 		
 		// 아이디 중복체크 성공 시, 이메일 계정 인증 메일 전송
-		if(userService.findUserByUserId(userId)!=null) 
+		if(userService.findUserByUserId(userId)==null) 
 			return ResponseEntity.ok(sendEmail(userId));
+		else
+			return ResponseEntity.ok(FAIL);
+	}
+	
+	@ApiOperation(value = "아이디로 패스워드 찾기", response = String.class)
+	@GetMapping("/register/findPw/{id}")
+	public ResponseEntity<String> findPw(@PathVariable("id") String userId){
+		
+		if(userService.findUserByUserId(userId)!=null) 
+			return ResponseEntity.ok(SUCCESS);
 		else
 			return ResponseEntity.ok(FAIL);
 	}
