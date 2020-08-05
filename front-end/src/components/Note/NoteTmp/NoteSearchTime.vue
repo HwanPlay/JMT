@@ -2,6 +2,7 @@
   <div>
       <!-- {{timerCount}} -->
       <p>{{ new Date() | moment('YYYY-MM-DD HH:mm:ss') }}</p>
+      <p>{{clock | moment('YY-MM-DD')}}</p>
   </div>
 </template>
 
@@ -9,7 +10,8 @@
 export default {
   data () {
     return {
-      timerCount: 5
+      timerCount: 5,
+      clock: new Date(),
     };
   },
 
