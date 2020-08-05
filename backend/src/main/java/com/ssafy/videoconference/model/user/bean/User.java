@@ -37,7 +37,6 @@ public class User implements Serializable {
    private String id;
 
    @NotBlank(message = "이름을 입력해주세요")
-   @Size(min=2, max=10, message = "2글자 이상 10자 이하로 입력해 주세요.")
    private String name;
    
    @NotBlank(message = "패스워드를 입력해주세요.")
