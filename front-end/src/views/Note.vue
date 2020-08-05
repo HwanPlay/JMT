@@ -1,8 +1,16 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML"/>
-      <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
+      <NoteSearch 
+        :group_list="group_list" 
+        @onGetNoteList="getNoteList" 
+        :received_note_list="received_note_list" 
+        @onGetNoteHTML="getNoteHTML"/>
+      <NoteEditor 
+      @onEditNoteHTML="editNoteHTML" 
+      :noteId="noteId"
+      :noteContent="noteContent"
+      />
     </b-row>
   </b-container>
 </template>
@@ -22,9 +30,11 @@ export default {
   },
   data() {
     return {      
-      group_list: Object,
-      received_note_list: Object,
-      receivedHTML: String,
+      group_list: [],
+      received_note_list: [],
+
+      noteContent: '',
+      noteId: 0,
     };
   },
   methods: {
@@ -36,8 +46,9 @@ export default {
       axios
         .get(SERVER_URL + URL + ID)
         .then((res) => {
-          console.log(res.data.groups);
+          console.log('this is group'+res.data.groups);
           this.group_list = res.data.groups;
+          console.log(this.group_list);
         })
         .catch((err) => console.error(err));
     },
@@ -61,12 +72,29 @@ export default {
       axios
         .get(SERVER_URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
-          this.receivedHTML = res.data;
+          this.noteContent = res.data.content;
+          this.noteId = NoteId;
           console.log(res);
         })
         .catch((err)=> {
           console.error(err);
-          this.receivedHTML = 'axios Error is occured';
+          this.noteContent = 'axios Error is occured';
+          this.noteId = NoteId;
+        });
+    },
+    editNoteHTML([noteId, noteContent]) {
+      // 이거 url 수정할 것 contenet임.
+      const URLEdit = 'videoconference/api/note/content/';
+      console.log(noteId);
+      axios.put(SERVER_URL+URLEdit+noteId, {
+        'content': noteContent,
+      }).then((res)=>{
+        console.log(noteContent);
+        alert('upload 성공');
+      })
+        .catch((err)=>{
+          console.log('error뜸');
+          console.error(err);
         });
     }
   },
