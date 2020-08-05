@@ -29,7 +29,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		UsernamePasswordAuthenticationToken authRequestToken;
-		System.out.println("token : " + request.getMethod());
+
 		// 로그인 request method는 POST로 전달하자
 		if (!HttpMethod.POST.name().equals(request.getMethod())) {
 			if (logger.isDebugEnabled()) {
@@ -37,7 +37,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			}
 			throw new AuthenticationServiceException("Authentication method not supported");
 		}
-		System.out.println(request.getParameter("id"));
 		
 		
 		
@@ -47,12 +46,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		User user = new User();
 		try {
 			user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			System.out.println(user.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		
+		System.out.println("사용자가 입력한 값 : " + user.toString());
 		
 		// UsernamePasswordAuthenticationToken으로 반환
 		authRequestToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPw());

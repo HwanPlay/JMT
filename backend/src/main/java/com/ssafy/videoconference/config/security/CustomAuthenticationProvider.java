@@ -26,6 +26,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        
         // AuthenticaionFilter에서 생성된 토큰으로부터 아이디와 비밀번호를 조회함
         String userId = token.getName();
         String userPw = (String) token.getCredentials();
@@ -33,6 +34,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         System.out.println("provider : " + userId + " " + userPw);
         // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
         UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(userId);
+        System.out.println("userPw : " + userPw);
+        System.out.println("userDetail : " + passwordEncoder.matches(userPw, userDetail.getPassword())); 
+        
         if (!passwordEncoder.matches(userPw, userDetail.getPassword())) {
             throw new BadCredentialsException(userDetail.getUsername() + "Invalid password");
         }
