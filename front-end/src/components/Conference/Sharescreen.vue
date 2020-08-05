@@ -5,20 +5,123 @@
     <p><button>Enable Capture</button></p>
   </div>
 </template>
-
+<!--
+<script type="module" src="../../assets/sharescreen/jquery.js"></script>
+<script type="module" src="../../assets/sharescreen/image-picker.js"></script>
+<script type="module" src="../../assets/sharescreen/app.js"></script>
+-->
 <script>
+// import { refresh, addSource, showSources, toggle, onAccessApproved } from '../../assets/sharescreen/app';
+// const { desktopCapturer } = require('electron');
+// const $ = require('jquery');
+
+// let desktopSharing = false;
+// let localStream;
+
 export default {
   name: 'Sharescreen',
 };
+//   methods: {
+//     refresh() {
+//       $('select').imagepicker({
+//         hide_select: true,
+//         show_label: true
+//       });
+//     },
+//     addSource(source) {
+//       console.log('add');
+//       $('select').append($('<option>', {
+//         value: source.id.replace(':', ''),
+//         text: source.name
+//       }));
+//       $('select option[value="' + source.id.replace(':', '') + '"]').attr('data-img-src', source.thumbnail.toDataURL());
+//       refresh();
+//     },
+//     showSources() {
+//       console.log('show');
+//       desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+//         for (let source of sources) {
+//           console.log('Name: ' + source.name);
+//           addSource(source);
+//         }
+//       });
+//     },
+//     toggle() {
+//       if (!desktopSharing) {
+//         var id = ($('select').val()).replace(/window|screen/g, function (match) { return match + ':'; });
+//         onAccessApproved(id);
+//       } else {
+//         desktopSharing = false;
+
+//         if (localStream)
+//           localStream.getTracks()[0].stop();
+//         localStream = null;
+
+//         document.querySelector('button').innerHTML = 'Enable Capture';
+
+//         $('select').empty();
+//         showSources();
+//         refresh();
+//       }
+//     },
+//     onAccessApproved(desktop_id) {
+//       if (!desktop_id) {
+//         console.log('Desktop Capture access rejected.');
+//         return;
+//       }
+//       desktopSharing = true;
+//       document.querySelector('button').innerHTML = 'Disable Capture';
+//       console.log('Desktop sharing started.. desktop_id:' + desktop_id);
+//       navigator.webkitGetUserMedia({
+//         audio: false,
+//         video: {
+//           mandatory: {
+//             chromeMediaSource: 'desktop',
+//             chromeMediaSourceId: desktop_id,
+//             minWidth: 1280,
+//             maxWidth: 1280,
+//             minHeight: 720,
+//             maxHeight: 720
+//           }
+//         }
+//       }, gotStream, getUserMediaError);
+
+//       function gotStream(stream) {
+//         localStream = stream;
+//         let video = document.querySelector('video');
+//         video.srcObject = stream;
+//         video.onloadedmetadata = () => video.play();
+//         stream.onended = function () {
+//           if (desktopSharing) {
+//             toggle();
+//           }
+//         };
+//       }
+
+//       function getUserMediaError(e) {
+//         console.log('getUserMediaError: ' + JSON.stringify(e, null, '---'));
+//       }
+//     }
+//   },
+//   mounted() {
+//     $(document).ready(function () {
+//       showSources();
+//       refresh();
+//     });
+
+//     document.querySelector('button').addEventListener('click', function () {
+//       toggle();
+//     });
+//   }
 </script>
 
 <style scoped>
   body {
     background: white;
-    display: -webkit-flex;
-    -webkit-justify-content: center;
-    -webkit-align-items: center;
-    -webkit-flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   video {
     width: 480px;

@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // Author: Dongseong Hwang (dongseong.hwang@intel.com)
+const $ = require('jquery');
 
 const { desktopCapturer } = require('electron');
 
@@ -89,7 +90,7 @@ function onAccessApproved(desktop_id) {
     localStream = stream;
     let video = document.querySelector('video');
     video.srcObject = stream;
-    video.onloadedmetadata = (e) => video.play();
+    video.onloadedmetadata = () => video.play();
     stream.onended = function () {
       if (desktopSharing) {
         toggle();
@@ -107,6 +108,8 @@ $(document).ready(function () {
   refresh();
 });
 
-document.querySelector('button').addEventListener('click', function (e) {
+document.querySelector('button').addEventListener('click', function () {
   toggle();
 });
+
+export { refresh, addSource, showSources, toggle, onAccessApproved };
