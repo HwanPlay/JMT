@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import cookies from 'vue-cookies';
 import axios from 'axios';
 
 // import router from '@/router';
@@ -12,10 +11,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: { // 중앙 관리할 데이터들의 집합
-    accessToken: null,
+    accessToken: localStorage.getItem('accessToken'),
     refreshToken: null,
-    groups: [],
-    myprofile: [],
+    
+    myGroups: [],
+    myProfile: [],
+
     emailValidationWord: '',
     isEmailOverlap: null,
     loginError: false,
@@ -23,7 +24,7 @@ export default new Vuex.Store({
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
     isLoggedIn: state => !!state.accessToken,
-    config: state => ({ headers: { Authorization: `Token ${state.authToken}` } })
+    config: state => ({ headers: { Authorization: `Token ${state.accessToken}` } })
   },
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)
     SET_TOKEN(state, headers) {
@@ -38,6 +39,7 @@ export default new Vuex.Store({
         state.refreshToken = headers.refreshtoken;
         localStorage.setItem('accessToken', state.accessToken);
         localStorage.setItem('refreshToken', state.refreshToken);
+        console.log(this.$store.getters.isLoggedIn);
       }
     },
     SET_VALIDATION_WORD(state, word){
@@ -56,22 +58,13 @@ export default new Vuex.Store({
     },
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함
-    postAuthData({ commit }, info) {
-      console.log('hi');
-      axios.post(SERVER.URL + info.location, info.data)
-        .then(res => {
-          commit('SET_TOKEN', res.headers);
-        })
-        .catch(err => console.log(err.response));
-    },
-
     signup({ commit }, signupData) {
       const data = {
         'id': signupData.id,
         'name': signupData.name,
         'pw': signupData.pw
       };
-      console.log('thisisdata', data);
+      console.log('thisisdata', data, signupData);
       axios.post(SERVER.URL + SERVER.ROUTES.signup, data)
         .then(res => {
           console.log(res);
@@ -86,7 +79,8 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res);
           commit('SET_VALIDATION_WORD', res.data);
-        });
+        })
+        .catch(err => console.log(err.response));
     },
 
     login({ commit }, loginData) {

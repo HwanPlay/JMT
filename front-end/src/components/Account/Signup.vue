@@ -60,7 +60,7 @@
               <h3 class="title mb-2">JMT는 당신을 환영합니다!</h3>
               <span class="caption" style="color: rgb(52, 63, 87);">가입해주셔서 감사합니다</span>
               <div>
-                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="signup">닫기</v-btn>
+                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="signup(signupData); close();">닫기</v-btn>
               </div>
             </div>
           </v-window-item>
@@ -163,7 +163,7 @@ export default {
         console.log(false);
         this.mail = false;
       }
-    }
+    },
   },
   computed: {
     passwordConfirmRules () {

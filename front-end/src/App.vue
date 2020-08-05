@@ -102,11 +102,13 @@ export default Vue.extend({
   },
   mounted () {
     console.log(!!null);
-    console.log(this.isLoggedIn);
+    console.log(this.isLoggedIn, this.$store.getters.isLoggedIn, this.$store.state.accessToken);
     this.$router.push('Home');
   },
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    isLoggedIn(){
+      return !!this.$store.getters.isLoggedIn;
+    }
   },
 
 });
