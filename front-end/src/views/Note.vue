@@ -30,11 +30,11 @@ export default {
   },
   data() {
     return {      
-      group_list: Object,
-      received_note_list: Object,
+      group_list: [],
+      received_note_list: [],
 
-      noteContent: String,
-      noteId: Number,
+      noteContent: '',
+      noteId: 0,
     };
   },
   methods: {
@@ -46,8 +46,9 @@ export default {
       axios
         .get(SERVER_URL + URL + ID)
         .then((res) => {
-          console.log(res.data.groups);
+          console.log('this is group'+res.data.groups);
           this.group_list = res.data.groups;
+          console.log(this.group_list);
         })
         .catch((err) => console.error(err));
     },
