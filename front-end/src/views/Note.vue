@@ -1,7 +1,7 @@
 <template>
   <b-container style="margin-top: 4rem" fluid>
     <b-row>
-      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :notes_list="notes_list" />
+      <NoteSearch :group_list="group_list" @onGetNoteList="getNoteList" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML"/>
       <NoteEditor :receivedHTML="receivedHTML" @onUploadHTML="UploadHTML" />
     </b-row>
   </b-container>
@@ -22,8 +22,9 @@ export default {
   },
   data() {
     return {      
-      group_list: Array,
-      notes_list: Array,
+      group_list: Object,
+      received_note_list: Object,
+      receivedHTML: String,
     };
   },
   methods: {
@@ -44,15 +45,30 @@ export default {
       console.log(groupId);
       
       const URL = 'videoconference/api/note/get/group/';
-      const groupNoAndId = '1/lwh1992@naver.com';
+      const groupNoAndId = '/lwh1992@naver.com';
       axios
-        .get(SERVER_URL + URL + groupNoAndId)
+        .get(SERVER_URL + URL + groupId + groupNoAndId)
         .then((res)=>{
-          this.notes_list = res.data.notes;
+          this.received_note_list = res.data.notes;
           console.log(res);
         })
         .catch((err) => console.error(err));
     },
+    getNoteHTML(NoteId) {
+      console.log('this is note.vue', NoteId);
+      const URL_getNoteByNo = 'videoconference/api/note/getno/';
+
+      axios
+        .get(SERVER_URL+URL_getNoteByNo+NoteId)
+        .then((res)=> {
+          this.receivedHTML = res.data;
+          console.log(res);
+        })
+        .catch((err)=> {
+          console.error(err);
+          this.receivedHTML = 'axios Error is occured';
+        });
+    }
   },
   mounted() {
     this.get_group_list();
