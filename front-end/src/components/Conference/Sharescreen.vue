@@ -12,107 +12,108 @@
 -->
 <script>
 // import { refresh, addSource, showSources, toggle, onAccessApproved } from '../../assets/sharescreen/app';
-// const { desktopCapturer } = require('electron');
-// const $ = require('jquery');
+const { desktopCapturer } = window.require('electron');
+const $ = require('jquery');
 
-// let desktopSharing = false;
-// let localStream;
+let desktopSharing = false;
+let localStream;
 
 export default {
   name: 'Sharescreen',
+  methods: {
+    refresh() {
+      $('select').imagepicker({
+        hide_select: true,
+        show_label: true
+      });
+    },
+    addSource(source) {
+      console.log('add');
+      $('select').append($('<option>', {
+        value: source.id.replace(':', ''),
+        text: source.name
+      }));
+      $('select option[value="' + source.id.replace(':', '') + '"]').attr('data-img-src', source.thumbnail.toDataURL());
+      this.refresh();
+    },
+    showSources() {
+      console.log('show');
+      desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+        for (let source of sources) {
+          console.log('Name: ' + source.name);
+          this.addSource(source);
+        }
+      });
+    },
+    toggle() {
+      if (!desktopSharing) {
+        var id = ($('select').val()).replace(/window|screen/g, function (match) { return match + ':'; });
+        this.onAccessApproved(id);
+      } else {
+        desktopSharing = false;
+
+        if (localStream)
+          localStream.getTracks()[0].stop();
+        localStream = null;
+
+        document.querySelector('button').innerHTML = 'Enable Capture';
+
+        $('select').empty();
+        this.showSources();
+        this.refresh();
+      }
+    },
+    onAccessApproved(desktop_id) {
+      if (!desktop_id) {
+        console.log('Desktop Capture access rejected.');
+        return;
+      }
+      desktopSharing = true;
+      document.querySelector('button').innerHTML = 'Disable Capture';
+      console.log('Desktop sharing started.. desktop_id:' + desktop_id);
+      navigator.webkitGetUserMedia({
+        audio: false,
+        video: {
+          mandatory: {
+            chromeMediaSource: 'desktop',
+            chromeMediaSourceId: desktop_id,
+            minWidth: 1280,
+            maxWidth: 1280,
+            minHeight: 720,
+            maxHeight: 720
+          }
+        }
+      }, gotStream, getUserMediaError);
+
+      function gotStream(stream) {
+        localStream = stream;
+        let video = document.querySelector('video');
+        video.srcObject = stream;
+        video.onloadedmetadata = () => video.play();
+        stream.onended = function () {
+          if (desktopSharing) {
+            this.toggle();
+          }
+        };
+      }
+
+      function getUserMediaError(e) {
+        console.log('getUserMediaError: ' + JSON.stringify(e, null, '---'));
+      }
+    }
+  },
+  created() {
+    document.querySelector('button').addEventListener('click', function () {
+      this.toggle();
+    });
+  },
+  updated() {
+    $(document).ready(function () {
+      this.showSources();
+      this.refresh();
+    });
+  }
 };
-//   methods: {
-//     refresh() {
-//       $('select').imagepicker({
-//         hide_select: true,
-//         show_label: true
-//       });
-//     },
-//     addSource(source) {
-//       console.log('add');
-//       $('select').append($('<option>', {
-//         value: source.id.replace(':', ''),
-//         text: source.name
-//       }));
-//       $('select option[value="' + source.id.replace(':', '') + '"]').attr('data-img-src', source.thumbnail.toDataURL());
-//       refresh();
-//     },
-//     showSources() {
-//       console.log('show');
-//       desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
-//         for (let source of sources) {
-//           console.log('Name: ' + source.name);
-//           addSource(source);
-//         }
-//       });
-//     },
-//     toggle() {
-//       if (!desktopSharing) {
-//         var id = ($('select').val()).replace(/window|screen/g, function (match) { return match + ':'; });
-//         onAccessApproved(id);
-//       } else {
-//         desktopSharing = false;
-
-//         if (localStream)
-//           localStream.getTracks()[0].stop();
-//         localStream = null;
-
-//         document.querySelector('button').innerHTML = 'Enable Capture';
-
-//         $('select').empty();
-//         showSources();
-//         refresh();
-//       }
-//     },
-//     onAccessApproved(desktop_id) {
-//       if (!desktop_id) {
-//         console.log('Desktop Capture access rejected.');
-//         return;
-//       }
-//       desktopSharing = true;
-//       document.querySelector('button').innerHTML = 'Disable Capture';
-//       console.log('Desktop sharing started.. desktop_id:' + desktop_id);
-//       navigator.webkitGetUserMedia({
-//         audio: false,
-//         video: {
-//           mandatory: {
-//             chromeMediaSource: 'desktop',
-//             chromeMediaSourceId: desktop_id,
-//             minWidth: 1280,
-//             maxWidth: 1280,
-//             minHeight: 720,
-//             maxHeight: 720
-//           }
-//         }
-//       }, gotStream, getUserMediaError);
-
-//       function gotStream(stream) {
-//         localStream = stream;
-//         let video = document.querySelector('video');
-//         video.srcObject = stream;
-//         video.onloadedmetadata = () => video.play();
-//         stream.onended = function () {
-//           if (desktopSharing) {
-//             toggle();
-//           }
-//         };
-//       }
-
-//       function getUserMediaError(e) {
-//         console.log('getUserMediaError: ' + JSON.stringify(e, null, '---'));
-//       }
-//     }
-//   },
-//   mounted() {
-//     $(document).ready(function () {
-//       showSources();
-//       refresh();
-//     });
-
-//     document.querySelector('button').addEventListener('click', function () {
-//       toggle();
-//     });
-//   }
 </script>
 
 <style scoped>

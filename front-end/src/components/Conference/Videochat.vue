@@ -83,7 +83,8 @@ import Sharescreen from './Sharescreen.vue';
 
 import $ from 'jquery';
 import Vue from 'vue';
-import WebRTC from 'vue-webrtc';
+// import WebRTC from './webrtc.vue';
+import WebRTC from '../../assets/index.js';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
 import NoteEditor from '../../components/Note/NoteEditor';
 Vue.use(WebRTC)
@@ -326,4 +327,57 @@ export default {
     overflow-y: auto;
     
 }
+<<<<<<< Updated upstream
+=======
+
+.video_list_videOrshow{
+   position: absolute;
+   top: 66px;
+   left: 50%;
+   width: auto;
+   text-align: center;
+   z-index: 4;
+}
+
+.triangle {
+  display:inline-block; 
+  width:0; 
+  height:0; 
+  border-style:solid; 
+  border-width:20px;
+  transition: all ease 1s;
+  }
+
+.triangle.test_1 {
+  border-color:#7d1919 transparent transparent transparent;
+  }
+
+.triangle.test_1:hover {
+  border-color:blue transparent transparent transparent;
+  }
+
+.video-list-1{
+  background:black; 
+  height:100px;
+  position:relative; 
+  top:65px; z-index: 1;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.video-item{
+  background:black; 
+  height:100px;
+  position:relative; 
+  top:0px; z-index: 200;
+  display:inline-block;
+}
+
+.ss{
+  position: absolute;
+  top: 165px;
+  width: 100%;
+  height: 62%;
+}
+>>>>>>> Stashed changes
 </style>
