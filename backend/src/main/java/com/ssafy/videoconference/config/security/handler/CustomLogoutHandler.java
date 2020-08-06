@@ -1,5 +1,7 @@
 package com.ssafy.videoconference.config.security.handler;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 public class CustomLogoutHandler implements LogoutHandler {
@@ -25,10 +29,17 @@ public class CustomLogoutHandler implements LogoutHandler {
 //		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		System.out.println(userDetail.toString());
 		
-		System.out.println("logout id : " + request.getParameter("id"));
+		User user = null;
+		try {
+			user = (User)new ObjectMapper().readValue(request.getInputStream(), User.class);
+			System.out.println("logout id : " + user.getId());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		String accessToken = request.getParameter("id") + "_accessToken";
-		String refreshToken = request.getParameter("id") + "_refreshToken";
+		String accessToken = user.getId() + "_accessToken";
+		String refreshToken = user.getId() + "_refreshToken";
 		
 //		String accessToken = request.getHeader("userId") + "_accessToken";
 //		String refreshToken = request.getHeader("userId") + "_refreshToken";
