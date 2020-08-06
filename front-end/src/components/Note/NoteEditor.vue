@@ -178,9 +178,12 @@
             required
             placeholder="Note Title"
           ></b-form-input>
-          <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
-          <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
-          <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
+          
+          <div class="note_button">
+            <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
+            <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
+            <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
+          </div>
       </b-form>
       <hr>
       <div class="border border-secondary rounded">
@@ -266,6 +269,9 @@ export default {
             <br />
             – mom
           </blockquote>
+          <h2>
+            please click your note!
+          </h2>
         `,
         onUpdate: ({ getHTML }) => {
           this.dataHTML = getHTML();
@@ -303,3 +309,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.note_button{
+  margin: 0 0 0 auto;
+}
+</style>
