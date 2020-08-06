@@ -17,13 +17,23 @@
                     v-on:share-started="logEvent"
                     v-on:share-stopped="logEvent"
                     @error="onError" />
+          <div id="videos-container" style="margin: 20px 0;"></div>
+          <broad-cast ref="broadcast"
+                    width ="100%"
+                    height="100%"
+                    :roomId="roomId"
+                    v-on:joined-room="logEvent"
+                    v-on:left-room="logEvent"
+                    v-on:opened-room="logEvent"
+                    v-on:share-started="logEvent"
+                    v-on:share-stopped="logEvent"
+                    @error="onError" />
+          <!-- <div id="widget-container"></div> -->
+        </div>
               <div class="footer">
                 <div class="RoomInput" >
                   채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput" style="color: white;">
                 </div>
-
-
-
           <div class="MenuBtn">
             <button class="btn btn-primary" @click="onJoin">Join</button>
             <button class="btn btn-success" @click="onLeave">Leave</button>
@@ -33,13 +43,13 @@
             <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
             <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
             <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
+            <button class="btn btn-danger" @click="onBroadcast" >BroadCast</button>
+            <button class="btn btn-info" @click="offBroadcast" >BroadCast off</button>
           </div>
-          <!-- <div id="widget-container"></div> -->
-        </div>
-    </div>
 
-    <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video>
-  
+    </div>
+    
+    <!-- <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video> -->
   
   </div>
     <div id="note-container">
@@ -94,13 +104,17 @@ import Vue from 'vue';
 import WebRTC from '../../api/webrtc';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
 import NoteEditor from '../../components/Note/NoteEditor';
+import BroadCast from '../../api/broadcast';
+
 Vue.use(WebRTC)
+Vue.use(BroadCast)
 
 export default {
   name: 'Videochat',
   components: {
     Sharescreen,
     NoteEditor,
+
   },
   data() {
     return {
@@ -121,16 +135,27 @@ export default {
     };
   },
   methods: {
+    offBroadcast(){
+        this.$refs.broadcast.offbroadcast();
+    },
+    onBroadcast(){
+        console.log("브로드캐스팅");
+        this.$refs.broadcast.onbroadcast();
+        this.disableCanvasBool = false;
+        this.disableInputBool = false;
+    },
     videoBar(){
        $(".video-list-1").toggle();
        this.Bar = !this.Bar;
        if(this.Bar == false){
-           $(".ss").css("height","62%");
-           $(".ss").css("top","165px");
+           $(".video-list-2").css("height","62%");
+           $(".video-list-2").css("top","165px");
+           $(".video-item-2").css("height","500px");
        }
        else{
-         $(".ss").css("height","74%");
-         $(".ss").css("top","65px");
+         $(".video-list-2").css("height","74%");
+         $(".video-list-2").css("top","65px");
+         $(".video-item-2").css("height","605px");
        }
 
        
@@ -139,23 +164,23 @@ export default {
       $("#note-container").toggle();
       if(this.NoteBool == false && this.Chatbool==false){
         $(".video_list").css("width","70%");
-        $(".ss").css("width","70%");
+        $(".footer").css("width","70%");
         this.NoteBool = true;
 
       }
       else if(this.NoteBool == true && this.Chatbool==false){
         $(".video_list").css("width","100%");
-        $(".ss").css("width","100%");
+        $(".footer").css("width","100%");
         this.NoteBool = false;
       }
       else if(this.NoteBool == false && this.Chatbool==true){
         $(".video_list").css("width","50%");
-        $(".ss").css("width","50%");
+        $(".footer").css("width","50%");
         this.NoteBool = true;
       }
       else{
         $(".video_list").css("width","80%");
-        $(".ss").css("width","80%");
+        $(".footer").css("width","80%");
         this.NoteBool = false;
         
       }
@@ -164,22 +189,22 @@ export default {
       $("#chat-container").toggle();
       if(this.Chatbool == false && this.NoteBool==false){
         $(".video_list").css("width","80%");
-        $(".ss").css("width","80%");
+        $(".footer").css("width","80%");
         this.Chatbool = true;
       }
       else if(this.Chatbool == true && this.NoteBool==false){
         $(".video_list").css("width","100%");
-        $(".ss").css("width","100%");
+        $(".footer").css("width","100%");
         this.Chatbool = false;
       }
       else if(this.Chatbool == false && this.NoteBool==true){
         $(".video_list").css("width","50%");
-        $(".ss").css("width","50%");
+        $(".footer").css("width","50%");
         this.Chatbool = true;
       }
       else{
         $(".video_list").css("width","70%");
-        $(".ss").css("width","70%");
+        $(".footer").css("width","70%");
         this.Chatbool = false;
       }
     },
@@ -194,7 +219,7 @@ export default {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
-      console.log("나나나나나나ㅏ")
+
       this.$refs.webrtc.join();
       this.disableCanvasBool = false;
       this.disableInputBool = false;
@@ -206,7 +231,6 @@ export default {
     },
     onLeave() {
       this.$refs.webrtc.leave();
-      // this.$refs.webrtc.rtcmConnection.onclose();
     },
     onShareScreen() {
       this.img = this.$refs.webrtc.shareScreen();
@@ -406,6 +430,19 @@ export default {
   overflow-x: scroll;
   // overflow-y: hidden;
   white-space: nowrap;
+  border: 2px solid red;
+
+}
+.video-list-2{
+  background:black; 
+  height:500px;
+  position: absolute;  
+  width: 100%; 
+  top:165px; z-index: 1;
+  overflow-x: scroll;
+  // overflow-y: hidden;
+  white-space: nowrap;
+  text-align: center;
 
 }
 
@@ -419,6 +456,16 @@ export default {
   display:inline-block;
 }
 
+.video-item-2{
+  background:black; 
+  height:500px;
+
+  top:0px; z-index: 200;
+  overflow-x: auto;
+  white-space: nowrap;
+  display:inline-block;
+}
+
 .ss{
   position: absolute;
   top: 165px;
@@ -426,8 +473,5 @@ export default {
   height: 62%;
 }
 
-.video-list-1 div{
 
-  background-color: red;
-}
 </style>
