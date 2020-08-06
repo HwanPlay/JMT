@@ -76,7 +76,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		redis.get(username+"_accessToken");
 		UserDetail userDetail = this.userDetailsService.loadUserByUsername(username);
 		// AccessToken 만료 여부 확인
-		if (jwtTokenUtil.isValidToken(jwtToken, userDetail) && ) {
+		if (jwtTokenUtil.isValidToken(jwtToken, userDetail)) {
 			
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
 		//	usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
