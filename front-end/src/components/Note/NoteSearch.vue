@@ -1,21 +1,34 @@
 <template>
   <b-col cols="4">
-    <div>
-      <h1>Note List</h1>
-
+    <h1>Group List</h1>
+    <div v-if="false">
       <div v-for="group in group_list" :key="group.groupNo">
-        <NoteSearchGroup @onGetNoteList="getNoteList" :group="group" :received_note_list="received_note_list" @onGetNoteHTML="getNoteHTML" />
+        <NoteSearchGroup
+          :group="group"
+          :received_note_list="received_note_list"
+          @onGetNoteList="getNoteList"
+          @onGetNoteHTML="getNoteHTML"
+        />
       </div>
-    </div>    
+    </div>
+    <NoteSearchSidebar
+      :group_list="group_list"
+      :received_note_list="received_note_list"
+      @onGetNoteList="getNoteList"
+        @onGetNoteHTML="getNoteHTML"
+    />
   </b-col>
 </template>
 
 <script>
 import NoteSearchGroup from './NoteSearchGroup.vue';
+import NoteSearchSidebar from './NoteSearchSidebar.vue';
+
 export default {
   name: 'NoteSearch',
   components: {
     NoteSearchGroup,
+    NoteSearchSidebar,
   },
   props: {
     group_list: Array,
@@ -27,12 +40,11 @@ export default {
     },
     getNoteHTML(NoteId) {
       this.$emit('onGetNoteHTML', NoteId);
-    }
+    },
   },
   data() {
-    return {
-    };
-  }
+    return {};
+  },
 };
 </script>
 

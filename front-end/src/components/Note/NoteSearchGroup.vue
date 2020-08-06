@@ -1,20 +1,20 @@
 <template>
   <div>
-    <b-button
+     <b-button
       @click="getNoteList(group.groupNo)"
       v-b-toggle="'co-'+group.groupNo"
     >{{group.groupName}}</b-button>
 
     <b-collapse :id="'co-'+group.groupNo" class="mt-2">
       <div class="container-fluid">
-        <div class="row">
-          <b-button v-for="note in received_note_list" :key="note.noteNo" class="col-4" bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
-            
-            <span>{{compute_date(note.createdDate)}}</span>
-            <p>{{ note.title }}</p>
-          
-          </b-button>
+        <div v-if="NoteExist" class="row">
+            <b-button v-for="note in received_note_list" :key="note.noteNo" class="col-4" bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
+              <span>{{compute_date(note.createdDate)}}</span>
+              <p>{{ note.title }}</p>
+            </b-button>
+
         </div>
+          <p v-else>Please write Note</p>
       </div>
     </b-collapse>
   </div>
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       string_num: String,
+      isNoteExist: false,
     };
   },
   props: {
@@ -42,6 +43,15 @@ export default {
     },
     compute_date(date) {
       return date.slice(2,10);
+    }
+  },
+  computed: {
+    NoteExist(){
+      if(this.received_note_list.length === 0){
+        return false;
+      } else {
+        return true;
+      }
     }
   },
 };

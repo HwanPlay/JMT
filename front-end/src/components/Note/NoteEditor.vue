@@ -172,18 +172,12 @@
 
       <!-- {{dataHTML}} -->
       <b-form inline>
-        <b-form-group
-          label="Note Title:"
-          label-for="input-1"
-        >
-          <b-form-input
-            id="input-1"
+        <b-form-input
             v-model="noteTitle"
             type="text"
             required
             placeholder="Note Title"
           ></b-form-input>
-        </b-form-group>
           <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
           <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
           <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>

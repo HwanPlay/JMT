@@ -6,6 +6,7 @@
         @onGetNoteList="getNoteList" 
         :received_note_list="received_note_list" 
         @onGetNoteHTML="getNoteHTML"/>
+      
       <NoteEditor 
       @onEditNoteContent="editNoteContent" 
       @onEditNoteTitle="editNoteTitle" 
