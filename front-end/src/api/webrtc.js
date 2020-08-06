@@ -290,7 +290,7 @@
 
         methods: {
           join: function join() {
-            console.log('입장합니다22');
+            console.log('입장합니다223333');
             var that = this;
             this.rtcmConnection.openOrJoin(this.roomId, function (isRoomExist, roomid) {
               if (isRoomExist === false && that.rtcmConnection.isInitiator === true) {
