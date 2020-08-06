@@ -23,10 +23,10 @@ export default new Vuex.Store({
   },
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
-    isLoggedIn(state){
+    isLoggedIn(state) {
       if (state.accessToken === 'null') {
         return false;
-      }else{
+      } else {
         return !!state.accessToken;
       }
     },
@@ -35,40 +35,40 @@ export default new Vuex.Store({
 
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)
     SET_TOKEN(state, headers) {
-      if (headers === null){
+      if (headers === null) {
         state.accessToken = null;
         state.refreshToken = null;
         state.userId = null;
         localStorage.setItem('accessToken', null);
         localStorage.setItem('refreshToken', null);
-        localStorage.setItem('userId', null); 
+        localStorage.setItem('userId', null);
       }
-      else{
+      else {
         state.accessToken = headers.accesstoken;
         state.refreshToken = headers.refreshtoken;
         localStorage.setItem('accessToken', state.accessToken);
         localStorage.setItem('refreshToken', state.refreshToken);
       }
     },
-    SET_VALIDATION_WORD(state, word){
-      if (word === 'fail'){
+    SET_VALIDATION_WORD(state, word) {
+      if (word === 'fail') {
         state.isEmailOverlap = true;
         console.log('duplicated!');
       }
-      else{
+      else {
         state.emailValidationWord = word;
         state.isEmailOverlap = false;
         console.log('correct', state.emailValidationWord);
       }
     },
-    SET_LOGIN_ERROR(state, val){
+    SET_LOGIN_ERROR(state, val) {
       state.loginError = val;
     },
-    SET_USER_ID(state, val){
+    SET_USER_ID(state, val) {
       localStorage.setItem('userId', val);
       state.userId = val;
     },
-    SET_GROUP_INFO(state, val){
+    SET_GROUP_INFO(state, val) {
       state.myGroups = val.data.groups;
       console.log(val.data.groups);
     }
@@ -92,8 +92,8 @@ export default new Vuex.Store({
     },
 
     checkEmail({ commit }, email) {
-      console.log(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email);
-      axios.get(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email)
+      console.log(SERVER.URL + SERVER.ROUTES.checkEmail + '/' + email);
+      axios.get(SERVER.URL + SERVER.ROUTES.checkEmail + '/' + email)
         .then(res => {
           console.log(res);
           commit('SET_VALIDATION_WORD', res.data);
@@ -115,32 +115,32 @@ export default new Vuex.Store({
         });
     },
 
-    // logout({
-    //   getters,
-    //   commit
-    // }) {
-    //   console.log(SERVER.URL + SERVER.ROUTES.logout + '/' + this.$store.state.userId, null, getters.config);
-    //   axios.post(SERVER.URL + SERVER.ROUTES.logout, null, getters.config)
-    //     .then(() => {
-    //       commit('SET_TOKEN', null);
-    //       commit('SET_LOGIN_ERROR', false);
-    //       console.log('logout!');
+    logout({
+      getters,
+      commit
+    }) {
+      console.log(SERVER.URL + SERVER.ROUTES.logout + '/' + this.$store.state.userId, null, getters.config);
+      axios.post(SERVER.URL + SERVER.ROUTES.logout, null, getters.config)
+        .then(() => {
+          commit('SET_TOKEN', null);
+          commit('SET_LOGIN_ERROR', false);
+          console.log('logout!');
 
-    //     })
-    //     .catch(err => console.log(err.response.data));
-    // console.log('logout!');
-    // commit('SET_TOKEN', null);
-    // commit('SET_LOGIN_ERROR', false);
+        })
+        .catch(err => console.log(err.response.data));
+      console.log('logout!');
+      commit('SET_TOKEN', null);
+      commit('SET_LOGIN_ERROR', false);
+    },
+
+    // logout({ commit }){
+    //   commit('SET_TOKEN', null);
+    //   commit('SET_LOGIN_ERROR', false);    
     // },
 
-    logout({ commit }){
-      commit('SET_TOKEN', null);
-      commit('SET_LOGIN_ERROR', false);    
-    },
-    
 
     // 그룹과 관련된 기능들
-    getGroupInfo({ state, commit }){
+    getGroupInfo({ state, commit }) {
       console.log('start!', state.userId);
       console.log('req:', SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId);
       axios.get(SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId)

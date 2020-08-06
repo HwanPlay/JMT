@@ -33,5 +33,7 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
 	@Modifying
 	@Query(value = "update User u set u.pw = :#{#user.pw} WHERE u.id = :#{#user.id}", nativeQuery = false)
 	void updateUserPwByUserId(@Param("user") User user);
+	
+	
 
 }

@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				// 기본 로그인 페이지 사용 안함
-				.httpBasic().disable()
+			//	.httpBasic().disable()
 				
 				// rest api는 token authentication. csrf 보안 필요 X
 				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/api/logout")
@@ -47,11 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
 				.and()
-				.logout().permitAll()
+				.logout()
 				.logoutUrl("/api/logout")
-				.addLogoutHandler(logoutHandler()).permitAll()
+				.addLogoutHandler(logoutHandler())
 				.invalidateHttpSession(false)
-		
+				
 				.and()	
 				// form login 사용 X. JSON 형식으로 사용자 정보 요청
 				.formLogin().disable()
