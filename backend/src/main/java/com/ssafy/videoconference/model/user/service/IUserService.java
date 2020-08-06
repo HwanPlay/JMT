@@ -13,7 +13,7 @@ public interface IUserService {
 	
 	User findUserByUserId(String userId);
 	
-	List<FindUser> findUserByUserName(String userName);
+	List<FindUser> findUserByUserName(String userName, int groupNo);
 	
 	void modifyPw(User user);
 	void modifyUser(User user);
