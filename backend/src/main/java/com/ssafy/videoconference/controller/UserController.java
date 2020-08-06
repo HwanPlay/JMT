@@ -142,7 +142,7 @@ public class UserController {
 			// 파일은 http방식으로 저장되는 것이 아니라, 서버의 하드디스크 전체 경로에 맞추어서 저장
 			// 톰캣이 가지고 있는 저장소
 			String realPath = servletContext.getRealPath(IMGFOLDER);
-//			
+			System.out.println(realPath);
 			fileService.saveFile(multipartFile, realPath, saveFileName);
 		}
 		return ResponseEntity.ok(SUCCESS);
