@@ -6,7 +6,7 @@
         <div class="menubar">
           <button v-if="false" class="menubar__button">
             <!-- @click="downHTMLDocument" -->
-            <b-icon-download v-b-tooltip.hover title="Download File" font-scale="2" ></b-icon-download>
+            <b-icon-download v-b-tooltip.hover title="Download File" font-scale="2"></b-icon-download>
           </button>
 
           <button
@@ -14,7 +14,7 @@
             :class="{ 'is-active': isActive.bold() }"
             @click="commands.bold"
           >
-            <b-icon-type-bold v-b-tooltip.hover title="bold" font-scale="2" ></b-icon-type-bold>
+            <b-icon-type-bold v-b-tooltip.hover title="bold" font-scale="2"></b-icon-type-bold>
           </button>
 
           <button
@@ -30,11 +30,7 @@
             :class="{ 'is-active': isActive.strike() }"
             @click="commands.strike"
           >
-            <b-icon-type-strikethrough
-              v-b-tooltip.hover
-              title="Strike"
-              font-scale="2"
-            ></b-icon-type-strikethrough>
+            <b-icon-type-strikethrough v-b-tooltip.hover title="Strike" font-scale="2"></b-icon-type-strikethrough>
           </button>
 
           <button
@@ -42,11 +38,7 @@
             :class="{ 'is-active': isActive.underline() }"
             @click="commands.underline"
           >
-            <b-icon-type-underline
-              v-b-tooltip.hover
-              title="Under line"
-              font-scale="2"
-            ></b-icon-type-underline>
+            <b-icon-type-underline v-b-tooltip.hover title="Under line" font-scale="2"></b-icon-type-underline>
           </button>
 
           <button
@@ -110,11 +102,7 @@
             :class="{ 'is-active': isActive.blockquote() }"
             @click="commands.blockquote"
           >
-            <b-icon-blockquote-left
-              v-b-tooltip.hover
-              title="Block Quote"
-              font-scale="2"
-            ></b-icon-blockquote-left>
+            <b-icon-blockquote-left v-b-tooltip.hover title="Block Quote" font-scale="2"></b-icon-blockquote-left>
           </button>
 
           <button
@@ -137,10 +125,11 @@
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
 
-          <button class="menubar__button" @click="editNoteHTML">
-            <h4><b-badge variant="primary">Edit Content</b-badge></h4>
-          </button>
-
+          <!-- <button class="menubar__button" @click="editNoteHTML">
+            <h4>
+              <b-badge variant="primary">Edit Content</b-badge>
+            </h4>
+          </button> -->
         </div>
       </editor-menu-bar>
 
@@ -182,7 +171,24 @@
       </editor-menu-bubble>
 
       <!-- {{dataHTML}} -->
-
+      <b-form inline>
+        <b-form-group
+          label="Note Title:"
+          label-for="input-1"
+        >
+          <b-form-input
+            id="input-1"
+            v-model="noteTitle"
+            type="text"
+            required
+            placeholder="Note Title"
+          ></b-form-input>
+        </b-form-group>
+          <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
+          <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
+          <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
+      </b-form>
+      <hr>
       <div class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
@@ -209,19 +215,20 @@ import {
   Link,
   Strike,
   Underline,
-  History
+  History,
 } from 'tiptap-extensions';
 export default {
   components: {
     EditorContent,
     EditorMenuBar,
-    EditorMenuBubble
+    EditorMenuBubble,
   },
   props: {
     noteId: Number,
     noteContent: String,
+    noteTitle: String,
   },
-  data () {
+  data() {
     return {
       keepInBounds: true,
       editor: new Editor({
@@ -242,7 +249,7 @@ export default {
           new Italic(),
           new Strike(),
           new Underline(),
-          new History()
+          new History(),
         ],
         content: `
           <h2>
@@ -268,29 +275,37 @@ export default {
         `,
         onUpdate: ({ getHTML }) => {
           this.dataHTML = getHTML();
-        }
+        },
       }),
       dataHTML: '',
     };
   },
   watch: {
-    noteContent: function(val){
+    noteContent: function (val) {
       this.changeReceiveHTML(val);
-    }
+    },
   },
   methods: {
-    changeReceiveHTML (val) {
+    changeReceiveHTML(val) {
       this.editor.setContent(val);
       this.editor.focus();
-
     },
-    editNoteHTML () {
+    editNoteContent() {
       console.log('EditNoteHTML');
-      this.$emit('onEditNoteHTML', [this.noteId, this.dataHTML]);
+      this.$emit('onEditNoteContent', [this.noteId, this.dataHTML]);
+      this.editor.focus();
+    },
+    editNoteTitle() {
+      this.$emit('onEditNoteTitle', [this.noteId, this.noteTitle]);
+      this.editor.focus();
+    },
+    deleteNote() {
+      this.$emit('onDeleteNote', this.noteId);
+
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.editor.destroy();
-  }
+  },
 };
 </script>
