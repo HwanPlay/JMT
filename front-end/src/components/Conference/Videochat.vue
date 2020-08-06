@@ -45,7 +45,7 @@
         id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"
       ></video>
     </div>
-    <div id="note-container" style="margin-top: 4rem">
+    <div id="note-container">
       <NoteEditor/>
     </div>
     <div id="chat-container">
