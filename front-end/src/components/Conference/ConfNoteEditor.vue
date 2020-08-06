@@ -120,7 +120,6 @@
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
 
-          <b-button class="menubar__button" @click="SaveNote" variant="primary">Save</b-button>          
 
           <!-- <button class="menubar__button" @click="editNoteHTML">
             <h4>
@@ -175,6 +174,8 @@
             required
             placeholder="Note Title"
           ></b-form-input>
+          <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>          
+
       </b-form>
       <hr>
       <div class="border border-secondary rounded">
@@ -296,5 +297,8 @@ export default {
 }
 .editor__content{
     height: 30rem;
+}
+.save_button{
+  margin: 0 0  0 auto;
 }
 </style>
