@@ -4,9 +4,9 @@
   else if(typeof define === 'function' && define.amd)
     define([], factory);
   else if(typeof exports === 'object')
-    exports['vue-webrtc'] = factory();
+    exports['broad-cast'] = factory();
   else
-    root['vue-webrtc'] = factory();
+    root['broad-cast'] = factory();
 })(this, function() {
   return /******/ (function(modules) { // webpackBootstrap
     /******/ 	// The module cache
@@ -157,7 +157,7 @@
 
       __webpack_require__(2);
       exports.default = {
-        name: 'vue-webrtc',
+        name: 'broad-cast',
         components: {
           RTCMultiConnection: _rtcmulticonnection2.default
         },
@@ -165,7 +165,7 @@
           return {
             rtcmConnection: null,
             localVideo: null,
-            videoList: [],
+            videoList2: [],
             canvas: null,
           };
         },
@@ -223,33 +223,42 @@
           this.rtcmConnection.session = {
             audio: this.enableAudio,
             video: this.enableVideo,
-            data: true
+            oneway: true
           };
           this.rtcmConnection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: this.enableAudio,
             OfferToReceiveVideo: this.enableVideo
           };
-          if (this.stunServer !== null || this.turnServer !== null) {
-            this.rtcmConnection.iceServers = [];
-          }
-          if (this.stunServer !== null) {
-            this.rtcmConnection.iceServers.push({
-              urls: this.stunServer
-            });
-          }
-          if (this.turnServer !== null) {
-            var parse = this.turnServer.split('%');
-            var username = parse[0].split('@')[0];
-            var password = parse[0].split('@')[1];
-            var turn = parse[1];
-            this.rtcmConnection.iceServers.push({
-              urls: turn,
-              credential: password,
-              username: username
-            });
-          }
+          // if (this.stunServer !== null || this.turnServer !== null) {
+          //   this.rtcmConnection.iceServers = [];
+          // }
+          // if (this.stunServer !== null) {
+          //   this.rtcmConnection.iceServers.push({
+          //     urls: this.stunServer
+          //   });
+          // }
+          // if (this.turnServer !== null) {
+          //   var parse = this.turnServer.split('%');
+          //   var username = parse[0].split('@')[0];
+          //   var password = parse[0].split('@')[1];
+          //   var turn = parse[1];
+          //   this.rtcmConnection.iceServers.push({
+          //     urls: turn,
+          //     credential: password,
+          //     username: username
+          //   });
+          // }
+
+                //   this.rtcmConnection.iceServers = [{
+      //     'urls': [
+      //         'stun:stun.l.google.com:19302',
+      //         'stun:stun1.l.google.com:19302',
+      //         'stun:stun2.l.google.com:19302',
+      //         'stun:stun.l.google.com:19302?transport=udp',
+      //     ]
+      // }];
           this.rtcmConnection.onstream = function (stream) {
-            var found = that.videoList.find(function (video) {
+            var found = that.videoList2.find(function (video) {
               return video.id === stream.streamid;
             });
             if (found === undefined) {
@@ -258,7 +267,7 @@
                 muted: stream.type === 'local'
               };
 
-              that.videoList.push(video);
+              that.videoList2.push(video);
 
               if (stream.type === 'local') {
                 that.localVideo = video;
@@ -278,19 +287,121 @@
           };
           this.rtcmConnection.onstreamended = function (stream) {
             var newList = [];
-            that.videoList.forEach(function (item) {
+            that.videoList2.forEach(function (item) {
               if (item.id !== stream.streamid) {
                 newList.push(item);
               }
             });
-            that.videoList = newList;
+            that.videoList2 = newList;
             that.$emit('left-room', stream.streamid);
           };
-        },
+    
+
+      
+      // this.rtcmConnection.videosContainer = document.getElementById('videos-container');
+      // this.rtcmConnection.onstream = function(event) {
+      //     var existing = document.getElementById(event.streamid);
+      //     if(existing && existing.parentNode) {
+      //       existing.parentNode.removeChild(existing);
+      //     }
+      
+      //     event.mediaElement.removeAttribute('src');
+      //     event.mediaElement.removeAttribute('srcObject');
+      //     event.mediaElement.muted = true;
+      //     event.mediaElement.volume = 0;
+      
+      //     var video = document.createElement('video');
+      
+      //     try {
+      //         video.setAttributeNode(document.createAttribute('autoplay'));
+      //         video.setAttributeNode(document.createAttribute('playsinline'));
+      //     } catch (e) {
+      //         video.setAttribute('autoplay', true);
+      //         video.setAttribute('playsinline', true);
+      //     }
+      
+      //     if(event.type === 'local') {
+      //       video.volume = 0;
+      //       try {
+      //           video.setAttributeNode(document.createAttribute('muted'));
+      //       } catch (e) {
+      //           video.setAttribute('muted', true);
+      //       }
+      //     }
+      //     video.srcObject = event.stream;
+      
+      //     var width = parseInt(this.rtcmConnection.videosContainer.clientWidth / 3) - 20;
+      //     var mediaElement = getHTMLMediaElement(video, {
+      //         title: event.userid,
+      //         buttons: ['full-screen'],
+      //         width: width,
+      //         showOnMouseEnter: false
+      //     });
+      
+      //     this.rtcmConnection.videosContainer.appendChild(mediaElement);
+      
+      //     setTimeout(function() {
+      //         mediaElement.media.play();
+      //     }, 5000);
+      
+      //     mediaElement.id = event.streamid;
+      // };
+      
+      // this.rtcmConnection.onstreamended = function(event) {
+      //     var mediaElement = document.getElementById(event.streamid);
+      //     if (mediaElement) {
+      //         mediaElement.parentNode.removeChild(mediaElement);
+      
+      //         if(event.userid === this.rtcmConnection.sessionid && !this.rtcmConnection.isInitiator) {
+      //           alert('Broadcast is ended. We will reload this page to clear the cache.');
+      //           location.reload();
+      //         }
+      //     }
+      // };
+      
+      // this.rtcmConnection.onMediaError = function(e) {
+      //     if (e.message === 'Concurrent mic process limit.') {
+      //         if (DetectRTC.audioInputDevices.length <= 1) {
+      //             alert('Please select external microphone. Check github issue number 483.');
+      //             return;
+      //         }
+      
+      //         var secondaryMic = DetectRTC.audioInputDevices[1].deviceId;
+      //         this.rtcmConnection.mediaConstraints.audio = {
+      //             deviceId: secondaryMic
+      //         };
+      
+      //         this.rtcmConnection.join(this.rtcmConnection.sessionid);
+      //     }
+      // };
+      this.rtcmConnection.onclose = function(event) {
+        var remoteUserId = event.userid;
+        var remoteUserFullName = event.extra.fullName;
+    
+        alert('data connection closed between you and ' + remoteUserFullName);
+    };
+
+    },
+        
 
         methods: {
+          onbroadcast(){
+            var that = this;
+            console.log('입장합니다1');
+            var that = this;
+            this.rtcmConnection.openOrJoin(this.roomId, function (isRoomExist, roomid) {
+              if (isRoomExist === false && that.rtcmConnection.isInitiator === true) {
+                that.$emit('opened-room', roomid);
+              }
+            });
+          },
+          offbroadcast(){
+            this.rtcmConnection.attachStreams.forEach(function (localStream) {
+              localStream.stop();
+            });
+            this.videoList2 = [];
+          },
           join: function join() {
-            console.log('입장합니다223333');
             var that = this;
             this.rtcmConnection.openOrJoin(this.roomId, function (isRoomExist, roomid) {
               if (isRoomExist === false && that.rtcmConnection.isInitiator === true) {
@@ -302,7 +413,7 @@
             this.rtcmConnection.attachStreams.forEach(function (localStream) {
               localStream.stop();
             });
-            this.videoList = [];
+            this.videoList2 = [];
             
           },
           capture: function capture() {
@@ -410,7 +521,7 @@
 
 
       // module
-      exports.push([module.i, '.video-list-1[data-v-49ef9b35]{}.video-list-1 div[data-v-49ef9b35]{padding:0;}.video-item[data-v-49ef9b35]{}', '']);
+      exports.push([module.i, '.video-list-2[data-v-49ef9b35]{}.video-list-2 div[data-v-49ef9b35]{padding:0;}.video-item-2[data-v-49ef9b35]{}', '']);
 
       // exports
 
@@ -6644,11 +6755,11 @@
 
       module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
         return _c('div', {
-          staticClass: 'video-list-1'
-        }, _vm._l((_vm.videoList), function(item) {
+          staticClass: 'video-list-2'
+        }, _vm._l((_vm.videoList2), function(item) {
           return _c('div', {
             key: item.id,
-            staticClass: 'video-item',
+            staticClass: 'video-item-2',
             attrs: {
               'video': item
             }
@@ -6659,8 +6770,9 @@
               'controls': '',
               'autoplay': '',
               'playsinline': '',
-              'height': 100,
-              'id': item.id
+              'height': '100%',
+              'id': item.id,
+              'left':200
             },
             domProps: {
               'muted': item.muted
