@@ -169,18 +169,12 @@
 
       <!-- {{dataHTML}} -->
       <b-form inline>
-        <b-form-group
-          label="Note Title:"
-          label-for="input-1"
-        >
           <b-form-input
-            id="input-1"
             v-model="noteTitle"
             type="text"
             required
             placeholder="Note Title"
           ></b-form-input>
-        </b-form-group>
       </b-form>
       <hr>
       <div class="border border-secondary rounded">
@@ -249,7 +243,7 @@ export default {
             Hi there,
           </h2>
           <p>
-            this is a very <em>basic</em> example of tiptap.
+            this is a very <em>basic</em> example.
           </p>
           <pre><code>body { display: none; }</code></pre>
           <ul>
@@ -296,5 +290,11 @@ export default {
 <style scoped>
 .menubar__button {
   font-size: 80% !important;
+}
+.editor {
+  padding: 0.5rem !important;
+}
+.editor__content{
+    height: 30rem;
 }
 </style>
