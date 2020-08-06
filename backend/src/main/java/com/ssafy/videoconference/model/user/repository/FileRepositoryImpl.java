@@ -10,13 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Repository
 public class FileRepositoryImpl implements IFileRepository {
 	@Override
-	public void saveFile(MultipartFile multipartFile, String rootPath, String savefileName){
+	public void saveFile(MultipartFile multipartFile, String rootPath, String saveFileName){
 		
 		File dir = new File(rootPath);
 		if(!dir.exists())
 			dir.mkdirs();
-		
-		String saveFileName = multipartFile.getOriginalFilename();
 		
 		try {
 			File file = new File(rootPath, saveFileName);

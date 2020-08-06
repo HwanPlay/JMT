@@ -51,6 +51,15 @@ public class UserServiceImpl implements IUserService {
 			jpaUserRepo.save(selectUser);
 		});
 	}
+	
+	@Override
+	public void modifyUserProfileImg(User user) {
+		Optional<User> modifyUser = jpaUserRepo.findById(user.getId());
+		modifyUser.ifPresent(selectUser->{
+			selectUser.setProfile_img(user.getProfile_img());
+			jpaUserRepo.save(selectUser);
+		});
+	}
 
 	@Override
 	public void removeUser(String userId) {

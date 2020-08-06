@@ -17,6 +17,7 @@ public interface IUserService {
 	
 	void modifyPw(User user);
 	void modifyUser(User user);
+	void modifyUserProfileImg(User user);
 	
 	void removeUser(String userId);
 	
