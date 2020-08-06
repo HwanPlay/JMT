@@ -1,6 +1,7 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 그룹 정보 부분 -->
+    {{ groupInfo }}
     <v-col cols="7" style="width: 100%;">
       <v-row style="height: 15%; width: 100%; margin-left: 20px; margin-top: 20px;">
         <v-col cols="8">
@@ -33,7 +34,6 @@
         <v-col cols="6">
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
             <h2>Member</h2>
-            <ManageGroup />
             <v-divider></v-divider> 
             <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
             </v-img> -->
@@ -46,6 +46,11 @@
               <GroupMembers :membersInfo=members />
             </v-card-actions>
           </v-card>
+        </v-col>
+        <v-col cols="6">
+          <div v-if="groupInfo.hostId === this.$store.state.userId">
+            <InviteMember :groupNo = groupInfo.groupNo />
+          </div>
         </v-col>
       </v-row>
     </v-col>
@@ -76,14 +81,16 @@
 import axios from 'axios';
 import memberCard from './memberCard.vue';
 import GroupMembers from './GroupMembers.vue';
-import ManageGroup from './ManageGroup.vue';
+import InviteMember from './InviteMember.vue';
+
+const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 export default {
   name: 'group',
   components: {
     memberCard,
     GroupMembers,
-    ManageGroup
+    InviteMember,
   },
   props: {
     groupInfo: Object,
@@ -142,7 +149,7 @@ export default {
   },
   mounted() {
     console.log('hi');
-    axios.get('http://localhost:8080/videoconference/api/groupmember/getno/'+this.groupInfo.groupNo)
+    axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
         console.log('res:', res.data);
         this.members = res.data.groupMembers;
@@ -151,7 +158,7 @@ export default {
   },
   watch:{
     groupInfo(){
-      axios.get('http://localhost:8080/videoconference/api/groupmember/getno/'+this.groupInfo.groupNo)
+      axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           console.log('res:', res.data);
           this.members = res.data.groupMembers;
