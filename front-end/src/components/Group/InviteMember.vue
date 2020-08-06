@@ -2,10 +2,10 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" v-bind="attrs" v-on="on">
+        <v-btn color="danger" v-bind="attrs" v-on="on">
           <v-icon>fas fa-user-plus</v-icon>
         </v-btn>
-        멤버 추가
+        Add Member
       </template>
       <v-card>
         <v-card-title class="mb-0 pb-0">

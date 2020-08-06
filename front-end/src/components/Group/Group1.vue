@@ -34,9 +34,11 @@
         <v-col cols="6">
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
             <h2>Member</h2>
+            <v-spacer></v-spacer>
+            <div v-if="groupInfo.hostId === this.$store.state.userId">
+              <InviteMember :groupNo = groupInfo.groupNo />
+            </div>
             <v-divider></v-divider> 
-            <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
-            </v-img> -->
             <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
             <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
               <memberCard :userInfo = memberInfo />
@@ -46,11 +48,6 @@
               <GroupMembers :membersInfo=members />
             </v-card-actions>
           </v-card>
-        </v-col>
-        <v-col cols="6">
-          <div v-if="groupInfo.hostId === this.$store.state.userId">
-            <InviteMember :groupNo = groupInfo.groupNo />
-          </div>
         </v-col>
       </v-row>
     </v-col>

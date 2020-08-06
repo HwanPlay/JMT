@@ -1,59 +1,63 @@
 <template>
-<div class="MainContainer">
-  <div class="MainContent">
-
-
-
-    <div class="video_list">
-      <div class="video_list_videOrshow" @click="videoBar">
-      <span class="triangle test_1"></span>
-      </div>
-        <vue-webrtc ref="webrtc"
-                    width ="100%"
-                    :roomId="roomId"
-                    v-on:joined-room="logEvent"
-                    v-on:left-room="logEvent"
-                    v-on:opened-room="logEvent"
-                    v-on:share-started="logEvent"
-                    v-on:share-stopped="logEvent"
-                    @error="onError" />
-          <div id="videos-container" style="margin: 20px 0;"></div>
-          <broad-cast ref="broadcast"
-                    width ="100%"
-                    height="100%"
-                    :roomId="roomId"
-                    v-on:joined-room="logEvent"
-                    v-on:left-room="logEvent"
-                    v-on:opened-room="logEvent"
-                    v-on:share-started="logEvent"
-                    v-on:share-stopped="logEvent"
-                    @error="onError" />
-          <!-- <div id="widget-container"></div> -->
+  <div class="MainContainer">
+    <div class="MainContent">
+      <div class="video_list">
+        <div class="video_list_videOrshow" @click="videoBar">
+          <span class="triangle test_1"></span>
         </div>
-              <div class="footer">
-                <div class="RoomInput" >
-                  채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput" style="color: white;">
-                </div>
-          <div class="MenuBtn">
-            <button class="btn btn-primary" @click="onJoin">Join</button>
-            <button class="btn btn-success" @click="onLeave">Leave</button>
-            <button class="btn btn-info" @click="onCapture">Capture Photo</button>
-            <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-            <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
-            <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
-            <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
-            <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
-            <button class="btn btn-danger" @click="onBroadcast" >BroadCast</button>
-            <button class="btn btn-info" @click="offBroadcast" >BroadCast off</button>
-          </div>
+        <vue-webrtc
+          ref="webrtc"
+          width="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
+        <div id="videos-container" style="margin: 20px 0;"></div>
+        <broad-cast
+          ref="broadcast"
+          width="100%"
+          height="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
+        <!-- <div id="widget-container"></div> -->
+      </div>
+      <div class="footer">
+        <div class="RoomInput">
+          채팅방이름을 입력하세요
+          <input v-model="roomId" id="RoomInput" style="color: white;" />
+        </div>
+        <div class="MenuBtn">
+          <button class="btn btn-primary" @click="onJoin">Join</button>
+          <button class="btn btn-success" @click="onLeave">Leave</button>
+          <button class="btn btn-info" @click="onCapture">Capture Photo</button>
+          <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
+          <button
+            class="btn btn-chatting"
+            @click="onChat"
+            style="background-color: #f44336;"
+          >Chatting</button>
+          <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
+          <button class="btn btn-Note" @click="onNote" style="background-color: gray;">Note</button>
+          <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool">Canvas</button>
+          <button class="btn btn-danger" @click="onBroadcast">BroadCast</button>
+          <button class="btn btn-info" @click="offBroadcast">BroadCast off</button>
+        </div>
+      </div>
 
+      <!-- <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video> -->
     </div>
-    
-    <!-- <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video> -->
-  
-  </div>
     <div id="note-container">
-      <NoteEditor/>
+      <NoteEditor />
     </div>
     <div id="chat-container">
       <div id="container">
@@ -74,7 +78,7 @@
           <img :src="img" class="img-responsive" />
         </figure>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 

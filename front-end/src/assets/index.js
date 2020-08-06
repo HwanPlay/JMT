@@ -560,7 +560,6 @@
         }
 
 
-
       }
       var queue = [];
       var draining = false;
