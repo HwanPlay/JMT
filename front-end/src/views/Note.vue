@@ -7,9 +7,12 @@
         :received_note_list="received_note_list" 
         @onGetNoteHTML="getNoteHTML"/>
       <NoteEditor 
-      @onEditNoteHTML="editNoteHTML" 
+      @onEditNoteContent="editNoteContent" 
+      @onEditNoteTitle="editNoteTitle" 
+      @onDeleteNote="deleteNote"
       :noteId="noteId"
       :noteContent="noteContent"
+      :noteTitle="noteTitle"
       />
     </b-row>
   </b-container>
@@ -35,6 +38,7 @@ export default {
 
       noteContent: '',
       noteId: 0,
+      noteTitle: '',
     };
   },
   methods: {
@@ -66,8 +70,10 @@ export default {
       axios
         .get(SERVER_URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
+          console.log(res.data);
           this.noteContent = res.data.content;
           this.noteId = NoteId;
+          this.noteTitle = res.data.title;
         })
         .catch((err)=> {
           console.error(err);
@@ -75,20 +81,42 @@ export default {
           this.noteId = NoteId;
         });
     },
-    editNoteHTML([noteId, noteContent]) {
+    editNoteContent([noteId, noteContent]) {
       // 이거 url 수정할 것 contenet임.
-      const URLEdit = 'videoconference/api/note/content/';
+      const URLContentEdit = 'videoconference/api/note/content/';
       console.log(noteId);
-      axios.put(SERVER_URL+URLEdit+noteId, {
+      axios.put(SERVER_URL+URLContentEdit+noteId, {
         'content': noteContent,
       }).then((res)=>{
         console.log(res);
-        alert('upload 성공');
+        // alert('content edit 성공');
       })
         .catch((err)=>{
           console.log('error뜸');
           console.error(err);
         });
+    },
+    editNoteTitle([noteId, noteTitle]) {
+      const URLTitleEdit = 'videoconference/api/note/title/';
+      axios.put(SERVER_URL+URLTitleEdit+noteId, {
+        'title': noteTitle,
+      }).then((res)=>{
+        console.log(res);
+        // alert('title edit 성공');
+      })
+        .catch((err)=>{
+          console.log('error뜸');
+          console.error(err);
+        });
+    },
+    deleteNote(noteId) {
+      const URLDeleteNote = 'videoconference/api/note/delno/';
+      axios.delete(SERVER_URL+URLDeleteNote+noteId)
+        .then((res)=> {
+          console.log(res);
+          console.log('delete note' + noteId);
+        })
+        .catch((err)=>console.error(err));
     }
   },
   mounted() {
