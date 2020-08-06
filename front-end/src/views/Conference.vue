@@ -24,27 +24,25 @@ export default {
   components: {
     Videochat,
     Sharescreen,
-    Webrtc
+    Webrtc,
   },
 };
 </script>
 
 <style>
-.mainCoference{
-    position: relative; 
-    top:0;
-    left:0; 
-    height: 100%; 
-    width: 100%;
+.mainCoference {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
-   
-.main_1{
+
+.main_1 {
   width: 100%;
   height: 100%;
   float: left;
   background-color: orangered;
   position: relative;
 }
-
-
 </style>

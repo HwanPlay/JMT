@@ -1,5 +1,5 @@
 <template>
-  <b-container style="margin-top: 4rem" fluid>
+  <b-container fluid>
     <b-row>
       <NoteSearch 
         :group_list="group_list" 

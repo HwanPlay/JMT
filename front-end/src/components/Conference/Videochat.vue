@@ -27,16 +27,11 @@
             <button class="btn btn-success" @click="onLeave">Leave</button>
             <button class="btn btn-info" @click="onCapture">Capture Photo</button>
             <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-            <button
-              class="btn btn-chatting"
-              @click="onChat"
-              style="background-color: #f44336;"
-            >Chatting</button>
-            <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
+            <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
             <button class="btn btn-Note" @click="onNote" style="background-color: gray;">Note</button>
             <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool">Canvas</button>
           </div>
-          <!-- <div id="widget-container"></div> -->
+          <div id="widget-container"></div>
         </div>
       </div>
 
@@ -65,35 +60,14 @@
         :disabled="disableInputBool"
       />
     </div>
-
     <!-- <div class="row">
-      <div class="col-md-12 my-3">
-        <h2>Room</h2>
-        <input v-model="roomId">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <Sharescreen />
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-12">
         <h2>Captured Image</h2>
         <figure class="figure">
           <img :src="img" class="img-responsive" />
         </figure>
       </div>
-    </div>-->
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <select id="picture" class="image-picker show-html"></select>
-        <video autoplay></video>
-        <p><button class="bttn">Enable Capture</button></p>
-      </div>
-    </div>
-    -->
+    </div> -->
   </div>
 </template>
 
@@ -105,6 +79,7 @@ import Vue from "vue";
 import WebRTC from "../../api/webrtc";
 import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
 import NoteEditor from "./ConfNoteEditor";
+
 Vue.use(WebRTC);
 
 export default {
@@ -371,7 +346,6 @@ export default {
 
 .video_list_videOrshow {
   position: absolute;
-  top: 66px;
   left: 50%;
   width: auto;
   text-align: center;
@@ -398,9 +372,7 @@ export default {
 .video-list-1 {
   background: black;
   height: 100px;
-  width: 100%;
   position: relative;
-  top: 65px;
   z-index: 1;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -411,7 +383,6 @@ export default {
 .video-item {
   background: black;
   height: 100px;
-  width: 100%;
   position: relative;
   top: 0px;
   z-index: 200;
