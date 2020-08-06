@@ -2,6 +2,7 @@
   <div>
     <div v-for="group in group_list" :key="group.groupNo">
       <b-button @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop>{{group.groupName}}</b-button>
+      <hr align="left" class="group_hr">
     </div>
 
     <b-sidebar
@@ -48,5 +49,9 @@ export default {
 </script>
 
 <style>
-
+.group_hr {
+  margin: 0.3rem auto 0.3rem 0 !important;
+  border-radius: 5px !important;
+  width: 50% !important;
+}
 </style>
