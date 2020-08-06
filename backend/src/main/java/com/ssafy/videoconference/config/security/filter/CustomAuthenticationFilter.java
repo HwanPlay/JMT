@@ -55,10 +55,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		// Allow sebclasses to set the "details" property
 		setDetails(request, authRequestToken);
 
-		Authentication authentication = this.getAuthenticationManager().authenticate(authRequestToken); // 로그인 인증
-		SecurityContextHolder.getContext().setAuthentication(authentication); // 접근 주체를 담음
-		
-		return authentication;
+		return this.getAuthenticationManager().authenticate(authRequestToken);
 	}
 
 }
