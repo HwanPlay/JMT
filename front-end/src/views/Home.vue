@@ -1,5 +1,5 @@
 <template>
-  <v-row style="height: 85%; width: 100%; margin-top:64px;">
+  <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 버튼 부분 -->
     <v-col cols="7" style="height: 100%;">
       <v-row style="height: 100%; margin-right: 60px;" align="center" justify="end">
@@ -38,8 +38,8 @@
     </v-col>
 
     <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols="4" style="height: 90%; width: 100%;">
-      <v-row style="height: 100%; width: 100%; margin-top: 60px;" align="start" justify="center">
+    <v-col cols="4" style="height: 100%; width: 100%;">
+      <v-row style="height: 100%;" align="center" justify="center">
 
         <v-card class="mx-auto" width="100%">
           <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
@@ -49,10 +49,10 @@
 
           <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
           <hr class="m-2">
-          <v-card-text class="text--primary" style="height: 250px;">
+          <v-card-text class="text--primary" style="height: 100%;">
             <h4>Team DNS</h4>
             <div>How to complete the Project : JMT</div>
-            <div class="m-3"></div>
+            <hr>
             <h4>SSAFY 3기 대전 1반</h4>
             <div>Make our own Service</div>
           </v-card-text>

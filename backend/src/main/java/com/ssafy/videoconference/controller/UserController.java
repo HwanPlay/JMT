@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.videoconference.config.util.JwtTokenUtil;
+import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserRole;
@@ -56,6 +57,9 @@ public class UserController {
 	private IUserService userService;
 
 	@Autowired
+	private GroupService groupService;
+	
+	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
@@ -80,13 +84,23 @@ public class UserController {
 		return ResponseEntity.ok(SUCCESS);
 	}
 
-	@ApiOperation(value = "회원 찾기 - findUserByUserName / 친구 찾기(아이디,이름,프로필사진)", response = List.class)
-	@GetMapping("/user/findUserByName/{name}")
-	public ResponseEntity<List<FindUser>> findUserByUserName(@PathVariable String name) {
-		List<FindUser> userList = userService.findUserByUserName(name);
+	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
+	@GetMapping("/user/findUserByName")
+	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no) {
+		List<FindUser> userList = userService.findUserByUserName(name, group_no);
 		return ResponseEntity.ok(userList);
 	}
 
+	
+//	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
+//	@GetMapping("/user/findUserByName/{name}")
+//	public ResponseEntity<List<FindUser>> findUserByUserName(@PathVariable String name) {
+//		List<FindUser> userList = userService.findUserByUserName(name);
+//		
+//		return ResponseEntity.ok(userList);
+//	}
+
+	
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
 	@GetMapping("/user/findUserById/{id}")
 	public ResponseEntity<User> findUserByUserId(@PathVariable("id") String userId) {
@@ -117,7 +131,7 @@ public class UserController {
 		return ResponseEntity.ok(FAIL);
 	}
 
-	@ApiOperation(value = "프로필사진", response = String.class)
+	@ApiOperation(value = "프로필사진 추가", response = String.class)
 	@PostMapping("/user/profileImg")
 	public ResponseEntity<String> saveProfileImg(@RequestParam("filename") MultipartFile multipartFile,
 			@RequestParam("id") String userId) {

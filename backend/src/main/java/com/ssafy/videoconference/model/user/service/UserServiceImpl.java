@@ -35,6 +35,7 @@ public class UserServiceImpl implements IUserService {
 	public User findUserByUserId(String userId) {
 		return jpaUserRepo.findById(userId).orElse(null);
 	}
+	
 
 	@Override
 	public void modifyPw(User user) {
@@ -70,9 +71,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<FindUser> findUserByUserName(String userName) {
+	public List<FindUser> findUserByUserName(String userName, int groupNo) {
 		
-		List<User> userList = jpaUserRepo.findByName(userName);
+		List<User> userList = jpaUserRepo.listUserByUserIdAndGroupNo(userName, groupNo);
 		List<FindUser> findList = new ArrayList<FindUser>(); 
 		for(User user : userList) {
 			findList.add(new FindUser(

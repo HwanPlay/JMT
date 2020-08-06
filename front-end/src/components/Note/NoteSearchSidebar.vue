@@ -11,6 +11,7 @@
       :backdrop-variant="variant"
       backdrop
       shadow
+      width=25rem 
     >
       <div class="px-3 py-2">
        <b-button v-b-toggle.sidebar-backdrop v-for="note in received_note_list" :key="note.noteNo" class="col-4" bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">

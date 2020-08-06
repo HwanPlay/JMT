@@ -301,4 +301,7 @@ export default {
 .save_button{
   margin: 0 0  0 auto;
 }
+hr {
+  margin: 0.5rem auto;
+}
 </style>
