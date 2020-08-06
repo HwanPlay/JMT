@@ -86,7 +86,6 @@ import $ from 'jquery';
 import Vue from 'vue';
 import WebRTC from '../../api/webrtc';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
-import NoteEditor from '../../components/Note/NoteEditor';
 import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 Vue.use(WebRTC)
