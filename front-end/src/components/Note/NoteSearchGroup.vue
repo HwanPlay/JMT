@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button
+     <b-button
       @click="getNoteList(group.groupNo)"
       v-b-toggle="'co-'+group.groupNo"
     >{{group.groupName}}</b-button>
