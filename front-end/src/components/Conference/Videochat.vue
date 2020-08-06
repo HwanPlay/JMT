@@ -38,7 +38,9 @@
         </div>
     </div>
 
-        <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video>
+    <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video>
+  
+  
   </div>
     <div id="note-container">
       <NoteEditor />
@@ -89,7 +91,7 @@
 import Sharescreen from './Sharescreen.vue';
 import $ from 'jquery';
 import Vue from 'vue';
-import WebRTC from 'vue-webrtc';
+import WebRTC from '../../api/webrtc';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
 import NoteEditor from '../../components/Note/NoteEditor';
 Vue.use(WebRTC)
@@ -192,9 +194,15 @@ export default {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
+      console.log("나나나나나나ㅏ")
       this.$refs.webrtc.join();
       this.disableCanvasBool = false;
       this.disableInputBool = false;
+
+      $('.video-item').find('video').each(function(i, e){
+          console.log($(this).get());
+      });
+
     },
     onLeave() {
       this.$refs.webrtc.leave();
@@ -396,7 +404,7 @@ export default {
   position:relative; 
   top:65px; z-index: 1;
   overflow-x: scroll;
-  overflow-y: hidden;
+  // overflow-y: hidden;
   white-space: nowrap;
 
 }
@@ -404,7 +412,6 @@ export default {
 .video-item{
   background:black; 
   height:100px; 
-  width: 100%;
   position:relative; 
   top:0px; z-index: 200;
   overflow-x: auto;
@@ -417,5 +424,10 @@ export default {
   top: 165px;
   width: 100%;
   height: 62%;
+}
+
+.video-list-1 div{
+
+  background-color: red;
 }
 </style>
