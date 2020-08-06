@@ -33,6 +33,7 @@
         <v-col cols="6">
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
             <h2>Member</h2>
+            <ManageGroup />
             <v-divider></v-divider> 
             <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
             </v-img> -->
@@ -75,13 +76,14 @@
 import axios from 'axios';
 import memberCard from './memberCard.vue';
 import GroupMembers from './GroupMembers.vue';
-
+import ManageGroup from './ManageGroup.vue';
 
 export default {
   name: 'group',
   components: {
     memberCard,
-    GroupMembers
+    GroupMembers,
+    ManageGroup
   },
   props: {
     groupInfo: Object,
