@@ -50,8 +50,8 @@
         id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"
       ></video>
     </div>
-    <div id="note-container">
-      <NoteEditor />
+    <div id="note-container" style="margin-top: 4rem">
+      <NoteEditor/>
     </div>
     <div id="chat-container">
       <div id="container">
@@ -104,7 +104,7 @@ import $ from "jquery";
 import Vue from "vue";
 import WebRTC from "../../api/webrtc";
 import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
-import NoteEditor from "../../components/Note/NoteEditor";
+import NoteEditor from "./ConfNoteEditor";
 Vue.use(WebRTC);
 
 export default {
