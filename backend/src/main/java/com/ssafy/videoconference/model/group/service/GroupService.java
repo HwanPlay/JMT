@@ -21,6 +21,9 @@ public interface GroupService {
 	List<Group> findByHostId(String hostId);
 	
 	
+	List<Group> findByUserId(String userId);
+	
+	
 	void deleteByHostId(String hostId);
 	
 	

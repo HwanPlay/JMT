@@ -37,6 +37,16 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 		query.setParameter("hostId", hostId);
 		return query.getResultList();
 	}
+	
+	
+	@Override
+	public List<Group> findByUserId(String userId) {
+		String jpql =
+				"select * from meeting_group where group_no in (select gm.group_no from group_member gm where gm.id = :userId)";
+		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
+		query.setParameter("userId", userId);
+		return query.getResultList();
+	}
 
 
 	@Override
