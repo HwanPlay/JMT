@@ -88,9 +88,9 @@ export default Vue.extend({
     goToGroup() {
       this.$router.push('Group');
     },
-    goToConference() {
-      this.$router.push('Conference');
-    },
+    // goToConference() {
+    //   this.$router.push('Conference');
+    // },
     goToNote() {
       this.$router.push('Note');
     },

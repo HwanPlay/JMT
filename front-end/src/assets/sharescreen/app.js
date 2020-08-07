@@ -11,9 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // Author: Dongseong Hwang (dongseong.hwang@intel.com)
+
 const $ = require('jquery');
+// import $ from 'jquery';
 
 const { desktopCapturer } = require('electron');
+// import desktopCapturer from 'electron';
 
 let desktopSharing = false;
 let localStream;

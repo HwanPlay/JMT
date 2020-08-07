@@ -27,7 +27,7 @@
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
-          <div class="my-2 underbox">
+          <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToNote">
               <v-icon size="60">fas fa-file-alt</v-icon>
             </v-btn>
