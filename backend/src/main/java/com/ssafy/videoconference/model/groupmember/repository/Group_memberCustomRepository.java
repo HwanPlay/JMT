@@ -19,7 +19,7 @@ public interface Group_memberCustomRepository {
 	List<GroupMember> findByGroupNo(int groupNo);
 	
 	
-	void deleteById(int groupMemberNo);
+	void deleteById(int groupNo, String id);
 	
 
 }

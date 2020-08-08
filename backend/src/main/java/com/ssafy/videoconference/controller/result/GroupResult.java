@@ -33,6 +33,33 @@ public class GroupResult {
 		return Result.ok(apiResult);
 	}
 	
+	public static ResponseEntity<ApiResult> build(List<Group> group_host, List<Group> group_member) {
+		ArrayList<GroupData> groupsData_host = new ArrayList<>();
+		ArrayList<GroupData> groupsData_member = new ArrayList<>();
+		for(Group group : group_host) {
+			groupsData_host.add(new GroupData(group.getGroupNo(),
+										group.getUser().getId(),
+										group.getUser().getName(),
+										group.getGroupName(),
+										group.getGroupIntro(),
+										group.isHasmeeting()));
+		}
+		
+		for(Group group : group_member) {
+			groupsData_member.add(new GroupData(group.getGroupNo(),
+										group.getUser().getId(),
+										group.getUser().getName(),
+										group.getGroupName(),
+										group.getGroupIntro(),
+										group.isHasmeeting()));
+		}
+		
+		ApiResult apiResult = ApiResult.blank()
+				.add("groups_host", groupsData_host)
+				.add("groups_member", groupsData_member);
+		return Result.ok(apiResult);
+	}
+	
 	
 	
 	public static ResponseEntity<ApiResult> build(List<Group> groups) {

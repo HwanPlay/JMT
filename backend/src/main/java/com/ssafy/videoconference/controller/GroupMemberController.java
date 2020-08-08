@@ -66,9 +66,10 @@ public class GroupMemberController {
 	}
 	
 	
-	@DeleteMapping("/delno/{groupMemberNo}")
-	public ResponseEntity<ApiResult> deleteById(@PathVariable("groupMemberNo") int groupMemberNo) {
-		gmService.deleteById(groupMemberNo);
+	@DeleteMapping("/delno/{groupNo}/{id}")
+	public ResponseEntity<ApiResult> deleteById(@PathVariable("groupNo") int groupNo,
+												@PathVariable("id") String id) {
+		gmService.deleteById(groupNo, id);
 		return Result.ok();
 	}
 	
