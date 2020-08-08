@@ -3,6 +3,7 @@ package com.ssafy.videoconference.model.note.service;
 import java.util.List;
 
 import com.ssafy.videoconference.controller.command.ChangeContentCommand;
+import com.ssafy.videoconference.controller.command.ChangeNoteCommand;
 import com.ssafy.videoconference.controller.command.ChangeTitleCommand;
 import com.ssafy.videoconference.controller.command.SaveNoteCommand;
 import com.ssafy.videoconference.model.note.bean.Note;
@@ -29,5 +30,8 @@ public interface NoteService {
 	
 	
 	Note findByNo(int noteNo);
+
+
+	void changeNote(ChangeNoteCommand command);
 	
 }
