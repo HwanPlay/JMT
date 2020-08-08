@@ -38,16 +38,16 @@
           <input v-model="roomId" id="RoomInput" style="color: white;" />
         </div>
         <div class="MenuBtn">
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
           <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
           <div class="container">
         </div>
         </div>
@@ -58,21 +58,50 @@
       <NoteEditor />
     </div>
     <div id="chat-container">
-      <div id="container">
-        <div class="chat-output"></div>
-    </div>
+        <div id="container">
+          
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-8 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0">Ketty Peris</h6>
+                        </div>
+                        <div class="col-md-4 options text-right pr-0">
+                            <i class="fa fa-times hover text-center pt-1"></i>
+                        </div>
+                    </div> 
+
+             <div class="chat-content">
+                    <div class="chats pt-3 pl-2 pr-3 ">
+                      <div class="chat-output">
+
+                        <!-- <ul class="p-0">
+                            <li class="receive-msg float-left mb-2">
+                                <div class="sender-img">
+                                    <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
+                                </div>
+                                <div class="receive-msg-desc float-left ml-2">
+                                    <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
+                                        Yes always
+                                    </p>
+                                </div>
+                            </li>
+
+                        </ul> -->
+
+                      </div>
+                    </div>
+                          
+              </div>
+
+              <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool"/>
+
+
+
+
+          <!-- <div class="chat-output"></div> -->
+        </div>
     
-      <input
-        type="text"
-        id="input-text-chat"
-        placeholder="Enter Text Chat"
-        @keyup.13="textSend"
-        :disabled="disableInputBool"
-      />
 
-
-
-      
     </div>
     <!-- <div class="row">
       <div class="col-md-12">
@@ -217,7 +246,6 @@ export default {
     },
     onLeave() {
       this.$refs.webrtc.leave();
-
     },
     onShareScreen() {
       this.img = this.$refs.webrtc.shareScreen();
@@ -230,7 +258,7 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
-      this.textArea.innerHTML = event.data || event;
+      this.textArea.innerHTML = "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://nicesnippets.com/demo/image1.jpg' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>"+(event.data || event)+"</p></div></li></ul>"
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
       this.textArea.focus();
@@ -240,7 +268,11 @@ export default {
       console.log(e.target.value);
       // removing trailing/leading whitespace
       this.value =
+<<<<<<< HEAD
         '정영진' + ":" + e.target.value.toString().replace(/^\s+|\s+$/g, "");
+=======
+        "a " + ": " + e.target.value.toString().replace(/^\s+|\s+$/g, "");
+>>>>>>> c0b66c63378349bec68d6d90ab14c68aead4cf1b
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
       this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);
@@ -286,17 +318,18 @@ export default {
   width: 20%;
   height: 100%;
   overflow-y: hidden;
+  
 }
 #container {
   background-color: lightgrey;
   position: relative;
   border: 1px #ddd solid;
-  height: 94%;
+  height: 100%;
   /* overflow-y: auto; */
 }
 
 .chat-output {
-  background-color: white;
+  float: left;
   position: absolute;
   bottom: 0px;
 }
@@ -350,7 +383,7 @@ export default {
   border-color: dodgerBlue;
   box-shadow: 0 0 8px 0 dodgerBlue;
 }
-.btn {
+.conf-btn {
   -webkit-appearance: default-button;
   font-size: 12px;
 }
@@ -365,17 +398,17 @@ export default {
   margin-top: 50px;
 }
 #input-text-chat {
-  float: right;
+  position: relative;;
+  height: 70px;
   width: 100%;
   border: 2px solid #aaa;
   border-radius: 4px;
-  margin-left: 30px;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
   background-color: white;
-  overflow-y: auto;
+  z-index: 4;
 }
 
 .video_list_videOrshow {
@@ -477,5 +510,139 @@ export default {
   position: relative;
   top: 0;
   left: -5px;
+
 }
+
+.chat-main{
+	position: relative;
+	width: 100%;
+  height: 100%;
+}
+.header-one{
+  margin: 0;
+  height: 10%;
+  position: relative;
+  width: 100%;
+	background: #404040;
+}
+.name h6{
+	display: inline-block;
+	font-size: 14px;
+}
+.options i,.options .arrow-up{
+	height: 10px;
+	width: 25px;
+}
+.options i{
+	color: #B2B2B2;
+	font-size: 16px;
+	cursor: pointer;
+}
+.options .hover:hover, .options .arrow-up:hover{
+	background: #737373;
+}
+.options .arrow-up{
+    display: inline-block;
+    line-height: 0;
+}
+.options .hover:hover, .options .arrow-up:hover .fa-arrow-up{
+	color: #fff;
+}
+.options .fa-arrow-up{
+	transform: rotate(40deg);
+}
+.header-two{
+	border-top: 2px solid #35AC19;
+	background: #ECEFF1;
+	color: #5E6060;
+	box-shadow: 0px 6px 13px -7px #c1c1c1;
+	z-index: 1000;
+    position: absolute;
+}
+.options-left i, .options-right i{
+	font-size: 20px;
+	cursor: pointer;
+}
+.options-left i:hover, .options-right i:hover{
+	color: #000;
+}
+.chats{
+	height: 100%;
+	overflow-x: scroll;
+	overflow-x: hidden;
+	background: #ECEFF1;
+	position: relative;
+}
+.chats ul li{
+	display: inline-block;
+	list-style: none;
+	clear: both;
+	font-size: 13px;
+}
+.send-msg{
+	position: relative;
+}
+.send-msg:after{
+	content: "";
+	width:0;
+	height:0;
+	top: 0px;
+	right: -8px;
+	position: absolute;
+	border-top: 8px solid #CFD8DC;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+.send-msg p{
+	background: #CFD8DC;
+}
+.sender-img{
+	display: inline;
+}
+.sender-img img{
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+}
+.receive-msg .receive-msg-desc{
+	display: inline-block;
+	position: relative;
+}
+.receive-msg-desc:before{
+	content: "";
+	width:0;
+	height:0;
+	top: 0px;
+	left: -8px;
+	position: absolute;
+	border-top: 8px solid #fff;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+.receive-msg-time,.send-msg-time{
+	color: #7D7E87;
+	font-size: 10px;
+}
+.receive-msg-time i{
+	font-size: 4px;
+}
+.msg-box {
+  margin-bottom: 0;
+}
+.msg-box i{
+	color: #404040;
+}
+.msg-box input{
+	font-size: 14px;
+}
+.msg-box input:focus{
+	outline: none;
+}
+
+.chat-content{
+  width: 100%;
+  height: 80%;
+  overflow: hidden;
+}
+
 </style>
