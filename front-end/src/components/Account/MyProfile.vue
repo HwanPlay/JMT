@@ -17,9 +17,9 @@
               <v-img :src="require('../../assets/profile/profile1.jpg')" class="rounded-circle" height="125" width="125"></v-img>
             </v-btn>
           </v-col>
-          <v-col cols="8">
-            <h2 style="color: rgb(4, 8, 19);">김싸피</h2>
-            <h4 style="color: rgb(52, 63, 87);">SSAFY3@ssafy.com</h4>
+          <v-col cols="8" style="margin-top: 20px; padding-right: 20px;">
+            <h2 style="color: rgb(4, 8, 19);">{{ $store.state.myName }}</h2>
+            <h4 style="color: rgb(52, 63, 87);">{{ $store.state.userId }}</h4>
           </v-col>
         </v-row>
         <v-card-actions>

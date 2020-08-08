@@ -1,15 +1,10 @@
 <template>
-  <b-col cols="8">
     <div class="editor">
       <!-- Upper Menu -->
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
         <div class="menubar">
-          <button v-if="false" class="menubar__button">
-            <!-- @click="downHTMLDocument" -->
-            <b-icon-download v-b-tooltip.hover title="Download File" font-scale="2"></b-icon-download>
-          </button>
-
           <button
+            size="sm"
             class="menubar__button"
             :class="{ 'is-active': isActive.bold() }"
             @click="commands.bold"
@@ -125,6 +120,7 @@
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
           </button>
 
+
           <!-- <button class="menubar__button" @click="editNoteHTML">
             <h4>
               <b-badge variant="primary">Edit Content</b-badge>
@@ -172,25 +168,20 @@
 
       <!-- {{dataHTML}} -->
       <b-form inline>
-        <b-form-input
+          <b-form-input
             v-model="noteTitle"
             type="text"
             required
             placeholder="Note Title"
           ></b-form-input>
-          
-          <div class="note_button">
-            <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
-            <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
-            <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
-          </div>
+          <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>          
+
       </b-form>
       <hr>
       <div class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
     </div>
-  </b-col>
 </template>
 
 <script>
@@ -253,7 +244,7 @@ export default {
             Hi there,
           </h2>
           <p>
-            this is a very <em>basic</em> example of tiptap.
+            this is a very <em>basic</em> example.
           </p>
           <pre><code>body { display: none; }</code></pre>
           <ul>
@@ -269,9 +260,6 @@ export default {
             <br />
             – mom
           </blockquote>
-          <h2>
-            please click your note!
-          </h2>
         `,
         onUpdate: ({ getHTML }) => {
           this.dataHTML = getHTML();
@@ -290,17 +278,7 @@ export default {
       this.editor.setContent(val);
       this.editor.focus();
     },
-    editNoteContent() {
-      console.log('EditNoteHTML');
-      this.$emit('onEditNoteContent', [this.noteId, this.dataHTML]);
-      this.editor.focus();
-    },
-    editNoteTitle() {
-      this.$emit('onEditNoteTitle', [this.noteId, this.noteTitle]);
-      this.editor.focus();
-    },
-    deleteNote() {
-      this.$emit('onDeleteNote', this.noteId);
+    SaveNote(){
 
     }
   },
@@ -309,8 +287,21 @@ export default {
   },
 };
 </script>
+
 <style scoped>
-.note_button{
-  margin: 0 0 0 auto;
+.menubar__button {
+  font-size: 80% !important;
+}
+.editor {
+  padding: 0.5rem !important;
+}
+.editor__content{
+    height: 30rem;
+}
+.save_button{
+  margin: 0 0  0 auto;
+}
+hr {
+  margin: 0.5rem auto;
 }
 </style>

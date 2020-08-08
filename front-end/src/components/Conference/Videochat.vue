@@ -1,57 +1,59 @@
 <template>
-  <div class="MainContainer">
-    <div class="MainContent">
-      <div class="video_list">
-        <div class="video_list_videOrshow" @click="videoBar">
-          <span class="triangle test_1"></span>
-        </div>
-        <vue-webrtc
-          ref="webrtc"
-          width="100%"
-          :roomId="roomId"
-          v-on:joined-room="logEvent"
-          v-on:left-room="logEvent"
-          v-on:opened-room="logEvent"
-          v-on:share-started="logEvent"
-          v-on:share-stopped="logEvent"
-          @error="onError"
-        />
-        <div class="footer">
-          <div class="RoomInput">
-            채팅방이름을 입력하세요
-            <input v-model="roomId" id="RoomInput" style="color: white;" />
-          </div>
+<div class="MainContainer">
+  <div class="MainContent">
 
+
+
+    <div class="video_list">
+      <div class="video_list_videOrshow" @click="videoBar">
+      <span class="triangle test_1"></span>
+      </div>
+        <vue-webrtc ref="webrtc"
+                    width ="100%"
+                    :roomId="roomId"
+                    v-on:joined-room="logEvent"
+                    v-on:left-room="logEvent"
+                    v-on:opened-room="logEvent"
+                    v-on:share-started="logEvent"
+                    v-on:share-stopped="logEvent"
+                    @error="onError" />
+          <div id="videos-container" style="margin: 20px 0;"></div>
+          <broad-cast ref="broadcast"
+                    width ="100%"
+                    height="100%"
+                    :roomId="roomId"
+                    v-on:joined-room="logEvent"
+                    v-on:left-room="logEvent"
+                    v-on:opened-room="logEvent"
+                    v-on:share-started="logEvent"
+                    v-on:share-stopped="logEvent"
+                    @error="onError" />
+          <!-- <div id="widget-container"></div> -->
+        </div>
+              <div class="footer">
+                <div class="RoomInput" >
+                  채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput" style="color: white;">
+                </div>
           <div class="MenuBtn">
             <button class="btn btn-primary" @click="onJoin">Join</button>
             <button class="btn btn-success" @click="onLeave">Leave</button>
             <button class="btn btn-info" @click="onCapture">Capture Photo</button>
             <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-            <button
-              class="btn btn-chatting"
-              @click="onChat"
-              style="background-color: #f44336;"
-            >Chatting</button>
+            <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
             <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
-            <button class="btn btn-Note" @click="onNote" style="background-color: gray;">Note</button>
-            <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool">Canvas</button>
+            <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
+            <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
+            <button class="btn btn-danger" @click="onBroadcast" >BroadCast</button>
+            <button class="btn btn-info" @click="offBroadcast" >BroadCast off</button>
           </div>
-          <!-- <div id="widget-container"></div> -->
-        </div>
-      </div>
 
-      <video
-        class="ss"
-        data-v-49ef9b35
-        controls="controls"
-        autoplay="autoplay"
-        playsinline
-        height="141"
-        id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"
-      ></video>
     </div>
+    
+    <!-- <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video> -->
+  
+  </div>
     <div id="note-container">
-      <NoteEditor />
+      <NoteEditor/>
     </div>
     <div id="chat-container">
       <div id="container">
@@ -65,53 +67,38 @@
         :disabled="disableInputBool"
       />
     </div>
-
     <!-- <div class="row">
-      <div class="col-md-12 my-3">
-        <h2>Room</h2>
-        <input v-model="roomId">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <Sharescreen />
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-12">
         <h2>Captured Image</h2>
         <figure class="figure">
           <img :src="img" class="img-responsive" />
         </figure>
       </div>
-    </div>-->
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <select id="picture" class="image-picker show-html"></select>
-        <video autoplay></video>
-        <p><button class="bttn">Enable Capture</button></p>
-      </div>
-    </div>
-    -->
+    </div> -->
   </div>
 </template>
 
 <script src="app.js"></script>
 <script>
-import Sharescreen from "./Sharescreen.vue";
-import $ from "jquery";
-import Vue from "vue";
-import WebRTC from "../../api/webrtc";
-import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
-import NoteEditor from "../../components/Note/NoteEditor";
-Vue.use(WebRTC);
+
+import Sharescreen from './Sharescreen.vue';
+import $ from 'jquery';
+import Vue from 'vue';
+import WebRTC from '../../api/webrtc';
+import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
+import NoteEditor from '../../components/Note/NoteEditor';
+import BroadCast from '../../api/broadcast';
+import NoteEditor from "./ConfNoteEditor";
+Vue.use(WebRTC)
+Vue.use(BroadCast)
+
 
 export default {
   name: "Videochat",
   components: {
     Sharescreen,
     NoteEditor,
+
   },
   data() {
     return {
@@ -132,54 +119,75 @@ export default {
     };
   },
   methods: {
-    videoBar() {
-      $(".video-list-1").toggle();
-      this.Bar = !this.Bar;
-      if (this.Bar == false) {
-        $(".ss").css("height", "62%");
-        $(".ss").css("top", "165px");
-      } else {
-        $(".ss").css("height", "74%");
-        $(".ss").css("top", "65px");
-      }
+    offBroadcast(){
+        this.$refs.broadcast.offbroadcast();
+    },
+    onBroadcast(){
+        console.log("브로드캐스팅");
+        this.$refs.broadcast.onbroadcast();
+        this.disableCanvasBool = false;
+        this.disableInputBool = false;
+    },
+    videoBar(){
+       $(".video-list-1").toggle();
+       this.Bar = !this.Bar;
+       if(this.Bar == false){
+           $(".video-list-2").css("height","62%");
+           $(".video-list-2").css("top","165px");
+           $(".video-item-2").css("height","500px");
+       }
+       else{
+         $(".video-list-2").css("height","74%");
+         $(".video-list-2").css("top","65px");
+         $(".video-item-2").css("height","605px");
+       }
+
+       
     },
     onNote() {
       $("#note-container").toggle();
-      if (this.NoteBool == false && this.Chatbool == false) {
-        $(".video_list").css("width", "70%");
-        $(".ss").css("width", "70%");
+      if(this.NoteBool == false && this.Chatbool==false){
+        $(".video_list").css("width","70%");
+        $(".footer").css("width","70%");
         this.NoteBool = true;
-      } else if (this.NoteBool == true && this.Chatbool == false) {
-        $(".video_list").css("width", "100%");
-        $(".ss").css("width", "100%");
+
+      }
+      else if(this.NoteBool == true && this.Chatbool==false){
+        $(".video_list").css("width","100%");
+        $(".footer").css("width","100%");
         this.NoteBool = false;
-      } else if (this.NoteBool == false && this.Chatbool == true) {
-        $(".video_list").css("width", "50%");
-        $(".ss").css("width", "50%");
+      }
+      else if(this.NoteBool == false && this.Chatbool==true){
+        $(".video_list").css("width","50%");
+        $(".footer").css("width","50%");
         this.NoteBool = true;
-      } else {
-        $(".video_list").css("width", "80%");
-        $(".ss").css("width", "80%");
+      }
+      else{
+        $(".video_list").css("width","80%");
+        $(".footer").css("width","80%");
         this.NoteBool = false;
       }
     },
     onChat() {
       $("#chat-container").toggle();
-      if (this.Chatbool == false && this.NoteBool == false) {
-        $(".video_list").css("width", "80%");
-        $(".ss").css("width", "80%");
+      if(this.Chatbool == false && this.NoteBool==false){
+        $(".video_list").css("width","80%");
+        $(".footer").css("width","80%");
         this.Chatbool = true;
-      } else if (this.Chatbool == true && this.NoteBool == false) {
-        $(".video_list").css("width", "100%");
-        $(".ss").css("width", "100%");
+      }
+      else if(this.Chatbool == true && this.NoteBool==false){
+        $(".video_list").css("width","100%");
+        $(".footer").css("width","100%");
         this.Chatbool = false;
-      } else if (this.Chatbool == false && this.NoteBool == true) {
-        $(".video_list").css("width", "50%");
-        $(".ss").css("width", "50%");
+      }
+      else if(this.Chatbool == false && this.NoteBool==true){
+        $(".video_list").css("width","50%");
+        $(".footer").css("width","50%");
         this.Chatbool = true;
-      } else {
-        $(".video_list").css("width", "70%");
-        $(".ss").css("width", "70%");
+      }
+      else{
+        $(".video_list").css("width","70%");
+        $(".footer").css("width","70%");
         this.Chatbool = false;
       }
     },
@@ -195,7 +203,6 @@ export default {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
-      console.log("나나나나나나ㅏ");
       this.$refs.webrtc.join();
       this.disableCanvasBool = false;
       this.disableInputBool = false;
@@ -208,7 +215,6 @@ export default {
     },
     onLeave() {
       this.$refs.webrtc.leave();
-      // this.$refs.webrtc.rtcmConnection.onclose();
     },
     onShareScreen() {
       this.img = this.$refs.webrtc.shareScreen();
@@ -371,7 +377,6 @@ export default {
 
 .video_list_videOrshow {
   position: absolute;
-  top: 66px;
   left: 50%;
   width: auto;
   text-align: center;
@@ -398,20 +403,31 @@ export default {
 .video-list-1 {
   background: black;
   height: 100px;
-  width: 100%;
   position: relative;
-  top: 65px;
   z-index: 1;
   overflow-x: scroll;
   overflow-y: hidden;
   // overflow-y: hidden;
   white-space: nowrap;
+  border: 2px solid red;
+
+}
+.video-list-2{
+  background:black; 
+  height:500px;
+  position: absolute;  
+  width: 100%; 
+  top:165px; z-index: 1;
+  overflow-x: scroll;
+  // overflow-y: hidden;
+  white-space: nowrap;
+  text-align: center;
+
 }
 
 .video-item {
   background: black;
   height: 100px;
-  width: 100%;
   position: relative;
   top: 0px;
   z-index: 200;
@@ -420,14 +436,21 @@ export default {
   display: inline-block;
 }
 
-.ss {
+.video-item-2{
+  background:black; 
+  height:500px;
+
+  top:0px; z-index: 200;
+  overflow-x: auto;
+  white-space: nowrap;
+  display:inline-block;
+}
+
+.ss{
   position: absolute;
   top: 165px;
   width: 100%;
   height: 62%;
 }
 
-.video-list-1 div {
-  background-color: red;
-}
 </style>

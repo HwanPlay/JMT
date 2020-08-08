@@ -9,6 +9,14 @@ services:
         depends_on:
           - backend_videoconference
 
+
+    redis:
+        container_name: redis
+        hostname: redis
+        image: redis
+        ports:
+          - 6379:6379
+
     database:
         container_name: mariadb
         image: mariadb
@@ -17,12 +25,20 @@ services:
           MYSQL_ROOT_PASSWORD: teamdnsb102
         ports:
           - 3306:3306        
+        volumes:
+          - db-data:/var/lib/mysql
 
     backend_videoconference:
-        build: .
+        build:
+            context: ./
+            dockerfile: Dockerfile
         ports:
           - 5000:8080
         environment:
           SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/videoconference?autoReconnect=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
         depends_on:
           - database
+
+
+volumes:
+    db-data:
