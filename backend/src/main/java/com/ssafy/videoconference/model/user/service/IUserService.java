@@ -19,7 +19,7 @@ public interface IUserService {
 	void modifyUser(User user);
 	void modifyUserProfileImg(User user);
 	
-	void removeUser(String userId);
+	boolean removeUser(String id);
 	
 	
 }

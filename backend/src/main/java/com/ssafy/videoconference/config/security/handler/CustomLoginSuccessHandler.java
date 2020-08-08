@@ -1,5 +1,8 @@
 package com.ssafy.videoconference.config.security.handler;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,30 +26,41 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 	
 	@Autowired
     RedisTemplate<String,Object> redisTemplate;
-
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) {
+		
 		UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-		System.out.println("success : " + userDetail.toString());
 		final String accessToken = jwtTokenUtil.generateAccessToken(userDetail);
 		final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetail.getUser().getId());
 		
-		System.out.println("Success Handler");
 		response.addHeader("AccessToken", "Bearer " + accessToken);
 		response.addHeader("RefreshToken", "Bearer " + refreshToken);
-	
+
+		String accessTokenKey = userDetail.getId()+"_accessToken";
+		String refreshTokenKey = userDetail.getId()+"_refreshToken";
 		
-		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
-	
-		redis.getAndSet(userDetail.getId()+"_accessToken", accessToken);
-//		redisTemplate.opsForValue().set(accessToken, true);
-//		redisTemplate.expire(accessToken, 10*6*1000, TimeUnit.MILLISECONDS);
+		// 만일, redis에 사용자 jwt token이 남아있다면, delete
+		initJwtToken(accessTokenKey,refreshTokenKey);
 		
-		redis.getAndSet(userDetail.getId()+"_refreshToken", refreshToken);
+		redisTemplate.opsForValue().set(accessTokenKey, accessToken);
+		redisTemplate.expire(accessTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+
+		redisTemplate.opsForValue().set(refreshTokenKey, refreshToken);
+		redisTemplate.expire(refreshTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_REFRESH_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 		
+		System.out.println("Login Success");
 		response.setStatus(HttpStatus.OK.value());
 		
+	}
+	
+	public void initJwtToken(String accessT, String refreshT) {
+		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
+		if(redis.get(accessT) != null || redis.get(refreshT) != null) {
+			redisTemplate.delete(accessT);
+			redisTemplate.delete(refreshT);
+		}
 	}
 
 }

@@ -46,7 +46,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			e.printStackTrace();
 		}
 		
-		System.out.println("사용자가 입력한 값 : " + user.toString());
 		
 		// UsernamePasswordAuthenticationToken으로 반환
 		authRequestToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPw());
@@ -54,8 +53,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 		// Allow sebclasses to set the "details" property
 		setDetails(request, authRequestToken);
-
-		return this.getAuthenticationManager().authenticate(authRequestToken);
+		Authentication authentication = this.getAuthenticationManager().authenticate(authRequestToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		return authentication;
 	}
 
 }

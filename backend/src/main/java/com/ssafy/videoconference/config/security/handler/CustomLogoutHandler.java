@@ -35,12 +35,13 @@ public class CustomLogoutHandler implements LogoutHandler {
 			e1.printStackTrace();
 		}
 		
-		String accessToken = user.getId() + "_accessToken";
-		String refreshToken = user.getId() + "_refreshToken";
+		String accessTokenKey = user.getId() + "_accessToken";
+		String refreshTokenKey = user.getId() + "_refreshToken";
 		
-		redisTemplate.delete(accessToken);
-		redisTemplate.delete(refreshToken);
+		redisTemplate.delete(accessTokenKey);
+		redisTemplate.delete(refreshTokenKey);
 
+		System.out.println("Logout Success");
 		response.setStatus(HttpStatus.OK.value());
 	}
 

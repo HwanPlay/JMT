@@ -37,4 +37,10 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
 	@Query(value = "select u from User u where u.name like concat('%',:name,'%') and u.id not in (select gm.user.id from GroupMember gm where gm.group.groupNo = :group_no)", nativeQuery = false)
 	List<User> listUserByUserIdAndGroupNo(String name, int group_no);
 	
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM User u WHERE u.id=:id")
+	int deleteUser(String id);
+
 }

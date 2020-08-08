@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ssafy.videoconference.config.util.JwtTokenUtil;
@@ -21,6 +23,9 @@ import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.service.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
@@ -29,8 +34,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	private UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
-    RedisTemplate<String,Object> redisTemplate;
-	
+	RedisTemplate<String, Object> redisTemplate;
+
 	private final JwtTokenUtil jwtTokenUtil;
 
 	public JwtAuthorizationFilter(JwtTokenUtil jwtTokenUtil) {
@@ -40,48 +45,60 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
+
+		// SecurityContextHolder.getContext().getAuthentication();
+
 		// Access Token의 Authorization
-		// 0. 사용자가 보낸 accessToken의 payload에 저장된 userId 확인하기
+		// 0. 사용자가 보낸 accessToken 복호화하여 userId 찾기 - 만료기간 확인(Exception 처리)
 		// 1. 확인한 userId로 Redis에 저장된 accessToken key 찾기 - 있어야 함
 		// 2. 사용자가 보낸 accessToken이랑 Redis에 저장된 accessToken이 동일한지 확인 - 동일해야 함!
-		// 3. accessToken의 만료기간 확인하기 - 현재 날짜와 비교. 만료되기 1분 전이라면, exception 
-		// 4. 전부 확인했으면, 다음 filter 실행 (성공-요청 api 실행)
-		
-		final String accessToken = request.getHeader("Authorization");
+		// 3. Token의 payload(Claims)로 권한정보까지 만들어 인증처리된 Authentication 생성
+		// 4. 생성한 Authentication을 SecurityContextHolder에 저장
+		// 4. 전부 확인했으면, 다음 filter 실행 - doFilter 호출
 
-		String username = null;
+		final String token = request.getHeader("Authorization");
+		ValueOperations<String, Object> redis = redisTemplate.opsForValue();
 
-		String jwtToken = null;
+		String userId = null;
+		String accessToken = null;
 
-		if (accessToken != null && accessToken.startsWith("Bearer ")) {
+		if (token != null && token.startsWith("Bearer ")) {
 
-			jwtToken = accessToken.substring(7);
+			accessToken = token.substring(7);
+
+			// AccessToken Claim(payload)에 저장된 userId 가져오기
+			// Claim으로 변환 도중 예외가 발생하면 유효하지 않은 토큰으로 판단
 			try {
-				// AccessToken payload에 저장된 userId 가져오기
-				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+				userId = jwtTokenUtil.getUserNameFromJwtToken(accessToken);
+				if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-			} catch (IllegalArgumentException e) {
-				logger.error("JWT claims string is empty: {}", e.getMessage());
+					// Redis의 AccessToken과 동일한지 확인
+					if (accessToken.equals(redis.get(userId + "_accessToken"))) {
+						// Access Token 확인 완료 후, SecurityCOntextHolder에 Authentication 저장
+						UserDetail userDetail = this.userDetailsService.loadUserByUsername(userId);
+						UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+								userDetail, null, userDetail.getAuthorities());
+						SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+					}
+				}
 
+				// ExpiredJwtException : 403 에러 (Refresh 요청)
+				// 그 외의 Exception : 401 에러 (재 로그인 요청)
 			} catch (ExpiredJwtException e) {
 				logger.error("JWT token is expired: {}", e.getMessage());
+			} catch (SignatureException e) {
+				logger.error("Invalid JWT signature: {}", e.getMessage());
+			} catch (MalformedJwtException e) {
+				logger.error("Invalid JWT token: {}", e.getMessage());
+			} catch (UnsupportedJwtException e) {
+				logger.error("JWT token is unsupported: {}", e.getMessage());
+			} catch (IllegalArgumentException e) {
+				logger.error("JWT claims string is empty: {}", e.getMessage());
 			}
-
 		} else {
 			logger.warn("JWT Token does not begin with Bearer String");
 		}
-		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
 
-		
-		redis.get(username+"_accessToken");
-		UserDetail userDetail = this.userDetailsService.loadUserByUsername(username);
-		// AccessToken 만료 여부 확인
-		if (jwtTokenUtil.isValidToken(jwtToken, userDetail)) {
-			
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
-		//	usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-		}
 		chain.doFilter(request, response);
 	}
 
