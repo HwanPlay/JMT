@@ -21,7 +21,7 @@ public interface Group_memberService {
 	List<GroupMember> findByNo(int groupNo);
 	
 	
-	void deleteById(int groupMemberNo);
+	void deleteById(int groupNo, String id);
 	
 	
 	void changeNickname(ChangeNicknameCommand command);
