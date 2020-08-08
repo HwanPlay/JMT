@@ -42,7 +42,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <GroupMembers :membersInfo=members />
+              <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
             </v-card-actions>
           </v-card>
         </v-col>
@@ -152,7 +152,6 @@ export default {
     exitGroup(){
       axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
         .then(res => {
-          console.log('exit!');
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
@@ -163,7 +162,6 @@ export default {
     console.log('hi');
     axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
-        console.log('res:', res.data);
         this.members = res.data.groupMembers;
       })
       .catch(err => console.log(err.response));
@@ -172,7 +170,6 @@ export default {
     groupInfo(){
       axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
-          console.log('res:', res.data);
           this.members = res.data.groupMembers;
         })
         .catch(err => console.log(err.response));    }

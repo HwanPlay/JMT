@@ -12,7 +12,7 @@
             아싸..
           </div>
           <v-card-text v-for="(memberInfo, i) in membersInfo" :key=i style="padding: 5px;">
-            <memberCard :userInfo = memberInfo />
+            <memberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId />
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -35,6 +35,8 @@ export default {
   },
   props:{
     membersInfo: Array,
+    groupNo: Number,
+    hostId: String,
   },
   data () {
     return{
