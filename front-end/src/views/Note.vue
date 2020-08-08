@@ -83,24 +83,21 @@ export default {
         });
     },
     saveNote(noteObj) {
-      const URL_saveNoteTitle = 'videoconference/api/note/title/';
-      const URL_saveNoteContent = 'videoconference/api/note/content/';
+      const URL_saveNote = 'videoconference/api/note/';
       const note_ID = noteObj.Id;
       
       // console.log(noteObj.Title);
       // console.log(noteObj.Content);
       
-      axios.put(SERVER_URL + URL_saveNoteTitle + note_ID,{
-        'title': noteObj.Title
-      }).then((res)=>{
-        console.log('title:', noteObj.Title);
-      }).catch((err)=> console.error(err));
-
-      axios.put(SERVER_URL + URL_saveNoteContent + note_ID,{
+      axios.put(SERVER_URL + URL_saveNote + note_ID,{
+        'title': noteObj.Title,
         'content': noteObj.Content
       }).then((res)=>{
+        console.log('title:', noteObj.Title);
         console.log('Content:', noteObj.Content);
       }).catch((err)=> console.error(err));
+
+      
     },
 
 
