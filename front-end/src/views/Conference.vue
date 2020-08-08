@@ -5,9 +5,9 @@
         <videochat />
       </div>
     </div>
-    <div class="main_2 main_common">
+    <!-- <div class="main_2 main_common">
       <Sharescreen />
-    </div>
+    </div> -->
     <div class="main_3 main_common">
       <Webrtc />
     </div>
@@ -16,14 +16,14 @@
 
 <script>
 import Videochat from '../components/Conference/Videochat.vue';
-import Sharescreen from '../components/Conference/Sharescreen.vue';
+// import Sharescreen from '../components/Conference/Sharescreen.vue';
 import Webrtc from '../components/Conference/webrtc.vue';
 
 export default {
   name: 'Conference',
   components: {
     Videochat,
-    Sharescreen,
+    // Sharescreen,
     Webrtc,
   },
 };
