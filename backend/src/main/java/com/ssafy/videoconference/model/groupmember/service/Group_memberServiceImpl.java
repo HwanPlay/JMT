@@ -47,8 +47,8 @@ public class Group_memberServiceImpl implements Group_memberService{
 
 
 	@Override
-	public void deleteById(int groupMemberNo) {
-		gmRepository.deleteById(groupMemberNo);
+	public void deleteById(int groupNo, String id) {
+		gmRepository.deleteById(groupNo, id);
 		
 	}
 

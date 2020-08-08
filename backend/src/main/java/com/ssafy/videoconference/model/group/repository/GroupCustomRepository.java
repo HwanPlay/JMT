@@ -17,6 +17,9 @@ public interface GroupCustomRepository<T> {
 	List<Group> findByHostId(String hostId);
 	
 	
+	List<Group> findByUserId(String userId);
+	
+	
 	@Modifying
 	void deleteByHostId(String hostId);
 	

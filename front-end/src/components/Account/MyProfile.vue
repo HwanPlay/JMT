@@ -5,7 +5,7 @@
         <v-icon size=30>fas fa-user</v-icon>
       </v-btn>
     </template>
-    <v-card><!-- 회원가입 폼 양식을 주려면 여기서 -->
+    <v-card>
       <v-container style="height: 100%;">
         <v-card-title>
           <span class="headline"><h1>My Profile</h1></span>

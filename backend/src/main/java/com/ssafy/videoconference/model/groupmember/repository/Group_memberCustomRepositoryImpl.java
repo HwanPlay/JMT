@@ -48,11 +48,12 @@ public class Group_memberCustomRepositoryImpl implements Group_memberCustomRepos
 
 
 	@Override
-	public void deleteById(int groupMemberNo) {
+	public void deleteById(int groupNo, String id) {
 		String jpql =
-				"delete from group_member where group_member_no = :groupMemberNo";
+				"delete from group_member where group_no = :groupNo and id = :id";
 		NativeQuery<GroupMember> query = (NativeQuery<GroupMember>) em.createNativeQuery(jpql, GroupMember.class);
-		query.setParameter("groupMemberNo", groupMemberNo);
+		query.setParameter("groupNo", groupNo);
+		query.setParameter("id", id);
 		query.executeUpdate();
 	}
 

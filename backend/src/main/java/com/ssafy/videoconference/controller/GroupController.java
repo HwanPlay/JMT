@@ -45,7 +45,7 @@ public class GroupController {
 	public ResponseEntity<ApiResult> addGroup(@RequestBody CreateGroupPayload payload) {
 		CreateGroupCommand command = payload.toCommand();
 		Group gp = groupService.createGroup(command);
-		return GroupResult.build(gp);
+		return GroupResult.build_add(gp);
 	}
 	
 	
@@ -63,10 +63,17 @@ public class GroupController {
 	}
 	
 	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<ApiResult> getGroup(@PathVariable("id") String id) {
-		List<Group> gp_list = groupService.findByHostId(id);
+	@GetMapping("/get/{userid}")
+	public ResponseEntity<ApiResult> getGroup(@PathVariable("userid") String userid) {
+		List<Group> gp_list = groupService.findByUserId(userid);
 		return GroupResult.build(gp_list);
+	}
+	
+	@GetMapping("/get/all/{id}")
+	public ResponseEntity<ApiResult> getGroupAll(@PathVariable("id") String id) {
+		List<Group> gp_list_host = groupService.findByHostId(id);
+		List<Group> gp_list_member = groupService.findByUserId(id);
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	

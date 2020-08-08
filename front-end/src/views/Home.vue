@@ -19,12 +19,15 @@
         </v-col>
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" @click="modalOn=true" color="rgb(52, 63, 87)">
               <v-icon size="60">fas fa-plus-square</v-icon>
             </v-btn>
+            <v-dialog v-model="modalOn" max-width="500px">
+              <createGroup @close="closeModal" />
+            </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
-          <div class="my-2 underbox">
+          <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToNote">
               <v-icon size="60">fas fa-file-alt</v-icon>
             </v-btn>
@@ -61,20 +64,29 @@
 </template>
 
 <script>
+import createGroup from '../components/Group/createGroup.vue';
+
 export default {
   name: 'Home',
+  components: {
+    createGroup,
+  },
   methods: {
     goToGroup () {
       this.$emit('goToGroup');
     },
     goToNote () {
       this.$emit('goToNote');
+    },
+    closeModal (){
+      this.modalOn = false;
     }
   },
   data () {
     return {
       clock: new Date(),
       timerCount: 5,
+      modalOn: false,
     };
   },
   watch: {
