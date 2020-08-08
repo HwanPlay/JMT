@@ -38,16 +38,16 @@
           <input v-model="roomId" id="RoomInput" style="color: white;" />
         </div>
         <div class="MenuBtn">
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
           <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
           <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
-          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="conf-btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
           <div class="container">
         </div>
         </div>
@@ -377,7 +377,7 @@ export default {
   border-color: dodgerBlue;
   box-shadow: 0 0 8px 0 dodgerBlue;
 }
-.btn {
+.conf-btn {
   -webkit-appearance: default-button;
   font-size: 12px;
 }
