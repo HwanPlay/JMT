@@ -268,11 +268,7 @@ export default {
       console.log(e.target.value);
       // removing trailing/leading whitespace
       this.value =
-<<<<<<< HEAD
-        '정영진' + ":" + e.target.value.toString().replace(/^\s+|\s+$/g, "");
-=======
         "a " + ": " + e.target.value.toString().replace(/^\s+|\s+$/g, "");
->>>>>>> c0b66c63378349bec68d6d90ab14c68aead4cf1b
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
       this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);

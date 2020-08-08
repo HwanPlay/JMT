@@ -50,6 +50,9 @@
           <div v-if="groupInfo.hostId === this.$store.state.userId">
             <InviteMember :groupNo = groupInfo.groupNo />
           </div>
+        <v-btn color="danger" @click="exitGroup">
+          그룹 탈퇴
+        </v-btn>
         </v-col>
       </v-row>
     </v-col>
@@ -145,7 +148,17 @@ export default {
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
+
+    exitGroup(){
+      axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
+        .then(res => {
+          console.log('exit!');
+          this.$router.push('/Home');
+        })
+        .catch(err => console.log(err.response));
+    }
   },
+
   mounted() {
     console.log('hi');
     axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
