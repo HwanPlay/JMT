@@ -8,12 +8,11 @@
         @onGetNoteHTML="getNoteHTML"/>
       
       <NoteEditor 
-      @onEditNoteContent="editNoteContent" 
-      @onEditNoteTitle="editNoteTitle" 
+
       @onDeleteNote="deleteNote"
-      :noteId="noteId"
-      :noteContent="noteContent"
-      :noteTitle="noteTitle"
+      
+      :noteObj="noteObj"
+      @onSaveNote="saveNote"
       />
     </b-row>
   </b-container>
@@ -37,15 +36,17 @@ export default {
       group_list: [],
       received_note_list: [],
 
-      noteContent: '',
-      noteId: 0,
-      noteTitle: '',
+      noteObj: {
+        Content: '',
+        Id: 0,
+        Title: '',
+      }
     };
   },
   methods: {
     // api 추가
     get_group_list() {
-      const URL = 'videoconference/api/group/gethost/';
+      const URL = 'videoconference/api/group/get/all/';
       const ID = 'lwh1992@naver.com/';
 
       axios
@@ -72,44 +73,66 @@ export default {
         .get(SERVER_URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
           console.log(res.data);
-          this.noteContent = res.data.content;
-          this.noteId = NoteId;
-          this.noteTitle = res.data.title;
+          this.noteObj.Content = res.data.content;
+          this.noteObj.Id = res.data.noteNo;
+          this.noteObj.Title = res.data.title;
         })
         .catch((err)=> {
           console.error(err);
           this.noteContent = 'axios Error is occured';
-          this.noteId = NoteId;
         });
     },
-    editNoteContent([noteId, noteContent]) {
-      // 이거 url 수정할 것 contenet임.
-      const URLContentEdit = 'videoconference/api/note/content/';
-      console.log(noteId);
-      axios.put(SERVER_URL+URLContentEdit+noteId, {
-        'content': noteContent,
+    saveNote(noteObj) {
+      const URL_saveNoteTitle = 'videoconference/api/note/title/';
+      const URL_saveNoteContent = 'videoconference/api/note/content/';
+      const note_ID = noteObj.Id;
+      
+      // console.log(noteObj.Title);
+      // console.log(noteObj.Content);
+      
+      axios.put(SERVER_URL + URL_saveNoteTitle + note_ID,{
+        'title': noteObj.Title
       }).then((res)=>{
-        console.log(res);
-        // alert('content edit 성공');
-      })
-        .catch((err)=>{
-          console.log('error뜸');
-          console.error(err);
-        });
-    },
-    editNoteTitle([noteId, noteTitle]) {
-      const URLTitleEdit = 'videoconference/api/note/title/';
-      axios.put(SERVER_URL+URLTitleEdit+noteId, {
-        'title': noteTitle,
+        console.log('title:', noteObj.Title);
+      }).catch((err)=> console.error(err));
+
+      axios.put(SERVER_URL + URL_saveNoteContent + note_ID,{
+        'content': noteObj.Content
       }).then((res)=>{
-        console.log(res);
-        // alert('title edit 성공');
-      })
-        .catch((err)=>{
-          console.log('error뜸');
-          console.error(err);
-        });
+        console.log('Content:', noteObj.Content);
+      }).catch((err)=> console.error(err));
     },
+
+
+    // editNoteContent([noteId, noteContent]) {
+    //   // 이거 url 수정할 것 contenet임.
+    //   const URLContentEdit = 'videoconference/api/note/content/';
+    //   console.log(noteId);
+    //   axios.put(SERVER_URL+URLContentEdit+noteId, {
+    //     'content': noteContent,
+    //   }).then((res)=>{
+    //     console.log(res);
+    //     // alert('content edit 성공');
+    //   })
+    //     .catch((err)=>{
+    //       console.log('error뜸');
+    //       console.error(err);
+    //     });
+    // },
+    // editNoteTitle([noteId, noteTitle]) {
+    //   const URLTitleEdit = 'videoconference/api/note/title/';
+    //   axios.put(SERVER_URL+URLTitleEdit+noteId, {
+    //     'title': noteTitle,
+    //   }).then((res)=>{
+    //     console.log(res);
+    //     // alert('title edit 성공');
+    //   })
+    //     .catch((err)=>{
+    //       console.log('error뜸');
+    //       console.error(err);
+    //     });
+    // },
+
     deleteNote(noteId) {
       const URLDeleteNote = 'videoconference/api/note/delno/';
       axios.delete(SERVER_URL+URLDeleteNote+noteId)

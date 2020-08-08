@@ -173,15 +173,17 @@
       <!-- {{dataHTML}} -->
       <b-form inline>
         <b-form-input
-            v-model="noteTitle"
+            v-model="dataNoteObj.Title"
             type="text"
             required
             placeholder="Note Title"
           ></b-form-input>
           
           <div class="note_button">
-            <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
-            <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button>
+            <b-button class="mx-1" @click="saveNote" variant="primary">Save</b-button>
+
+            <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
+            <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
             <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
           </div>
       </b-form>
@@ -221,9 +223,7 @@ export default {
     EditorMenuBubble,
   },
   props: {
-    noteId: Number,
-    noteContent: String,
-    noteTitle: String,
+    noteObj: Object,
   },
   data() {
     return {
@@ -274,34 +274,37 @@ export default {
           </h2>
         `,
         onUpdate: ({ getHTML }) => {
-          this.dataHTML = getHTML();
+          this.dataNoteObj.Content = getHTML();
         },
       }),
-      dataHTML: '',
+      dataNoteObj:{
+        Content: '',
+        Title: '',
+        Id: 0,
+      }
     };
   },
   watch: {
-    noteContent: function (val) {
-      this.changeReceiveHTML(val);
-    },
+    noteObj: {
+      deep: true,
+      handler() {
+        this.dataNoteObj.Content = this.noteObj.Content;
+        this.dataNoteObj.Title = this.noteObj.Title;
+        this.dataNoteObj.Id = this.noteObj.Id;
+        this.editor.setContent(this.dataNoteObj.Content);
+        this.editor.focus();
+      }
+    }
   },
   methods: {
-    changeReceiveHTML(val) {
-      this.editor.setContent(val);
+    saveNote() {
+      console.log('SaveNote');
+      this.$emit('onSaveNote', this.dataNoteObj);
       this.editor.focus();
     },
-    editNoteContent() {
-      console.log('EditNoteHTML');
-      this.$emit('onEditNoteContent', [this.noteId, this.dataHTML]);
-      this.editor.focus();
-    },
-    editNoteTitle() {
-      this.$emit('onEditNoteTitle', [this.noteId, this.noteTitle]);
-      this.editor.focus();
-    },
+
     deleteNote() {
       this.$emit('onDeleteNote', this.noteId);
-
     }
   },
   beforeDestroy() {
