@@ -6659,7 +6659,7 @@
               'controls': '',
               'autoplay': '',
               'playsinline': '',
-              'width': '100%',
+              'height': 100,
               'id': item.id
             },
             domProps: {

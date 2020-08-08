@@ -153,28 +153,28 @@
 </template>
 
 <script>
-import $ from "jquery";
-import Vue from "vue";
-import WebRTC from "../../api/webrtc";
-import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
-import BroadCast from "../../api/broadcast";
-import NoteEditor from "./ConfNoteEditor";
+import $ from 'jquery';
+import Vue from 'vue';
+import WebRTC from '../../api/webrtc';
+import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
+import BroadCast from '../../api/broadcast';
+import NoteEditor from './ConfNoteEditor';
 Vue.use(WebRTC);
 Vue.use(BroadCast);
 
 export default {
-  name: "Videochat",
+  name: 'Videochat',
   components: {
     NoteEditor,
   },
   data() {
     return {
       img: null,
-      roomId: "public-room",
+      roomId: 'public-room',
       disableInputBool: true,
       disableCanvasBool: true,
       chatContainer: null,
-      value: "",
+      value: '',
       textArea: null,
       designer: null,
       connection: null,
@@ -190,67 +190,67 @@ export default {
       this.$refs.broadcast.offbroadcast();
     },
     onBroadcast() {
-      console.log("브로드캐스팅");
+      console.log('브로드캐스팅');
       this.$refs.broadcast.onbroadcast();
       this.disableCanvasBool = false;
       this.disableInputBool = false;
     },
     videoBar() {
-      $(".video-list-1").toggle();
+      $('.video-list-1').toggle();
       this.Bar = !this.Bar;
       if (this.Bar == false) {
-        $(".video-list-2").css("height", "70%");
+        $('.video-list-2').css('height', '70%');
       } else {
-        $(".video-list-2").css("height", "83.6%");
+        $('.video-list-2').css('height', '83.6%');
       }
     },
     onNote() {
-      $("#note-container").toggle();
+      $('#note-container').toggle();
       if (this.NoteBool == false && this.Chatbool == false) {
-        $(".video_list").css("width", "70%");
-        $(".footer").css("width", "70%");
+        $('.video_list').css('width', '70%');
+        $('.footer').css('width', '70%');
         this.NoteBool = true;
       } else if (this.NoteBool == true && this.Chatbool == false) {
-        $(".video_list").css("width", "100%");
-        $(".footer").css("width", "100%");
+        $('.video_list').css('width', '100%');
+        $('.footer').css('width', '100%');
         this.NoteBool = false;
       } else if (this.NoteBool == false && this.Chatbool == true) {
-        $(".video_list").css("width", "50%");
-        $(".footer").css("width", "50%");
+        $('.video_list').css('width', '50%');
+        $('.footer').css('width', '50%');
         this.NoteBool = true;
       } else {
-        $(".video_list").css("width", "80%");
-        $(".footer").css("width", "80%");
+        $('.video_list').css('width', '80%');
+        $('.footer').css('width', '80%');
         this.NoteBool = false;
       }
     },
     onChat() {
-      $("#chat-container").toggle();
+      $('#chat-container').toggle();
       if (this.Chatbool == false && this.NoteBool == false) {
-        $(".video_list").css("width", "80%");
-        $(".footer").css("width", "80%");
+        $('.video_list').css('width', '80%');
+        $('.footer').css('width', '80%');
         this.Chatbool = true;
       } else if (this.Chatbool == true && this.NoteBool == false) {
-        $(".video_list").css("width", "100%");
-        $(".footer").css("width", "100%");
+        $('.video_list').css('width', '100%');
+        $('.footer').css('width', '100%');
         this.Chatbool = false;
       } else if (this.Chatbool == false && this.NoteBool == true) {
-        $(".video_list").css("width", "50%");
-        $(".footer").css("width", "50%");
+        $('.video_list').css('width', '50%');
+        $('.footer').css('width', '50%');
         this.Chatbool = true;
       } else {
-        $(".video_list").css("width", "70%");
-        $(".footer").css("width", "70%");
+        $('.video_list').css('width', '70%');
+        $('.footer').css('width', '70%');
         this.Chatbool = false;
       }
     },
     onCanvas() {
       this.disableCanvasBool = true;
       this.designer.widgetHtmlURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
+        'https://www.webrtc-experiment.com/Canvas-Designer/widget.html';
       this.designer.widgetJsURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-      this.designer.appendTo(document.getElementById("widget-container"));
+        'https://www.webrtc-experiment.com/Canvas-Designer/widget.js';
+      this.designer.appendTo(document.getElementById('widget-container'));
     },
     onCapture() {
       this.img = this.$refs.webrtc.capture();
@@ -260,8 +260,8 @@ export default {
       this.disableCanvasBool = false;
       this.disableInputBool = false;
 
-      $(".video-item")
-        .find("video")
+      $('.video-item')
+        .find('video')
         .each(function (i, e) {
           console.log($(this).get());
         });
@@ -273,42 +273,42 @@ export default {
       this.img = this.$refs.webrtc.shareScreen();
     },
     onError(error, stream) {
-      console.log("On Error Event", error, stream);
+      console.log('On Error Event', error, stream);
     },
     logEvent(event) {
-      console.log("Event : ", event);
+      console.log('Event : ', event);
     },
     appendDIV(event) {
-      this.textArea = document.createElement("div");
+      this.textArea = document.createElement('div');
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://nicesnippets.com/demo/image1.jpg' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        '<ul class=\'p-0\'><li class=\'receive-msg float-left mb-2\'><div class=\'sender-img\'><img src=\'http://nicesnippets.com/demo/image1.jpg\' class=\'float-left\'></div><div class=\'receive-msg-desc float-left ml-2\'><p class=\'bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded\'>' +
         (event.data || event) +
-        "</p></div></li></ul>";
+        '</p></div></li></ul>';
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
       // this.textArea.style.whiteSpace = 'normal';
       this.textArea.focus();
-      document.getElementById("input-text-chat").focus();
+      document.getElementById('input-text-chat').focus();
     },
     textSend(e) {
       console.log(e.target.value);
       // removing trailing/leading whitespace
       this.value =
-        "a" + ":" + e.target.value.toString().replace(/^\s+|\s+$/g, "");
+        'a' + ':' + e.target.value.toString().replace(/^\s+|\s+$/g, '');
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
       this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);
-      e.target.value = "";
+      e.target.value = '';
     },
   },
   updated() {
     this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
-    $("video").click(function () {
-      console.log("클릭");
+    $('video').click(function () {
+      console.log('클릭');
     });
   },
   mounted() {
-    this.chatContainer = document.querySelector(".chat-output");
+    this.chatContainer = document.querySelector('.chat-output');
     this.designer = new CanvasDesigner();
   },
 };
