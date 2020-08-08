@@ -277,6 +277,32 @@ export default {
           this.dataNoteObj.Content = getHTML();
         },
       }),
+      example_data: `
+          <h2>
+            Hi there,
+          </h2>
+          <p>
+            this is a very <em>basic</em> example of Note.
+          </p>
+          <pre><code>body { display: none; }</code></pre>
+          <ul>
+            <li>
+              A regular list
+            </li>
+            <li>
+              With regular items
+            </li>
+          </ul>
+          <blockquote>
+            It's amazing 👏
+            <br />
+            – mom
+          </blockquote>
+          <h2>
+            please click your note!
+          </h2>
+        `
+      ,
       dataNoteObj:{
         Content: '',
         Title: '',
@@ -304,7 +330,10 @@ export default {
     },
 
     deleteNote() {
-      this.$emit('onDeleteNote', this.noteId);
+      this.$emit('onDeleteNote', this.dataNoteObj.Id);
+      this.dataNoteObj.Title = 'Select Note';
+      this.editor.setContent(this.example_data);
+      this.dataNoteObj.Id = 0;
     }
   },
   beforeDestroy() {
