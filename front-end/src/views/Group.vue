@@ -75,7 +75,6 @@ export default {
     },
   },
   mounted() {
-    console.log('worth:', this.$store.state.groupModalOn);
     this.$store.dispatch('getGroupInfo');
   },
 };

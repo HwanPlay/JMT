@@ -1210,8 +1210,6 @@
   };
 
 
-
-
   var // Static reference to slice
     sliceDeferred = [].slice;
 
@@ -1353,8 +1351,6 @@
       return promise;
     }
   });
-
-
 
 
   jQuery.support = (function() {
@@ -1659,8 +1655,6 @@
 
     return support;
   })();
-
-
 
 
   var rbrace = /^(?:\{.*\}|\[.*\])$/,
@@ -2029,8 +2023,6 @@
   }
 
 
-
-
   function handleQueueMarkDefer( elem, type, src ) {
     var deferDataKey = type + 'defer',
       queueDataKey = type + 'queue',
@@ -2208,8 +2200,6 @@
       return defer.promise( object );
     }
   });
-
-
 
 
   var rclass = /[\n\t\r]/g,
@@ -2865,8 +2855,6 @@
       }
     });
   });
-
-
 
 
   var rformElems = /^(?:textarea|input|select)$/i,
@@ -3934,7 +3922,6 @@
       jQuery.event.fixHooks[ name ] = jQuery.event.mouseHooks;
     }
   });
-
 
 
   /*!
@@ -5715,8 +5702,6 @@
   }
 
 
-
-
   function createSafeFragment( document ) {
     var list = nodeNames.split( '|' ),
       safeFrag = document.createDocumentFragment();
@@ -6549,8 +6534,6 @@
   });
 
 
-
-
   var ralpha = /alpha\([^)]*\)/i,
     ropacity = /opacity=([^)]*)/,
     // fixed for IE9, see #8346
@@ -6964,8 +6947,6 @@
       }
     };
   });
-
-
 
 
   var r20 = /%20/g,
@@ -7966,8 +7947,6 @@
   }
 
 
-
-
   var jsc = jQuery.now(),
     jsre = /(\=)\?(&|$)|\?\?/i;
 
@@ -8042,8 +8021,6 @@
       return 'script';
     }
   });
-
-
 
 
   // Install script dataType
@@ -8131,8 +8108,6 @@
       };
     }
   });
-
-
 
 
   var // #5280: Internet Explorer will keep connections alive if we don't abort on unload
@@ -8355,8 +8330,6 @@
       }
     });
   }
-
-
 
 
   var elemdisplay = {},
@@ -9057,8 +9030,6 @@
   }
 
 
-
-
   var getOffset,
     rtable = /^t(?:able|d|h)$/i,
     rroot = /^(?:body|html)$/i;
@@ -9305,8 +9276,6 @@
   }
 
 
-
-
   // Create width, height, innerHeight, innerWidth, outerHeight and outerWidth methods
   jQuery.each( { Height: 'height', Width: 'width' }, function( name, type ) {
     var clientProp = 'client' + name,
@@ -9378,8 +9347,6 @@
   });
 
 
-
-
   // Expose jQuery to the global object
   window.jQuery = window.$ = jQuery;
 
@@ -9398,7 +9365,6 @@
   if ( typeof define === 'function' && define.amd && define.amd.jQuery ) {
     define( 'jquery', [], function () { return jQuery; } );
   }
-
 
 
 })( window );

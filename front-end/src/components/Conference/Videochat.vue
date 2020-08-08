@@ -1,64 +1,67 @@
 <template>
-<div class="MainContainer">
-  <div class="MainContent">
-
-
-
-    <div class="video_list">
-      <div class="video_list_videOrshow" @click="videoBar">
-      <span class="triangle test_1"></span>
-      </div>
-        <vue-webrtc ref="webrtc"
-                    width ="100%"
-                    :roomId="roomId"
-                    v-on:joined-room="logEvent"
-                    v-on:left-room="logEvent"
-                    v-on:opened-room="logEvent"
-                    v-on:share-started="logEvent"
-                    v-on:share-stopped="logEvent"
-                    @error="onError" />
-          <div id="videos-container" style="margin: 20px 0;"></div>
-          <broad-cast ref="broadcast"
-                    width ="100%"
-                    height="100%"
-                    :roomId="roomId"
-                    v-on:joined-room="logEvent"
-                    v-on:left-room="logEvent"
-                    v-on:opened-room="logEvent"
-                    v-on:share-started="logEvent"
-                    v-on:share-stopped="logEvent"
-                    @error="onError" />
-          <!-- <div id="widget-container"></div> -->
+  <div class="MainContainer">
+    <div class="MainContent">
+      <div class="video_list">
+        <div class="video_list_videOrshow" @click="videoBar">
+          <span class="triangle test_1"></span>
         </div>
-              <div class="footer">
-                <div class="RoomInput" >
-                  채팅방이름을 입력하세요<input v-model="roomId" id="RoomInput" style="color: white;">
-                </div>
-          <div class="MenuBtn">
-            <button class="btn btn-primary" @click="onJoin">Join</button>
-            <button class="btn btn-success" @click="onLeave">Leave</button>
-            <button class="btn btn-info" @click="onCapture">Capture Photo</button>
-            <button class="btn btn-warning" @click="onShareScreen">Share Screen</button>
-            <button class="btn btn-chatting" @click="onChat" style="background-color: #f44336;">Chatting</button>
-            <!-- <button class="btn btn-Note" @click="$emit('noteonoff')" style="background-color: gray;" >Note</button> -->
-            <button class="btn btn-Note" @click="onNote" style="background-color: gray;" >Note</button>
-            <button class="btn btn-danger" @click="onCanvas" :disabled="disableCanvasBool"  >Canvas</button>
-            <button class="btn btn-danger" @click="onBroadcast" >BroadCast</button>
-            <button class="btn btn-info" @click="offBroadcast" >BroadCast off</button>
-          </div>
+        <vue-webrtc
+          ref="webrtc"
+          width="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
+        <broad-cast
+          ref="broadcast"
+          width="100%"
+          height="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
+      </div>
 
+
+
+      <div class="footer">
+        <div class="RoomInput">
+          채팅방이름을 입력하세요
+          <input v-model="roomId" id="RoomInput" style="color: white;" />
+        </div>
+        <div class="MenuBtn">
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
+          <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
+          <div class="container">
+        </div>
+        </div>
+      </div>
     </div>
     
-    <!-- <video class="ss" data-v-49ef9b35="" controls="controls" autoplay="autoplay" playsinline="" height="141" id="UlfcEJxrujOcm0U93w2jRYqQmKSYGPlz7yIl"></video> -->
-  
-  </div>
     <div id="note-container">
-      <NoteEditor/>
+      <NoteEditor />
     </div>
     <div id="chat-container">
       <div id="container">
         <div class="chat-output"></div>
-      </div>
+    </div>
+    
       <input
         type="text"
         id="input-text-chat"
@@ -66,6 +69,10 @@
         @keyup.13="textSend"
         :disabled="disableInputBool"
       />
+
+
+
+      
     </div>
     <!-- <div class="row">
       <div class="col-md-12">
@@ -74,7 +81,7 @@
           <img :src="img" class="img-responsive" />
         </figure>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -131,17 +138,13 @@ export default {
        $(".video-list-1").toggle();
        this.Bar = !this.Bar;
        if(this.Bar == false){
-           $(".video-list-2").css("height","62%");
-           $(".video-list-2").css("top","100px");
-           $(".video-item-2").css("height","500px");
+
+
+           $(".video-list-2").css("height","70%");
        }
        else{
-         $(".video-list-2").css("height","74%");
-         $(".video-list-2").css("top","0px");
-         $(".video-item-2").css("height","605px");
+         $(".video-list-2").css("height","83.6%");
        }
-
-       
     },
     onNote() {
       $("#note-container").toggle();
@@ -214,6 +217,7 @@ export default {
     },
     onLeave() {
       this.$refs.webrtc.leave();
+
     },
     onShareScreen() {
       this.img = this.$refs.webrtc.shareScreen();
@@ -413,10 +417,10 @@ export default {
 }
 .video-list-2{
   background:black; 
-  height:500px;
-  position: absolute;  
+  height:70%;
+  position: relative;  
   width: 100%; 
-  top:100px; z-index: 1;
+  z-index: 1;
   overflow-x: scroll;
   // overflow-y: hidden;
   white-space: nowrap;
@@ -437,19 +441,41 @@ export default {
 
 .video-item-2{
   background:black; 
-  height:500px;
+  height:100%;
 
   top:0px; z-index: 200;
-  overflow-x: auto;
   white-space: nowrap;
   display:inline-block;
 }
 
-.ss{
-  position: absolute;
-  top: 165px;
-  width: 100%;
-  height: 62%;
+
+.btn-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
+.btn-round.btn-lg {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-round.btn-sm {
+    width: 34px;
+    height: 34px;
+}
+
+.btn-round.btn-xs {
+    width: 24px;
+    height: 24px;
+}
+.btn btn-success btn-round btn-lg{
+  position:absolute;
+  left: 10px;;
+}
+.btnIcon{
+  position: relative;
+  top: 0;
+  left: -5px;
+}
 </style>

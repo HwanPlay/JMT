@@ -152,8 +152,10 @@ export default new Vuex.Store({
       console.log('req:', SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId);
       axios.get(SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId)
         .then(res => {
+          console.log(res);
           commit('SET_GROUP_INFO', res);
-        });
+        })
+        .catch(err => console.log(err.response));
     },
   },
   modules: {}

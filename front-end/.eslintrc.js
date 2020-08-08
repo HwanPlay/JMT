@@ -26,7 +26,7 @@ module.exports = {
     'no-trailing-spaces': 0,
     'keyword-spacing': 0,
     'no-unused-vars': 1,
-    'no-multiple-empty-lines': 0,
+    'no-multiple-empty-lines': 1,
     'space-before-function-paren': 0,
     'eol-last': 0
   }

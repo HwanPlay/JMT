@@ -12,7 +12,7 @@
             </v-col>
             <v-row class="ml-0" justify="start" style="height: 100%;">
               <div>
-                <span style="font-size: 20px;">정영진</span>
+                <span style="font-size: 20px;">{{ groupInfo.hostName }}</span>
                 <br>
                 <span style="font-size: 16px;">{{ groupInfo.hostId }}</span>
               </div>
@@ -22,7 +22,7 @@
         <v-col cols="4">
           <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="red">회의 시작</v-btn>
           <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
-          <v-btn :disabled="true" v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
+          <v-btn v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
         </v-col>
       </v-row>
       <br>
@@ -33,11 +33,10 @@
       <v-row style="width: 100%; height: 60%; margin-left: 20px;">
         <v-col cols="6">
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
-            <h2 class="ml-6 mt-3">Member</h2>
+            <h2>Member</h2>
+            <v-spacer></v-spacer>
             <v-divider></v-divider> 
-            <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
-            </v-img> -->
-            <div class="ml-3 mt-3" v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
+            <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
             <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
               <memberCard :userInfo = memberInfo />
             </v-card-text>
@@ -47,7 +46,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col cols="6">
+        <v-col cols='6'>
           <div v-if="groupInfo.hostId === this.$store.state.userId">
             <InviteMember :groupNo = groupInfo.groupNo />
           </div>

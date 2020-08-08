@@ -89,4 +89,10 @@ public class GroupServiceImpl implements GroupService {
 		group.setHasmeeting(!group.isHasmeeting());
 	}
 
+
+	@Override
+	public List<Group> findByUserId(String userId) {
+		return groupRepository.findByUserId(userId);
+	}
+
 }

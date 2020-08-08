@@ -16,17 +16,31 @@ public class GroupResult {
 		ApiResult apiResult = ApiResult.blank()
 				.add("groupNo", group.getGroupNo())
 				.add("hostId",  group.getUser().getId())
+				.add("hostName", group.getUser().getName())
 				.add("groupName", group.getGroupName())
 				.add("groupIntro",  group.getGroupIntro())
 				.add("hasMeeting", group.isHasmeeting());
 		return Result.ok(apiResult);
 	}
 	
+	public static ResponseEntity<ApiResult> build_add(Group group) {
+		ApiResult apiResult = ApiResult.blank()
+				.add("groupNo", group.getGroupNo())
+				.add("hostId",  group.getUser().getId())
+				.add("groupName", group.getGroupName())
+				.add("groupIntro",  group.getGroupIntro())
+				.add("hasMeeting", group.isHasmeeting());
+		return Result.ok(apiResult);
+	}
+	
+	
+	
 	public static ResponseEntity<ApiResult> build(List<Group> groups) {
 		ArrayList<GroupData> groupsData = new ArrayList<>();
 		for(Group group : groups) {
 			groupsData.add(new GroupData(group.getGroupNo(),
 										group.getUser().getId(),
+										group.getUser().getName(),
 										group.getGroupName(),
 										group.getGroupIntro(),
 										group.isHasmeeting()));
@@ -42,6 +56,7 @@ public class GroupResult {
 	private static class GroupData {
 		private int groupNo;
 		private String hostId;
+		private String hostName;
 		private String groupName;
 		private String groupIntro;
 		private boolean hasMeeting;
