@@ -1,6 +1,7 @@
 <template>
   <b-col cols="4">
     <h1>Group List</h1>
+    
     <div v-if="false">
       <div v-for="group in group_list" :key="group.groupNo">
         <NoteSearchGroup
@@ -11,11 +12,12 @@
         />
       </div>
     </div>
+    
     <NoteSearchSidebar
       :group_list="group_list"
       :received_note_list="received_note_list"
       @onGetNoteList="getNoteList"
-        @onGetNoteHTML="getNoteHTML"
+      @onGetNoteHTML="getNoteHTML"
     />
   </b-col>
 </template>

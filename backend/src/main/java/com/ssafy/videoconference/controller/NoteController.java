@@ -15,20 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.videoconference.controller.command.ChangeContentCommand;
+import com.ssafy.videoconference.controller.command.ChangeNoteCommand;
 import com.ssafy.videoconference.controller.command.ChangeTitleCommand;
 import com.ssafy.videoconference.controller.command.SaveNoteCommand;
 import com.ssafy.videoconference.controller.payload.ChangeContentPayload;
+import com.ssafy.videoconference.controller.payload.ChangeNotePayload;
 import com.ssafy.videoconference.controller.payload.ChangeTitlePayload;
 import com.ssafy.videoconference.controller.payload.SaveNotePayload;
 import com.ssafy.videoconference.controller.result.ApiResult;
 import com.ssafy.videoconference.controller.result.NoteResult;
 import com.ssafy.videoconference.controller.result.Result;
-import com.ssafy.videoconference.model.group.bean.Group;
-import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.note.bean.Note;
 import com.ssafy.videoconference.model.note.service.NoteService;
-import com.ssafy.videoconference.model.user.bean.CurrentUser;
-import com.ssafy.videoconference.model.user.bean.User;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -65,6 +63,16 @@ public class NoteController {
 		noteService.changeContent(command);
 		return Result.ok();
 	}
+	
+	
+	@PutMapping("/{noteNo}")
+	public ResponseEntity<ApiResult> changeNote(@PathVariable("noteNo") int noteNo,
+												@RequestBody ChangeNotePayload payload) {
+		ChangeNoteCommand command = payload.toCommand(noteNo);
+		noteService.changeNote(command);
+		return Result.ok();
+	}
+	
 	
 	
 	@DeleteMapping("/delno/{noteNo}")
