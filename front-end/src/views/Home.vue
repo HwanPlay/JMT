@@ -5,7 +5,7 @@
       <v-row style="height: 100%; margin-right: 60px;" align="center" justify="end">
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="warning">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(255, 128, 74)">
               <v-icon size="60">fas fa-video</v-icon>
             </v-btn>
           </div>
