@@ -174,8 +174,9 @@ public class UserController {
 			user.setProfile_img(saveFileName);
 			userService.modifyUserProfileImg(user);
 
+			return ResponseEntity.ok(SUCCESS);
 		}
-		return ResponseEntity.ok(SUCCESS);
+		return ResponseEntity.ok(FAIL);
 	}
 
 	@ApiOperation(value = "프로필사진 삭제 - 디폴트사진으로", response = String.class)
@@ -205,10 +206,11 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원탈퇴", response = String.class)
-	@DeleteMapping("/user/delUser")
-	public ResponseEntity<String> deleteUser(@RequestBody String userId) {
-		userService.removeUser(userId);
-		return ResponseEntity.ok(SUCCESS);
+	@DeleteMapping("/user/delUser/{id}")
+	public ResponseEntity<String> deleteUser(@PathVariable("id") String userId) {
+		if(userService.removeUser(userId))
+			return ResponseEntity.ok(SUCCESS);
+		return ResponseEntity.ok(FAIL);
 	}
 
 	@ApiOperation(value = "아이디 중복 체크", response = String.class)

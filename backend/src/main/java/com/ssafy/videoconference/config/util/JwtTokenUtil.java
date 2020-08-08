@@ -40,8 +40,8 @@ public class JwtTokenUtil implements Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
 	private static final long serialVersionUID = -2550185165626007488L;
-	public static final long JWT_ACCESS_TOKEN_VALIDITY = 30 * 60; // 30분
-	public static final long JWT_REFRESH_TOKEN_VALIDITY = 24 * 60 * 60 * 7; // 일주일
+	public static final long JWT_ACCESS_TOKEN_VALIDITY = 30 * 60 * 1000; // 30분
+	public static final long JWT_REFRESH_TOKEN_VALIDITY = 24 * 60 * 60 * 7 * 1000 ; // 일주일
 
 	@Value("${jwt.secretKey}")
 	private String secretKey;
@@ -52,9 +52,19 @@ public class JwtTokenUtil implements Serializable {
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
+	
+	public String getUserNameFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+	}
 
 	public Date getExpirationDateFromToken(String token) {
 		return getClaimFromToken(token, Claims::getExpiration);
+	}
+	
+	// check if the token has expired
+	public Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
 	}
 
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -74,23 +84,32 @@ public class JwtTokenUtil implements Serializable {
 			li.add(a.getAuthority());
 		}
 		claims.put("role", li);
-		return Jwts.builder().setClaims(claims).setSubject(userDetail.getUsername())
+		
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(userDetail.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY * 1000))
-				.signWith(SignatureAlgorithm.HS512, secretKey).compact();
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY ))
+				.signWith(SignatureAlgorithm.HS512, secretKey)
+				.compact();
 	}
 
 	// RefreshToken 생성
 	public String generateRefreshToken(String username) {
 		return Jwts.builder().setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY * 1000))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY))
 				.signWith(SignatureAlgorithm.HS512, secretKey).compact();
 	}
 
-    public boolean isValidToken(String token, UserDetail userDetail) {
-    	 final String username = getUsernameFromToken(token);
-         return (username.equals(userDetail.getUsername()) && !isTokenExpired(token));
-    }
+//    public boolean isValidToken(String token, UserDetail userDetail) {
+//    	 final String username = getUsernameFromToken(token);
+//         return (username.equals(userDetail.getUsername()) && !isTokenExpired(token));
+//    }
+    
+//	public String getUserNameFromJwtToken(String token) {
+//		getClaimFromToken(token, Claims::getSubject);
+//		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+//	}
     
 //	public boolean isValidToken(String authToken) {
 //		try {
@@ -107,42 +126,29 @@ public class JwtTokenUtil implements Serializable {
 //		} catch (IllegalArgumentException e) {
 //			logger.error("JWT claims string is empty: {}", e.getMessage());
 //		}
-//
 //		return false;
 //	}
 
-	// check if the token has expired
-	// 만료 1분 전 exception
-	public Boolean isTokenExpired(String token) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, -1);
-		System.out.println("Before: " + cal.getTime());
-		
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(cal.getTime());
-	}
+//	public Authentication createAuthenticationFromToken(String token) {
+//		UserDetails userDetails = ((UserDetailsServiceImpl) userDetailsService)
+//				.loadUserByUsername(getUserIdFromToken(token));
+//		// it is rather safe to return Authentication with NULL credentials if you do
+//		// not require to use user credentials after successful authentication.
+//		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//	}
 
-	public Authentication createAuthenticationFromToken(String token) {
-		UserDetails userDetails = ((UserDetailsServiceImpl) userDetailsService)
-				.loadUserByUsername(getUserIdFromToken(token));
-		// it is rather safe to return Authentication with NULL credentials if you do
-		// not require to use user credentials after successful authentication.
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-	}
+//	public String getTokenFromHeader(String header) {
+//		return header.split(" ")[1];
+//	}
 
-	public String getTokenFromHeader(String header) {
-		return header.split(" ")[1];
-	}
-
-	private Claims getClaimsFormToken(String token) {
-		return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey)).parseClaimsJws(token)
-				.getBody();
-	}
-
-	private String getUserIdFromToken(String token) {
-		Claims claims = getClaimsFormToken(token);
-		return (String) claims.get("id");
-	}
+//	private Claims getClaimsFormToken(String token) {
+//		return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey)).parseClaimsJws(token)
+//				.getBody();
+//	}
+//
+//	private String getUserIdFromToken(String token) {
+//		Claims claims = getClaimsFormToken(token);
+//		return (String) claims.get("id");
+//	}
 
 }

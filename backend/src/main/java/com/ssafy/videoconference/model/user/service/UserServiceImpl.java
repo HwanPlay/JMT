@@ -63,11 +63,19 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void removeUser(String userId) {
-		Optional<User> user = jpaUserRepo.findById(userId);
-		user.ifPresent(selectUser->{
-			jpaUserRepo.delete(selectUser);
-		});
+	public boolean removeUser(String id) {
+		System.out.println(id);
+		System.out.println(jpaUserRepo.deleteUser(id));
+		if(jpaUserRepo.deleteUser(id) != 0)
+			return true;
+		return false;
+		
+//		System.out.println(jpaUserRepo.findById(id));
+//		Optional<User> user = jpaUserRepo.findById(id);
+//		System.out.println("delete : " + user.toString());
+//		user.ifPresent(selectUser->{
+//			jpaUserRepo.delete(selectUser);
+//		});
 	}
 
 	@Override

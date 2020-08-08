@@ -30,7 +30,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userId = token.getName();
         String userPw = (String) token.getCredentials();
 
-        System.out.println("provider : " + userId + " " + userPw);
         // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
         UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(userId);
         if (!passwordEncoder.matches(userPw, userDetail.getPassword())) {
