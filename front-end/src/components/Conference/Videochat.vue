@@ -86,7 +86,6 @@ import $ from 'jquery';
 import Vue from 'vue';
 import WebRTC from '../../api/webrtc';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
-import NoteEditor from '../../components/Note/NoteEditor';
 import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 Vue.use(WebRTC)
@@ -133,12 +132,12 @@ export default {
        this.Bar = !this.Bar;
        if(this.Bar == false){
            $(".video-list-2").css("height","62%");
-           $(".video-list-2").css("top","165px");
+           $(".video-list-2").css("top","100px");
            $(".video-item-2").css("height","500px");
        }
        else{
          $(".video-list-2").css("height","74%");
-         $(".video-list-2").css("top","65px");
+         $(".video-list-2").css("top","0px");
          $(".video-item-2").css("height","605px");
        }
 
@@ -237,7 +236,7 @@ export default {
       console.log(e.target.value);
       // removing trailing/leading whitespace
       this.value =
-        "a" + ":" + e.target.value.toString().replace(/^\s+|\s+$/g, "");
+        '정영진' + ":" + e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
       this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);
@@ -417,7 +416,7 @@ export default {
   height:500px;
   position: absolute;  
   width: 100%; 
-  top:165px; z-index: 1;
+  top:100px; z-index: 1;
   overflow-x: scroll;
   // overflow-y: hidden;
   white-space: nowrap;

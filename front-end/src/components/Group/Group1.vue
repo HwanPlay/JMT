@@ -1,7 +1,7 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
-    <!-- 좌측 그룹 정보 부분 -->
     {{ groupInfo }}
+    <!-- 좌측 그룹 정보 부분 -->
     <v-col cols="7" style="width: 100%;">
       <v-row style="height: 15%; width: 100%; margin-left: 20px; margin-top: 20px;">
         <v-col cols="8">
@@ -33,11 +33,11 @@
       <v-row style="width: 100%; height: 60%; margin-left: 20px;">
         <v-col cols="6">
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
-            <h2>Member</h2>
+            <h2 class="ml-6 mt-3">Member</h2>
             <v-divider></v-divider> 
             <!-- <v-img class="white--text align-center" height="100px" :src="require('../../assets/Watch/watch50.jpg')">
             </v-img> -->
-            <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
+            <div class="ml-3 mt-3" v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
             <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
               <memberCard :userInfo = memberInfo />
             </v-card-text>

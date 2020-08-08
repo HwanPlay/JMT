@@ -46,7 +46,7 @@ export default {
     // api 추가
     get_group_list() {
       const URL = 'videoconference/api/group/gethost/';
-      const ID = 'lwh1992@naver.com/';
+      const ID = this.$store.state.userId;
 
       axios
         .get(SERVER_URL + URL + ID)
@@ -57,7 +57,7 @@ export default {
     },
     getNoteList(groupId) {
       const URL = 'videoconference/api/note/get/group/';
-      const groupNoAndId = '/lwh1992@naver.com';
+      const groupNoAndId = '/'+this.$store.state.userId;
       axios
         .get(SERVER_URL + URL + groupId + groupNoAndId)
         .then((res)=>{
