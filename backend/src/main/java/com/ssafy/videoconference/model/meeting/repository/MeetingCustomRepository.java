@@ -11,5 +11,7 @@ public interface MeetingCustomRepository<T> {
 	
 	List<Meeting> findByGroup(int groupNo);
 	
+	void deleteByGroup(int groupNo);
+	
 		
 }

@@ -34,5 +34,15 @@ public class MeetingCustomRepositoryImpl implements MeetingCustomRepository{
 		query.setParameter("groupNo",  groupNo);
 		return query.getResultList();
 	}
+	
+	
+	@Override
+	public void deleteByGroup(int groupNo) {
+		String jpql =
+				"delete from meeting where group_no = :groupNo";
+		NativeQuery<Meeting> query = (NativeQuery<Meeting>) em.createNativeQuery(jpql, Meeting.class);
+		query.setParameter("groupNo",  groupNo);
+		query.executeUpdate();
+	}
 
 }

@@ -3,6 +3,7 @@ package com.ssafy.videoconference.model.group.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,12 +44,10 @@ public class Group extends BaseTimeEntity {
 	private int groupNo;
 	
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id", nullable = false)
 	private User user;
 	
-	
-
 	
 	@Column(name = "groupName", nullable = false)
 	private String groupName;
@@ -62,11 +61,11 @@ public class Group extends BaseTimeEntity {
 	private boolean hasmeeting;
 	
 	
-	@OneToMany()
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<GroupMember> members = new ArrayList<GroupMember>();
 	
 	
-	@OneToMany()
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Meeting> meetings = new ArrayList<Meeting>();
 
 	

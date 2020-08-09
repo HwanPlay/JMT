@@ -39,4 +39,10 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingRepository.findByGroup(groupNo);
 	}
 
+
+	@Override
+	public void deleteByGroup(int groupNo) {
+		meetingRepository.deleteByGroup(groupNo);
+	}
+
 }
