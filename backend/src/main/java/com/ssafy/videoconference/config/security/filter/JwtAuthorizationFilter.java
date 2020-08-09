@@ -44,7 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-
+		System.out.println("hi");
 		// SecurityContextHolder.getContext().getAuthentication();
 
 		// Access Token의 Authorization
@@ -100,5 +100,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 		chain.doFilter(request, response);
 	}
+	
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/api/jwt/refresh");
+    }
 
 }
