@@ -6,4 +6,5 @@ import com.ssafy.videoconference.model.groupmember.bean.GroupMember;
 
 public interface Group_memberRepository extends JpaRepository<GroupMember, Integer>, Group_memberCustomRepository{
 
+
 }
