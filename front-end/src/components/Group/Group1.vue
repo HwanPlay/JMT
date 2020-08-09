@@ -1,7 +1,7 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
-    <!-- 좌측 그룹 정보 부분 -->
     {{ groupInfo }}
+    <!-- 좌측 그룹 정보 부분 -->
     <v-col cols="7" style="width: 100%;">
       <v-row style="height: 15%; width: 100%; margin-left: 20px; margin-top: 20px;">
         <v-col cols="8">
@@ -12,7 +12,7 @@
             </v-col>
             <v-row class="ml-0" justify="start" style="height: 100%;">
               <div>
-                <span style="font-size: 20px;">정영진</span>
+                <span style="font-size: 20px;">{{ groupInfo.hostName }}</span>
                 <br>
                 <span style="font-size: 16px;">{{ groupInfo.hostId }}</span>
               </div>
@@ -22,7 +22,7 @@
         <v-col cols="4">
           <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="red">회의 시작</v-btn>
           <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
-          <v-btn :disabled="true" v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
+          <v-btn v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
         </v-col>
       </v-row>
       <br>
@@ -35,9 +35,6 @@
           <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
             <h2>Member</h2>
             <v-spacer></v-spacer>
-            <div v-if="groupInfo.hostId === this.$store.state.userId">
-              <InviteMember :groupNo = groupInfo.groupNo />
-            </div>
             <v-divider></v-divider> 
             <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
             <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
@@ -45,9 +42,17 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <GroupMembers :membersInfo=members />
+              <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
             </v-card-actions>
           </v-card>
+        </v-col>
+        <v-col cols='6'>
+          <div v-if="groupInfo.hostId === this.$store.state.userId">
+            <InviteMember :groupNo = groupInfo.groupNo />
+          </div>
+        <v-btn color="danger" @click="exitGroup">
+          그룹 탈퇴
+        </v-btn>
         </v-col>
       </v-row>
     </v-col>
@@ -143,12 +148,20 @@ export default {
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
+
+    exitGroup(){
+      axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
+        .then(res => {
+          this.$router.push('/Home');
+        })
+        .catch(err => console.log(err.response));
+    }
   },
+
   mounted() {
     console.log('hi');
     axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
-        console.log('res:', res.data);
         this.members = res.data.groupMembers;
       })
       .catch(err => console.log(err.response));
@@ -157,7 +170,6 @@ export default {
     groupInfo(){
       axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
-          console.log('res:', res.data);
           this.members = res.data.groupMembers;
         })
         .catch(err => console.log(err.response));    }

@@ -12,15 +12,12 @@
             아싸..
           </div>
           <v-card-text v-for="(memberInfo, i) in membersInfo" :key=i style="padding: 5px;">
-            <memberCard :userInfo = memberInfo />
+            <memberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId />
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false">
-            Disagree
-          </v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Agree
+            Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -38,6 +35,8 @@ export default {
   },
   props:{
     membersInfo: Array,
+    groupNo: Number,
+    hostId: String,
   },
   data () {
     return{

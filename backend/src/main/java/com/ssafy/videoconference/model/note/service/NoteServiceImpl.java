@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.videoconference.controller.command.ChangeContentCommand;
+import com.ssafy.videoconference.controller.command.ChangeNoteCommand;
 import com.ssafy.videoconference.controller.command.ChangeTitleCommand;
 import com.ssafy.videoconference.controller.command.SaveNoteCommand;
 import com.ssafy.videoconference.model.note.bean.Note;
@@ -58,7 +59,12 @@ public class NoteServiceImpl implements NoteService {
 	public Note findByNo(int noteNo) {
 		return noteRepository.findByNo(noteNo);
 	}
-	
-	
-	
+
+	@Override
+	public void changeNote(ChangeNoteCommand command) {
+		Note note = findByNo(command.getNoteNo());
+		note.setTitle(command.getTitle());
+		note.setContent(command.getContent());
+		noteRepository.save(note);
+	}
 }

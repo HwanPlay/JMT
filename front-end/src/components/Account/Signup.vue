@@ -21,7 +21,7 @@
                   <v-text-field v-model="signupData.id" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pb-0">
-                  <v-btn :disabled="(isEmailOverlap === false) || !mail" class="ma-2" outlined color="black" @click="checkEmail(signupData.id)" style="outline: none;">인증</v-btn>
+                  <v-btn :loading='loading' :disabled="(isEmailOverlap === false) || !mail || loading" class="ma-2" outlined color="black" @click="isEmailOverlap = null;checkEmail(signupData.id); loader='loading'" style="outline: none;">인증</v-btn>
                 </v-col>
               </v-row>
               <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
@@ -110,6 +110,8 @@ export default {
       id: '',
       pw: '',
     },
+    loader: null,
+    loading: false,
     verificationWord: '',
     isVerified: null,
     passwordConfirm: '',
@@ -186,7 +188,52 @@ export default {
       handler(){
         this.emailValid();
       }
+    },
+    loader(){
+      const l = this.loader;
+      this[l] = !this[l];
+      setTimeout(() => (this[l] = false), 3200);
+      this.loader = null;
     }
   }
 };
 </script>
+
+<style>
+  .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

@@ -18,7 +18,7 @@
             </v-btn>
           </v-col>
           <v-col cols="8" style="margin-top: 20px; padding-right: 20px;">
-            <h2 style="color: rgb(4, 8, 19);">{{ $store.state.myName }}</h2>
+            <h2 style="color: rgb(4, 8, 19);">정영진</h2>
             <h4 style="color: rgb(52, 63, 87);">{{ $store.state.userId }}</h4>
           </v-col>
         </v-row>

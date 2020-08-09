@@ -20,7 +20,7 @@ export default {
     checkEmail: '/register/duplicateId',
     login: '/login',
     logout: '/logout',
-    getGroupInfo: '/group/get', // 뒤에 ID  ==> 결과 값은 해당 ID가 속한 그룹들의 정보(그룹 번호, 그룹이름, 호스트, 그룹소개)
+    getGroupInfo: '/group/get/all', // 뒤에 ID  ==> 결과 값은 해당 ID가 속한 그룹들의 정보(그룹 번호, 그룹이름, 호스트, 그룹소개)
     invite: '/groupmember/add',
     myProfile: '/user/findUserById',
   }

@@ -22,20 +22,7 @@
             이름을 검색해주세요
           </div>
           <div v-else-if="(isSearched) && (searchData.length)" v-for="(user, i) in searchData" :key="i">
-            
-            <v-list-item>
-              <v-list-item-avatar :src="require(`../../assets/profile/profile-${i%4}.png`)" color="grey" size="55"> <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img></v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title class="headline">{{ user.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <div class="my-2">
-                <v-btn color="rgb(52, 63, 87)" dark style="outline: none;" @click="addMember(user)">
-                  추가
-                </v-btn>
-              </div>
-            </v-list-item>
-
+            <InviteMemberCard :user=user :groupNo=groupNo />
           </div>
           <div v-else>
             검색 결과가 없습니다!
@@ -54,12 +41,17 @@
 <script>
 import axios from 'axios';
 
+import InviteMemberCard from './InviteMemberCard.vue';
+
 const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 export default {
   name: 'InviteMember',
+  components:{
+    InviteMemberCard
+  },
   props:{
-    groupNo: String
+    groupNo: Number
   },
   data () {
     return {
@@ -67,30 +59,20 @@ export default {
       inputValue: '',
       searchData: {},
       isSearched: false,
+      checked: false,
     };
   },
   methods: {
     searchName(){
-      axios.get(SERVER_URL + 'user/findUserByName/' + this.inputValue)
+      axios.get(SERVER_URL + 'user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputValue)
         .then(res => {
+          console.log(res);
           this.searchData = res.data;
           this.inputValue = '';
           this.isSearched = true;
         });
     },
-    addMember(userInfo){
-      const info = {
-        groupNo: this.groupNo,
-        id: userInfo.id,
-        nickname: userInfo.name
-      };
-      axios.post(SERVER_URL + 'groupmember/add', info)
-        .then((res) => {
-          console.log('newmember :', res);
-        })
-        .catch((err) => 
-          console.log(err.response));
-    }
+
   },
   mounted(){
     this.isSearched = false,
