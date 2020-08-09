@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,10 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.swagger.annotations.ApiOperation;
 
+
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-@RequestMapping("/jwt")
+@RequestMapping("/api/jwt")
 public class RefreshController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -41,6 +44,8 @@ public class RefreshController {
 	@Autowired
 	RedisTemplate<String, Object> redisTemplate;
 
+	
+	
 	@ApiOperation(value = "만료된 Access Token 요청. Refresh Token 확인 및 발급")
 	@GetMapping("/refresh")
 	public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -53,6 +58,7 @@ public class RefreshController {
 		
 		String accessToken = request.getHeader("accessToken");
 		String refreshToken = request.getHeader("refreshToken");
+			
 		String userId = null;
 		
 		ValueOperations<String, Object> redis = redisTemplate.opsForValue();
@@ -66,40 +72,40 @@ public class RefreshController {
 				// Access Token으로 사용자 정보(userId) 추출
 				userId = jwtTokenUtil.getUsernameFromToken(accessToken);
 			} catch (ExpiredJwtException e) {
+				logger.info("username from expired access token: " + userId);
+				
 				// expire된 Token에서도 사용자 정보를 가져올 수 있음!
 				userId = e.getClaims().getSubject();
-				logger.info("username from expired access token: " + userId);
+				
+				// Redis DB에 있는 Refresh Token 만료 확인 및 사용자 Refresh Token과 비교
+				if (refreshToken.equals(redis.get(userId + "_refreshToken"))) {
+					UserDetail userDetail = this.userDetailsService.loadUserByUsername(userId);
+					
+					// Access Token 재 발급
+					String newAccessToken = jwtTokenUtil.generateAccessToken(userDetail);
+					
+					// header에 Access Token 등록
+					response.addHeader("AccessToken", "Bearer " + newAccessToken);
+
+					String accessTokenKey = userDetail.getId()+"_accessToken";
+					
+					// Redis DB에 재 발급한 Access Token 저장 
+					redisTemplate.opsForValue().set(accessTokenKey, newAccessToken);
+					redisTemplate.expire(accessTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+
+					response.setStatus(HttpStatus.OK.value());
+					return ResponseEntity.ok(SUCCESS);
+				}else {
+					// Refresh Token 만료시, 재 로그인 요청
+					response.setStatus(HttpStatus.UNAUTHORIZED.value());
+					throw new JwtException("Unauthorized - Expired Refresh Token.");
+				}
 			} catch (Exception e) {
 				// 그 외 exception은 재 로그인 요청
 				response.setStatus(HttpStatus.UNAUTHORIZED.value());
 				throw new JwtException("Unauthorized");
 			}
-
-			
-			// Redis DB에 있는 Refresh Token 만료 확인 및 사용자 Refresh Token과 비교
-			if (refreshToken.equals(redis.get(userId + "_refreshToken"))) {
-				UserDetail userDetail = this.userDetailsService.loadUserByUsername(userId);
-				
-				// Access Token 재 발급
-				String newAccessToken = jwtTokenUtil.generateAccessToken(userDetail);
-				
-				// header에 Access Token 등록
-				response.addHeader("AccessToken", "Bearer " + newAccessToken);
-
-				String accessTokenKey = userDetail.getId()+"_accessToken";
-				
-				// Redis DB에 재 발급한 Access Token 저장 
-				redisTemplate.opsForValue().set(accessTokenKey, newAccessToken);
-				redisTemplate.expire(accessTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
-
-				response.setStatus(HttpStatus.OK.value());
-				return ResponseEntity.ok(SUCCESS);
-			}else {
-				// Refresh Token 만료시, 재 로그인 요청
-				response.setStatus(HttpStatus.UNAUTHORIZED.value());
-				throw new JwtException("Unauthorized");
-			}
-				
+			System.out.println("end");
 		} else {
 			logger.warn("JWT Token does not begin with Bearer String");
 		}

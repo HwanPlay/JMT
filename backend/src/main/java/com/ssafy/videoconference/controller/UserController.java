@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,40 +68,6 @@ public class UserController {
 	@Autowired
 	IProfileImgService profileImgService;
 
-	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId", response = String.class)
-	@PostMapping("/user/modifyPw")
-	public ResponseEntity<String> modifyUserPw(@RequestBody User user) {
-		user.setPw(passwordEncoder.encode(user.getPw()));
-		userService.modifyPw(user);
-
-		System.out.println("modify user : " + user.toString());
-		return ResponseEntity.ok(SUCCESS);
-	}
-
-	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
-	@GetMapping("/user/findUserByName")
-	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no) {
-		List<FindUser> userList = userService.findUserByUserName(name, group_no);
-		return ResponseEntity.ok(userList);
-	}
-
-	
-	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
-	@GetMapping("/user/findUserById/{id}")
-	public ResponseEntity<User> findUserByUserId(@CurrentUser UserDetail authUser) {
-		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
-	}
-
-	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
-	@PostMapping("/user/modify")
-	public ResponseEntity<String> modifyUser(@RequestBody User user) {
-		user.setPw(passwordEncoder.encode(user.getPw()));
-		userService.modifyUser(user);
-
-		System.out.println("modify user : " + user.toString());
-		return ResponseEntity.ok(SUCCESS);
-	}
-
 	@ApiOperation(value = "회원가입", response = String.class)
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody User user) {
@@ -118,9 +82,58 @@ public class UserController {
 		return ResponseEntity.ok(FAIL);
 	}
 
+
+	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
+	@GetMapping("/user/findUserByName")
+	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no) {
+		List<FindUser> userList = userService.findUserByUserName(name, group_no);
+		return ResponseEntity.ok(userList);
+	}
+
+	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
+	@GetMapping("/user/findUserById/{id}")
+	public ResponseEntity<User> findUserByUserId(@CurrentUser UserDetail authUser) {
+		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
+	}
+
+	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
+	@PostMapping("/user/modify")
+	public ResponseEntity<String> modifyUser(@RequestParam("filename") MultipartFile multipartFile, @RequestBody User user, @CurrentUser UserDetail authUser) {
+		System.out.println("시작은하니?");
+		user.setPw(passwordEncoder.encode(user.getPw()));
+		System.out.println(user.toString());
+		// 프로필 사진이 변경됐을 경우
+		if(!user.getProfile_img().equals(authUser.getProfile_img())) {
+			// 프로필 사진 저장 후, 회원 수정
+			String oldImg = authUser.getProfile_img();
+			System.out.println(oldImg);
+			if(saveProfileImg(multipartFile, oldImg)) {
+				userService.modifyUser(user);
+				return ResponseEntity.ok(SUCCESS);
+			}else {
+				return ResponseEntity.ok(FAIL);
+			}
+		}
+		userService.modifyUser(user);
+		
+		System.out.println("modify user : " + user.toString());
+		return ResponseEntity.ok(SUCCESS);
+	}
+	
+	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId", response = String.class)
+	@PostMapping("/user/modifyPw")
+	public ResponseEntity<String> modifyUserPw(@RequestBody User user) {
+		user.setPw(passwordEncoder.encode(user.getPw()));
+		
+		userService.modifyPw(user);
+
+		System.out.println("modify user : " + user.toString());
+		return ResponseEntity.ok(SUCCESS);
+	}
+
 	@ApiOperation(value = "프로필사진 추가", response = String.class)
 	@PostMapping("/user/addProfileImg")
-	public ResponseEntity<String> saveProfileImg(@RequestParam("filename") MultipartFile multipartFile,
+	public ResponseEntity<String> saveProfileImg2(@RequestParam("filename") MultipartFile multipartFile,
 			Authentication authentication) {
 		// MultipartFile : 사용자 PC의 업로드된 스트림정보를 저장
 		if (multipartFile != null && !multipartFile.isEmpty()) {
@@ -167,6 +180,50 @@ public class UserController {
 		}
 		return ResponseEntity.ok(FAIL);
 	}
+	
+	public boolean saveProfileImg(MultipartFile multipartFile, String oldImg) {
+		
+		// MultipartFile : 사용자 PC의 업로드된 스트림정보를 저장
+		if (multipartFile != null && !multipartFile.isEmpty()) {
+			// 사용자 DB에 저장된 프로필 사진
+			String saveFileName = oldImg;
+
+			// 파일형
+			String fileExtension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
+			System.out.println(fileExtension);
+			// jpg, jpeg, png 인 경우만 프로필 사진 가능
+			if(!"jpg".equals(fileExtension) && !"jpeg".equals(fileExtension) && !"png".equals(fileExtension))
+				return false;
+			
+			// 서버 폴더 경로명
+			// 파일은 http방식으로 저장되는 것이 아니라, 서버의 하드디스크 전체 경로에 맞추어서 저장
+			String realPath = servletContext.getRealPath(IMGFOLDER);
+			System.out.println(realPath);
+			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
+			if (!oldImg.contains("default")) {
+				File deleteFolder = new File(realPath);
+				File[] deleteFolderList = deleteFolder.listFiles();
+
+				for (File file : deleteFolderList) {
+					if (file.getPath().contains(oldImg))
+						file.delete();
+				}
+			}
+
+			// 프로필 사진 추가명 : 날짜+랜덤UUID
+			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+			saveFileName = dateFormat.format(new Date()) + '_'
+					+ UUID.randomUUID().toString().replace("-", "").substring(0, 10) + '.' + fileExtension;
+
+			// 파일 저장
+			profileImgService.saveFile(multipartFile, realPath, saveFileName);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 	@ApiOperation(value = "프로필사진 삭제 - 디폴트사진으로", response = String.class)
 	@GetMapping("/user/delProfileImg")
@@ -197,11 +254,13 @@ public class UserController {
 		return ResponseEntity.ok(SUCCESS);
 	}
 
+	
 	@ApiOperation(value = "회원탈퇴", response = String.class)
 	@DeleteMapping("/user/delUser/{id}")
 	public ResponseEntity<String> deleteUser(@CurrentUser UserDetail authUser) {
-		if(userService.removeUser(authUser.getId()))
+		if(userService.removeUser(authUser.getId())) {
 			return ResponseEntity.ok(SUCCESS);
+		}
 		return ResponseEntity.ok(FAIL);
 	}
 
