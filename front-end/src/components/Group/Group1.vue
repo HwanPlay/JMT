@@ -49,6 +49,7 @@
         <v-col cols='6'>
           <div v-if="groupInfo.hostId === this.$store.state.userId">
             <InviteMember :groupNo = groupInfo.groupNo />
+            <v-btn @click='destroyGroup'>그룹 파괴</v-btn>
           </div>
         <v-btn color="danger" @click="exitGroup">
           그룹 탈퇴
@@ -151,7 +152,14 @@ export default {
 
     exitGroup(){
       axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
-        .then(res => {
+        .then(() => {
+          this.$router.push('/Home');
+        })
+        .catch(err => console.log(err.response));
+    },
+    destroyGroup(){
+      axios.delete(SERVER_URL+'group/delno/'+this.groupInfo.groupNo)
+        .then(() => {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
