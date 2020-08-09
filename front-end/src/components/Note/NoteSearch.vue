@@ -1,6 +1,7 @@
 <template>
-  <b-col cols="4">
-    <h1>Group List</h1>
+  <b-col cols="3" class="rounded border border-primary">
+    <div class="rounded border border-secondary">
+    <h2 class="text-center">Groups</h2>
     
     <div v-if="false">
       <div v-for="group in group_list" :key="group.groupNo">
@@ -19,6 +20,7 @@
       @onGetNoteList="getNoteList"
       @onGetNoteHTML="getNoteHTML"
     />
+    </div>
   </b-col>
 </template>
 

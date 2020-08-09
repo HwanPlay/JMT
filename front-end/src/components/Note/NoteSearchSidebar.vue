@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class="rounded border border-danger p-2">
+
     <div v-for="group in group_list" :key="group.groupNo">
-      <b-button @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop>{{group.groupName}}</b-button>
+      <div class="rounded border border-danger w-50">
+        <b-button class="text-left" block variant="white" @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop>{{group.groupName}}</b-button>
+      </div>
       <hr align="left" class="group_hr">
     </div>
 
@@ -54,5 +57,7 @@ export default {
   margin: 0.3rem auto 0.3rem 0 !important;
   border-radius: 5px !important;
   width: 50% !important;
+}
+.searchbar {
 }
 </style>
