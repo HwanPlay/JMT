@@ -91,7 +91,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
-	@GetMapping("/user/findUserById/{id}")
+	@GetMapping("/user/findUserById")
 	public ResponseEntity<User> findUserByUserId(@CurrentUser UserDetail authUser) {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
