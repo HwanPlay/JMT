@@ -25,7 +25,7 @@ import io.jsonwebtoken.JwtException;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/jwt")
+@RequestMapping("/api/jwt")
 public class RefreshController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 

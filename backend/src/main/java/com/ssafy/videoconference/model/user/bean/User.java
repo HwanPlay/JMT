@@ -52,6 +52,7 @@ public class User implements Serializable {
    private UserRole role;
    
    
+   
    @Builder
    public User(String id, String pw) {
 	   	this.id = id;

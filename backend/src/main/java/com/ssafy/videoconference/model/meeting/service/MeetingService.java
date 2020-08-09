@@ -15,4 +15,6 @@ public interface MeetingService {
 	
 	
 	List<Meeting> findByGroup(int groupNo);
+	
+	void deleteByGroup(int groupNo);
 }

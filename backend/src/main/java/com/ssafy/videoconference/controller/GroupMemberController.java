@@ -74,6 +74,8 @@ public class GroupMemberController {
 	}
 	
 	
+	
+	
 	@PutMapping("/name/{groupMemberNo}")
 	public ResponseEntity<ApiResult> changeNickname(@PathVariable("groupMemberNo") int groupMemberNo,
 														@RequestBody ChangeNicknamePayload payload) {
