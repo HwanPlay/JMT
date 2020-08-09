@@ -29,6 +29,7 @@ import com.ssafy.videoconference.model.group.bean.Group;
 import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.groupmember.service.Group_memberService;
 import com.ssafy.videoconference.model.meeting.service.MeetingService;
+import com.ssafy.videoconference.model.note.service.NoteService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 
@@ -47,6 +48,9 @@ public class GroupController {
 	
 	@Autowired
 	private Group_memberService gmService;
+	
+	@Autowired
+	private NoteService noteService;
 	
 	
 	@PostMapping("/add")
@@ -97,6 +101,7 @@ public class GroupController {
 
 	@DeleteMapping("/delno/{groupNo}")
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("groupNo") int groupNo) {
+		noteService.deleteByGroup(groupNo);
 		meetingService.deleteByGroup(groupNo);
 		gmService.deleteByGroup(groupNo);
 		groupService.deleteByNo(groupNo);

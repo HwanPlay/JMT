@@ -83,6 +83,7 @@ public class NoteController {
 	}
 	
 	
+	
 	@GetMapping("/get/group/{groupNo}") 
 	public ResponseEntity<ApiResult> getNoteByGroup(@PathVariable("groupNo") int groupNo, @CurrentUser UserDetail user) {
 		List<Note> note_list = noteService.findByGroup(groupNo, user.getId());
