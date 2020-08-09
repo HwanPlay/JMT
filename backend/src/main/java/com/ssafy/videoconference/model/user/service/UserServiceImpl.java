@@ -44,8 +44,7 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	@Override
-	public void modifyUser(ModifyUser mUser) {
-		User user = (User)mUser;
+	public void modifyUser(ModifyUser user) {
 		System.out.println(user.toString());
 		Optional<User> modifyUser = jpaUserRepo.findById(user.getId());
 		modifyUser.ifPresent(selectUser->{

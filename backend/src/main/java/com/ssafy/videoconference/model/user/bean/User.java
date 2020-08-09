@@ -59,4 +59,16 @@ public class User implements Serializable {
 	   	this.pw = pw;
    }
 
+
+   @Builder
+public User(String id, String name,String pw, String profile_img) {
+	super();
+	this.id = id;
+	this.name = name;
+	this.pw = pw;
+	this.profile_img = profile_img;
+}
+   
+   
+
 }
