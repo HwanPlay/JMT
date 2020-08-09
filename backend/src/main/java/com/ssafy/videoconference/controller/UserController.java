@@ -81,6 +81,11 @@ public class UserController {
 			return ResponseEntity.ok(SUCCESS);
 		return ResponseEntity.ok(FAIL);
 	}
+	
+	@GetMapping("/result")
+	public ResponseEntity<String> logout() {
+		return ResponseEntity.ok(SUCCESS);
+	}
 
 
 	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
