@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.FindUser;
+import com.ssafy.videoconference.model.user.bean.ModifyUser;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.bean.UserRole;
@@ -103,7 +104,7 @@ public class UserController {
 
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/user/modify")
-	public ResponseEntity<String> modifyUser(@RequestParam("filename") MultipartFile multipartFile, @RequestBody User user, @CurrentUser UserDetail authUser) {
+	public ResponseEntity<String> modifyUser(@RequestBody ModifyUser user, @CurrentUser UserDetail authUser) {
 		System.out.println("시작은하니?");
 		user.setPw(passwordEncoder.encode(user.getPw()));
 		System.out.println(user.toString());
@@ -112,7 +113,7 @@ public class UserController {
 			// 프로필 사진 저장 후, 회원 수정
 			String oldImg = authUser.getProfile_img();
 			System.out.println(oldImg);
-			if(saveProfileImg(multipartFile, oldImg)) {
+			if(saveProfileImg(user.getMultipartFile(), oldImg)) {
 				userService.modifyUser(user);
 				return ResponseEntity.ok(SUCCESS);
 			}else {
