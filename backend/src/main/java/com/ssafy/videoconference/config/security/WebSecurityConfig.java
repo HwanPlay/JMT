@@ -25,7 +25,7 @@ import com.ssafy.videoconference.config.util.JwtTokenUtil;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/register/**", "/jwt/refresh", "/swagger-ui.html"  };
+	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/result", "/api/register/**", "/api/jwt/refresh", "/swagger-ui.html"  };
 	
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
@@ -44,11 +44,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				
 				.and()
 				// 다음 request에 대한 사용권한 check
-				.authorizeRequests().antMatchers(PUBLIC).permitAll().anyRequest().authenticated()
+				.authorizeRequests().antMatchers(PUBLIC).permitAll()
 				
-//				.and()
-//					.authorizeRequests()	
-//	                .antMatchers("/api/*").hasRole("USER")
+				.and()
+					.authorizeRequests()	
+	                .antMatchers("/api/*").hasAnyRole("USER", "ADMIN")
+	            .and()
+	            	.authorizeRequests()
+	            	.anyRequest()
+	            	.authenticated()
 	                
 				.and()
 				// 세션 사용 X
@@ -57,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.logout()
 				.logoutUrl("/api/logout")
+				.logoutSuccessUrl("/api/result")
 				.addLogoutHandler(logoutHandler())
 				.invalidateHttpSession(false)
 				

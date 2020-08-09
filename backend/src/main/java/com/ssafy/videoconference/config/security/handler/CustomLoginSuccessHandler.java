@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.config.security.handler;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,10 +45,11 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		initJwtToken(accessTokenKey,refreshTokenKey);
 		
 		redisTemplate.opsForValue().set(accessTokenKey, accessToken);
-		redisTemplate.expire(accessTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
-		
+		redisTemplate.expire(accessTokenKey, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+		System.out.println(new Date());
+		System.out.println(jwtTokenUtil.getExpirationDateFromToken(accessToken));
 		redisTemplate.opsForValue().set(refreshTokenKey, refreshToken);
-		redisTemplate.expire(refreshTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_REFRESH_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+		redisTemplate.expire(refreshTokenKey, jwtTokenUtil.JWT_REFRESH_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 		
 		System.out.println("Login Success");
 		response.setStatus(HttpStatus.OK.value());
