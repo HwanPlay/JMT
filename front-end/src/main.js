@@ -11,7 +11,7 @@ import '../src/assets/sass/main.scss';
 import { BootstrapVue, IconsPlugin ,BootstrapVueIcons } from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-
+import axios from 'axios';
 // moment
 import vueMoment from 'vue-moment';
 // Install BootstrapVue
