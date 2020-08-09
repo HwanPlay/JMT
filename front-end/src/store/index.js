@@ -158,9 +158,9 @@ axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 일
     console.log('hihi');
-    console.log('myconfing', config);
     // console.log(this.state.accessToken);
     config.headers.Authorization = localStorage.getItem('accessToken');
+    console.log('myconfing', config);
     console.log('good');
     
     return config;
@@ -174,7 +174,7 @@ axios.interceptors.request.use(
 // 응답 인터셉터 추가
 axios.interceptors.response.use(
   function (response) {
-    console.log('goodRes');
+
     // 응답 데이터를 가공
     return response;
   },

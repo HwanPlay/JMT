@@ -1,26 +1,32 @@
 <template>
-  <div class="rounded border border-danger p-2">
+  <div class="rounded text-monospace p-2">
 
     <div v-for="group in group_list" :key="group.groupNo">
-      <div class="rounded border border-danger w-50">
+      <div class="rounded group_btn">
         <b-button class="text-left" block variant="white" @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop>{{group.groupName}}</b-button>
       </div>
-      <hr align="left" class="group_hr">
+      <!-- <hr align="left" class="group_hr"> -->
     </div>
 
     <b-sidebar
       id="sidebar-backdrop"
-      title="Note List"
       :backdrop-variant="variant"
       backdrop
       shadow
       width=25rem 
     >
-      <div class="px-3 py-2">
-       <b-button v-b-toggle.sidebar-backdrop v-for="note in received_note_list" :key="note.noteNo" class="col-4" bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
-          <span>{{compute_date(note.createdDate)}}</span>
-          <p>{{ note.title }}</p>
-        </b-button>
+      <div class="px-3">
+        <h3 class="text-center">Notes</h3>
+        <div class="row p-2">
+
+          <b-button class="col-3" 
+          v-b-toggle.sidebar-backdrop 
+          v-for="note in received_note_list" :key="note.noteNo" 
+          bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
+            <span>{{compute_date(note.createdDate)}}</span>
+            <p>{{ note.title }}</p>
+          </b-button>
+        </div>
       </div>
     </b-sidebar>
   </div>
@@ -57,7 +63,14 @@ export default {
   margin: 0.3rem auto 0.3rem 0 !important;
   border-radius: 5px !important;
   width: 50% !important;
+  color:white !important;
+  background-color:white !important;
 }
-.searchbar {
+.group_btn {
+  margin: 0.3rem auto 0.3rem 0 !important;
+  border-radius: 5px !important; 
+}
+.group_btn:hover {
+  background-color: #f8f9fa;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <b-col cols="3" class="rounded border border-primary">
-    <div class="rounded border border-secondary">
+  <b-col cols="3" class="rounded border border-secondary">
+    <div class="rounded  ">
     <h2 class="text-center">Groups</h2>
     
     <div v-if="false">
@@ -52,4 +52,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.searchbar_text {
+
+}
+</style>

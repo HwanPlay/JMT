@@ -23,7 +23,7 @@ import NoteSearch from '../components/Note/NoteSearch.vue';
 
 import axios from 'axios';
 const SERVER_URL = 'http://localhost:8080/videoconference/api/';
-const USER_ID = this.$store.state.userId;
+// const USER_ID = 'lwh1992@naver.com';
 
 export default {
   name: 'Note',
@@ -35,6 +35,7 @@ export default {
     return {      
       group_list: [],
       received_note_list: [],
+      USER_ID: this.$store.state.userId,
 
       noteObj: {
         Content: '',
@@ -49,7 +50,7 @@ export default {
       const FUNC_URL = 'group/get/all/';
 
       axios
-        .get(SERVER_URL + FUNC_URL + USER_ID)
+        .get(SERVER_URL + FUNC_URL + this.USER_ID)
         .then((res) => {
           this.group_list = res.data.groups;
         })
@@ -57,8 +58,9 @@ export default {
     },
     getNoteList(groupId) {
       const FUNC_URL = 'note/get/group/';
+
       axios
-        .get(SERVER_URL + FUNC_URL + groupId + '/' + USER_ID)
+        .get(SERVER_URL + FUNC_URL + groupId + '/' + this.USER_ID)
         .then((res)=>{
           this.received_note_list = res.data.notes;
         })
