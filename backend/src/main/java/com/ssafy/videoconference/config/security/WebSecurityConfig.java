@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,16 +13,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import com.ssafy.videoconference.config.security.exception.JwtAuthEntryPoint;
 import com.ssafy.videoconference.config.security.filter.CustomAuthenticationFilter;
+import com.ssafy.videoconference.config.security.filter.JwtAuthorizationFilter;
 import com.ssafy.videoconference.config.security.handler.CustomLoginFailHandler;
 import com.ssafy.videoconference.config.security.handler.CustomLoginSuccessHandler;
 import com.ssafy.videoconference.config.security.handler.CustomLogoutHandler;
+import com.ssafy.videoconference.config.util.JwtTokenUtil;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/**", "/api/login", "/api/logout", "/api/register/**"  };
+	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/register/**", "/jwt/refresh", "/swagger-ui.html"  };
+	
+	@Autowired
+	JwtTokenUtil jwtTokenUtil;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -29,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//	.httpBasic().disable()
 				
 				// rest api는 token authentication. csrf 보안 필요 X
-				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/api/logout")
+				.csrf().ignoringAntMatchers("/api/***", "/api/**", "/api/*")
 				
 				.and()
 				.cors()
@@ -57,7 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin().disable()
 				
 				// jwt token 필터를 id/password 인증 필터 전에 추가
-				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtAuthorizationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)
+				
+				.exceptionHandling().authenticationEntryPoint(customJwtAuthEntryPoint());
+
 				
 
 	}
@@ -73,6 +85,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return customAuthenticationFilter;
     }
 
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter(JwtTokenUtil jwtTokenUtil) {
+    	return new JwtAuthorizationFilter(jwtTokenUtil);
+    }
+    
     @Bean
     public CustomLoginSuccessHandler customLoginSuccessHandler() {
         return new CustomLoginSuccessHandler();
@@ -93,6 +110,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAuthenticationProvider(passwordEncoder());
     }
 
+    @Bean
+    public JwtAuthEntryPoint customJwtAuthEntryPoint() {
+        return new JwtAuthEntryPoint();
+    }
     
     // AuthenticationProviders를 추가 및 인증 메커니즘을 설정하는 데 사용
     @Override
@@ -104,7 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override // ignore check swagger resource
 	public void configure(WebSecurity web) {
 		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
-				"/swagger/**");
+				"/swagger/**", "/jwt/refresh");
 	}
 
 	@Bean

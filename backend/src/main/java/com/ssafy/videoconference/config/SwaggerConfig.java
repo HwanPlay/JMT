@@ -26,7 +26,8 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("videoconference-api").apiInfo(apiInfo()).select()
 				.apis(RequestHandlerSelectors.basePackage("com.ssafy.videoconference.controller"))
 				.paths(PathSelectors.ant("/api/**")).build()
-				.securitySchemes(Lists.newArrayList(apiKey()));
+				.securitySchemes(Lists.newArrayList(apiKey()))
+				.securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()));
 
 	}
 
@@ -36,7 +37,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiKey apiKey() {
-		return new ApiKey("JWT", "authorization", "header");
+		return new ApiKey("JWT", "Authorization", "header");
 	}
 
 	private springfox.documentation.spi.service.contexts.SecurityContext securityContext() {

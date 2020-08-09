@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 @Repository
-public class FileRepositoryImpl implements IFileRepository {
+public class ProfileImgRepositoryImpl implements IProfileImgRepository {
 	@Override
 	public void saveFile(MultipartFile multipartFile, String rootPath, String saveFileName){
 		

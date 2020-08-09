@@ -65,7 +65,6 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public boolean removeUser(String id) {
 		System.out.println(id);
-		System.out.println(jpaUserRepo.deleteUser(id));
 		if(jpaUserRepo.deleteUser(id) != 0)
 			return true;
 		return false;

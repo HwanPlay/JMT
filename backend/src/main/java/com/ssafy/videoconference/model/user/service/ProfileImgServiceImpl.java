@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.videoconference.model.user.repository.IFileRepository;
+import com.ssafy.videoconference.model.user.repository.IProfileImgRepository;
 
 @Service
-public class FileServiceImpl implements IFileService{
+public class ProfileImgServiceImpl implements IProfileImgService{
 
 	@Autowired
-	IFileRepository fileRepo;
+	IProfileImgRepository profileImgRepo;
 	
 	@Override
 	public void saveFile(MultipartFile multipartFile, String rootPath, String saveFileName) {
-		fileRepo.saveFile(multipartFile, rootPath, saveFileName);
+		profileImgRepo.saveFile(multipartFile, rootPath, saveFileName);
 	}
 
 	@Override
