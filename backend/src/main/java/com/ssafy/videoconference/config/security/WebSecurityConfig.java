@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.logout()
 				.logoutUrl("/api/logout")
+				.logoutSuccessUrl("/")
 				.addLogoutHandler(logoutHandler())
 				.invalidateHttpSession(false)
 				
