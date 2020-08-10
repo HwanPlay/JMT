@@ -60,22 +60,7 @@
 
     <!-- 우측 캘린더 부분 -->
     <v-col cols="5" style="width: 100%;">
-      <div style="margin-top: 30px;">
-        <v-sheet tile height="54" color="grey lighten-3" class="d-flex">
-          <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-row justify="center" align="center">Calendar</v-row>
-          <v-spacer></v-spacer>
-          <v-btn icon class="ma-2" @click="$refs.calendar.next()">
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-        </v-sheet>
-        <v-sheet height="600">
-          <v-calendar ref="calendar" v-model="value" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents"></v-calendar>
-        </v-sheet>
-      </div>
+      <GroupCalendar />
     </v-col>
   </v-row>
 </template>
@@ -86,6 +71,7 @@ import memberCard from './memberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 
+import GroupCalendar from './GroupCalendar.vue';
 const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 export default {
@@ -94,6 +80,7 @@ export default {
     memberCard,
     GroupMembers,
     InviteMember,
+    GroupCalendar
   },
   props: {
     groupInfo: Object,

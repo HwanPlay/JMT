@@ -58,9 +58,9 @@ export default {
     },
     getNoteList(groupId) {
       const FUNC_URL = 'note/get/group/';
-
+      // '/' + this.USER_ID
       axios
-        .get(SERVER_URL + FUNC_URL + groupId + '/' + this.USER_ID)
+        .get(SERVER_URL + FUNC_URL + groupId )
         .then((res)=>{
           this.received_note_list = res.data.notes;
         })
