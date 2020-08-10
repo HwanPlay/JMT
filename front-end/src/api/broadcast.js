@@ -5713,42 +5713,11 @@ var RTCMultiConnection = function(roomid, forceOptions) {
     broadcast.dontAttachStream = false;
     broadcast.dontGetRemoteStream = false;
 
-<<<<<<< HEAD
-      module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-        return _c('div', {
-          staticClass: 'video-list-2'
-        }, _vm._l((_vm.videoList2), function(item) {
-          return _c('div', {
-            key: item.id,
-            staticClass: 'video-item-2',
-            attrs: {
-              'video': item
-            }
-          }, [_c('video', {
-            ref: 'videos',
-            refInFor: true,
-            attrs: {
-              'controls': '',
-              'autoplay': '',
-              'playsinline': '',
-              'height': '100%',
-              'width': '100%',
-              'id': item.id,
-              'left':200
-            },
-            domProps: {
-              'muted': item.muted
-            }
-          })]);
-        }), 0);
-      },staticRenderFns: []};
-=======
     broadcast.onReConnecting = function(event) {
       if (broadcast.enableLogs) {
         console.info('ReConnecting with', event.userid, '...');
       }
     };
->>>>>>> feature-front-conference-video
 
     broadcast.beforeAddingStream = function(stream) {
       return stream;
