@@ -26,5 +26,8 @@ public interface Group_memberService {
 	
 	void changeNickname(ChangeNicknameCommand command);
 	
+	
+	void deleteByGroup(int groupNo);
+	
 
 }

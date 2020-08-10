@@ -46,4 +46,14 @@ public class NoteCustomRepositoryImpl implements NoteCustomRepository {
 		return query.getSingleResult();
 	}
 
+
+	@Override
+	public void deleteByGroup(int groupNo) {
+		String jpql =
+				"delete from note where group_no = :groupNo";
+		NativeQuery<Note> query = (NativeQuery<Note>) em.createNativeQuery(jpql, Note.class);
+		query.setParameter("groupNo", groupNo);
+		query.executeUpdate();
+	}
+
 }

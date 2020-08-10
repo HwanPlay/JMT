@@ -26,6 +26,9 @@ public interface NoteService {
 	void deleteByNo(int noteNo);
 	
 	
+	void deleteByGroup(int groupNo);
+	
+	
 	List<Note> findByGroup(int groupNo, String id);
 	
 	

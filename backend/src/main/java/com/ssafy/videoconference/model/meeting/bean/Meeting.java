@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.model.meeting.bean;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +33,7 @@ public class Meeting extends BaseTimeEntity{
 	private int meetingNo;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
 	

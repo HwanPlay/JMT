@@ -21,5 +21,8 @@ public interface Group_memberCustomRepository {
 	
 	void deleteById(int groupNo, String id);
 	
+	
+	void deleteByGroup(int groupNo);
+	
 
 }

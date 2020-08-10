@@ -27,6 +27,8 @@ import com.ssafy.videoconference.controller.result.NoteResult;
 import com.ssafy.videoconference.controller.result.Result;
 import com.ssafy.videoconference.model.note.bean.Note;
 import com.ssafy.videoconference.model.note.service.NoteService;
+import com.ssafy.videoconference.model.user.bean.CurrentUser;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -74,7 +76,6 @@ public class NoteController {
 	}
 	
 	
-	
 	@DeleteMapping("/delno/{noteNo}")
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("noteNo") int noteNo) {
 		noteService.deleteByNo(noteNo);
@@ -82,10 +83,10 @@ public class NoteController {
 	}
 	
 	
-	@GetMapping("/get/group/{groupNo}/{id}") 
-	public ResponseEntity<ApiResult> getNoteByGroup(@PathVariable("groupNo") int groupNo, @PathVariable("id") String id) {
-//														@CurrentUser User currentUser) {
-		List<Note> note_list = noteService.findByGroup(groupNo, id);
+	
+	@GetMapping("/get/group/{groupNo}") 
+	public ResponseEntity<ApiResult> getNoteByGroup(@PathVariable("groupNo") int groupNo, @CurrentUser UserDetail user) {
+		List<Note> note_list = noteService.findByGroup(groupNo, user.getId());
 		return NoteResult.build(note_list);
 	}
 	

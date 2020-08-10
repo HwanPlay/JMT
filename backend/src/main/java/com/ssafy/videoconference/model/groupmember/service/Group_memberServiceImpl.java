@@ -59,5 +59,11 @@ public class Group_memberServiceImpl implements Group_memberService{
 		gm.setNickname(command.getNickname());
 		gmRepository.save(gm);
 	}
+
+
+	@Override
+	public void deleteByGroup(int groupNo) {
+		gmRepository.deleteByGroup(groupNo);
+	}
 	
 }

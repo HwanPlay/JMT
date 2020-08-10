@@ -56,5 +56,15 @@ public class Group_memberCustomRepositoryImpl implements Group_memberCustomRepos
 		query.setParameter("id", id);
 		query.executeUpdate();
 	}
+	
+	
+	@Override
+	public void deleteByGroup(int groupNo) {
+		String jpql =
+				"delete from group_member where group_no = :groupNo";
+		NativeQuery<GroupMember> query = (NativeQuery<GroupMember>) em.createNativeQuery(jpql, GroupMember.class);
+		query.setParameter("groupNo", groupNo);
+		query.executeUpdate();
+	}
 
 }

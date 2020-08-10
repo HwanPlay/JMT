@@ -27,8 +27,11 @@ import com.ssafy.videoconference.controller.result.GroupResult;
 import com.ssafy.videoconference.controller.result.Result;
 import com.ssafy.videoconference.model.group.bean.Group;
 import com.ssafy.videoconference.model.group.service.GroupService;
+import com.ssafy.videoconference.model.groupmember.service.Group_memberService;
+import com.ssafy.videoconference.model.meeting.service.MeetingService;
+import com.ssafy.videoconference.model.note.service.NoteService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
-import com.ssafy.videoconference.model.user.bean.User;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -39,6 +42,15 @@ public class GroupController {
 	
 	@Autowired
 	private GroupService groupService;
+	
+	@Autowired
+	private MeetingService meetingService;
+	
+	@Autowired
+	private Group_memberService gmService;
+	
+	@Autowired
+	private NoteService noteService;
 	
 	
 	@PostMapping("/add")
@@ -69,6 +81,15 @@ public class GroupController {
 		return GroupResult.build(gp_list);
 	}
 	
+	
+	@GetMapping("/get/me")
+	public ResponseEntity<ApiResult> getGroupMine(@CurrentUser UserDetail user) {
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
+	}
+
+	
 	@GetMapping("/get/all/{id}")
 	public ResponseEntity<ApiResult> getGroupAll(@PathVariable("id") String id) {
 		List<Group> gp_list_host = groupService.findByHostId(id);
@@ -80,6 +101,9 @@ public class GroupController {
 
 	@DeleteMapping("/delno/{groupNo}")
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("groupNo") int groupNo) {
+		noteService.deleteByGroup(groupNo);
+		meetingService.deleteByGroup(groupNo);
+		gmService.deleteByGroup(groupNo);
 		groupService.deleteByNo(groupNo);
 		return Result.ok();
 	}
@@ -88,6 +112,13 @@ public class GroupController {
 	@DeleteMapping("/delhost/{hostId}")
 	public ResponseEntity<ApiResult> deleteById(@PathVariable("hostId") String hostId) {
 		groupService.deleteByHostId(hostId);
+		return Result.ok();
+	}
+	
+	
+	@DeleteMapping("/delhost")
+	public ResponseEntity<ApiResult> deleteMyGroup(@CurrentUser UserDetail user) {
+		groupService.deleteByHostId(user.getId());
 		return Result.ok();
 	}
 
