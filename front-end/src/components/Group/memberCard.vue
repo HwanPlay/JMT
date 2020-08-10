@@ -11,6 +11,9 @@
       <v-btn :disabled='isExiled' color="danger" @click="exileMember">
         추방
       </v-btn>
+      <v-btn color="danger" @click="letHost">
+        호스트 임명
+      </v-btn>
     </div>
   </div>
 </template>
@@ -40,7 +43,15 @@ export default {
           this.isExiled = true;
         })
         .catch(err => console.log(err.response));
-    }
+    },
+    letHost(){
+      axios.put(SERVER_URL+'group/host/'+this.groupNo, {hostId : this.userInfo.id})
+        .then(() => {
+          this.$router.push('Home');
+          console.log('Change Host');
+        })
+        .catch(err => console.log(err.response));
+    },
   }
 };
 </script>

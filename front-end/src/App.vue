@@ -53,7 +53,7 @@
 
         <MyProfile />
 
-        <!-- Settings Router -->
+        <!-- Logout -->
         <div class="text-center" style="height: 97%">
           <v-btn text class="mr-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
             <v-icon size="30">mdi-lock-open-outline</v-icon>
@@ -108,12 +108,6 @@ export default Vue.extend({
     },
   },
   mounted() {
-    console.log(!!null);
-    console.log(
-      this.isLoggedIn,
-      this.$store.getters.isLoggedIn,
-      this.$store.state.accessToken
-    );
     this.$router.push('Home');
   },
   computed: {

@@ -20,8 +20,8 @@
           </v-row>
         </v-col>
         <v-col cols="4">
-          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="red">회의 시작</v-btn>
-          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
+          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" @click='changeHasMeeting' dark color="red">회의 시작</v-btn>
+          <v-btn v-else-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
           <v-btn v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
         </v-col>
       </v-row>
@@ -163,6 +163,12 @@ export default {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
+    },
+    changeHasMeeting(){
+      axios.put(SERVER_URL+'group/hasmeeting/'+this.groupInfo.groupNo)
+        .then(() => {
+          console.log('Changed HasMeeting!');
+        });
     }
   },
 
