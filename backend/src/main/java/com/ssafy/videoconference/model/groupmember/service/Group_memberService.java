@@ -12,6 +12,7 @@ public interface Group_memberService {
 	GroupMember addMember(AddMemberCommand command);
 	
 	
+	
 	GroupMember findMember(int groupNo, String id);
 	
 	
