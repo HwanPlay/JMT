@@ -41,8 +41,12 @@ export default {
         Content: '',
         Id: 0,
         Title: '',
-      }
+      },
+      
     };
+  },
+  created() {
+    this.getNoteHTML();
   },
   methods: {
     // api 추가
@@ -67,6 +71,12 @@ export default {
         .catch((err) => console.error(err));
     },
     getNoteHTML(NoteId) {
+      if (this.$route.params.NoteId_Cal) {
+        NoteId = this.$route.params.NoteId_Cal;
+      }else if(NoteId === undefined) {
+        return ;
+      }
+
       const URL_getNoteByNo = 'note/getno/';
 
       axios

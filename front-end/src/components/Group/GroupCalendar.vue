@@ -62,6 +62,9 @@
               </v-btn>
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
+              <v-btn>
+                <router-link :to="{ name: 'Note', params: { NoteId_Cal: selectedEvent.id }}">Edit</router-link>
+              </v-btn>
               <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
@@ -106,16 +109,6 @@ export default {
       'green',
       'orange',
       'grey darken-1',
-    ],
-    names: [
-      'Meeting',
-      'Holiday',
-      'PTO',
-      'Travel',
-      'Event',
-      'Birthday',
-      'Conference',
-      'Party',
     ],
   }),
   mounted() {
@@ -181,15 +174,16 @@ export default {
           });
           axios.all(noteList).then(axios.spread((...res)=>{
             res.forEach(ele=>{
-              console.log(ele);
+              console.log('ele:',ele);
               ele.data.notes.forEach(note => {
                 console.log(note);
                 calendarData.push({
                   name: note.title,
-                  start: note.createdDate,
-                  end: note.createdDate,
+                  start: note.meeting_start_time,
+                  end: note.meeting_end_time,
                   color: this.colors[this.rnd(0, this.colors.length - 1)],
                   timed: false,
+                  id: note.noteNo
                 });
               });
             });

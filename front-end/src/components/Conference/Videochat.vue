@@ -72,7 +72,7 @@
 
 <script src="app.js"></script>
 <script>
-import RTCMultiConnection from '../../api/RTCMultiConnection';
+import RTCMultiConnection from 'rtcmulticonnection';
 import Broadcast from '../../api/broadcast'
 // import Sharescreen from './Sharescreen.vue';
 import $ from 'jquery';
@@ -98,7 +98,6 @@ export default {
   data() {
     return {
       img: null,
-      roomId: "public-room",
       disableInputBool: true,
       disableCanvasBool: true,
       chatContainer: null,
@@ -124,26 +123,29 @@ export default {
         if(this.AudioBool == false){
           let localStream = this.connection.attachStreams[0];
           localStream.mute('audio');
+          localStream.muted = true;
+          console.log(localStream);
           this.AudioBool = !this.AudioBool;
-          console.log(this.AudioBool);
         }
         else{
           let localStream = this.connection.attachStreams[0];
           localStream.unmute('audio');
-          this.AudioBool = !this.AudioBool;
-          console.log(this.AudioBool);
+
+          this.connection.streamEvents.selectFirst(
+              "local"
+            ).mediaElement.muted = true;
+          // localStream.muted = false;
+          // console.log(localStream);
+          // this.AudioBool = !this.AudioBool;
+          // console.log(this.AudioBool);
         }
     },
     offBroadcast(){
       this.broadcast.dontAttachStream = true;
     },
     onBroadcast(){
-
-      this.broadcast.session = {
-        video : true,
-        audio : true
-      };
       this.broadcast.openOrJoin(this.roomid+'a');
+
     },
     videoBar(){
        $(".Minivideo_list").toggle();
@@ -267,7 +269,7 @@ export default {
   
   created() {
      this.connection = new RTCMultiConnection();
-     this.broadcast = new Broadcast();
+     this.broadcast = new RTCMultiConnection();
      this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";    
      this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";  
      let src2 = document.createElement("script");
