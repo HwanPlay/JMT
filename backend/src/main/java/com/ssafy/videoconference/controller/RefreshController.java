@@ -48,7 +48,7 @@ public class RefreshController {
 	
 	@ApiOperation(value = "만료된 Access Token 요청. Refresh Token 확인 및 발급")
 	@GetMapping("/refresh")
-	public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 0. 만료된 access 토큰에서 userId 가져오기
 		// 1. redis db에 refresh 토큰 있는지 확인(만료 확인)
@@ -98,12 +98,12 @@ public class RefreshController {
 					return ResponseEntity.ok(SUCCESS);
 				}else {
 					// Refresh Token 만료시, 재 로그인 요청
-					response.setStatus(HttpStatus.UNAUTHORIZED.value());
+					response.setStatus(HttpStatus.NOT_FOUND.value());	
 					throw new JwtException("Unauthorized - Expired Refresh Token.");
 				}
 			} catch (Exception e) {
 				// 그 외 exception은 재 로그인 요청
-				response.setStatus(HttpStatus.UNAUTHORIZED.value());
+				response.setStatus(1234);
 				throw new JwtException("Unauthorized");
 			}
 			System.out.println("end");

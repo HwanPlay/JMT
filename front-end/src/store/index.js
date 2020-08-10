@@ -13,11 +13,12 @@ export default new Vuex.Store({
   state: { // 중앙 관리할 데이터들의 집합
     accessToken: localStorage.getItem('accessToken'),
     refreshToken: null,
+
     userId: localStorage.getItem('userId'),
     myGroups: {},
     myName: localStorage.getItem('myName'),
     myPicture: localStorage.getItem('myPicture'),
-
+    
     emailValidationWord: '',
     isEmailOverlap: null,
     loginError: false,
@@ -37,14 +38,11 @@ export default new Vuex.Store({
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)
     SET_TOKEN(state, headers) {
       if (headers === null){
+        localStorage.clear();
         state.accessToken = null;
         state.refreshToken = null;
         state.userId = null;
-        localStorage.setItem('accessToken', null);
-        localStorage.setItem('refreshToken', null);
-        localStorage.setItem('userId', null); 
-        localStorage.setItem('myPicture', null);
-        localStorage.setItem('myName', null);
+        router.push('Home');
       }
       else{
         state.accessToken = headers.accesstoken;
@@ -53,6 +51,12 @@ export default new Vuex.Store({
         localStorage.setItem('refreshToken', state.refreshToken);
       }
     },
+
+    REFRESH_ACCESS_TOKEN(state, token) {
+      localStorage.setItem('accessToken', token);
+      state.accessToken = token;
+    },
+
     SET_VALIDATION_WORD(state, word){
       if (word === 'fail'){
         state.isEmailOverlap = true;
@@ -134,7 +138,6 @@ export default new Vuex.Store({
         .catch(err => console.log(err.response.data));  
       commit('SET_TOKEN', null);
       commit('SET_LOGIN_ERROR', false);
-      router.push('Home');
     },
 
     // 그룹과 관련된 기능들
