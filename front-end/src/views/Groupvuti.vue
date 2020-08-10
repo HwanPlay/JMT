@@ -6,7 +6,7 @@
         height="100%"
         tile
       >
-        <v-navigation-drawer permanent stateless>
+        <v-navigation-drawer style="height: 100%;" permanent stateless>
           <v-list>
             <v-list-item>
               <v-list-item-avatar>

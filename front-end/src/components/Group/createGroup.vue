@@ -6,7 +6,7 @@
         <v-icon dark>mdi-checkbox-marked-circle</v-icon>
       </v-snackbar>
       <v-card-title>그룹 생성하기</v-card-title>
-      <v-form ref="form" v-model="valid" lazy-validation class="ml-2 mr-2">
+      <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
           <v-col cols= "5">
             <v-text-field v-model="createGroupInfo.groupName" :rules="rules.name" label="그룹 명" required></v-text-field>
@@ -59,7 +59,7 @@ export default {
       axios.post(SERVER_URL + '/group/add', this.createGroupInfo)
         .then(res => {
           console.log('createGroup!', res);
-          this.$router.push('/Group').catch(()=>{});
+          this.$router.push('/Home').catch(()=>{});
           this.reset();
           this.$emit('close');
         })

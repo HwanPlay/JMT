@@ -1,7 +1,8 @@
 <template>
   <v-row>
+        {{ groupInfo }}
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="6">
+    <v-col cols="7">
       <v-row justify="center">
         <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중이 아닙니다</v-btn>
         <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중</v-btn>
@@ -58,6 +59,9 @@
 
       <v-col>
         <v-row justify="end">
+          <div v-if="groupInfo.hostId === this.$store.state.userId">
+            <v-btn @click='destroyGroup'>그룹 파괴</v-btn>
+          </div>
           <v-btn dark color="red" @click="exitGroup">
             그룹 탈퇴
           </v-btn>
@@ -67,7 +71,7 @@
     </v-col>
 
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="6">
+    <v-col cols="5">
       <div>
         <v-sheet tile height="54" color="grey lighten-3" class="d-flex">
 
@@ -162,6 +166,14 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+
+    destroyGroup(){
+      axios.delete(SERVER_URL+'group/delno/'+this.groupInfo.groupNo)
+        .then(() => {
+          this.$router.push('/Home');
+        })
+        .catch(err => console.log(err.response));
     },
 
     exitGroup(){
