@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data: () => ({
     focus: '',
@@ -162,8 +163,49 @@ export default {
       // const eventCount = this.rnd(days, days + 20);
       console.log('min:', min, 'max:', max, 'days:', days);
 
-      const groups = 'http://localhost:8080/videoconference/api/group/get/all/' + this.$store.state.userId
+      const URL_GET_groups =
+        'http://localhost:8080/videoconference/api/group/get/all/' +
+        this.$store.state.userId;
+
+
+      const groupIds = [];
+      const noteList = [];
+      const calendarData = [];
       
+      axios
+        .get(URL_GET_groups)
+        .then((res) => {
+          console.log('res:');
+          console.log(res.data.groups);
+          res.data.groups.forEach(element=>{
+            
+            console.log(element);
+            groupIds.push(element.groupNo);
+            const axios_note = axios.get('http://localhost:8080/videoconference/api/note/get/group/'+element.groupNo);
+
+            noteList.push(axios_note);
+          });
+          axios.all(noteList).then(axios.spread((...res)=>{
+            res.forEach(ele=>{
+              console.log(ele);
+              ele.data.notes.forEach(note => {
+                console.log(note);
+                calendarData.push({
+                  name: note.title,
+                  start: note.createdDate,
+                  end: note.createdDate,
+                  color: this.colors[this.rnd(0, this.colors.length - 1)],
+                  timed: false,
+                });
+              });
+            });
+          })).catch(err=>console.error(err));
+          console.log(groupIds);
+          console.log(noteList);
+
+          
+        });
+        
 
       for (let i = 0; i < 1; i++) {
         const allDay = this.rnd(0, 3) === 0;
@@ -171,7 +213,18 @@ export default {
         const first = new Date(firstTimestamp - (firstTimestamp % 900000));
         const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
         const second = new Date(first.getTime() + secondTimestamp);
-        console.log('allDay:', allDay, 'firstTimestamp:', firstTimestamp, 'first', first, 'secondTimestamp:', secondTimestamp, 'second', second);
+        console.log(
+          'allDay:',
+          allDay,
+          'firstTimestamp:',
+          firstTimestamp,
+          'first',
+          first,
+          'secondTimestamp:',
+          secondTimestamp,
+          'second',
+          second
+        );
 
         // events.push({
         //   name: this.names[this.rnd(0, this.names.length - 1)],
@@ -190,7 +243,7 @@ export default {
         });
       }
 
-      this.events = events;
+      this.events = calendarData;
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
