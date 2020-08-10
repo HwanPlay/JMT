@@ -72,7 +72,7 @@
 
 <script src="app.js"></script>
 <script>
-import RTCMultiConnection from 'rtcmulticonnection';
+import RTCMultiConnection from '../../api/RTCMultiConnection';
 import Broadcast from '../../api/broadcast'
 // import Sharescreen from './Sharescreen.vue';
 import $ from 'jquery';
@@ -115,6 +115,9 @@ export default {
       message: 'Default Message',
       broadcast: null,
       AudioBool : false,
+      videoBool : false,
+      roomid : "",
+      videoLength : null
 
     };
   },
@@ -134,18 +137,19 @@ export default {
           this.connection.streamEvents.selectFirst(
               "local"
             ).mediaElement.muted = true;
-          // localStream.muted = false;
-          // console.log(localStream);
-          // this.AudioBool = !this.AudioBool;
-          // console.log(this.AudioBool);
+          console.log(localStream);
+          this.AudioBool = !this.AudioBool;
+ 
         }
     },
     offBroadcast(){
       this.broadcast.dontAttachStream = true;
     },
     onBroadcast(){
+      this.broadcast.session = {
+        video : true
+      };
       this.broadcast.openOrJoin(this.roomid+'a');
-
     },
     videoBar(){
        $(".Minivideo_list").toggle();
@@ -218,10 +222,43 @@ export default {
 
     },
     offLocalVideo(){
-          this.connection.dontAttachStream = true;
-          this.connection.attachStreams.forEach(function(localStream) {
-              localStream.stop();
-          });
+          // this.connection.dontAttachStream = true;
+          // this.connection.attachStreams.forEach(function(localStream) {
+          //     localStream.stop();
+          // });
+
+        if(this.videoBool == false){
+          let localStream = this.connection.attachStreams[0];
+          this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
+          localStream.mute('video');
+          this.connection.streamEvents[localStream.streamid].session={
+
+            audio : true
+          };
+          console.log(this.connection.streamEvents);
+          console.log(this.connection.streamEvents[localStream.streamid].session.audio);
+          console.log(localStream);
+          this.videoBool = !this.videoBool;
+        }
+        else{
+          
+          let localStream = this.connection.attachStreams[0];
+          this.connection.streamEvents.selectFirst(
+              "local"
+            ).isAudioMuted = false;
+          localStream.unmute('video');
+          this.connection.streamEvents[localStream.streamid].session={
+            audio : true,
+            video : true
+          };
+          console.log(this.connection.streamEvents);
+          console.log(this.connection.streamEvents[localStream.streamid].session.audio);
+          
+
+          console.log(localStream);
+          this.videoBool = !this.videoBool;
+ 
+        }
     },
     onLeave() {
     this.connection.dontAttachStream = true;
@@ -265,6 +302,7 @@ export default {
   },
    updated() {
       this.connection.onmessage = this.appendDIV;
+
     },
   
   created() {
