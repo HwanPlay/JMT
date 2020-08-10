@@ -1,10 +1,10 @@
 <template>
-  <v-main class="main">
-    <v-container class="fill-height container" fluid>
+  <v-main style="background-color: rgb(7, 14, 29);">
+    <v-container class="fill-height">
       <v-row>
 
         <!-- 로그인 -->
-        <v-col cols="12" sm="8" md="5" style= "margin-bottom: 100px; margin-left: 30px;">
+        <v-col cols="5">
           <v-spacer></v-spacer>
           <v-form>
             <h3 style="color: rgb(229, 235, 239);">모두를 위한 화상회의 플랫폼</h3>
@@ -29,17 +29,18 @@
 
         <!-- 캐러셀 -->
         <v-spacer></v-spacer>
-        <v-col cols="12" md="6" style="padding: 12px 0px;">
-          <v-spacer></v-spacer>
+        <!-- <v-col cols="12" md="6" style="padding: 12px 0px;"> -->
+        <v-col cols="6">
           <v-carousel :continuous="true" :cycle="cycle" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-minus" height="100%">
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
-              <v-row class="fill-height float-left" style="margin-left: 15px; " align="center" justify="center">
+              <v-row class="fill-height" style="margin: 0 15px 0 15px;" align="center" justify="center">
                 <v-icon size=200>{{ icons[i] }}</v-icon>
-                <h3 style="margin-bottom: 40px;">{{ slides[i] }} </h3>
+                <h3 style="margin-bottom: 40px; text-align: center;">{{ slides[i] }} </h3>
               </v-row>
             </v-carousel-item>
           </v-carousel>
         </v-col>
+
       </v-row>
     </v-container>
   </v-main>
@@ -67,7 +68,7 @@ export default {
         slides: [
           '전 세계 사람들과, 언제 어디서든!',
           '강의를 보면서 필기도 가능합니다!',
-          '사용자 친화적인 UI로 누구나 간편하게!'
+          '직관적인 UI로 누구나 간편하게!'
         ],
         modalOpen: false,
         loginData: {
@@ -94,11 +95,3 @@ export default {
   }
 };
 </script>
-
-<style>
-  .container{
-    margin: auto;
-    padding: 0 60px;
-  }
-
-</style>
