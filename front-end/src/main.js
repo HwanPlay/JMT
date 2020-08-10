@@ -60,6 +60,9 @@ axios.interceptors.response.use(
   function (error) {
     // 오류 응답을 처리
     console.log('refreshing?', isRefreshing);
+
+    console.log('error message : ', error.response.status);
+    
     const originalRequest = error.config;
     if (error.response.status === 401 && !isRefreshing){
       isRefreshing = true;
@@ -84,7 +87,7 @@ axios.interceptors.response.use(
           }
         })
         .catch(err => console.log(err));
-    }else if(error.response.status === 401 && isRefreshing){
+    }else if(error.response.status === 500 && isRefreshing){
       console.log('Expire refreshToken');
       localStorage.clear();
       store.commit('SET_TOKEN', null);
