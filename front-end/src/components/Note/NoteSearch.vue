@@ -53,7 +53,4 @@ export default {
 </script>
 
 <style>
-.searchbar_text {
-
-}
 </style>

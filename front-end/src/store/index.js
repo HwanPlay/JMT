@@ -32,7 +32,14 @@ export default new Vuex.Store({
         return !!state.accessToken;
       }
     },
-    config: state => ({ headers: { Authorization: `${state.accessToken}` } })
+    config: state => ({ headers: { Authorization: `${state.accessToken}` } }),
+
+    // config_refresh: state => ({ 
+    //   headers: { 
+    //     'accessToken': `${state.accessToken}`,
+    //     'refreshToken': `${state.refreshToken}`
+    //   } 
+    // })
   },
 
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)
@@ -155,11 +162,13 @@ export default new Vuex.Store({
 });
 
 axios.interceptors.request.use(
-  function (config) {
+  async function (config) {
     // 요청을 보내기 전에 수행할 일
     console.log('hihi');
     // console.log(this.state.accessToken);
-    config.headers.Authorization = localStorage.getItem('accessToken');
+    config.headers.accessToken = localStorage.getItem('accessToken');
+    config.headers.refreshToken = localStorage.getItem('refreshToken');
+
     console.log('myconfing', config);
     console.log('good');
     
@@ -178,10 +187,36 @@ axios.interceptors.response.use(
     // 응답 데이터를 가공
     return response;
   },
-  function (error) {
-    // 오류 응답을 처리
-    if (error.response.status === 401){
-      console.log('토큰 만료!!!');
+  async function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    console.log('에러일 경우', error.config);
+    const errorAPI = error.config;
+    if(error.response.data.status===401 && errorAPI.retry===undefined){
+      errorAPI.retry = true;
+      console.log('토큰이 이상한 오류일 경우');
+      await refreshToken();
+      console.log('토큰 받아옴??');
+      return await axios(errorAPI);
     }
     return Promise.reject(error);
   });
+
+async function refreshToken(){
+  try{
+    console.log('환 async');
+    console.log(this);
+    console.log('result====================================' + localStorage.getItem('accessToken'), localStorage.getItem('refreshToken'));
+    const token = await axios.get('http://localhost:8080/videoconference/api/jwt/refresh', {
+      'accessToken': localStorage.getItem('accessToken'),
+      'refreshToken': localStorage.getItem('refreshToken')
+    });
+    console.log('token=');
+    console.log(token);
+    localStorage.setItem('accessToken', token.header.AccessToken);
+    return token;
+  }catch(err){
+    console.log('refresh Token error');
+    return err;
+  }
+}
