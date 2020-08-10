@@ -2,7 +2,7 @@
   <v-row>
         {{ groupInfo }}
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="7">
+    <v-col cols="5">
       <v-row justify="center">
         <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중이 아닙니다</v-btn>
         <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중</v-btn>
@@ -52,17 +52,17 @@
                 <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
               </v-card-actions>
             </v-col>
-            
           </v-card>
+
         </v-col>
       </v-row>
 
       <v-col>
         <v-row justify="end">
-          <div v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn @click='destroyGroup'>그룹 파괴</v-btn>
+          <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
+            <v-btn @click='destroyGroup'>그룹 해체</v-btn>
           </div>
-          <v-btn dark color="red" @click="exitGroup">
+          <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
             그룹 탈퇴
           </v-btn>
         </v-row>
@@ -70,8 +70,9 @@
       
     </v-col>
 
+    <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="5">
+    <v-col cols="6">
       <GroupCalendar />
     </v-col>
   </v-row>
