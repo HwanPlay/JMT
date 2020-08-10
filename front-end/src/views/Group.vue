@@ -67,6 +67,7 @@ export default {
   methods: {
     toggle(i) {
       this.onboarding = i;
+      console.log(this.onboarding);
     },
     createGroup() {
       this.$store.state.groupModalOn = true;

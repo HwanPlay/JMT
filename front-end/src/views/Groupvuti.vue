@@ -32,7 +32,7 @@
             <v-list-item-group v-model="group" color="primary">
               <v-list-item
                 v-for="(group, i) in this.$store.state.myGroups"
-                :key="i"
+                :key="i" @click="toggle(i)"
               >
                 <v-list-item-icon>
                   <v-icon>mdi-account-multiple</v-icon>
@@ -90,6 +90,7 @@ export default {
   },
   methods: {
     toggle(i) {
+      console.log('change!',i);
       this.onboarding = i;
     },
     createGroup() {
