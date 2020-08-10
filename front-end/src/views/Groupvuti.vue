@@ -49,7 +49,7 @@
           <p>그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
-            <createGroup @close="closeModal" />
+            <CreateGroup @close="closeModal" />
           </v-dialog>
 
         </v-list>
@@ -66,14 +66,14 @@
 <script>
 // import Group1 from '../components/Group/Group1.vue';
 import GroupContent from '../components/Group/GroupContent.vue';
-import createGroup from '../components/Group/createGroup.vue';
+import CreateGroup from '../components/Group/CreateGroup';
 
 export default {
   name: 'Groups',
   components: {
     // Group1,
     GroupContent,
-    createGroup,
+    CreateGroup,
   },
   data() {
     return {

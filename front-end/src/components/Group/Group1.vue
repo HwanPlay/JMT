@@ -38,7 +38,7 @@
             <v-divider></v-divider> 
             <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
             <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
-              <memberCard :userInfo = memberInfo />
+              <MemberCard :userInfo = memberInfo />
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -67,7 +67,7 @@
 
 <script>
 import axios from 'axios';
-import memberCard from './memberCard.vue';
+import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 
@@ -77,7 +77,7 @@ const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 export default {
   name: 'group',
   components: {
-    memberCard,
+    MemberCard,
     GroupMembers,
     InviteMember,
     GroupCalendar

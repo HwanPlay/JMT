@@ -14,8 +14,14 @@
         </v-col>
 
         <v-col cols="4">
-          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">회의 시작</v-btn>
-          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
+          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
+            회의 시작
+            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
+          </v-btn>
+          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
+            회의 참여
+            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
+          </v-btn>
         </v-col>
       </v-row>
         
@@ -44,7 +50,7 @@
             <v-col>
               <div v-if="members.length === 0">그룹원이 없습니다</div>
               <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
-                <memberCard :userInfo = memberInfo />
+                <MemberCard :userInfo = memberInfo />
               </v-card-text>
               
               <v-card-actions>
@@ -60,7 +66,7 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn @click='destroyGroup'>그룹 해체</v-btn>
+            <v-btn dark color="red" @click='destroyGroup'>그룹 해체</v-btn>
           </div>
           <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
             그룹 탈퇴
@@ -80,7 +86,7 @@
 
 <script>
 import axios from 'axios';
-import memberCard from './memberCard.vue';
+import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 
@@ -91,7 +97,7 @@ const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 export default {
   name: 'group',
   components: {
-    memberCard,
+    MemberCard,
     GroupMembers,
     InviteMember,
     GroupCalendar
@@ -169,7 +175,6 @@ export default {
   },
 
   mounted() {
-    console.log('hi');
     axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
         this.members = res.data.groupMembers;
@@ -186,12 +191,3 @@ export default {
   }
 };
 </script>
-
-<style>
-  .showr{
-    font-size: 40px;
-  }
-  .long{
-    font-size: 30px;
-  }
-</style>

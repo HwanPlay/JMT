@@ -4,14 +4,19 @@
       <v-sheet height='64'>
         <v-toolbar flat color='white'>
           <v-btn outlined class='mr-4' color='grey darken-2' @click='setToday'>Today</v-btn>
+
+          <v-spacer></v-spacer>
+          
           <v-btn fab text small color='grey darken-2' @click='prev'>
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
+          <v-toolbar-title v-if='$refs.calendar'>{{ $refs.calendar.title }}</v-toolbar-title>
           <v-btn fab text small color='grey darken-2' @click='next'>
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-          <v-toolbar-title v-if='$refs.calendar'>{{ $refs.calendar.title }}</v-toolbar-title>
+          
           <v-spacer></v-spacer>
+          
           <v-menu bottom right>
             <template v-slot:activator='{ on, attrs }'>
               <v-btn outlined color='grey darken-2' v-bind='attrs' v-on='on'>
