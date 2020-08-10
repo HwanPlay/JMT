@@ -63,7 +63,7 @@
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn>
-                Edit
+                <router-link :to="{ name: 'Note', params: { NoteId_Cal: selectedEvent.id }}">Edit</router-link>
               </v-btn>
               <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
@@ -183,6 +183,7 @@ export default {
                   end: note.meeting_end_time,
                   color: this.colors[this.rnd(0, this.colors.length - 1)],
                   timed: false,
+                  id: note.noteNo
                 });
               });
             });
