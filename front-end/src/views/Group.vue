@@ -2,8 +2,9 @@
   <!-- <div style="height: 100%; width: 100%;"> -->
     <v-row style="margin: 0px; height: 100%; width: 100%;">
       <v-col class="box1" cols="2" style="padding: 12px 0px 12px 0px;">
-        <v-col cols="12" style="background-color: rgb(52, 63, 87); padding: 12px 0px 12px 0px;">
-          <div  class="y-col" v-if="!!this.$store.state.myGroups">
+        <v-col style="background-color: rgb(52, 63, 87); padding: 12px 0px 12px 0px;">
+          <div class="y-col" v-if="!!this.$store.state.myGroups">
+            <h5>그룹 목록</h5>
             <div
               style="width: 100%;"
               class="my-4"
@@ -18,7 +19,8 @@
                 text
                 value="left"
               >
-                <h3>{{ group.groupName.substring(0, 9) }}</h3>
+                <v-icon class="mr-2">fas fa-user-friends</v-icon>
+                <p>{{ group.groupName.substring(0, 9) }}</p>
               </v-btn>
             </div>
           </div>
@@ -30,7 +32,7 @@
             text
             value="left"
           >
-            <h3>그룹 추가</h3>
+          추가
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
             <createGroup @close="closeModal" />

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.model.group.bean.Group;
 
 
@@ -26,6 +27,10 @@ public interface GroupCustomRepository<T> {
 	
 	@Modifying
 	void deleteByNo(int groupNo);
+	
+	
+	@Modifying
+	void changeHostId(ChangeHostIdCommand command);
 	
 	
 //	Group add(Group group);

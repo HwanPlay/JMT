@@ -1,7 +1,7 @@
 <template>
   <v-dialog Dark v-model="dialog" persistent max-width="650px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" color="rgb(14, 23, 38)" class="mr-0" style="height: 97%; width: 76px; outline: none;">
+      <v-btn v-bind="attrs" v-on="on" color="rgb(14, 23, 38)" class="mr-0" style="height: 100%; width: 76px; outline: none;">
         <v-icon size=30>fas fa-user</v-icon>
       </v-btn>
     </template>

@@ -1,66 +1,95 @@
 <template>
-  <v-row style="height: 100%; width: 100%;">
-    {{ groupInfo }}
+  <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="7" style="width: 100%;">
-      <v-row style="height: 15%; width: 100%; margin-left: 20px; margin-top: 20px;">
+    <v-col cols="6">
+      <v-row justify="center">
+        <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중이 아닙니다</v-btn>
+        <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중</v-btn>
+      </v-row>
+
+      <v-row>
         <v-col cols="8">
           <h2>{{ groupInfo.groupName }}</h2>
-          <v-row>
-            <v-col cols="2" class="p-0 ml-3">
-              <v-img :src="require('../../assets/profile/profile1.jpg')" class="rounded-circle p-0" height="60" width="60"></v-img>
-            </v-col>
-            <v-row class="ml-0" justify="start" style="height: 100%;">
-              <div>
-                <span style="font-size: 20px;">{{ groupInfo.hostName }}</span>
-                <br>
-                <span style="font-size: 16px;">{{ groupInfo.hostId }}</span>
-              </div>
-            </v-row>
-          </v-row>
         </v-col>
+
         <v-col cols="4">
-          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" @click='changeHasMeeting' dark color="red">회의 시작</v-btn>
-          <v-btn v-else-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
-          <v-btn v-else dark color="green darken-1">지금은 회의중이 아닙니다</v-btn>
+          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">회의 시작</v-btn>
+          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">회의 참여</v-btn>
         </v-col>
       </v-row>
-      <br>
-        <v-divider style="margin-bottom: 8px; margin-left: 10px;"></v-divider>
-      <v-row style="width: 100%; height: 15%; margin-left: 20px;">
-        <div style="font-size: 24px;">{{ groupInfo.groupIntro }}</div>
-      </v-row>
-      <v-row style="width: 100%; height: 60%; margin-left: 20px;">
-        <v-col cols="6">
-          <v-card class="mx-auto" outlined max-width="400" style="padding: 0px;">
-            <h2>Member</h2>
-            <v-spacer></v-spacer>
-            <v-divider></v-divider> 
-            <div v-if="members.length===0">그룹원이 없으요<br>초대좀ㅠㅠㅠ</div>
-            <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
-              <memberCard :userInfo = memberInfo />
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
-            </v-card-actions>
+        
+      <h4>Leader : {{ groupInfo.hostName }}</h4>
+      <div style="height:60px">
+        <p> Intro : {{ groupInfo.groupIntro }}</p>
+      </div>
+
+      <v-divider class="mb-10"></v-divider>
+      
+      <v-row>
+        <v-col>
+
+            <v-row>
+              <v-col cols="4">
+                <h3>Member</h3>
+              </v-col>
+              <v-col cols="8">
+                <div v-if="groupInfo.hostId === this.$store.state.userId">
+                  <InviteMember :groupNo = groupInfo.groupNo />
+                </div>
+              </v-col>
+            </v-row>
+            
+          <v-card outlined>
+            <v-col>
+              <div v-if="members.length === 0">그룹원이 없습니다</div>
+              <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
+                <memberCard :userInfo = memberInfo />
+              </v-card-text>
+              
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
+              </v-card-actions>
+            </v-col>
+            
           </v-card>
         </v-col>
-        <v-col cols='6'>
-          <div v-if="groupInfo.hostId === this.$store.state.userId">
-            <InviteMember :groupNo = groupInfo.groupNo />
-            <v-btn @click='destroyGroup'>그룹 파괴</v-btn>
-          </div>
-        <v-btn color="danger" @click="exitGroup">
-          그룹 탈퇴
-        </v-btn>
-        </v-col>
       </v-row>
+
+      <v-col>
+        <v-row justify="end">
+          <v-btn dark color="red" @click="exitGroup">
+            그룹 탈퇴
+          </v-btn>
+        </v-row>
+      </v-col>
+      
     </v-col>
 
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="5" style="width: 100%;">
-      <GroupCalendar />
+    <v-col cols="6">
+      <div>
+        <v-sheet tile height="54" color="grey lighten-3" class="d-flex">
+
+
+          <v-row justify="center" align="center">
+            <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+            <!-- <v-spacer></v-spacer> -->
+            'Calendar' x => 'M 월' o (안되나?)
+            <!-- <v-spacer></v-spacer> -->
+            <v-btn icon class="ma-2" @click="$refs.calendar.next()">
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-row>
+          
+
+        </v-sheet>
+        <v-sheet height="600">
+          <v-calendar ref="calendar" v-model="value" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents"></v-calendar>
+        </v-sheet>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -71,7 +100,6 @@ import memberCard from './memberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 
-import GroupCalendar from './GroupCalendar.vue';
 const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 export default {
@@ -80,7 +108,6 @@ export default {
     memberCard,
     GroupMembers,
     InviteMember,
-    GroupCalendar
   },
   props: {
     groupInfo: Object,
@@ -139,23 +166,10 @@ export default {
 
     exitGroup(){
       axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
-        .then(() => {
+        .then(res => {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
-    },
-    destroyGroup(){
-      axios.delete(SERVER_URL+'group/delno/'+this.groupInfo.groupNo)
-        .then(() => {
-          this.$router.push('/Home');
-        })
-        .catch(err => console.log(err.response));
-    },
-    changeHasMeeting(){
-      axios.put(SERVER_URL+'group/hasmeeting/'+this.groupInfo.groupNo)
-        .then(() => {
-          console.log('Changed HasMeeting!');
-        });
     }
   },
 

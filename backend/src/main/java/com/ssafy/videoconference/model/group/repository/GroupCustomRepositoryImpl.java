@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.hibernate.query.NativeQuery;
 
+import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.model.group.bean.Group;
 
 
@@ -67,6 +67,17 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 				"delete from meeting_group where group_no = :groupNo ";
 		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
 		query.setParameter("groupNo", groupNo);
+		query.executeUpdate();
+	}
+	
+	
+	@Override
+	public void changeHostId(ChangeHostIdCommand command) {
+		String jpql = 
+				"update meeting_group set id = :Id where group_no = :GroupNo";
+		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
+		query.setParameter("Id", command.getHostId());
+		query.setParameter("GroupNo", command.getGroupNo());
 		query.executeUpdate();
 	}
 	

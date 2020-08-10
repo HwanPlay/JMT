@@ -180,11 +180,11 @@
           ></b-form-input>
           
           <div class="note_button">
-            <b-button class="mx-1" @click="saveNote" variant="primary">Save</b-button>
+            <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
-            <b-button class="mx-1" @click="deleteNote" variant="primary">Delete Note</b-button>
+            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del Note</b-button>
           </div>
       </b-form>
       <hr>

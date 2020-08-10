@@ -12,7 +12,8 @@ const routes = [
   {
     path: '/Group',
     name: 'Group',
-    component: () => import('../views/Group.vue')
+    // component: () => import('../views/Group.vue')
+    component: () => import('../views/Groupvuti.vue')
   },
   {
     path: '/Note',

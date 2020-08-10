@@ -6,11 +6,10 @@
         @onGetNoteList="getNoteList" 
         :received_note_list="received_note_list" 
         @onGetNoteHTML="getNoteHTML"/>
+      <b-col cols="1"></b-col>
       
       <NoteEditor 
-
       @onDeleteNote="deleteNote"
-      
       :noteObj="noteObj"
       @onSaveNote="saveNote"
       />
@@ -23,7 +22,8 @@ import NoteEditor from '../components/Note/NoteEditor.vue';
 import NoteSearch from '../components/Note/NoteSearch.vue';
 
 import axios from 'axios';
-const SERVER_URL = 'http://localhost:8080/';
+const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+// const USER_ID = 'lwh1992@naver.com';
 
 export default {
   name: 'Note',
@@ -35,6 +35,7 @@ export default {
     return {      
       group_list: [],
       received_note_list: [],
+      USER_ID: this.$store.state.userId,
 
       noteObj: {
         Content: '',
@@ -46,28 +47,27 @@ export default {
   methods: {
     // api 추가
     get_group_list() {
-      const URL = 'videoconference/api/group/get/all/';
-      const ID = 'lwh1992@naver.com/';
+      const FUNC_URL = 'group/get/all/';
 
       axios
-        .get(SERVER_URL + URL + ID)
+        .get(SERVER_URL + FUNC_URL + this.USER_ID)
         .then((res) => {
           this.group_list = res.data.groups;
         })
         .catch((err) => console.error(err));
     },
     getNoteList(groupId) {
-      const URL = 'videoconference/api/note/get/group/';
-      const groupNoAndId = '/'+this.$store.state.userId;
+      const FUNC_URL = 'note/get/group/';
+      // '/' + this.USER_ID
       axios
-        .get(SERVER_URL + URL + groupId + groupNoAndId)
+        .get(SERVER_URL + FUNC_URL + groupId )
         .then((res)=>{
           this.received_note_list = res.data.notes;
         })
         .catch((err) => console.error(err));
     },
     getNoteHTML(NoteId) {
-      const URL_getNoteByNo = 'videoconference/api/note/getno/';
+      const URL_getNoteByNo = 'note/getno/';
 
       axios
         .get(SERVER_URL+URL_getNoteByNo+NoteId)
@@ -83,21 +83,15 @@ export default {
         });
     },
     saveNote(noteObj) {
-      const URL_saveNote = 'videoconference/api/note/';
-      const note_ID = noteObj.Id;
-      
-      // console.log(noteObj.Title);
-      // console.log(noteObj.Content);
-      
-      axios.put(SERVER_URL + URL_saveNote + note_ID,{
+      const URL_saveNote = 'note/';
+            
+      axios.put(SERVER_URL + URL_saveNote + noteObj.Id,{
         'title': noteObj.Title,
         'content': noteObj.Content
       }).then((res)=>{
         console.log('title:', noteObj.Title);
         console.log('Content:', noteObj.Content);
-      }).catch((err)=> console.error(err));
-
-      
+      }).catch((err)=> console.error(err));      
     },
 
 
@@ -131,7 +125,7 @@ export default {
     // },
 
     deleteNote(noteId) {
-      const URLDeleteNote = 'videoconference/api/note/delno/';
+      const URLDeleteNote = 'api/note/delno/';
       axios.delete(SERVER_URL+URLDeleteNote+noteId)
         .then((res)=> {
           console.log(res);
