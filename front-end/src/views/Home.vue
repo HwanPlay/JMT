@@ -1,8 +1,9 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 버튼 부분 -->
-    <v-col cols="7" style="height: 100%;">
-      <v-row style="height: 100%; margin-right: 60px;" align="center" justify="end">
+    <v-col cols="6" style="height: 100%;">
+      <v-row style="height: 100%;" align="center" justify="center">
+        
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(255, 128, 74)">
@@ -17,6 +18,7 @@
           </div>
           <h5 style="margin-top: 20px;">내 그룹</h5>
         </v-col>
+
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" @click="modalOn=true" color="rgb(52, 63, 87)">
@@ -27,6 +29,7 @@
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
+
           <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToNote">
               <v-icon size="60">fas fa-file-alt</v-icon>
@@ -34,13 +37,16 @@
           </div>
           <h5 style="margin-top: 20px;">내 노트</h5>
         </v-col>
+        
       </v-row>
     </v-col>
 
-    <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols="4" style="height: 100%; width: 100%;">
-      <v-row style="height: 100%;" align="center" justify="center">
+    <v-spacer></v-spacer>
 
+    <!-- 우측 시계 + 일정 버튼 -->
+    <v-col cols="4" style="height: 100%;">
+      <v-row style="height: 100%;" align="center" justify="center">
+       <v-col cols="12">
         <v-card class="mx-auto" width="100%">
           <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
             <h1 class="ml-5">{{ clock | moment('HH:mm:ss') }}</h1>
@@ -57,9 +63,10 @@
             <div>Make our own Service</div>
           </v-card-text>
         </v-card>
-
+        </v-col>
       </v-row>
     </v-col>
+    <v-spacer></v-spacer>
   </v-row>
 </template>
 

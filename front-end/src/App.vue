@@ -1,5 +1,5 @@
 <template>
-  <v-app class="main">
+  <v-app>
     <!-- Login Component -->
     <div v-if="!isLoggedIn && !tmpLogin">
       <Login @loginConfirm="enterService" />
@@ -50,15 +50,19 @@
 
         <MyProfile />
 
-        <!-- Settings Router -->
-        <div class="text-center" style="height: 97%">
+        <!-- logout Router -->
+        <div class="text-center" style="height: 100%">
           <v-btn text class="mr-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
             <v-icon size="30">mdi-lock-open-outline</v-icon>
           </v-btn>
         </div>
       </v-app-bar>
+
       <v-main>
-        <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
+        <v-container class="fill-height" ma-0>
+        <!-- <v-container pa-0 ma-0 style="height: 100%"> -->
+          <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
+        </v-container>
       </v-main>
     </div>
   </v-app>
@@ -119,8 +123,5 @@ export default Vue.extend({
 <style>
 v-app-bar {
   -webkit-app-region: no-drag;
-}
-.main {
-  background-color: rgb(7, 14, 29);
 }
 </style>
