@@ -12,7 +12,7 @@
             아싸..
           </div>
           <v-card-text v-for="(memberInfo, i) in membersInfo" :key=i style="padding: 5px;">
-            <memberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId />
+            <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId />
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import memberCard from './memberCard.vue';
+import MemberCard from './MemberCard.vue';
 
 export default {
   name: 'Signup',
   components:{
-    memberCard,
+    MemberCard,
   },
   props:{
     membersInfo: Array,

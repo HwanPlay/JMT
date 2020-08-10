@@ -32,7 +32,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'createGroup',
+  name: 'CreateGroup',
   data () {
     return {
       createGroupInfo:{
@@ -58,7 +58,7 @@ export default {
       const SERVER_URL = 'http://localhost:8080/videoconference/api';
       axios.post(SERVER_URL + '/group/add', this.createGroupInfo)
         .then(res => {
-          console.log('createGroup!', res);
+          console.log('CreateGroup!', res);
           this.$router.push('/Home').catch(()=>{});
           this.reset();
           this.$emit('close');

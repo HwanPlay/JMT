@@ -25,7 +25,7 @@ const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 
 export default {
-  name: 'memberCard',
+  name: 'MemberCard',
   props:{
     userInfo: Object,
     groupNo: Number,

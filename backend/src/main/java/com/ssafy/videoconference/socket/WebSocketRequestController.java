@@ -17,7 +17,9 @@ public class WebSocketRequestController {
 	
 	@MessageMapping("/request")
 	public void message(RequestMessage message) {
-		
+		messagingTemplate.convertAndSend("/sub/request" + message.getReceiver(), message);
 	}
+	
+	
 	
 }
