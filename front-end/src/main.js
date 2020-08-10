@@ -35,15 +35,6 @@ new Vue({
 import SERVER from '@/api/spring';
 import axios from 'axios';
 
-import { mapMutations } from 'vuex';
-
-export default {
-  methods:{
-    ...mapMutations({
-      SET_TOKEN: 'SET_TOKEN'
-    })
-  }
-};
 
 axios.interceptors.request.use(
   function (config) {
@@ -68,6 +59,10 @@ axios.interceptors.response.use(
   },
   function (error) {
     // 오류 응답을 처리
+    console.log('refreshing?', isRefreshing);
+
+    console.log('error message : ', error.response.status);
+    
     const originalRequest = error.config;
     if (error.response.status === 401 && !isRefreshing){
       isRefreshing = true;
@@ -80,17 +75,27 @@ axios.interceptors.response.use(
       return axios.get(SERVER.URL + SERVER.ROUTES.reToken, config)
         .then(res => {
           if (res.status === 200){
-            console.log('thisisres',res);
-            isRefreshing = false;
             console.log('old', localStorage.getItem('accessToken'));
-            localStorage.setItem('accessToken', res.headers.accesstoken);
+            store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
+            isRefreshing = false;
+            // localStorage.setItem('accessToken', res.headers.accesstoken);
             console.log('new Token!!!', localStorage.getItem('accessToken'));
+            if (localStorage.getItem('accessToken') === undefined || !localStorage.getItem('accessToken')){
+              return ;
+            }
             return axios(originalRequest);
           }
         })
         .catch(err => console.log(err));
+    }else if(error.response.status === 500 && isRefreshing){
+      console.log('Expire refreshToken');
+      localStorage.clear();
+      store.commit('SET_TOKEN', null);
+      isRefreshing = false;
+      return ;
+    }else{
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   });
 
 
