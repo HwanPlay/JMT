@@ -7,12 +7,15 @@
 
     <!-- NavBar -->
     <div v-else>
+        <vue-webrtc
+          ref="webrtc"
+        />
       <v-app-bar app color="rgb(14, 23, 38)" dark style="margin-top: 30px;">
         <div style="height: 100%;">
           <router-link to="/Home">
             <v-btn text style="height: 100%; outline:none;">
               <!-- <v-icon>fas fa-home</v-icon> -->
-              <span class="routerLink">
+              <span class="routerLink" @click="closeWebrtc">
                 <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
                 <!-- Home -->
               </span>
@@ -67,10 +70,12 @@
 <script>
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
+import WebRTC from '../src/api/webrtc';
 
 import Login from '../src/components/Account/Login.vue';
 import MyProfile from '../src/components/Account/MyProfile.vue';
 
+Vue.use(WebRTC);
 export default Vue.extend({
   name: 'App',
 
@@ -85,6 +90,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    closeWebrtc(){
+      this.$refs.webrtc.leave();
+    },
     goToGroup() {
       this.$router.push('Group');
     },

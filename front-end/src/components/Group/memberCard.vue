@@ -36,8 +36,7 @@ export default {
   methods:{
     exileMember(){
       axios.delete(SERVER_URL+'groupmember/delno/'+this.groupNo+'/'+this.userInfo.id)
-        .then(res => {
-          console.log(res, 'exile');
+        .then(() => {
           this.isExiled = true;
         })
         .catch(err => console.log(err.response));

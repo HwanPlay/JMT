@@ -58,7 +58,8 @@ public class RefreshController {
 		
 		String accessToken = request.getHeader("accessToken");
 		String refreshToken = request.getHeader("refreshToken");
-			
+		System.out.println(accessToken);
+		System.out.println(refreshToken);
 		String userId = null;
 		
 		ValueOperations<String, Object> redis = redisTemplate.opsForValue();
@@ -91,7 +92,7 @@ public class RefreshController {
 					
 					// Redis DB에 재 발급한 Access Token 저장 
 					redisTemplate.opsForValue().set(accessTokenKey, newAccessToken);
-					redisTemplate.expire(accessTokenKey, System.currentTimeMillis() + jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+					redisTemplate.expire(accessTokenKey, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 
 					response.setStatus(HttpStatus.OK.value());
 					return ResponseEntity.ok(SUCCESS);
