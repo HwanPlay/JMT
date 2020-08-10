@@ -127,7 +127,9 @@ export default new Vuex.Store({
             .then((res) => {
               commit('SET_MY_PROFILE', res);
             })
-            .catch(err => console.log(err.response));
+            .catch(err => {
+              console.log('profile error'+err.response);
+            });
         })
         .catch(err => {
           commit('SET_LOGIN_ERROR', true);
@@ -155,7 +157,9 @@ export default new Vuex.Store({
           console.log(res);
           commit('SET_GROUP_INFO', res);
         })
-        .catch(err => console.log(err.response));
+        .catch(err => {
+          console.log('error'+err.response);
+        });
     },
   },
   modules: {}
@@ -166,10 +170,10 @@ axios.interceptors.request.use(
     // 요청을 보내기 전에 수행할 일
     console.log('hihi');
     // console.log(this.state.accessToken);
-    config.headers.accessToken = localStorage.getItem('accessToken');
-    config.headers.refreshToken = localStorage.getItem('refreshToken');
-
-    console.log('myconfing', config);
+    // config.headers.accessToken = localStorage.getItem('accessToken');
+    // config.headers.refreshToken = localStorage.getItem('refreshToken');
+    config.headers.Authorization = localStorage.getItem('accessToken');
+    console.log('myconfing: ', config);
     console.log('good');
     
     return config;
