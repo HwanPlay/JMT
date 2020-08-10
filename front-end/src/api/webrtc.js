@@ -167,6 +167,9 @@
             localVideo: null,
             videoList: [],
             canvas: null,
+            video: false,
+            audio: false
+            
           };
         },
 
@@ -286,11 +289,31 @@
             that.videoList = newList;
             that.$emit('left-room', stream.streamid);
           };
+
+          this.rtcmConnection.closeSocket = function() {
+            try {
+              io.sockets = {};
+            } catch (e) {}
+
+            if (!this.rtcmConnection.socket) return;
+
+            if (typeof this.rtcmConnection.socket.disconnect === 'function') {
+              this.rtcmConnection.socket.disconnect();
+            }
+
+            if (typeof this.rtcmConnection.socket.resetProps === 'function') {
+              this.rtcmConnection.socket.resetProps();
+            }
+
+            this.rtcmConnection.socket = null;
+          };
+
+
         },
 
         methods: {
           join: function join() {
-            console.log('입장합니다223333');
+            console.log('입장합니다 open-or-join');
             var that = this;
             this.rtcmConnection.openOrJoin(this.roomId, function (isRoomExist, roomid) {
               if (isRoomExist === false && that.rtcmConnection.isInitiator === true) {
@@ -299,11 +322,16 @@
             });
           },
           leave: function leave() {
+            console.log("떠나자");
             this.rtcmConnection.attachStreams.forEach(function (localStream) {
               localStream.stop();
             });
             this.videoList = [];
-            
+            this.rtcmConnection.closeSocket();
+            // this.rtcmConnection.sdpConstraints.mandatory = {
+            //   OfferToReceiveAudio: this.enableLogs,
+            //   OfferToReceiveVideo: this.enableLogs
+            // };
           },
           capture: function capture() {
             return this.getCanvas().toDataURL(this.screenshotFormat);

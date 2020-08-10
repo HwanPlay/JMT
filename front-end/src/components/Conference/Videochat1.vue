@@ -1,41 +1,57 @@
 <template>
   <div class="MainContainer">
     <div class="MainContent">
-        <div class="Minivideo_list"><div class="videos-container" id="videos-container" style="display:none" ></div></div>
-        
-      <div class="video_list_videOrshow" @click="videoBar">
+      <div class="video_list">
+        <div class="video_list_videOrshow" @click="videoBar">
           <span class="triangle test_1"></span>
-      </div>
-      
-      <div class="Mainvideo">
-        <div class="Main-videos-container" id="Main-videos-container" >
         </div>
-              <div class="footer">
-                <div class="RoomInput">
-                  채팅방이름을 입력하세요
-                  <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid"> 
-                </div>
-                <div class="MenuBtn">
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offLocalVideo"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" id="audio" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offMic" ><div class="btnIcon"><b-icon icon="Mic-mute-fill" font-scale="2"></b-icon></div></button>
-                  <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
-                  <div class="container">
-
-                </div>
-                </div>
-              </div>
+        <vue-webrtc
+          ref="webrtc"
+          width="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
+        <broad-cast
+          ref="broadcast"
+          width="100%"
+          height="100%"
+          :roomId="roomId"
+          v-on:joined-room="logEvent"
+          v-on:left-room="logEvent"
+          v-on:opened-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        />
       </div>
 
 
+      <div class="footer">
+        <div class="RoomInput">
+          채팅방이름을 입력하세요
+          <input v-model="roomId" id="RoomInput" style="color: white;" />
+        </div>
+        <div class="MenuBtn">
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onLeave"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
+          <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
+          <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
+          <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
+          <div class="container">
 
+        </div>
+        </div>
+      </div>
     </div>
     
     <div id="note-container">
@@ -59,33 +75,40 @@
                       <div class="chat-output">
                       </div>
                     </div>
+                          
               </div>
+
               <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool"/>
+
+          <!-- <div class="chat-output"></div> -->
         </div>
     
 
     </div>
+    <!-- <div class="row">
+      <div class="col-md-12">
+        <h2>Captured Image</h2>
+        <figure class="figure">
+          <img :src="img" class="img-responsive" />
+        </figure>
+      </div>
+    </div>-->
   </div>
 </template>
-<script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
-<!-- socket.io for signaling -->
-<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script src="app.js"></script>
 <script>
-import RTCMultiConnection from '../../api/RTCMultiConnection';
-import Broadcast from '../../api/broadcast'
 // import Sharescreen from './Sharescreen.vue';
 import $ from 'jquery';
 import Vue from 'vue';
-// import WebRTC from '../../api/webrtc';
+import WebRTC from '../../api/webrtc';
 import CanvasDesigner from '../../assets/canvas/canvas-designer-widget';
-// import BroadCast from '../../api/broadcast';
+import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 
 
-// Vue.use(WebRTC)
-// Vue.use(BroadCast)
+Vue.use(WebRTC)
+Vue.use(BroadCast)
 
 
 export default {
@@ -93,8 +116,6 @@ export default {
   components: {
     // Sharescreen,
     NoteEditor,
-    RTCMultiConnection,
-    Broadcast
   },
   data() {
     return {
@@ -112,85 +133,72 @@ export default {
       Chatbool: false,
       Bar: false,
       video: Object,
-      div : null,
-      inputText: "",
-      message: 'Default Message',
-      broadcast: null,
-      AudioBool : false,
-
     };
   },
   methods: {
-    offMic(){
-        if(this.AudioBool == false){
-          let localStream = this.connection.attachStreams[0];
-          localStream.mute('audio');
-          this.AudioBool = !this.AudioBool;
-          console.log(this.AudioBool);
-        }
-        else{
-          let localStream = this.connection.attachStreams[0];
-          localStream.unmute('audio');
-          this.AudioBool = !this.AudioBool;
-          console.log(this.AudioBool);
-        }
-    },
     offBroadcast(){
-      this.broadcast.dontAttachStream = true;
+        this.$refs.broadcast.offbroadcast();
     },
     onBroadcast(){
-
-      this.broadcast.session = {
-        video : true,
-        audio : true
-      };
-      this.broadcast.openOrJoin(this.roomid+'a');
+        console.log("브로드캐스팅");
+        this.$refs.broadcast.onbroadcast();
+        this.disableCanvasBool = false;
+        this.disableInputBool = false;
     },
     videoBar(){
-       $(".Minivideo_list").toggle();
+       $(".video-list-1").toggle();
        this.Bar = !this.Bar;
        if(this.Bar == false){
-           $(".Mainvideo").css("height","88%");
+           $(".video-list-2").css("height","70%");
        }
        else{
-         $(".Mainvideo").css("height","100%");
+         $(".video-list-2").css("height","83.6%");
        }
     },
     onNote() {
       $("#note-container").toggle();
       if(this.NoteBool == false && this.Chatbool==false){
-        $(".MainContent").css("width","70%");
+        $(".video_list").css("width","70%");
+        $(".footer").css("width","70%");
         this.NoteBool = true;
+
       }
       else if(this.NoteBool == true && this.Chatbool==false){
-        $(".MainContent").css("width","100%");
+        $(".video_list").css("width","100%");
+        $(".footer").css("width","100%");
         this.NoteBool = false;
       }
       else if(this.NoteBool == false && this.Chatbool==true){
-        $(".MainContent").css("width","50%");
+        $(".video_list").css("width","50%");
+        $(".footer").css("width","50%");
         this.NoteBool = true;
       }
       else{
-        $(".MainContent").css("width","80%");
+        $(".video_list").css("width","80%");
+        $(".footer").css("width","80%");
         this.NoteBool = false;
       }
     },
     onChat() {
       $("#chat-container").toggle();
       if(this.Chatbool == false && this.NoteBool==false){
-        $(".MainContent").css("width","80%");
+        $(".video_list").css("width","80%");
+        $(".footer").css("width","80%");
         this.Chatbool = true;
       }
       else if(this.Chatbool == true && this.NoteBool==false){
-        $(".MainContent").css("width","100%");
+        $(".video_list").css("width","100%");
+        $(".footer").css("width","100%");
         this.Chatbool = false;
       }
       else if(this.Chatbool == false && this.NoteBool==true){
-        $(".MainContent").css("width","50%");
+        $(".video_list").css("width","50%");
+        $(".footer").css("width","50%");
         this.Chatbool = true;
       }
       else{
-        $(".MainContent").css("width","70%");
+        $(".video_list").css("width","70%");
+        $(".footer").css("width","70%");
         this.Chatbool = false;
       }
     },
@@ -206,33 +214,19 @@ export default {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
-      this.disableInputBool = false
-      this.connection.session = {
-        data: true,
-        video : true,
-        audio : true
-      };
-      this.connection.openOrJoin(this.roomid);
-      document.getElementById("videos-container").style.display="block";
+      this.$refs.webrtc.join();
+      this.disableCanvasBool = false;
+      this.disableInputBool = false;
 
-    },
-    offLocalVideo(){
-          this.connection.dontAttachStream = true;
-          this.connection.attachStreams.forEach(function(localStream) {
-              localStream.stop();
-          });
+      $(".video-item")
+        .find("video")
+        .each(function (i, e) {
+          console.log($(this).get());
+        });
     },
     onLeave() {
-    this.connection.dontAttachStream = true;
-    this.broadcast.dontAttachStream = true;
-    // stop all local cameras
-    this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-    });
-    this.broadcast.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-    });
-    document.getElementById("videos-container").style.display="none";
+      this.$refs.webrtc.leave();
+
     },
     // onShareScreen() {
     //   this.img = this.$refs.webrtc.shareScreen();
@@ -257,95 +251,35 @@ export default {
       this.value =
         "a " + ": " + e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-      this.connection.send(this.value);
+      this.$refs.webrtc.rtcmConnection.send(this.value);
       this.appendDIV(this.value);
       e.target.value = "";
     },
   },
-   updated() {
-      this.connection.onmessage = this.appendDIV;
-    },
-  
-  created() {
-     this.connection = new RTCMultiConnection();
-     this.broadcast = new Broadcast();
-     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";    
-     this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";  
-     let src2 = document.createElement("script");
-     src2.setAttribute(
-       "src",
-       "https://cdn.webrtc-experiment.com/FileBufferReader.js"
-     );
-     document.body.appendChild(src2);
-
-     let src3 = document.createElement("script");
-     src3.setAttribute(
-       "src",
-       "https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"
-    );
-     document.body.appendChild(src3);
-    
+  updated() {
+    this.$refs.webrtc.rtcmConnection.onmessage = this.appendDIV;
+    $("video").click(function () {
+      console.log("클릭");
+    });
   },
   mounted() {
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector('.videos-container');
-    this.broadcast.videosContainer = document.querySelector('.Main-videos-container');
     this.designer = new CanvasDesigner();
   },
-  destroyed(){
-    this.onLeave();
-  }
 };
 </script>
 
 <style lang="scss">
 .video_list {
   float: left;
-  position: relative;
+  position: absolute;
   top: 0;
   bottom: 0;
-  height: 100px;
+  height: 100%;
   width: 100%;
   overflow-y: auto;
-  background-color: black;
 }
-.videos-container video{
-  height: 100px;
-  overflow-x: hidden;
- 
-}
-.Main-videos-container{
-  height: 100%;
-}
-.Main-videos-container video{
-  height: 90%;
-  overflow-x: hidden;
- 
-}
-.MainContent{
-  position: relative;
-  height: 100%;
-  width: 100%;
-  float: left;
-}
-.Minivideo_list{
-  position: relative;
-  height: 100px;
-  width: 100%;
-  background-color: black;
-  border: 2px solid red;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-.Mainvideo{
-  position: relative;
-  width: 100%;
-  height: 88.2%;
-  overflow-y: hidden;
-  text-align: center;
-  background-color:black;
-}
+
 #note-container {
   display: none;
   float: right;
@@ -377,19 +311,25 @@ export default {
   bottom: 0px;
 }
 
+.action {
+  font-style: italic;
+  color: gray;
+}
+
+.you {
+  font-weight: bold;
+}
 
 .footer {
   float: left;
   position: absolute;
   left: 0;
-  height: 100px;
-  bottom: 0px;
+  bottom: 10px;
   width: 100%;
   padding: 0;
   text-align: center;
   color: black;
   padding-bottom: 0px;
-  background-color: rgb(52, 63, 87);
 }
 .main {
   background-color: rgb(7, 14, 29);
@@ -397,7 +337,7 @@ export default {
 .MainContainer {
   position: relative;
   margin-top: 0;
-  // background-color: rgb(52, 63, 87);
+  background-color: rgb(52, 63, 87);
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -436,7 +376,7 @@ export default {
 }
 #input-text-chat {
   position: relative;;
-  height: 83px;
+  height: 70px;
   width: 100%;
   border: 2px solid #aaa;
   border-radius: 4px;
@@ -449,15 +389,17 @@ export default {
 }
 
 .video_list_videOrshow {
-  position:absolute;
+  position: absolute;
   left: 50%;
   width: auto;
-  z-index: 7;
+  text-align: center;
+  z-index: 4;
 }
 
 .triangle {
   display: inline-block;
-  width: 20px;
+  width: 0;
+  height: 0;
   border-style: solid;
   border-width: 20px;
   transition: all ease 1s;
@@ -466,8 +408,54 @@ export default {
 .triangle.test_1 {
   border-color: #7d1919 transparent transparent transparent;
 }
+
 .triangle.test_1:hover {
   border-color: blue transparent transparent transparent;
+}
+
+.video-list-1 {
+  background: black;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  // overflow-y: hidden;
+  white-space: nowrap;
+  border: 2px solid red;
+
+}
+.video-list-2{
+  background:black; 
+  height:70%;
+  position: relative;  
+  width: 100%; 
+  z-index: 1;
+  overflow-x: scroll;
+  // overflow-y: hidden;
+  white-space: nowrap;
+  text-align: center;
+
+}
+
+.video-item {
+  background: black;
+  height: 100px;
+  position: relative;
+  top: 0px;
+  z-index: 200;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.video-item-2{
+  background:black; 
+  height:100%;
+
+  top:0px; z-index: 200;
+  white-space: nowrap;
+  display:inline-block;
 }
 
 
@@ -495,7 +483,6 @@ export default {
   position:absolute;
   left: 10px;;
 }
-
 .btnIcon{
   position: relative;
   top: 0;
@@ -515,7 +502,10 @@ export default {
   width: 100%;
 	background: #404040;
 }
-
+.name h6{
+	display: inline-block;
+	font-size: 14px;
+}
 .options i,.options .arrow-up{
 	height: 10px;
 	width: 25px;
@@ -538,6 +528,14 @@ export default {
 .options .fa-arrow-up{
 	transform: rotate(40deg);
 }
+.header-two{
+	border-top: 2px solid #35AC19;
+	background: #ECEFF1;
+	color: #5E6060;
+	box-shadow: 0px 6px 13px -7px #c1c1c1;
+	z-index: 1000;
+    position: absolute;
+}
 .options-left i, .options-right i{
 	font-size: 20px;
 	cursor: pointer;
@@ -558,7 +556,23 @@ export default {
 	clear: both;
 	font-size: 13px;
 }
-
+.send-msg{
+	position: relative;
+}
+.send-msg:after{
+	content: "";
+	width:0;
+	height:0;
+	top: 0px;
+	right: -8px;
+	position: absolute;
+	border-top: 8px solid #CFD8DC;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+.send-msg p{
+	background: #CFD8DC;
+}
 .sender-img{
 	display: inline;
 }
@@ -567,7 +581,28 @@ export default {
 	height: 32px;
 	border-radius: 100%;
 }
-
+.receive-msg .receive-msg-desc{
+	display: inline-block;
+	position: relative;
+}
+.receive-msg-desc:before{
+	content: "";
+	width:0;
+	height:0;
+	top: 0px;
+	left: -8px;
+	position: absolute;
+	border-top: 8px solid #fff;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+.receive-msg-time,.send-msg-time{
+	color: #7D7E87;
+	font-size: 10px;
+}
+.receive-msg-time i{
+	font-size: 4px;
+}
 .msg-box {
   margin-bottom: 0;
 }
@@ -585,10 +620,6 @@ export default {
   width: 100%;
   height: 80%;
   overflow: hidden;
-}
-
-video::-webkit-media-controls {
-  display: none;
 }
 
 </style>

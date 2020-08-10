@@ -8,9 +8,9 @@
     <!-- <div class="main_2 main_common">
       <Sharescreen />
     </div> -->
-    <div class="main_3 main_common">
+    <!-- <div class="main_3 main_common">
       <Webrtc />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   components: {
     Videochat,
     // Sharescreen,
-    Webrtc,
+    // Webrtc,
   },
 };
 </script>
@@ -42,7 +42,6 @@ export default {
   width: 100%;
   height: 100%;
   float: left;
-  background-color: orangered;
   position: relative;
 }
 </style>
