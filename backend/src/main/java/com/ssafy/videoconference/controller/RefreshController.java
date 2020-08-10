@@ -58,7 +58,8 @@ public class RefreshController {
 		
 		String accessToken = request.getHeader("accessToken");
 		String refreshToken = request.getHeader("refreshToken");
-			
+		System.out.println(accessToken);
+		System.out.println(refreshToken);
 		String userId = null;
 		
 		ValueOperations<String, Object> redis = redisTemplate.opsForValue();

@@ -1,44 +1,9 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import vuetify from './plugins/vuetify';
-import 'roboto-fontface/css/roboto/roboto-fontface.css';
-import '@mdi/font/css/materialdesignicons.css';
-
-import '../src/assets/sass/main.scss';
-
-import { BootstrapVue, IconsPlugin ,BootstrapVueIcons } from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
-// moment
-import vueMoment from 'vue-moment';
-// Install BootstrapVue
-Vue.use(BootstrapVue);
-
-Vue.use(BootstrapVueIcons);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin);
-Vue.use(vueMoment);
-
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App),
-  
-}).$mount('#app');
-
-import SERVER from '@/api/spring';
-import axios from 'axios';
+import axios from 'axios'
 
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 일
-    console.log('request interceptor');
+    console.log('request interceptor')
     config.headers.Authorization = localStorage.getItem('accessToken');
 
     return config;
@@ -73,7 +38,7 @@ axios.interceptors.response.use(
             console.log('thisisres',res);
             isRefreshing = false;
             console.log(isRefreshing);
-            this.SET_TOKEN(res.data);
+            this.SET_TOKEN(res.data)
             return axios(originalRequest);
           }
         })
@@ -91,4 +56,4 @@ export default {
       SET_TOKEN: 'SET_TOKEN'
     })
   }
-};
+}fdfasdfasdsdf

@@ -16,6 +16,8 @@ export default {
     getGroupList: '/group/get/me/', // 리턴 값은 내가 속한 그룹들의 정보
     createGroup: '/group/add/',  // 그룹 만들기 ==> 사람들 정보가 나와야 한다.
     
+    reToken: '/jwt/refresh',
+
     signup: '/register',
     checkEmail: '/register/duplicateId',
     login: '/login',

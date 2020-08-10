@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { Store } from 'vuex';
 
 import axios from 'axios';
 
@@ -102,7 +102,6 @@ export default new Vuex.Store({
       console.log(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email);
       axios.get(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email)
         .then(res => {
-          console.log(res);
           commit('SET_VALIDATION_WORD', res.data);
         })
         .catch(err => console.log(err.response));
@@ -115,8 +114,9 @@ export default new Vuex.Store({
           commit('SET_USER_ID', loginData.id);
           commit('SET_TOKEN', res.headers);
           commit('SET_LOGIN_ERROR', false);
-          axios.get(SERVER.URL + SERVER.ROUTES.myProfile + '/' + state.userId)
+          axios.get(SERVER.URL + SERVER.ROUTES.myProfile)
             .then((res) => {
+              console.log('myprofile', res);
               commit('SET_MY_PROFILE', res);
             })
             .catch(err => console.log(err.response));
@@ -137,7 +137,6 @@ export default new Vuex.Store({
       router.push('Home');
     },
 
-
     // 그룹과 관련된 기능들
     getGroupInfo({ state, commit }){
       console.log('req:', SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId);
@@ -150,29 +149,3 @@ export default new Vuex.Store({
   },
   modules: {}
 });
-
-axios.interceptors.request.use(
-  function (config) {
-    // 요청을 보내기 전에 수행할 일
-    config.headers.Authorization = localStorage.getItem('accessToken');
-
-    return config;
-  },
-  function (error) {
-    // 오류 요청을 보내기전 수행할 일
-    return Promise.reject(error);
-  });
-
-// 응답 인터셉터 추가
-axios.interceptors.response.use(
-  function (response) {
-    // 응답 데이터를 가공
-    return response;
-  },
-  function (error) {
-    // 오류 응답을 처리
-    if (error.response.status === 401){
-      console.log('토큰 만료!!!');
-    }
-    return Promise.reject(error);
-  });
