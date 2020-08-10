@@ -22,6 +22,8 @@ public class NoteResult {
 				.add("title", note.getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
+				.add("start_time", note.getMeeting().getCreatedDate())
+				.add("end_time", note.getMeeting().getModifiedDate())
 				.add("date", note.getCreatedDate());
 		return Result.ok(apiResult);
 	}
@@ -35,6 +37,8 @@ public class NoteResult {
 				.add("title", note.getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
+				.add("start_time", note.getMeeting().getCreatedDate())
+				.add("end_time", note.getMeeting().getModifiedDate())
 				.add("date", note.getCreatedDate());
 		return Result.ok(apiResult);
 	}
