@@ -46,7 +46,9 @@ public class NoteResult {
 			notesData.add(new NoteData(note.getNoteNo(),
 										note.getTitle(),
 										note.getMeeting().getMeetingNo(),
-										note.getCreatedDate()));
+										note.getCreatedDate(),
+										note.getMeeting().getCreatedDate(),
+										note.getMeeting().getModifiedDate()));
 		}
 		ApiResult apiResult = ApiResult.blank()
 				.add("notes", notesData);
@@ -62,5 +64,7 @@ public class NoteResult {
 		private String title;
 		private int meetingNo;
 		private LocalDateTime createdDate;
+		private LocalDateTime meeting_start_time;
+		private LocalDateTime meeting_end_time;
 	}
 }
