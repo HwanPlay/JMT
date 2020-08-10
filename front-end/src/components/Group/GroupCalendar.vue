@@ -157,12 +157,6 @@ export default {
     updateRange({ start, end }) {
       const events = [];
 
-      const min = new Date(`${start.date}T00:00:00`);
-      const max = new Date(`${end.date}T23:59:59`);
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      // const eventCount = this.rnd(days, days + 20);
-      console.log('min:', min, 'max:', max, 'days:', days);
-
       const URL_GET_groups =
         'http://localhost:8080/videoconference/api/group/get/all/' +
         this.$store.state.userId;
@@ -200,49 +194,7 @@ export default {
               });
             });
           })).catch(err=>console.error(err));
-          console.log(groupIds);
-          console.log(noteList);
-
-          
         });
-        
-
-      for (let i = 0; i < 1; i++) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
-        console.log(
-          'allDay:',
-          allDay,
-          'firstTimestamp:',
-          firstTimestamp,
-          'first',
-          first,
-          'secondTimestamp:',
-          secondTimestamp,
-          'second',
-          second
-        );
-
-        // events.push({
-        //   name: this.names[this.rnd(0, this.names.length - 1)],
-        //   start: first,
-        //   end: second,
-        //   color: this.colors[this.rnd(0, this.colors.length - 1)],
-        //   timed: !allDay,
-        // });
-
-        events.push({
-          name: '일정',
-          start: '2020-08-11 08:15',
-          end: '2020-08-11 08:15',
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: false,
-        });
-      }
-
       this.events = calendarData;
     },
     rnd(a, b) {
