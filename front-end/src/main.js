@@ -35,6 +35,16 @@ new Vue({
 import SERVER from '@/api/spring';
 import axios from 'axios';
 
+import { mapMutations } from 'vuex';
+
+export default {
+  methods:{
+    ...mapMutations({
+      SET_TOKEN: 'SET_TOKEN'
+    })
+  }
+};
+
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 일
@@ -72,8 +82,9 @@ axios.interceptors.response.use(
           if (res.status === 200){
             console.log('thisisres',res);
             isRefreshing = false;
-            console.log(isRefreshing);
-            this.SET_TOKEN(res.data);
+            console.log('old', localStorage.getItem('accessToken'));
+            localStorage.setItem('accessToken', res.headers.accesstoken);
+            console.log('new Token!!!', localStorage.getItem('accessToken'));
             return axios(originalRequest);
           }
         })
@@ -83,12 +94,3 @@ axios.interceptors.response.use(
   });
 
 
-import { mapMutations } from 'vuex';
-
-export default {
-  methods:{
-    ...mapMutations({
-      SET_TOKEN: 'SET_TOKEN'
-    })
-  }
-};

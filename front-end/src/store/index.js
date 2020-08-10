@@ -128,7 +128,7 @@ export default new Vuex.Store({
 
     logout({ state, commit }) {
       console.log(SERVER.URL + SERVER.ROUTES.logout, state.userId);
-      axios.post(SERVER.URL + SERVER.ROUTES.logout, null)
+      axios.post(SERVER.URL + SERVER.ROUTES.logout, {'id': state.userId})
         .then(() => {
         })
         .catch(err => console.log(err.response.data));  
