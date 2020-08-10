@@ -54,14 +54,13 @@ var isRefreshing = false;
 
 axios.interceptors.response.use(
   function (response) {
+    console.log('성공인 경우');
     // 응답 데이터를 가공
     return response;
   },
   function (error) {
     // 오류 응답을 처리
-    console.log('refreshing?', isRefreshing);
-
-    console.log('error message : ', error.response.status);
+    console.log('에러인경우');
     
     const originalRequest = error.config;
     if (error.response.status === 401 && !isRefreshing){

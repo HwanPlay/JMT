@@ -81,7 +81,9 @@ export default new Vuex.Store({
     SET_MY_PROFILE(state, val){
       console.log(val.data);
       localStorage.setItem('myName', val.data.name);
+      state.myName = val.data.name;
       localStorage.setItem('myPicture', val.data.profile_img);
+      state.myPicture = val.data.profile_img;
     }
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함

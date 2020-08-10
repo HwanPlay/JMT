@@ -112,12 +112,6 @@ export default Vue.extend({
     },
   },
   mounted() {
-    console.log(!!null);
-    console.log(
-      this.isLoggedIn,
-      this.$store.getters.isLoggedIn,
-      this.$store.state.accessToken
-    );
     this.$router.push('Home');
   },
   computed: {
