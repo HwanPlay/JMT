@@ -52,9 +52,23 @@ public class User implements Serializable {
    private UserRole role;
    
    
+   
    @Builder
    public User(String id, String pw) {
 	   	this.id = id;
 	   	this.pw = pw;
    }
+
+
+   @Builder
+public User(String id, String name,String pw, String profile_img) {
+	super();
+	this.id = id;
+	this.name = name;
+	this.pw = pw;
+	this.profile_img = profile_img;
+}
+   
+   
+
 }

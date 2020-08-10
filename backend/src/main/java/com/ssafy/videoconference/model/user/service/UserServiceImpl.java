@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.videoconference.model.user.bean.FindUser;
+import com.ssafy.videoconference.model.user.bean.ModifyUser;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.repository.JpaUserRepository;
 
@@ -43,7 +44,8 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	@Override
-	public void modifyUser(User user) {
+	public void modifyUser(ModifyUser user) {
+		System.out.println(user.toString());
 		Optional<User> modifyUser = jpaUserRepo.findById(user.getId());
 		modifyUser.ifPresent(selectUser->{
 			selectUser.setName(user.getName());

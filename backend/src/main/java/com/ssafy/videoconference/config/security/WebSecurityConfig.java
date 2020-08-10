@@ -25,7 +25,7 @@ import com.ssafy.videoconference.config.util.JwtTokenUtil;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/register/**", "/api/jwt/refresh", "/swagger-ui.html"  };
+	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/result", "/api/register/**", "/api/jwt/refresh", "/swagger-ui.html"  };
 	
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.logout()
 				.logoutUrl("/api/logout")
-				.logoutSuccessUrl("/")
+				.logoutSuccessUrl("/api/result")
 				.addLogoutHandler(logoutHandler())
 				.invalidateHttpSession(false)
 				

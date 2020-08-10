@@ -67,4 +67,9 @@ public class NoteServiceImpl implements NoteService {
 		note.setContent(command.getContent());
 		noteRepository.save(note);
 	}
+
+	@Override
+	public void deleteByGroup(int groupNo) {
+		noteRepository.deleteByGroup(groupNo);
+	}
 }
