@@ -22,7 +22,7 @@
           </v-btn>
         </div>
         <v-bottom-navigation
-          
+          dark
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
@@ -191,9 +191,10 @@
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
-          <div class="col-md-8 name pl-2">
+          <div class="col-md-8 name pl-3">
             <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i>
-            <h4 class="ml-1 mb-0">{{ this.$store.state.myName }}</h4>
+            <h4 class="ml-1 mb-0">{{ this.$store.state.myName}}
+            </h4>
           </div>
           <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center pt-1" @click="onChat"></i>
@@ -278,6 +279,66 @@ export default {
     };
   },
   methods: {
+    //회의방 참가
+    onJoin() {
+      this.disableInputBool = false;
+      this.connection.session = {
+        data: true,
+        video: true,
+        audio: true
+      };
+      this.connection.openOrJoin(this.roomId);
+      document.getElementById("videos-container").style.display = "block";
+      this.overlay = false;
+    },
+    //회의방 나가기
+    onLeave() {
+      this.connection.dontAttachStream = true;
+      this.broadcast.dontAttachStream = true;
+      // stop all local cameras
+      this.connection.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+      });
+      this.broadcast.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+      });
+      document.getElementById("videos-container").style.display = "none";
+      this.$router.push("Group");
+    },
+    //비디오 끄고,켜기
+    onVideo() {
+      if (this.videoBool == false) {
+        let localStream = this.connection.attachStreams[0];
+        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
+        localStream.mute("video");
+        this.connection.streamEvents[localStream.streamid].session = {
+          audio: true
+        };
+        console.log(this.connection.streamEvents);
+        console.log(
+          this.connection.streamEvents[localStream.streamid].session.audio
+        );
+        console.log(localStream);
+        this.videoBool = !this.videoBool;
+      } else {
+        let localStream = this.connection.attachStreams[0];
+        this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
+        localStream.unmute("video");
+        this.connection.streamEvents[localStream.streamid].session = {
+          audio: true,
+          video: true
+        };
+        console.log(this.connection.streamEvents);
+        console.log(
+          this.connection.streamEvents[localStream.streamid].session.audio
+        );
+        console.log(localStream);
+        this.videoBool = !this.videoBool;
+      }
+    },
+
+
+
     onMic() {
       this.micOnOff = !this.micOnOff;
       if (this.AudioBool == false) {
@@ -358,61 +419,8 @@ export default {
     onCapture() {
       this.img = this.$refs.webrtc.capture();
     },
-    onJoin() {
-      this.disableInputBool = false;
-      this.connection.session = {
-        data: true,
-        video: true,
-        audio: true
-      };
-      this.connection.openOrJoin(this.roomId);
-      document.getElementById("videos-container").style.display = "block";
-      this.overlay = false;
-    },
-    onVideo() {
-      this.videoOnOff = !this.videoOnOff;
-      if (this.videoBool == false) {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
-        this.videoBool = !this.videoBool;
-      } else {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
-        localStream.unmute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true,
-          video: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
-        this.videoBool = !this.videoBool;
-      }
-    },
-    onLeave() {
-      this.connection.dontAttachStream = true;
-      this.broadcast.dontAttachStream = true;
-      // stop all local cameras
-      this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      this.broadcast.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      document.getElementById("videos-container").style.display = "none";
-      this.$router.push("Group");
-    },
+
+
     onError(error, stream) {
       console.log("On Error Event", error, stream);
     },
@@ -468,6 +476,11 @@ export default {
   },
   mounted() {
     this.onJoin();
+    for (var group in this.$store.state.myGroups) {
+      if (this.roomId === group.roomId) {
+        console.log(group)
+      }
+    }
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       ".videos-container"
@@ -484,24 +497,11 @@ export default {
 </script>
 
 <style lang="scss">
-.video_list {
-  float: left;
-  position: relative;
-  top: 0;
-  bottom: 0;
-  height: 100px;
-  width: 100%;
-  overflow-y: auto;
-  background-color: black;
-}
-
 .videos-container video {
   height: 100px;
   overflow-x: hidden;
 }
-// .Main-videos-container {
-//   height: 100%;
-// }
+
 .Main-videos-container video {
   height: 90%;
   overflow-x: hidden;
@@ -511,6 +511,7 @@ export default {
   height: 100%;
   width: 100%;
   float: left;
+  overflow-y: hidden;
 }
 .Minivideo_list {
   position: relative;
@@ -535,7 +536,7 @@ export default {
   float: right;
   width: 30%;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   background-color: white;
 }
 
@@ -570,9 +571,7 @@ export default {
   padding: 0;
   padding-bottom: 0px;
 }
-.main {
-  background-color: rgb(7, 14, 29);
-}
+
 .MainContainer {
   position: relative;
   margin-top: 0;
@@ -580,28 +579,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-}
-.RoomInput {
-  color: white;
-  font-size: 20px;
-}
-#RoomInput {
-  width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
-  margin: 8px 0;
-  outline: none;
-  padding: 8px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-#RoomInput:focus {
-  border-color: dodgerBlue;
-  box-shadow: 0 0 8px 0 dodgerBlue;
-}
-.btn {
-  -webkit-appearance: default-button;
-  font-size: 12px;
 }
 
 #widget-container {
@@ -612,10 +589,10 @@ export default {
   border-top: 0;
   border-bottom: 0;
   margin-top: 50px;
+
 }
 #input-text-chat {
   position: relative;
-  height: 83px;
   width: 100%;
   border: 2px solid #aaa;
   border-radius: 4px;
@@ -625,6 +602,7 @@ export default {
   transition: 0.3s;
   background-color: white;
   z-index: 4;
+  overflow: hidden;
 }
 
 .video_list_videOrshow {
@@ -649,36 +627,6 @@ export default {
   border-color: blue transparent transparent transparent;
 }
 
-.btn-round {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.btn-round.btn-lg {
-  width: 48px;
-  height: 48px;
-}
-
-.btn-round.btn-sm {
-  width: 34px;
-  height: 34px;
-}
-
-.btn-round.btn-xs {
-  width: 24px;
-  height: 24px;
-}
-.btn btn-success btn-round btn-lg {
-  position: absolute;
-  left: 10px;
-}
-
-.btnIcon {
-  position: relative;
-  top: 0;
-  left: -5px;
-}
 
 .chat-main {
   position: relative;
@@ -687,7 +635,7 @@ export default {
 }
 .header-one {
   margin: 0;
-  height: 10%;
+  height: 100px;
   position: relative;
   width: 100%;
   background: #404040;
@@ -715,18 +663,7 @@ export default {
 .options .arrow-up:hover .fa-arrow-up {
   color: #fff;
 }
-.options .fa-arrow-up {
-  transform: rotate(40deg);
-}
-.options-left i,
-.options-right i {
-  font-size: 20px;
-  cursor: pointer;
-}
-.options-left i:hover,
-.options-right i:hover {
-  color: #000;
-}
+
 .chats {
   height: 100%;
   overflow-x: scroll;
@@ -740,7 +677,6 @@ export default {
   clear: both;
   font-size: 20px;
 }
-
 .sender-img {
   display: inline;
 }
