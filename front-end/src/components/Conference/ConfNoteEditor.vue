@@ -169,12 +169,14 @@
       <!-- {{dataHTML}} -->
       <b-form inline>
           <b-form-input
-            v-model="noteTitle"
+            v-model="noteObj.title"
             type="text"
             required
             placeholder="Note Title"
           ></b-form-input>
-          <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>          
+          <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
+          <b-button class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+
 
       </b-form>
       <hr>
@@ -185,6 +187,8 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
+import axios from 'axios';
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import {
   Blockquote,
@@ -212,9 +216,8 @@ export default {
     EditorMenuBubble,
   },
   props: {
-    noteId: Number,
-    noteContent: String,
-    noteTitle: String,
+    groupId: Number,
+    meetingId: Number,
   },
   data() {
     return {
@@ -239,47 +242,34 @@ export default {
           new Underline(),
           new History(),
         ],
-        content: `
-          <h2>
-            Hi there,
-          </h2>
-          <p>
-            this is a very <em>basic</em> example.
-          </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
-        `,
+        content: '',
         onUpdate: ({ getHTML }) => {
-          this.dataHTML = getHTML();
+          this.noteObj.content = getHTML();
         },
       }),
-      dataHTML: '',
+      noteObj:{
+        content:'',
+        title:'',
+      }
     };
   },
-  watch: {
-    noteContent: function (val) {
-      this.changeReceiveHTML(val);
-    },
-  },
   methods: {
-    changeReceiveHTML(val) {
-      this.editor.setContent(val);
-      this.editor.focus();
-    },
-    SaveNote(){
+    SaveNote(){      
+      // 없으면 1을 넣는다. 임시용.
+      if (this.meetingId === undefined && this.groupId === undefined){
+        this.groupId = 1;
+        this.meetingId = 1;
+      }
 
+      axios.post(SERVER.URL + '/note/save',{
+        'content': this.noteObj.content,
+        'groupNo': this.groupId,
+        // groupId
+        'id': this.$store.state.uesrId,
+        'meetingNo': this.meetingId,
+        // meetingId
+        'title': this.noteObj.title,
+      }).then(res=>console.log(res)).catch(err=>console.error(err));
     }
   },
   beforeDestroy() {
