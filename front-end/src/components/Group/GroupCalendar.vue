@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
 import axios from 'axios';
 export default {
   data: () => ({
@@ -155,17 +156,12 @@ export default {
     updateRange({ start, end }) {
       const events = [];
 
-      const URL_GET_groups =
-        'http://localhost:8080/videoconference/api/group/get/all/' +
-        this.$store.state.userId;
-
-
       const groupIds = [];
       const noteList = [];
       const calendarData = [];
       
       axios
-        .get(URL_GET_groups)
+        .get(SERVER.URL + '/group/get/all/' + this.$store.state.userId)
         .then((res) => {
           console.log('res:');
           console.log(res.data.groups);
@@ -173,7 +169,7 @@ export default {
             
             console.log(element);
             groupIds.push(element.groupNo);
-            const axios_note = axios.get('http://localhost:8080/videoconference/api/note/get/group/'+element.groupNo);
+            const axios_note = axios.get(SERVER.URL +'/note/get/group/'+element.groupNo);
 
             noteList.push(axios_note);
           });
