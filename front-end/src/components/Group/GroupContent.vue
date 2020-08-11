@@ -19,7 +19,7 @@
             회의 시작
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
-          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
+          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
             회의 참여
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
           </v-btn>
@@ -131,8 +131,7 @@ export default {
     ws : null,
     reconnect : 0,
     token : '',
-    message : ''
-
+    recvList : [],
   }),
   methods: {
     getEvents ({ start, end }) {
@@ -184,6 +183,17 @@ export default {
         .catch(err => console.log(err.response));
     },
 
+
+    changeHasMeeting(){
+      axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
+        .then(() => {
+          console.log('Changed HasMeeting!');
+        })
+        .finally(() => {
+          this.send();
+        });
+    },
+
     startMeeting(){
       // axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
       //   .then(() => {
@@ -191,37 +201,40 @@ export default {
       //     this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
       //   })
       //   .catch(err => console.log(err));
+      this.changeHasMeeting();
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
-
     },
+
+
     joinMeeting(){
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     },
 
-
-
     connect() {
       this.ws.connect({'token' : this.$store.state.accessToken}, function(frame) {
-        this.ws.subscribe('/sub/meeting/' + this.groupInfo.groupNo, function(message) {
-          var recv = JSON.parse(message.body);
-          this.groupInfo.hasMeeting = message.body.hasMeeting;
-          console.log(message.body.hasMeeting + '!@#!@#!@#!@#!@#!@#!@#!');
+        console.log('소켓 연결 성공', frame);
+        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, function(res) {
+          console.log('구독으로 받은 메세지 입니다', res.body);
+          this.recvList.push(JSON.parse(res.body));
+          console.log(this.recvList);
         });
-        // var recv = JSON.parse(message.body);
-        // this.recvMessage(recv);
       });
     },
 
 
-    sendMessage: function() {
-      this.ws.send('/pub/meeting', {'token' : this.$store.state.accessToken}, JSON.stringify({isMeeting : this.groupInfo.hasMeeting, groupNo : this.groupInfo.groupNo}));
-    },
+    send() {
+      const msg = {
+        isMeeting : this.groupInfo.hasMeeting,
+        groupNo : this.groupInfo.groupNo
+      };
+      this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
+    }
 
 
   },
 
   created() {
-    this.sock = new SockJS('http://localhost:8080/videoconference/ws');
+    this.sock = new SockJS(SERVER.URL2 + '/ws');
     this.ws = Stomp.over(this.sock);
 
   },
@@ -234,6 +247,7 @@ export default {
       .catch(err => console.log(err.response));
     this.connect();
   },
+
 
   watch:{
     groupInfo(){
