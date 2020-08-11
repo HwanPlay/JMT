@@ -26,7 +26,7 @@ import com.ssafy.videoconference.config.util.JwtTokenUtil;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC = new String[] { "/api/login", "/api/logout", "/api/result", "/api/register/**", "/api/jwt/refresh", "/swagger-ui.html"
-															, "/meeting/**", "request/**" };
+															, "/ws/**" };
 	
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
