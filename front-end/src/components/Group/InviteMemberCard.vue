@@ -6,7 +6,7 @@
       <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
     </v-list-item-content>
     <div v-if='!isInvited' class="my-2">
-      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="addMember(user)">
+      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="send(user)">
         추가
       </v-btn>
     </div>
@@ -21,6 +21,8 @@
 <script>
 import axios from 'axios';
 import SERVER from '../../api/spring.js';
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 
 
 export default {
@@ -31,7 +33,9 @@ export default {
   },
   data(){
     return {
-      isInvited: false
+      isInvited: false,
+      ws : null,
+      sock : null,
     };
   },
   methods:{
@@ -48,9 +52,34 @@ export default {
         })
         .catch((err) => 
           console.log(err.response));
+    },
+
+    connect() {
+      console.log('소켓 연결 시도합니다 . 서버 주소 : ' + SERVER.URL2 + '/ws' );
+      this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
+        console.log('소켓 연결 성공', frame);
+      });
+    },
+
+    send(userInfo) {
+      const msg = {
+        receiver : userInfo.id,
+        groupNo : this.groupNo
+      };
+      this.ws.send('/request', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }
+  },
+
+  created() {
+    this.sock = new SockJS(SERVER.URL2 + '/ws');
+    this.ws = Stomp.over(this.sock);
+  },
+
+  mounted() {
+    this.connect();
   }
 };
+
 </script>
 
 <style>
