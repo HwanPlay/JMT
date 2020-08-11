@@ -156,7 +156,7 @@ export default {
       const events = [];
 
       const URL_GET_groups =
-        'http://localhost:8080/videoconference/api/group/get/all/' +
+        'http://joinmeeting.tk/videoconference/api/group/get/all/' +
         this.$store.state.userId;
 
 
@@ -173,7 +173,7 @@ export default {
             
             console.log(element);
             groupIds.push(element.groupNo);
-            const axios_note = axios.get('http://localhost:8080/videoconference/api/note/get/group/'+element.groupNo);
+            const axios_note = axios.get('http://joinmeeting.tk/videoconference/api/note/get/group/'+element.groupNo);
 
             noteList.push(axios_note);
           });

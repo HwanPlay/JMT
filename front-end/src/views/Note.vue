@@ -22,7 +22,9 @@ import NoteEditor from '../components/Note/NoteEditor.vue';
 import NoteSearch from '../components/Note/NoteSearch.vue';
 
 import axios from 'axios';
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+import SERVER from '../api/spring.js';
+
+const SERVER_URL = SERVER.URL;
 // const USER_ID = 'lwh1992@naver.com';
 
 export default {
