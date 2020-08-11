@@ -7,10 +7,17 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import com.ssafy.videoconference.socket.StompHandler;
 
+import lombok.RequiredArgsConstructor;
+
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+	
+	private final StompHandler stompHandler;
 	
 	
 	@Override
@@ -20,10 +27,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	}
 
 	
-	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
+	}
+	
+	
+	@Override
+	public void configureClientInboundChannel(ChannelRegistration registration) {
+		registration.interceptors(stompHandler);
 	}
 
 }

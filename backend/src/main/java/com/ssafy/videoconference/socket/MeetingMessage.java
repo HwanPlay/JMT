@@ -1,14 +1,13 @@
 package com.ssafy.videoconference.socket;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RequestMessage {
+public class MeetingMessage {
 	
-	private String receiver;
+	private boolean isMeeting;
 	private int groupNo;
 	
 }
