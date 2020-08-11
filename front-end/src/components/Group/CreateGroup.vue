@@ -6,7 +6,7 @@
         <v-icon dark>mdi-checkbox-marked-circle</v-icon>
       </v-snackbar>
       <v-card-title>그룹 생성하기</v-card-title>
-      <v-form ref="form" v-model="valid" lazy-validation class="ml-2 mr-2">
+      <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
           <v-col cols= "5">
             <v-text-field v-model="createGroupInfo.groupName" :rules="rules.name" label="그룹 명" required></v-text-field>
@@ -32,7 +32,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'createGroup',
+  name: 'CreateGroup',
   data () {
     return {
       createGroupInfo:{
@@ -58,8 +58,8 @@ export default {
       const SERVER_URL = 'http://localhost:8080/videoconference/api';
       axios.post(SERVER_URL + '/group/add', this.createGroupInfo)
         .then(res => {
-          console.log('createGroup!', res);
-          this.$router.push('/Group').catch(()=>{});
+          console.log('CreateGroup!', res);
+          this.$router.push('/Home').catch(()=>{});
           this.reset();
           this.$emit('close');
         })

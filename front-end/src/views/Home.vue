@@ -25,7 +25,7 @@
               <v-icon size="60">fas fa-plus-square</v-icon>
             </v-btn>
             <v-dialog v-model="modalOn" max-width="500px">
-              <createGroup @close="closeModal" />
+              <CreateGroup @close="closeModal" />
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
@@ -71,12 +71,12 @@
 </template>
 
 <script>
-import createGroup from '../components/Group/createGroup.vue';
+import CreateGroup from '../components/Group/CreateGroup.vue';
 
 export default {
   name: 'Home',
   components: {
-    createGroup,
+    CreateGroup,
   },
   methods: {
     goToGroup () {

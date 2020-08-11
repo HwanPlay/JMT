@@ -3658,12 +3658,14 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             track.enabled = false;
             connection.streamEvents[stream.streamid].isAudioMuted = true;
           });
+          console.log("음소거 되었습니다.");
         }
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
             track.enabled = false;
           });
+          console.log("화면끄기입니다.");
         }
 
         if (typeof syncAction == 'undefined' || syncAction == true) {
@@ -3689,15 +3691,18 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             track.enabled = true;
             connection.streamEvents[stream.streamid].isAudioMuted = false;
           });
+          console.log("음소거 해제 되었습니다.");
         }
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
             track.enabled = true;
           });
+          console.log("화면 켜기 입니다.");
 
           // make sure that video unmute doesn't affects audio
           if (typeof type !== 'undefined' && type == 'video' && connection.streamEvents[stream.streamid].isAudioMuted) {
+            console.log("이게뭐야"+connection.streamEvents[stream.streamid].isAudioMuted);
             (function looper(times) {
               if (!times) {
                 times = 0;

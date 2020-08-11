@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.videoconference.controller.command.AddMemberCommand;
 import com.ssafy.videoconference.controller.command.ChangeGroupNameCommand;
 import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.controller.command.ChangeIntroCommand;
@@ -125,9 +126,12 @@ public class GroupController {
 	
 	@PutMapping("/host/{groupNo}")
 	public ResponseEntity<ApiResult> changeHostId(@PathVariable("groupNo") int groupNo, 
-													@RequestBody ChangeHostIdPayload payload) {
+													@RequestBody ChangeHostIdPayload payload,
+														@CurrentUser UserDetail user) {
 		ChangeHostIdCommand command = payload.toCommand(groupNo);
 		groupService.changeHostId(command);
+		gmService.deleteById(groupNo, command.getHostId());
+		gmService.addMember(new AddMemberCommand(groupNo, user.getId(), user.getName()));
 		return Result.ok();
 	}
 	

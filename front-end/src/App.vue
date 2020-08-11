@@ -62,8 +62,7 @@
       </v-app-bar>
 
       <v-main>
-        <!-- <v-container pa-0 ma-0 style="height: 100%"> -->
-          <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
+        <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
       </v-main>
     </div>
   </v-app>

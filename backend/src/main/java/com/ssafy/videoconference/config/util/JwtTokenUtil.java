@@ -103,10 +103,10 @@ public class JwtTokenUtil implements Serializable {
 				.signWith(SignatureAlgorithm.HS512, secretKey).compact();
 	}
 
-//    public boolean isValidToken(String token, UserDetail userDetail) {
-//    	 final String username = getUsernameFromToken(token);
-//         return (username.equals(userDetail.getUsername()) && !isTokenExpired(token));
-//    }
+    public boolean isValidToken(String token, UserDetail userDetail) {
+    	 final String username = getUsernameFromToken(token);
+         return (username.equals(userDetail.getUsername()) && !isTokenExpired(token));
+    }
     
 //	public String getUserNameFromJwtToken(String token) {
 //		getClaimFromToken(token, Claims::getSubject);

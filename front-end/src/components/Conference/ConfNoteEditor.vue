@@ -251,10 +251,6 @@ export default {
         content:'',
         title:'',
       }
-<<<<<<< HEAD
-
-=======
->>>>>>> feature-front-searchbar-css
     };
   },
   methods: {

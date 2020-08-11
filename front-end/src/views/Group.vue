@@ -35,7 +35,7 @@
           추가
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
-            <createGroup @close="closeModal" />
+            <CreateGroup @close="closeModal" />
           </v-dialog>
         </v-col>
       </v-col>
@@ -50,13 +50,13 @@
 
 <script>
 import Group1 from '../components/Group/Group1.vue';
-import createGroup from '../components/Group/createGroup.vue';
+import CreateGroup from '../components/Group/CreateGroup';
 
 export default {
   name: 'Groups',
   components: {
     Group1,
-    createGroup,
+    CreateGroup,
   },
   data() {
     return {

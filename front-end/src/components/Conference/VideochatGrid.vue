@@ -1,7 +1,7 @@
 <template>
 <div style="height: 100%; width: 100%;">
 <!-- <v-container fluid> -->
-  <v-layout row wrap style="height: auto">
+  <v-layout row wrap>
     <v-flex xs12 sm12 md12 lg12 xl12 style="height: 100%">
       <vue-webrtc
         ref="webrtc"
@@ -19,15 +19,15 @@
   <!-- <v-col class="RoomInput" cols="12" align="center">
     <input v-model="roomId" id="RoomInput" style="color: black;" />
   </v-col> -->
-  <div class="overflow-hidden fixed-bottom">
+  <div class="fixed-bottom">
     <div class="text-center mb-2">
       <v-btn
         text
         color="rgb(255, 128, 74)"
         @click="showNav = !showNav"
       >
-        <v-icon v-if="showNav">mdi-chevron-down</v-icon>
-        <v-icon v-if="!showNav">mdi-chevron-up</v-icon>
+        <v-icon v-show="showNav">mdi-chevron-down</v-icon>
+        <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
       </v-btn>
     </div>
     <v-bottom-navigation
@@ -36,7 +36,7 @@
       color="rgb(255, 128, 74)"
       background-color= "rgba( 255, 255, 255, 0.4 )"
     >
-      <v-btn outlined @click="overlay = !overlay">
+      <v-btn @click="overlay = !overlay">
         <span>Join</span>
         <v-icon>mdi-login</v-icon>
       </v-btn>
@@ -44,20 +44,39 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 
-      <v-btn @click="onLeave">
-        <span>Leave</span>
-        <v-icon>mdi-logout</v-icon>
+      <v-btn @click="videoOnOff = !videoOnOff">
+        <span v-show="videoOnOff">OFF</span>
+        <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
+        
+        <span v-show="!videoOnOff">ON</span>
+        <v-icon v-show="!videoOnOff">mdi-video</v-icon>
       </v-btn>
 
-      <!-- <v-btn @click="onCapture">
-        <span>Capture Photo</span>
-        <v-icon>mdi-map-marker</v-icon>
-      </v-btn> -->
+      <v-btn @click="micOnOff = !micOnOff">
+        <span v-show="micOnOff">OFF</span>
+        <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
+        
+        <span v-show="!micOnOff">ON</span>
+        <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
+      </v-btn>
 
-      <!-- <v-btn @click="onShareScreen">
-        <span>Share Screen</span>
-        <v-icon>mdi-history</v-icon>
-      </v-btn> -->
+      <v-btn @click="castOnOff = !castOnOff">
+        <span v-show="castOnOff">OFF</span>
+        <v-icon v-show="castOnOff">mdi-cast-off</v-icon>
+        
+        <span v-show="!castOnOff">ON</span>
+        <v-icon v-show="!castOnOff">mdi-cast</v-icon>
+      </v-btn>
+
+      <v-btn @click="onBroadcast">
+        <span>BroadCast</span>
+        <v-icon>mdi-cast</v-icon>
+      </v-btn>
+
+      <v-btn @click="offBroadcast">
+        <span>BroadCast off</span>
+        <v-icon>mdi-cast-off</v-icon>
+      </v-btn>
 
       <v-btn @click="onChat">
         <span>Chatting</span>
@@ -74,14 +93,9 @@
         <v-icon>mdi-palette</v-icon>
       </v-btn>
 
-      <v-btn @click="onBroadcast">
-        <span>BroadCast</span>
-        <v-icon>mdi-cast</v-icon>
-      </v-btn>
-
-      <v-btn @click="offBroadcast">
-        <span>BroadCast off</span>
-        <v-icon>mdi-cast-off</v-icon>
+      <v-btn @click="onLeave">
+        <span>Leave</span>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </div>
@@ -103,7 +117,7 @@ export default {
   data() {
     return {
       img: null,
-      roomId: 'public-roomqweasdasds',
+      roomId: 'aaadw',
       disableInputBool: true,
       disableCanvasBool: true,
       chatContainer: null,
@@ -118,6 +132,9 @@ export default {
       video: Object,
       overlay: false,
       showNav: true,
+      videoOnOff: true,
+      micOnOff: true,
+      castOnOff: true,
       activeBtn: 0,
     };
   },
