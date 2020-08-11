@@ -19,7 +19,8 @@ public class GroupResult {
 				.add("hostName", group.getUser().getName())
 				.add("groupName", group.getGroupName())
 				.add("groupIntro",  group.getGroupIntro())
-				.add("hasMeeting", group.isHasmeeting());
+				.add("hasMeeting", group.isHasmeeting())
+				.add("roomId", group.getRoomId());
 		return Result.ok(apiResult);
 	}
 	
@@ -29,7 +30,8 @@ public class GroupResult {
 				.add("hostId",  group.getUser().getId())
 				.add("groupName", group.getGroupName())
 				.add("groupIntro",  group.getGroupIntro())
-				.add("hasMeeting", group.isHasmeeting());
+				.add("hasMeeting", group.isHasmeeting())
+				.add("roomId", group.getRoomId());
 		return Result.ok(apiResult);
 	}
 	
@@ -41,7 +43,8 @@ public class GroupResult {
 										group.getUser().getName(),
 										group.getGroupName(),
 										group.getGroupIntro(),
-										group.isHasmeeting()));
+										group.isHasmeeting(),
+										group.getRoomId()));
 		}
 		
 		for(Group group : group_member) {
@@ -50,7 +53,8 @@ public class GroupResult {
 										group.getUser().getName(),
 										group.getGroupName(),
 										group.getGroupIntro(),
-										group.isHasmeeting()));
+										group.isHasmeeting(),
+										group.getRoomId()));
 		}
 		
 		ApiResult apiResult = ApiResult.blank()
@@ -68,7 +72,8 @@ public class GroupResult {
 										group.getUser().getName(),
 										group.getGroupName(),
 										group.getGroupIntro(),
-										group.isHasmeeting()));
+										group.isHasmeeting(),
+										group.getRoomId()));
 		}
 		
 		ApiResult apiResult = ApiResult.blank()
@@ -85,5 +90,6 @@ public class GroupResult {
 		private String groupName;
 		private String groupIntro;
 		private boolean hasMeeting;
+		private String roomId;
 	}
 }

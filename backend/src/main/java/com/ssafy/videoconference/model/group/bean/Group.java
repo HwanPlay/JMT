@@ -2,8 +2,8 @@ package com.ssafy.videoconference.model.group.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -67,6 +66,10 @@ public class Group extends BaseTimeEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Meeting> meetings = new ArrayList<Meeting>();
+	
+	
+	@Column(name = "roomId")
+	private String roomId;
 
 	
 	public static Group create(String id, String groupName, String groupIntro) {
@@ -76,6 +79,7 @@ public class Group extends BaseTimeEntity {
 		group.groupName = groupName;
 		group.groupIntro = groupIntro;
 		group.hasmeeting = false;
+		group.roomId = UUID.randomUUID().toString();
 		return group;
 	}
 
