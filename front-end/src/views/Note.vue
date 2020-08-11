@@ -20,10 +20,9 @@
 <script>
 import NoteEditor from '../components/Note/NoteEditor.vue';
 import NoteSearch from '../components/Note/NoteSearch.vue';
+import SERVER from '../api/spring.js';
 
 import axios from 'axios';
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
-// const USER_ID = 'lwh1992@naver.com';
 
 export default {
   name: 'Note',
@@ -51,20 +50,20 @@ export default {
   methods: {
     // api 추가
     get_group_list() {
-      const FUNC_URL = 'group/get/all/';
+      const FUNC_URL = '/group/get/all/';
 
       axios
-        .get(SERVER_URL + FUNC_URL + this.USER_ID)
+        .get(SERVER.URL + FUNC_URL + this.USER_ID)
         .then((res) => {
           this.group_list = res.data.groups;
         })
         .catch((err) => console.error(err));
     },
     getNoteList(groupId) {
-      const FUNC_URL = 'note/get/group/';
+      const FUNC_URL = '/note/get/group/';
       // '/' + this.USER_ID
       axios
-        .get(SERVER_URL + FUNC_URL + groupId )
+        .get(SERVER.URL + FUNC_URL + groupId )
         .then((res)=>{
           this.received_note_list = res.data.notes;
         })
@@ -77,10 +76,10 @@ export default {
         return ;
       }
 
-      const URL_getNoteByNo = 'note/getno/';
+      const URL_getNoteByNo = '/note/getno/';
 
       axios
-        .get(SERVER_URL+URL_getNoteByNo+NoteId)
+        .get(SERVER.URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
           console.log(res.data);
           this.noteObj.Content = res.data.content;
@@ -93,9 +92,9 @@ export default {
         });
     },
     saveNote(noteObj) {
-      const URL_saveNote = 'note/';
+      const URL_saveNote = '/note/';
             
-      axios.put(SERVER_URL + URL_saveNote + noteObj.Id,{
+      axios.put(SERVER.URL + URL_saveNote + noteObj.Id,{
         'title': noteObj.Title,
         'content': noteObj.Content
       }).then((res)=>{
@@ -109,7 +108,7 @@ export default {
     //   // 이거 url 수정할 것 contenet임.
     //   const URLContentEdit = 'videoconference/api/note/content/';
     //   console.log(noteId);
-    //   axios.put(SERVER_URL+URLContentEdit+noteId, {
+    //   axios.put(SERVER.URL+URLContentEdit+noteId, {
     //     'content': noteContent,
     //   }).then((res)=>{
     //     console.log(res);
@@ -122,7 +121,7 @@ export default {
     // },
     // editNoteTitle([noteId, noteTitle]) {
     //   const URLTitleEdit = 'videoconference/api/note/title/';
-    //   axios.put(SERVER_URL+URLTitleEdit+noteId, {
+    //   axios.put(SERVER.URL+URLTitleEdit+noteId, {
     //     'title': noteTitle,
     //   }).then((res)=>{
     //     console.log(res);
@@ -135,8 +134,8 @@ export default {
     // },
 
     deleteNote(noteId) {
-      const URLDeleteNote = 'api/note/delno/';
-      axios.delete(SERVER_URL+URLDeleteNote+noteId)
+      const URLDeleteNote = '/note/delno/';
+      axios.delete(SERVER.URL+URLDeleteNote+noteId)
         .then((res)=> {
           console.log(res);
           console.log('delete note' + noteId);
