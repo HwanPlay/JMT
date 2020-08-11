@@ -196,7 +196,7 @@ export default {
     },
     joinMeeting(){
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
-    }
+    },
 
 
 
