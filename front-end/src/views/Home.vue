@@ -106,7 +106,7 @@ export default {
   },
 
   created() {
-    this.sock = new SockJS(SERVER.URL2 + '/ws');
+    this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
   },
 
