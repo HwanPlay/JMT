@@ -30,13 +30,14 @@ public class StompHandler implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		if(StompCommand.CONNECT == accessor.getCommand()) {
 			try {
-				jwtTokenUtil.isTokenExpired(accessor.getFirstNativeHeader("token"));
+				jwtTokenUtil.isTokenExpired(accessor.getFirstNativeHeader("token").substring(7));
 			} catch (ExpiredJwtException e) {
 				System.out.println("토큰 만료됬음!!!!!!");
 			} catch(Exception e) {
 				System.out.println("뭔가 에러 떴음!!!!!!");
 			}
 		}
+		System.out.println(message + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return message;
 	}
 
