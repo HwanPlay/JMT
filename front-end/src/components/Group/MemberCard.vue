@@ -20,8 +20,7 @@
 
 <script>
 import axios from 'axios';
-
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+import SERVER from '../../api/spring.js';
 
 
 export default {
@@ -38,14 +37,14 @@ export default {
   },
   methods:{
     exileMember(){
-      axios.delete(SERVER_URL+'groupmember/delno/'+this.groupNo+'/'+this.userInfo.id)
+      axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupNo+'/'+this.userInfo.id)
         .then(() => {
           this.isExiled = true;
         })
         .catch(err => console.log(err.response));
     },
     letHost(){
-      axios.put(SERVER_URL+'group/host/'+this.groupNo, {hostId : this.userInfo.id})
+      axios.put(SERVER.URL+'/group/host/'+this.groupNo, {hostId : this.userInfo.id})
         .then(() => {
           this.$router.push('Home');
           console.log('Change Host');

@@ -3,7 +3,7 @@
 
     <div v-for="group in group_list" :key="group.groupNo">
       <div class="rounded group_btn">
-        <b-button class="text-left" block variant="white" @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop>{{group.groupName}}</b-button>
+        <b-button class="text-left" block variant="white" @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop> <h3>{{group.groupName}}</h3></b-button>
       </div>
       <!-- <hr align="left" class="group_hr"> -->
     </div>
@@ -19,12 +19,12 @@
         <h3 class="text-center">Notes</h3>
         <div class="row p-2">
 
-          <b-button class="col-3" 
+          <b-button class="col-4" 
           v-b-toggle.sidebar-backdrop 
           v-for="note in received_note_list" :key="note.noteNo" 
           bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
-            <span>{{compute_date(note.createdDate)}}</span>
-            <p>{{ note.title }}</p>
+            <h3>{{ note.title }}</h3>
+            <h5>{{compute_date(note.createdDate)}}</h5>
           </b-button>
         </div>
       </div>

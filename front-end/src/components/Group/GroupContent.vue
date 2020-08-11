@@ -92,7 +92,7 @@ import InviteMember from './InviteMember.vue';
 
 import GroupCalendar from './GroupCalendar.vue';
 
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+import SERVER from '../../api/spring.js';
 
 export default {
   name: 'group',
@@ -158,7 +158,7 @@ export default {
     },
 
     destroyGroup(){
-      axios.delete(SERVER_URL+'group/delno/'+this.groupInfo.groupNo)
+      axios.delete(SERVER.URL+'/group/delno/'+this.groupInfo.groupNo)
         .then(() => {
           this.$router.push('/Home');
         })
@@ -166,7 +166,7 @@ export default {
     },
 
     exitGroup(){
-      axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
+      axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
         .then(res => {
           this.$router.push('/Home');
         })
@@ -175,7 +175,7 @@ export default {
   },
 
   mounted() {
-    axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
+    axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
         this.members = res.data.groupMembers;
       })
@@ -183,7 +183,7 @@ export default {
   },
   watch:{
     groupInfo(){
-      axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
+      axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           this.members = res.data.groupMembers;
         })

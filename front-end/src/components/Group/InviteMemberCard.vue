@@ -20,8 +20,7 @@
 
 <script>
 import axios from 'axios';
-
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+import SERVER from '../../api/spring.js';
 
 
 export default {
@@ -42,7 +41,7 @@ export default {
         id: userInfo.id,
         nickname: userInfo.name
       };
-      axios.post(SERVER_URL + 'groupmember/add', info)
+      axios.post(SERVER.URL + '/groupmember/add', info)
         .then((res) => {
           console.log('newmember :', res);
           this.isInvited = true;

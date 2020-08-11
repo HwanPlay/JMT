@@ -42,7 +42,7 @@ import axios from 'axios';
 
 import InviteMemberCard from './InviteMemberCard.vue';
 
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
+import SERVER from '../../api/spring.js';
 
 export default {
   name: 'InviteMember',
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     searchName(){
-      axios.get(SERVER_URL + 'user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputValue)
+      axios.get(SERVER.URL + '/user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputValue)
         .then(res => {
           console.log(res);
           this.searchData = res.data;

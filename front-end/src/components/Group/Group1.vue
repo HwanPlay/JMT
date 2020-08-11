@@ -70,9 +70,10 @@ import axios from 'axios';
 import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
+import SERVER from '../../api/spring.js';
+
 
 import GroupCalendar from './GroupCalendar.vue';
-const SERVER_URL = 'http://localhost:8080/videoconference/api/';
 
 export default {
   name: 'group',
@@ -138,21 +139,21 @@ export default {
     },
 
     exitGroup(){
-      axios.delete(SERVER_URL+'groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
+      axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
         .then(() => {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
     },
     destroyGroup(){
-      axios.delete(SERVER_URL+'group/delno/'+this.groupInfo.groupNo)
+      axios.delete(SERVER.URL+'/group/delno/'+this.groupInfo.groupNo)
         .then(() => {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
     },
     changeHasMeeting(){
-      axios.put(SERVER_URL+'group/hasmeeting/'+this.groupInfo.groupNo)
+      axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
         .then(() => {
           console.log('Changed HasMeeting!');
         });
@@ -161,7 +162,7 @@ export default {
 
   mounted() {
     console.log('hi');
-    axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
+    axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
       .then(res => {
         this.members = res.data.groupMembers;
       })
@@ -169,7 +170,7 @@ export default {
   },
   watch:{
     groupInfo(){
-      axios.get(SERVER_URL+'groupmember/getno/'+this.groupInfo.groupNo)
+      axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           this.members = res.data.groupMembers;
         })

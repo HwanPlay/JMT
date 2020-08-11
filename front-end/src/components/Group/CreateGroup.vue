@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import SERVER from '../../api/spring.js';
 
 export default {
   name: 'CreateGroup',
@@ -55,8 +56,7 @@ export default {
     submit () {
       this.snackbar = true;
       console.log(this.createGroupInfo);
-      const SERVER_URL = 'http://localhost:8080/videoconference/api';
-      axios.post(SERVER_URL + '/group/add', this.createGroupInfo)
+      axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
         .then(res => {
           console.log('CreateGroup!', res);
           this.$router.push('/Home').catch(()=>{});
