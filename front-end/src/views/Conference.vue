@@ -1,6 +1,6 @@
 <template>
   <!-- <div style="height: 100%; width: 100%;"> -->
-  <videochat :roomId = this.$route.params.roomId />
+  <videochat :roomId='this.$route.params.roomId' />
   <!-- </div> -->
 </template>
 
@@ -14,7 +14,7 @@ export default {
     Videochat,
   },
   mounted(){
-    console.log('checkThis!!', this.$route.params.roomId);
+    console.log('checkThis!!', this.$route.params);
   }
 };
 </script>

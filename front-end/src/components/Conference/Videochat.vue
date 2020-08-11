@@ -243,6 +243,9 @@ export default {
     RTCMultiConnection,
     Broadcast
   },
+  props:{
+    roomId: String,
+  },
   data() {
     return {
       img: null,
@@ -264,7 +267,6 @@ export default {
       broadcast: null,
       AudioBool: false,
       videoBool: false,
-      roomid: "",
       videoLength: null,
 
       // overlay: false,
@@ -363,7 +365,7 @@ export default {
         video: true,
         audio: true
       };
-      this.connection.openOrJoin(this.roomid);
+      this.connection.openOrJoin(this.roomId);
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
@@ -465,6 +467,7 @@ export default {
     document.body.appendChild(src3);
   },
   mounted() {
+    this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       ".videos-container"

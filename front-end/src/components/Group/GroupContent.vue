@@ -179,11 +179,11 @@ export default {
       //     this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
       //   })
       //   .catch(err => console.log(err));
-      this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
+      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
 
     },
     joinMeeting(){
-      this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
+      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     }
   },
 
