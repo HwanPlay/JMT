@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class ModifyUser{
 	private String id;
 	private String name;
-	private String pw;
+//	private String pw;
 	private String profile_img;
 	private MultipartFile multipartFile;
 
