@@ -80,9 +80,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<FindUser> findUserByUserName(String userName, int groupNo) {
+	public List<FindUser> findUserByUserName(String userName, int groupNo, String authUser) {
 		
-		List<User> userList = jpaUserRepo.listUserByUserIdAndGroupNo(userName, groupNo);
+		List<User> userList = jpaUserRepo.listUserByUserIdAndGroupNo(userName, groupNo, authUser);
 		List<FindUser> findList = new ArrayList<FindUser>(); 
 		for(User user : userList) {
 			findList.add(new FindUser(

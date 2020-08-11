@@ -11,11 +11,94 @@
 
       <div class="Mainvideo">
         <div class="Main-videos-container" id="Main-videos-container"></div>
-        <div class="footer">
+      </div>
+
+      <!-- <div class="fixed-bottom"> -->
+      <div class="footer">
+        <div class="text-center mb-2">
+          <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
+            <v-icon v-show="showNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
+          </v-btn>
+        </div>
+        <v-bottom-navigation
+          
+          v-model="activeBtn"
+          :input-value="showNav"
+          color="rgb(255, 128, 74)"
+          background-color="rgba(14, 23, 38, 1)"
+        >
+          <!-- <v-btn @click="overlay = !overlay"> -->
+          <v-btn @click="onJoin">
+            <span>Join</span>
+            <v-icon>mdi-login</v-icon>
+          </v-btn>
+          <!-- <v-overlay :value="overlay">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+          </v-overlay>-->
+
+          <v-btn @click="videoOnOff = !videoOnOff">
+            <span v-show="videoOnOff">OFF</span>
+            <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
+
+            <span v-show="!videoOnOff">ON</span>
+            <v-icon v-show="!videoOnOff">mdi-video</v-icon>
+          </v-btn>
+
+          <v-btn @click="micOnOff = !micOnOff">
+            <span v-show="micOnOff">OFF</span>
+            <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
+
+            <span v-show="!micOnOff">ON</span>
+            <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
+          </v-btn>
+
+          <v-btn @click="castOnOff = !castOnOff">
+            <span v-show="castOnOff">OFF</span>
+            <v-icon v-show="castOnOff">mdi-cast-off</v-icon>
+
+            <span v-show="!castOnOff">ON</span>
+            <v-icon v-show="!castOnOff">mdi-cast</v-icon>
+          </v-btn>
+
+          <v-btn @click="onBroadcast">
+            <span>BroadCast</span>
+            <v-icon>mdi-cast</v-icon>
+          </v-btn>
+
+          <v-btn @click="offBroadcast">
+            <span>BroadCast off</span>
+            <v-icon>mdi-cast-off</v-icon>
+          </v-btn>
+
+          <v-btn @click="onChat">
+            <span>Chatting</span>
+            <v-icon>mdi-forum</v-icon>
+          </v-btn>
+
+          <v-btn @click="onNote">
+            <span>Note</span>
+            <v-icon>mdi-book</v-icon>
+          </v-btn>
+
+          <v-btn @click="onCanvas" :disabled="disableCanvasBool">
+            <span>Canvas</span>
+            <v-icon>mdi-palette</v-icon>
+          </v-btn>
+
+          <v-btn @click="onLeave">
+            <span>Leave</span>
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </v-bottom-navigation>
+      </div>
+
+      <!-- <div class="footer">
           <div class="RoomInput">
             채팅방이름을 입력하세요
             <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid" />
           </div>
+
           <div class="MenuBtn">
             <button
               type="button"
@@ -26,27 +109,30 @@
                 <b-icon icon="camera-video" font-scale="2"></b-icon>
               </div>
             </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="offLocalVideo"
-            >
-              <div class="btnIcon">
-                <b-icon icon="camera-video-off-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              id="audio"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="offMic"
-            >
-              <div class="btnIcon">
-                <b-icon icon="Mic-mute-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
-            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
+
+            <v-btn @click="onVideo">
+              <span v-show="videoOnOff">OFF</span>
+              <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
+              
+              <span v-show="!videoOnOff">ON</span>
+              <v-icon v-show="!videoOnOff">mdi-video</v-icon>
+            </v-btn>
+
+
+            <v-btn @click="onMic">
+              <span v-show="micOnOff">OFF</span>
+              <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
+              
+              <span v-show="!micOnOff">ON</span>
+              <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
+            </v-btn>
+
+            <v-btn @click="onChat">
+              <span>Chatting</span>
+              <v-icon>mdi-forum</v-icon>
+            </v-btn>
+
+
             <button
               type="button"
               class="btn btn-success btn-round btn-lg bg-primary border-0"
@@ -56,6 +142,7 @@
                 <b-icon icon="chat-dots-fill" font-scale="2"></b-icon>
               </div>
             </button>
+
             <button
               type="button"
               class="btn btn-success btn-round btn-lg bg-primary border-0"
@@ -65,8 +152,6 @@
                 <b-icon icon="markdown-fill" font-scale="2"></b-icon>
               </div>
             </button>
-            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
-            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
             <button
               type="button"
               class="btn btn-success btn-round btn-lg bg-primary border-0"
@@ -96,10 +181,10 @@
             </button>
             <div class="container"></div>
           </div>
-        </div>
-      </div>
-    </div>
+      </div> -->
 
+
+    </div>
     <div id="note-container">
       <NoteEditor />
     </div>
@@ -180,11 +265,19 @@ export default {
       AudioBool: false,
       videoBool: false,
       roomid: "",
-      videoLength: null
+      videoLength: null,
+
+      // overlay: false,
+      showNav: true,
+      videoOnOff: true,
+      micOnOff: true,
+      castOnOff: true,
+      activeBtn: 0
     };
   },
   methods: {
-    offMic() {
+    onMic() {
+      this.micOnOff = !this.micOnOff;
       if (this.AudioBool == false) {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
@@ -272,14 +365,10 @@ export default {
       };
       this.connection.openOrJoin(this.roomid);
       document.getElementById("videos-container").style.display = "block";
-      console.log(this.connection.streamEvents);
+      this.overlay = false;
     },
-    offLocalVideo() {
-      // this.connection.dontAttachStream = true;
-      // this.connection.attachStreams.forEach(function(localStream) {
-      //     localStream.stop();
-      // });
-
+    onVideo() {
+      this.videoOnOff = !this.videoOnOff;
       if (this.videoBool == false) {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
@@ -322,9 +411,6 @@ export default {
       document.getElementById("videos-container").style.display = "none";
       this.$router.push("Group");
     },
-    // onShareScreen() {
-    //   this.img = this.$refs.webrtc.shareScreen();
-    // },
     onError(error, stream) {
       console.log("On Error Event", error, stream);
     },
@@ -410,9 +496,9 @@ export default {
   height: 100px;
   overflow-x: hidden;
 }
-.Main-videos-container {
-  height: 100%;
-}
+// .Main-videos-container {
+//   height: 100%;
+// }
 .Main-videos-container video {
   height: 90%;
   overflow-x: hidden;
@@ -479,10 +565,7 @@ export default {
   bottom: 0px;
   width: 100%;
   padding: 0;
-  text-align: center;
-  color: black;
   padding-bottom: 0px;
-  background-color: rgb(52, 63, 87);
 }
 .main {
   background-color: rgb(7, 14, 29);
