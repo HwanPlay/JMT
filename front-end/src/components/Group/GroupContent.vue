@@ -1,11 +1,11 @@
 <template>
   <v-row>
         {{ groupInfo }}
-    <!-- 醫뚯륫 洹몃９ �젙蹂� 遺�遺� -->
+    <!-- 좌측 그룹 정보 부분 -->
     <v-col cols="5">
       <v-row justify="center">
-        <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">�쉶�쓽 吏꾪뻾以묒씠 �븘�떃�땲�떎</v-btn>
-        <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">�쉶�쓽 吏꾪뻾以�</v-btn>
+        <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중이 아닙니다</v-btn>
+        <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중</v-btn>
       </v-row>
 
       <v-row>
@@ -16,12 +16,12 @@
         <v-col cols="4">
 
           <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
-            �쉶�쓽 �떆�옉
-            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">�쉶�쓽 �떆�옉</router-link> -->
+            회의 시작
+            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
           <v-btn @click="joinMeeting" v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
-            �쉶�쓽 李몄뿬
-            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">�쉶�쓽 李몄뿬</router-link> -->
+            회의 참여
+            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
           </v-btn>
         </v-col>
       </v-row>
@@ -49,7 +49,7 @@
             
           <v-card outlined>
             <v-col>
-              <div v-if="members.length === 0">洹몃９�썝�씠 �뾾�뒿�땲�떎</div>
+              <div v-if="members.length === 0">그룹원이 없습니다</div>
               <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
                 <MemberCard :userInfo = memberInfo />
               </v-card-text>
@@ -67,10 +67,10 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn dark color="red" @click='destroyGroup'>洹몃９ �빐泥�</v-btn>
+            <v-btn dark color="red" @click='destroyGroup'>그룹 해체</v-btn>
           </div>
           <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
-            洹몃９ �깉�눜
+            그룹 탈퇴
           </v-btn>
         </v-row>
       </v-col>
@@ -78,7 +78,7 @@
     </v-col>
 
     <v-spacer></v-spacer>
-    <!-- �슦痢� 罹섎┛�뜑 遺�遺� -->
+    <!-- 우측 캘린더 부분 -->
     <v-col cols="6">
       <GroupCalendar />
     </v-col>
@@ -201,7 +201,6 @@ export default {
 
 
     connect() {
-      console.log('�냼耳� �뿰寃�!!!!!');
       this.ws.connect({'token' : this.$store.state.accessToken}, function(frame) {
         this.ws.subscribe('/sub/meeting/' + this.groupInfo.groupNo, function(message) {
           var recv = JSON.parse(message.body);
@@ -209,14 +208,12 @@ export default {
           console.log(message.body.hasMeeting + '!@#!@#!@#!@#!@#!@#!@#!');
         });
         // var recv = JSON.parse(message.body);
-        // console.log('諛쏆�嫄곗뿉�슂 ' + recv);
         // this.recvMessage(recv);
       });
     },
 
 
     sendMessage: function() {
-      console.log('蹂대깉�뼱�슂!@!@!!@!!@');
       this.ws.send('/pub/meeting', {'token' : this.$store.state.accessToken}, JSON.stringify({isMeeting : this.groupInfo.hasMeeting, groupNo : this.groupInfo.groupNo}));
     },
 
