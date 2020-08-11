@@ -1,68 +1,126 @@
 <template>
   <div class="MainContainer">
     <div class="MainContent">
-        <div class="Minivideo_list"><div class="videos-container" id="videos-container" style="display:none" ></div></div>
-        
+      <div class="Minivideo_list">
+        <div class="videos-container" id="videos-container" style="display:none"></div>
+      </div>
+
       <div class="video_list_videOrshow" @click="videoBar">
-          <span class="triangle test_1"></span>
+        <span class="triangle test_1"></span>
       </div>
-      
+
       <div class="Mainvideo">
-        <div class="Main-videos-container" id="Main-videos-container" >
-        </div>
-              <div class="footer">
-                <div class="RoomInput">
-                  채팅방이름을 입력하세요
-                  <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid"> 
-                </div>
-                <div class="MenuBtn">
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onJoin"><div class="btnIcon"><b-icon icon="camera-video" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offLocalVideo"><div class="btnIcon"><b-icon icon="camera-video-off-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" id="audio" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offMic" ><div class="btnIcon"><b-icon icon="Mic-mute-fill" font-scale="2"></b-icon></div></button>
-                  <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onChat"><div class="btnIcon"><b-icon icon="chat-dots-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onNote"><div class="btnIcon"><b-icon icon="markdown-fill" font-scale="2"></b-icon></div></button>
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
-                  <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="onBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2"></b-icon></div></button>
-                  <button type="button" class="btn btn-success btn-round btn-lg bg-primary border-0" @click="offBroadcast"><div class="btnIcon"><b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon></div></button>
-                  <div class="container">
+        <div class="Main-videos-container" id="Main-videos-container"></div>
+        <div class="footer">
+          <div class="RoomInput">
+            채팅방이름을 입력하세요
+            <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid" />
+          </div>
 
-                </div>
-                </div>
+          <div class="MenuBtn">
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="onJoin"
+            >
+              <div class="btnIcon">
+                <b-icon icon="camera-video" font-scale="2"></b-icon>
               </div>
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="offLocalVideo"
+            >
+              <div class="btnIcon">
+                <b-icon icon="camera-video-off-fill" font-scale="2"></b-icon>
+              </div>
+            </button>
+            <button
+              type="button"
+              id="audio"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="offMic"
+            >
+              <div class="btnIcon">
+                <b-icon icon="Mic-mute-fill" font-scale="2"></b-icon>
+              </div>
+            </button>
+            <!-- <button type="button" class="btn btn-success btn-round" @click="onCapture"><b-icon icon="camera"></b-icon></button> -->
+            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onShareScreen"><b-icon icon="box-arrow-up"></b-icon></button> -->
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="onChat"
+            >
+              <div class="btnIcon">
+                <b-icon icon="chat-dots-fill" font-scale="2"></b-icon>
+              </div>
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="onNote"
+            >
+              <div class="btnIcon">
+                <b-icon icon="markdown-fill" font-scale="2"></b-icon>
+              </div>
+            </button>
+            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="pencil-square"></b-icon></button> -->
+            <!-- <button type="button" class="btn btn-success btn-round btn-lg" @click="onCanvas"><b-icon icon="share-fill"></b-icon></button> -->
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="onBroadcast"
+            >
+              <div class="btnIcon">
+                <b-icon icon="eject-fill" font-scale="2"></b-icon>
+              </div>
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-round btn-lg bg-primary border-0"
+              @click="offBroadcast"
+            >
+              <div class="btnIcon">
+                <b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon>
+              </div>
+            </button>
+            <div class="container"></div>
+          </div>
+          
+        </div>
       </div>
-
-
     </div>
-    
+
     <div id="note-container">
       <NoteEditor />
     </div>
     <div id="chat-container">
-        <div id="container">
-          
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-8 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0">Ketty Peris</h6>
-                        </div>
-                        <div class="col-md-4 options text-right pr-0">
-                            <i class="fa fa-times hover text-center pt-1"></i>
-                        </div>
-                    </div> 
-
-             <div class="chat-content">
-                    <div class="chats pt-3 pl-2 pr-3 ">
-                      <div class="chat-output">
-                      </div>
-                    </div>
-              </div>
-              <input type="text" id="input-text-chat" placeholder="Enter Text Chat" @keyup.13="textSend" :disabled="disableInputBool"/>
+      <div id="container">
+        <div class="row header-one text-white p-1">
+          <div class="col-md-8 name pl-2">
+            <i class="fa fa-comment"></i>
+            <h6 class="ml-1 mb-0">Ketty Peris</h6>
+          </div>
+          <div class="col-md-4 options text-right pr-0">
+            <i class="fa fa-times hover text-center pt-1"></i>
+          </div>
         </div>
-    
 
+        <div class="chat-content">
+          <div class="chats pt-3 pl-2 pr-3">
+            <div class="chat-output"></div>
+          </div>
+        </div>
+        <input
+          type="text"
+          id="input-text-chat"
+          placeholder="Enter Text Chat"
+          @keyup.13="textSend"
+          :disabled="disableInputBool"
+        />
+      </div>
     </div>
   </div>
 </template>
