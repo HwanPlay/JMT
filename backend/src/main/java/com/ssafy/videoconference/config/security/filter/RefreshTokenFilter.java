@@ -62,6 +62,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter{
 				// Access Token으로 사용자 정보(userId) 추출
 				userId = jwtTokenUtil.getUsernameFromToken(accessToken);
 			} catch (ExpiredJwtException e) {
+				
 				logger.info("username from expired access token: " + userId);
 				
 				// expire된 Token에서도 사용자 정보를 가져올 수 있음!
