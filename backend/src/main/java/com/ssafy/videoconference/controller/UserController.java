@@ -145,7 +145,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
-	@PostMapping("/user/modifyPw")
+	@PostMapping("/user/findPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
@@ -273,7 +273,8 @@ public class UserController {
 		// UserDetail authUser = (UserDetail) authentication.getPrincipal();
 		// System.out.println(authentication.getPrincipal());
 		String userFileName = userService.findUserByUserId(authUser.getId()).getProfile_img();
-		String realPath = servletContext.getRealPath(IMGFOLDER);
+//		String realPath = servletContext.getRealPath(IMGFOLDER);
+		String realPath = IMGFOLDER;
 
 		// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
 		if (!userFileName.contains("default")) {
@@ -340,7 +341,7 @@ public class UserController {
 
 	public void jwtRefresh(String modifyUser, HttpServletResponse response) {
 		// JWT Token 재 발급 - 회원 수정 후
-		UserDetail userDetail = this.userDetailService.loadUserByUsername(modifyUser);
+		UserDetail userDetail = userDetailService.loadUserByUsername(modifyUser);
 
 		// Access Token 재 발급
 		String newAccessToken = jwtTokenUtil.generateAccessToken(userDetail);
