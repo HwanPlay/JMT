@@ -14,7 +14,7 @@
         </v-col>
 
         <v-col cols="4">
-          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
+          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green" @keypress.enter="sendMessage">
             회의 시작
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
@@ -94,6 +94,9 @@ import GroupCalendar from './GroupCalendar.vue';
 
 import SERVER from '../../api/spring.js';
 
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+
 export default {
   name: 'group',
   components: {
@@ -122,6 +125,13 @@ export default {
     events: [],
     colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+
+    sock : null,
+    ws : null,
+    reconnect : 0,
+    token : '',
+    message : ''
+
   }),
   methods: {
     getEvents ({ start, end }) {
@@ -171,7 +181,35 @@ export default {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
-    }
+    },
+
+
+    connect() {
+      console.log('소켓 연결!!!!!');
+      this.ws.connect({'token' : this.$store.state.accessToken}, function(frame) {
+        this.ws.subscribe('/sub/meeting/' + this.groupInfo.groupNo, function(message) {
+          var recv = JSON.parse(message.body);
+          this.groupInfo.hasMeeting = message.body.hasMeeting;
+          console.log(message.body.hasMeeting + '!@#!@#!@#!@#!@#!@#!@#!');
+        });
+        // var recv = JSON.parse(message.body);
+        // console.log('받은거에요 ' + recv);
+        // this.recvMessage(recv);
+      });
+    },
+
+
+    sendMessage: function() {
+      console.log('보냈어요!@!@!!@!!@');
+      this.ws.send('/pub/meeting', {'token' : this.$store.state.accessToken}, JSON.stringify({isMeeting : this.groupInfo.hasMeeting, groupNo : this.groupInfo.groupNo}));
+    },
+
+
+  },
+
+  created() {
+    this.sock = new SockJS('http://localhost:8080/videoconference/ws');
+    this.ws = Stomp.over(this.sock);
   },
 
   mounted() {
@@ -180,14 +218,17 @@ export default {
         this.members = res.data.groupMembers;
       })
       .catch(err => console.log(err.response));
+    this.connect();
   },
+
   watch:{
     groupInfo(){
       axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           this.members = res.data.groupMembers;
         })
-        .catch(err => console.log(err.response));    }
+        .catch(err => console.log(err.response));    
+    }
   }
 };
 </script>
