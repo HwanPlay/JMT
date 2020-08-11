@@ -19,9 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +37,7 @@ import com.ssafy.videoconference.config.util.JwtTokenUtil;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.ModifyUser;
+import com.ssafy.videoconference.model.user.bean.ModifyUserPw;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.bean.UserRole;
@@ -145,7 +144,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
-	@PostMapping("/user/findPw")
+	@PostMapping("/user/newPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
@@ -157,13 +156,13 @@ public class UserController {
 	
 	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId (기존PW, 새로운PW)", response = String.class)
 	@PostMapping("/user/modifyPw")
-	public ResponseEntity<String> modifyUserPw(@RequestParam("oldPw") String oldPw, @RequestParam("newPw") String newPw, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+	public ResponseEntity<String> modifyUserPw(@RequestBody ModifyUserPw modify, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
-		if(!passwordEncoder.matches(oldPw, authUser.getPw()))
+		if(!passwordEncoder.matches(modify.getOldPw(), authUser.getPw()))
 			return ResponseEntity.ok(FAIL);
 		
 		User user = new User();
-		user.setPw(passwordEncoder.encode(newPw));
+		user.setPw(passwordEncoder.encode(modify.getNewPw()));
 		user.setId(authUser.getId());
 		
 		userService.modifyPw(user);
