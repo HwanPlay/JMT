@@ -14,7 +14,7 @@ public interface IUserService {
 	
 	User findUserByUserId(String userId);
 	
-	List<FindUser> findUserByUserName(String userName, int groupNo);
+	List<FindUser> findUserByUserName(String userName, int groupNo, String authUser);
 	
 	void modifyPw(User user);
 	void modifyUser(ModifyUser mUser);

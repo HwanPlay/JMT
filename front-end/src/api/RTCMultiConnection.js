@@ -3664,6 +3664,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
             track.enabled = false;
+             console.log("화면끄기입니다.");
           });
           console.log("화면끄기입니다.");
         }

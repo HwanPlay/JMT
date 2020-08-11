@@ -1,4 +1,4 @@
-package com.ssafy.videoconference.model.user.repository;
+ package com.ssafy.videoconference.model.user.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +34,8 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
 	@Query(value = "update User u set u.pw = :#{#user.pw} WHERE u.id = :#{#user.id}", nativeQuery = false)
 	void updateUserPwByUserId(@Param("user") User user);
 	
-	@Query(value = "select u from User u where u.name like concat('%',:name,'%') and u.id not in (select gm.user.id from GroupMember gm where gm.group.groupNo = :group_no)", nativeQuery = false)
-	List<User> listUserByUserIdAndGroupNo(String name, int group_no);
+	@Query(value = "select u from User u where u.id != :id and u.name like concat('%',:name,'%') and u.id not in (select gm.user.id from GroupMember gm where gm.group.groupNo = :group_no)", nativeQuery = false)
+	List<User> listUserByUserIdAndGroupNo(String name, int group_no, String id);
 	
 	
 	@Transactional

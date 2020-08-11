@@ -31,11 +31,12 @@
       </v-btn>
     </div>
     <v-bottom-navigation
+      dark
       v-model="activeBtn"
       :input-value="showNav"
       color="rgb(255, 128, 74)"
-      background-color= "rgba( 255, 255, 255, 0.4 )"
-    >
+      background-color= "rgba(14, 23, 38, 1)"
+    ><!-- background-color= "rgba( 255, 255, 255, 0.4 )" -->
       <v-btn @click="overlay = !overlay">
         <span>Join</span>
         <v-icon>mdi-login</v-icon>

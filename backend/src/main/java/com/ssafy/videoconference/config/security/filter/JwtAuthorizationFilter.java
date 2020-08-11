@@ -86,6 +86,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 				// ExpiredJwtException : 403 에러 (Refresh 요청)
 				// 그 외의 Exception : 401 에러 (재 로그인 요청)
 			} catch (ExpiredJwtException e) {
+//				response.sendError(500, "z");
+//				response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "zzzzzz");
 				response.setStatus(HttpStatus.FORBIDDEN.value());
 				logger.error("JWT token is expired : {}", e.getMessage());
 				

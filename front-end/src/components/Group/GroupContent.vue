@@ -14,11 +14,11 @@
         </v-col>
 
         <v-col cols="4">
-          <v-btn v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
+          <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
             회의 시작
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
-          <v-btn v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
+          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
             회의 참여
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
           </v-btn>
@@ -171,6 +171,19 @@ export default {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
+    },
+    startMeeting(){
+      // axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
+      //   .then(() => {
+      //     console.log('change Meeting conditions');
+      //     this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
+      //   })
+      //   .catch(err => console.log(err));
+      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+
+    },
+    joinMeeting(){
+      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     }
   },
 

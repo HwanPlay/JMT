@@ -6,17 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.videoconference.config.util.JwtTokenUtil;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.ModifyUser;
@@ -38,6 +44,7 @@ import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.bean.UserRole;
 import com.ssafy.videoconference.model.user.service.IProfileImgService;
 import com.ssafy.videoconference.model.user.service.IUserService;
+import com.ssafy.videoconference.model.user.service.UserDetailsServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -51,7 +58,7 @@ public class UserController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-	private static final String IMGFOLDER = "resources/upload/profile/img";
+	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources/upload/profile/img";
 	private static final String DEFAULT_IMG = "default.jpg";
 
 	@Resource(name = "userService")
@@ -68,6 +75,15 @@ public class UserController {
 
 	@Autowired
 	IProfileImgService profileImgService;
+
+	@Autowired
+	UserDetailsServiceImpl userDetailService;
+
+	@Autowired
+	JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	RedisTemplate<String, Object> redisTemplate;
 
 	@ApiOperation(value = "회원가입", response = String.class)
 	@PostMapping("/register")
@@ -90,9 +106,14 @@ public class UserController {
 
 	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
 	@GetMapping("/user/findUserByName")
-	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no) {
-		List<FindUser> userList = userService.findUserByUserName(name, group_no);
-		return ResponseEntity.ok(userList);
+	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no,
+			@CurrentUser UserDetail authUser) {
+		// 유저를 제외
+		List<FindUser> userList = userService.findUserByUserName(name, group_no, authUser.getId());
+		if (userList.size() > 0)
+			return ResponseEntity.ok(userList);
+		else
+			return ResponseEntity.ok(null);
 	}
 
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
@@ -103,29 +124,51 @@ public class UserController {
 
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/user/modify")
-	public ResponseEntity<String> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser) {
-		user.setPw(passwordEncoder.encode(user.getPw()));
-		System.out.println(user.getMultipartFile().getOriginalFilename());
+	public ResponseEntity<String> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+	
+		//	user.setPw(passwordEncoder.encode(user.getPw()));
 		// 프로필 사진 저장 후, 회원 수정
 		String oldImg = authUser.getProfile_img();
 		String newImgName = "";
 		if ((newImgName = saveProfileImg(user.getMultipartFile(), oldImg)) != null) {
 			user.setProfile_img(newImgName);
+			user.setId(authUser.getId());
 			userService.modifyUser(user);
+			
+			// 새로운 Access Token 발급
+			jwtRefresh(user.getId(), response);
+			
 			return ResponseEntity.ok(SUCCESS);
 		} else {
 			return ResponseEntity.ok(FAIL);
 		}
 	}
 
-	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId", response = String.class)
-	@PostMapping("/user/modifyPw")
-	public ResponseEntity<String> modifyUserPw(@RequestBody User user) {
+	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
+	@PostMapping("/user/findPw")
+	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
 		userService.modifyPw(user);
-
-		System.out.println("modify user : " + user.toString());
+		jwtRefresh(user.getId(), response);
+		
+		return ResponseEntity.ok(SUCCESS);
+	}
+	
+	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId (기존PW, 새로운PW)", response = String.class)
+	@PostMapping("/user/modifyPw")
+	public ResponseEntity<String> modifyUserPw(@RequestParam("oldPw") String oldPw, @RequestParam("newPw") String newPw, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+		
+		if(!passwordEncoder.matches(oldPw, authUser.getPw()))
+			return ResponseEntity.ok(FAIL);
+		
+		User user = new User();
+		user.setPw(passwordEncoder.encode(newPw));
+		user.setId(authUser.getId());
+		
+		userService.modifyPw(user);
+		jwtRefresh(user.getId(), response);
+		
 		return ResponseEntity.ok(SUCCESS);
 	}
 
@@ -195,7 +238,9 @@ public class UserController {
 
 			// 서버 폴더 경로명
 			// 파일은 http방식으로 저장되는 것이 아니라, 서버의 하드디스크 전체 경로에 맞추어서 저장
-			String realPath = servletContext.getRealPath(IMGFOLDER);
+		//	String realPath = servletContext.getRealPath(IMGFOLDER);
+			String realPath = IMGFOLDER;
+			
 			System.out.println(realPath);
 			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
 			if (!oldImg.contains("default")) {
@@ -228,7 +273,8 @@ public class UserController {
 		// UserDetail authUser = (UserDetail) authentication.getPrincipal();
 		// System.out.println(authentication.getPrincipal());
 		String userFileName = userService.findUserByUserId(authUser.getId()).getProfile_img();
-		String realPath = servletContext.getRealPath(IMGFOLDER);
+//		String realPath = servletContext.getRealPath(IMGFOLDER);
+		String realPath = IMGFOLDER;
 
 		// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
 		if (!userFileName.contains("default")) {
@@ -291,6 +337,24 @@ public class UserController {
 		emailSender.send(message);
 
 		return authCode;
+	}
+
+	public void jwtRefresh(String modifyUser, HttpServletResponse response) {
+		// JWT Token 재 발급 - 회원 수정 후
+		UserDetail userDetail = userDetailService.loadUserByUsername(modifyUser);
+
+		// Access Token 재 발급
+		String newAccessToken = jwtTokenUtil.generateAccessToken(userDetail);
+
+		// header에 Access Token 등록
+		response.addHeader("AccessToken", "Bearer " + newAccessToken);
+
+		String accessTokenKey = userDetail.getId() + "_accessToken";
+
+		// Redis DB에 재 발급한 Access Token 저장
+		redisTemplate.opsForValue().set(accessTokenKey, newAccessToken);
+
+		redisTemplate.expire(accessTokenKey, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 	}
 
 }

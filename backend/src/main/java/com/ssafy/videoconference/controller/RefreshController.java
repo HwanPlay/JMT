@@ -97,11 +97,12 @@ public class RefreshController {
 					return ResponseEntity.ok(SUCCESS);
 				}else {
 					// Refresh Token 만료시, 재 로그인 요청
+					response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "expiredRefresh");
 					throw new JwtException("Unauthorized - Expired Refresh Token.");
 				}
 			} catch (Exception e) {
 				// 그 외 exception은 재 로그인 요청
-				response.setStatus(1234);
+				
 				throw new JwtException("Unauthorized");
 			}
 			System.out.println("end");

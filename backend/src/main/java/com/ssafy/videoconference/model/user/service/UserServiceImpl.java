@@ -50,7 +50,7 @@ public class UserServiceImpl implements IUserService {
 		modifyUser.ifPresent(selectUser->{
 			selectUser.setName(user.getName());
 			selectUser.setProfile_img(user.getProfile_img());
-			selectUser.setPw(user.getPw());
+	//		selectUser.setPw(user.getPw());
 			jpaUserRepo.save(selectUser);
 		});
 	}
@@ -80,9 +80,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<FindUser> findUserByUserName(String userName, int groupNo) {
+	public List<FindUser> findUserByUserName(String userName, int groupNo, String authUser) {
 		
-		List<User> userList = jpaUserRepo.listUserByUserIdAndGroupNo(userName, groupNo);
+		List<User> userList = jpaUserRepo.listUserByUserIdAndGroupNo(userName, groupNo, authUser);
 		List<FindUser> findList = new ArrayList<FindUser>(); 
 		for(User user : userList) {
 			findList.add(new FindUser(
