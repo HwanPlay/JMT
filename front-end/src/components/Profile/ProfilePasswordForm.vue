@@ -1,5 +1,7 @@
 <template>
   <v-form>
+    
+
     <v-container fluid>
       <v-row>
         <v-col cols="12">
@@ -49,7 +51,7 @@
           <v-btn @click="SubmitPassword" text color="primary">Submit</v-btn>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container>    
   </v-form>
 </template>
 
@@ -60,6 +62,8 @@ import SERVER from '../../api/spring.js';
 export default {
   data() {
     return {
+      
+
       show1: false,
       show2: false,
       show3: false,
@@ -77,29 +81,34 @@ export default {
     };
   },
   methods: {
+    
+
     SubmitPassword() {
       if (this.existingPassword !== this.newPassword1 && this.newPassword1===this.newPassword2){
-        axios.post(SERVER.URL + '/user/findPw',{
+        axios.post(SERVER.URL + '/user/modifyPw',{
           'oldPw': this.existingPassword,
           'newPw': this.newPassword1
         }).then((res)=>{
           if (res.data === 'success'){
-            alert('your password is changed');
-          } else if (res.data === 'fail'){
-            alert('password가 틀렸습니다.');
+            this.$emit('onSubmitSuccess');
+          } else {
+            this.$emit('onSubmitWrongPassword');
           }
         }).catch(
           err=>console.error(err)
         );
       } else {
-        alert('No');
+        this.$emit('onSubmitDifferentPassword');
       }
+      this.clearPassword();
     },
     clearPassword() {
       this.existingPassword = '';
       this.newPassword1 = '';
       this.newPassword2 = '';
-    }
+    },
+
+    
   }
 };
 </script>
