@@ -70,8 +70,8 @@
                   </v-btn>
                 </router-link>
                 <!-- <v-icon>mdi-dots-vertical</v-icon> -->
-                <v-btn icon @click='selectedOpen = false'>
-                  <v-icon>mdi-close-box-outline</v-icon>
+                <v-btn icon @click='selectedOpen = false' class="close-btn">
+                  <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-toolbar>
             <!-- <v-card-text>
@@ -198,3 +198,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.close-btn:hover {
+  
+}
+</style>
