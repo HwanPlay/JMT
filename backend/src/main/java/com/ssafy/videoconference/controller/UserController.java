@@ -90,9 +90,13 @@ public class UserController {
 
 	@ApiOperation(value = "회원 찾기(아이디,이름,프로필사진) - findUserByUserName / 이미 그룹에 속한 사람은 제외", response = List.class)
 	@GetMapping("/user/findUserByName")
-	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no) {
-		List<FindUser> userList = userService.findUserByUserName(name, group_no);
-		return ResponseEntity.ok(userList);
+	public ResponseEntity<List<FindUser>> findUserByUserName(@RequestParam String name, @RequestParam int group_no, @CurrentUser UserDetail authUser) {
+		// 유저를 제외
+		List<FindUser> userList = userService.findUserByUserName(name, group_no, authUser.getId());
+		if(userList.size()>0)
+			return ResponseEntity.ok(userList);
+		else
+			return ResponseEntity.ok(null);
 	}
 
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
@@ -105,7 +109,6 @@ public class UserController {
 	@PostMapping("/user/modify")
 	public ResponseEntity<String> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
-		System.out.println(user.getMultipartFile().getOriginalFilename());
 		// 프로필 사진 저장 후, 회원 수정
 		String oldImg = authUser.getProfile_img();
 		String newImgName = "";

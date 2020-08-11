@@ -51,7 +51,7 @@ axios.interceptors.request.use(
   });
 
 // 응답 인터셉터 추가
-var isRefreshing = false;
+// var isRefreshing = false;
 
 axios.interceptors.response.use(
   function (response) {
@@ -61,11 +61,13 @@ axios.interceptors.response.use(
   },
   function (error) {
     // 오류 응답을 처리
-    console.log('에러인경우');
     
     const originalRequest = error.config;
-    if (error.response.status === 401 && !isRefreshing){
-      isRefreshing = true;
+  
+    if (error.response.status === 401 && originalRequest.retry === undefined){ // A토큰 만료시
+      console.log('thisiserror', error.response);
+      originalRequest.retry = true;
+      // isRefreshing = true;
       const config = {
         headers:{
           refreshToken: localStorage.getItem('refreshToken'),
@@ -74,10 +76,10 @@ axios.interceptors.response.use(
       };
       return axios.get(SERVER.URL + SERVER.ROUTES.reToken, config)
         .then(res => {
-          if (res.status === 200){
+          if (res.status === 200){  // A토큰 재발급 성공
             console.log('old', localStorage.getItem('accessToken'));
             store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
-            isRefreshing = false;
+            // isRefreshing = false;
             // localStorage.setItem('accessToken', res.headers.accesstoken);
             console.log('new Token!!!', localStorage.getItem('accessToken'));
             if (localStorage.getItem('accessToken') === undefined || !localStorage.getItem('accessToken')){
@@ -87,11 +89,12 @@ axios.interceptors.response.use(
           }
         })
         .catch(err => console.log(err));
-    }else if(error.response.status === 500 && isRefreshing){
+    }else if(error.response.status === 500 && error.response.data.message == 'expiredRefresh'){
+      console.log('여길봐', error.response);
       console.log('Expire refreshToken');
       localStorage.clear();
       store.commit('SET_TOKEN', null);
-      isRefreshing = false;
+      // isRefreshing = false;
       return ;
     }else{
       return Promise.reject(error);
