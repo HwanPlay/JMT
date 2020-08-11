@@ -159,7 +159,7 @@ public class UserController {
 	@PostMapping("/user/modifyPw")
 	public ResponseEntity<String> modifyUserPw(@RequestParam("oldPw") String oldPw, @RequestParam("newPw") String newPw, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
-		if(!authUser.getId().equals(oldPw))
+		if(!authUser.getPw().equals(oldPw))
 			return ResponseEntity.ok(FAIL);
 		
 		User user = new User();
