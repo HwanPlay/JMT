@@ -255,6 +255,7 @@ export default {
   },
   methods: {
     SaveNote(){      
+      // 없으면 1을 넣는다. 임시용.
       if (this.meetingId === undefined && this.groupId === undefined){
         this.groupId = 1;
         this.meetingId = 1;
