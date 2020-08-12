@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MeetingMessage {
 	
-	private boolean isMeeting;
+	private boolean meeting;
 	private int groupNo;
 	
 }
