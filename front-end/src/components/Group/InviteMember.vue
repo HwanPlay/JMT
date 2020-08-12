@@ -59,17 +59,22 @@ export default {
       searchData: {},
       isSearched: false,
       checked: false,
+      inputVal : ''
     };
   },
   methods: {
     searchName(){
-      axios.get(SERVER.URL + '/user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputValue)
-        .then(res => {
-          console.log(res);
-          this.searchData = res.data;
-          this.inputValue = '';
-          this.isSearched = true;
-        });
+      this.inputVal = this.inputValue.replace('#', '*');
+      this.inputVal = this.inputVal.replace('&', '*');
+      if (this.inputVal.trim()){
+        axios.get(SERVER.URL + '/user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputVal)
+          .then(res => {
+            console.log(res);
+            this.searchData = res.data;
+            this.inputValue = '';
+            this.isSearched = true;
+          });
+      }
     },
 
   },
