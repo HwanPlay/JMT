@@ -89,17 +89,17 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
 import axios from 'axios';
+
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+
 import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 import EditGroup from './EditGroup.vue';
 import GroupCalendar from './GroupCalendar.vue';
-
-import SERVER from '../../api/spring.js';
-
-import SockJS from 'sockjs-client';
-import Stomp from 'webstomp-client';
 
 export default {
   name: 'group',
@@ -160,7 +160,9 @@ export default {
       //   })
       //   .catch(err => console.log(err));
       this.changeHasMeeting();
-      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+      this.$router.push({name: 'Conference',
+        params: { roomId : this.groupInfo.roomId }, 
+        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }});
     },
 
     joinMeeting(){

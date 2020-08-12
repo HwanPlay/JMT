@@ -59,7 +59,6 @@ export default {
       axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
         .then(res => {
           console.log('CreateGroup!', res);
-          // this.$router.push('/Home').catch(()=>{});
           this.$store.commit('SET_GROUP_INFO', res);
           this.reset();
           this.$emit('close');

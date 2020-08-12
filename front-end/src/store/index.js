@@ -27,7 +27,7 @@ export default new Vuex.Store({
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
     isLoggedIn(state){
-      if (state.accessToken === 'null') {
+      if (state.accessToken === 'null' || state.accessToken === undefined) {
         return false;
       }else{
         return !!state.accessToken;

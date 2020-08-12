@@ -6,15 +6,15 @@
         <v-list-item-title>{{ userInfo.nickname }}</v-list-item-title>
         <v-list-item-subtitle>{{ userInfo.id }}</v-list-item-subtitle>
       </v-list-item-content>
+      <div v-if='this.$store.state.userId===hostId'>
+        <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')">
+          추방
+        </v-btn>
+        <v-btn color="danger" @click="letHost">
+          호스트 임명
+        </v-btn>
+      </div>
     </v-list-item>
-    <div v-if='this.$store.state.userId===hostId'>
-      <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')">
-        추방
-      </v-btn>
-      <v-btn color="danger" @click="letHost">
-        호스트 임명
-      </v-btn>
-    </div>
   </div>
 </template>
 
