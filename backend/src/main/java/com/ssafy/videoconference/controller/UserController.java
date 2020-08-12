@@ -240,15 +240,15 @@ public class UserController {
 			
 			System.out.println(realPath);
 			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-			if (!oldImg.contains("default")) {
-				File deleteFolder = new File(realPath);
-				File[] deleteFolderList = deleteFolder.listFiles();
-
-				for (File file : deleteFolderList) {
-					if (file.getPath().contains(oldImg))
-						file.delete();
-				}
-			}
+//			if (!oldImg.contains("default")) {
+//				File deleteFolder = new File(realPath);
+//				File[] deleteFolderList = deleteFolder.listFiles();
+//
+//				for (File file : deleteFolderList) {
+//					if (file.getPath().contains(oldImg))
+//						file.delete();
+//				}
+//			}
 			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
