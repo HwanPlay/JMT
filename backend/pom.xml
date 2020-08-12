@@ -21,7 +21,11 @@
 	</properties>
 
 	<dependencies>
-
+		<!-- OAuth 2.0 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
 
 		<!-- gmail 인증 -->
 		<dependency>
@@ -130,7 +134,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- websocket -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

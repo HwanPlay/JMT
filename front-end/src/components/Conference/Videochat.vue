@@ -37,20 +37,20 @@
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="videoOnOff = !videoOnOff">
-            <span v-show="videoOnOff">OFF</span>
-            <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
+          <v-btn @click="onVideo" >
+            <span v-show="!videoOnOff">OFF</span>
+            <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
-            <span v-show="!videoOnOff">ON</span>
-            <v-icon v-show="!videoOnOff">mdi-video</v-icon>
+            <span v-show="videoOnOff">ON</span>
+            <v-icon v-show="videoOnOff">mdi-video</v-icon>
           </v-btn>
 
-          <v-btn @click="micOnOff = !micOnOff">
-            <span v-show="micOnOff">OFF</span>
-            <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
+          <v-btn @click="onMic">
+            <span v-show="!micOnOff">OFF</span>
+            <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
 
-            <span v-show="!micOnOff">ON</span>
-            <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
+            <span v-show="micOnOff">ON</span>
+            <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
           <v-btn @click="castOnOff = !castOnOff">
@@ -81,10 +81,10 @@
             <v-icon>mdi-book</v-icon>
           </v-btn>
 
-          <v-btn @click="onCanvas" :disabled="disableCanvasBool">
+          <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
             <span>Canvas</span>
             <v-icon>mdi-palette</v-icon>
-          </v-btn>
+          </v-btn> -->
 
           <v-btn @click="onLeave">
             <span>Leave</span>
@@ -92,97 +92,6 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-
-      <!-- <div class="footer">
-          <div class="RoomInput">
-            채팅방이름을 입력하세요
-            <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid" />
-          </div>
-
-          <div class="MenuBtn">
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onJoin"
-            >
-              <div class="btnIcon">
-                <b-icon icon="camera-video" font-scale="2"></b-icon>
-              </div>
-            </button>
-
-            <v-btn @click="onVideo">
-              <span v-show="videoOnOff">OFF</span>
-              <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
-              
-              <span v-show="!videoOnOff">ON</span>
-              <v-icon v-show="!videoOnOff">mdi-video</v-icon>
-            </v-btn>
-
-
-            <v-btn @click="onMic">
-              <span v-show="micOnOff">OFF</span>
-              <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
-              
-              <span v-show="!micOnOff">ON</span>
-              <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
-            </v-btn>
-
-            <v-btn @click="onChat">
-              <span>Chatting</span>
-              <v-icon>mdi-forum</v-icon>
-            </v-btn>
-
-
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onChat"
-            >
-              <div class="btnIcon">
-                <b-icon icon="chat-dots-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onNote"
-            >
-              <div class="btnIcon">
-                <b-icon icon="markdown-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onBroadcast"
-            >
-              <div class="btnIcon">
-                <b-icon icon="eject-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="offBroadcast"
-            >
-              <div class="btnIcon">
-                <b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onLeave"
-            >
-              <div class="btnIcon">
-                <b-icon icon="Door-open-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <div class="container"></div>
-          </div>
-      </div> -->
-
 
     </div>
     <div id="note-container">
@@ -229,7 +138,7 @@ import Broadcast from "../../api/broadcast";
 import $ from "jquery";
 import Vue from "vue";
 // import WebRTC from '../../api/webrtc';
-import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
 // import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 
@@ -251,7 +160,7 @@ export default {
     return {
       img: null,
       disableInputBool: true,
-      disableCanvasBool: true,
+      // disableCanvasBool: true,
       chatContainer: null,
       value: "",
       textArea: null,
@@ -284,7 +193,7 @@ export default {
       this.disableInputBool = false;
       this.connection.session = {
         data: true,
-        video: true,
+        video: false,
         audio: true
       };
       this.connection.openOrJoin(this.roomId);
@@ -303,42 +212,39 @@ export default {
         localStream.stop();
       });
       document.getElementById("videos-container").style.display = "none";
-      this.$router.push("Group");
-    },
+      console.log("여기가 1번")
+      this.$router.push("/Group");
+      console.log("여기가 2번")
+ },
     //비디오 끄고,켜기
     onVideo() {
       if (this.videoBool == false) {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
         localStream.mute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
+
+        // console.log(this.connection.streamEvents);
+        // console.log(
+        //   this.connection.streamEvents[localStream.streamid].session.audio
+        // );
+        // console.log(localStream);
         this.videoBool = !this.videoBool;
+
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true,
-          video: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
+
+        
+        // console.log(this.connection.streamEvents);
+        // console.log(
+        //   this.connection.streamEvents[localStream.streamid].session.audio
+        // );
+        // console.log(localStream);
         this.videoBool = !this.videoBool;
       }
+      this.videoOnOff = !this.videoOnOff;
     },
-
-
-
     onMic() {
       this.micOnOff = !this.micOnOff;
       if (this.AudioBool == false) {
@@ -408,17 +314,17 @@ export default {
         this.Chatbool = false;
       }
     },
-    onCanvas() {
-      this.disableCanvasBool = true;
-      this.designer.widgetHtmlURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
-      this.designer.widgetJsURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-      this.designer.appendTo(document.getElementById("widget-container"));
-    },
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
-    },
+    // onCanvas() {
+    //   this.disableCanvasBool = true;
+    //   this.designer.widgetHtmlURL =
+    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
+    //   this.designer.widgetJsURL =
+    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
+    //   this.designer.appendTo(document.getElementById("widget-container"));
+    // },
+    // onCapture() {
+    //   this.img = this.$refs.webrtc.capture();
+    // },
 
 
     onError(error, stream) {
@@ -488,7 +394,7 @@ export default {
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
     );
-    this.designer = new CanvasDesigner();
+    // this.designer = new CanvasDesigner();
   },
   destroyed() {
     this.onLeave();

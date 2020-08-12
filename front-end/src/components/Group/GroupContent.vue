@@ -204,6 +204,12 @@ export default {
       this.changeHasMeeting();
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     },
+<<<<<<< HEAD
+    joinMeeting(){
+      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+    },
+=======
+>>>>>>> d73f02600ef11d30f20deb6074d2d1eadcccfaa0
 
 
     joinMeeting(){

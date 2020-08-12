@@ -85,6 +85,7 @@ public class JwtTokenUtil implements Serializable {
 		for (GrantedAuthority a : userDetail.getAuthorities()) {
 			li.add(a.getAuthority());
 		}
+	//	claims.put("name", userDetail.getName());
 		claims.put("role", li);
 		
 		return Jwts.builder()

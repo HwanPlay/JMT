@@ -12,7 +12,7 @@ public interface IUserService {
 
 	User register(User user);
 	
-	User findUserByUserId(String userId);
+	FindUser findUserByUserId(String userId);
 	
 	List<FindUser> findUserByUserName(String userName, int groupNo, String authUser);
 	
@@ -21,6 +21,8 @@ public interface IUserService {
 	void modifyUserProfileImg(User user);
 	
 	boolean removeUser(String id);
+	
+	String findPw(String id);
 	
 	
 }

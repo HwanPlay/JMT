@@ -33,8 +33,9 @@ public class UserServiceImpl implements IUserService {
 
 	
 	@Override
-	public User findUserByUserId(String userId) {
-		return jpaUserRepo.findById(userId).orElse(null);
+	public FindUser findUserByUserId(String userId) {
+		User user = jpaUserRepo.findById(userId).orElse(null);
+		return user==null?null:new FindUser(user.getId(), user.getName(), user.getProfile_img());
 	}
 	
 
@@ -92,6 +93,11 @@ public class UserServiceImpl implements IUserService {
 					));
 		}
 		return findList;
+	}
+
+	@Override
+	public String findPw(String id) {
+		return jpaUserRepo.findPwById(id);
 	}
 	
 	
