@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import com.ssafy.videoconference.config.oauth.CustomOAuth2UserService;
 import com.ssafy.videoconference.config.security.exception.JwtAuthEntryPoint;
 import com.ssafy.videoconference.config.security.filter.CustomAuthenticationFilter;
 import com.ssafy.videoconference.config.security.filter.JwtAuthorizationFilter;
@@ -31,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
-//	@Autowired
-//	private CustomOAuth2UserService customOAuth2UserService;
+	@Autowired
+	private CustomOAuth2UserService customOAuth2UserService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -47,44 +48,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors()
 				
 				.and()
-				// 다음 request에 대한 사용권한 check
-				.authorizeRequests().antMatchers(PUBLIC).permitAll()
+					// 다음 request에 대한 사용권한 check
+					.authorizeRequests().antMatchers(PUBLIC).permitAll()
 				
 				.and()
 					.authorizeRequests()	
-	                .antMatchers("/api/*").hasAnyRole("USER", "ADMIN")
+	                .antMatchers("/**").hasAnyRole("USER", "ADMIN")
 	            .and()
 	            	.authorizeRequests()
 	            	.anyRequest()
 	            	.authenticated()
 	                
 				.and()
-				// 세션 사용 X
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+					// 세션 사용 X
+					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
 				.and()
-				.logout()
-				.logoutUrl("/api/logout")
-				.logoutSuccessUrl("/api/result")
-				.addLogoutHandler(logoutHandler())
-				.invalidateHttpSession(false)
-				
+					.logout()
+					.logoutUrl("/api/logout")
+					.logoutSuccessUrl("/api/result")
+					.addLogoutHandler(logoutHandler())
+					.invalidateHttpSession(false)
+					
 				.and()	
-				// form login 사용 X. JSON 형식으로 사용자 정보 요청
-				.formLogin().disable()
-				
-				// jwt token 필터를 id/password 인증 필터 전에 추가
-				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtAuthorizationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)
-				
-				.exceptionHandling().authenticationEntryPoint(customJwtAuthEntryPoint());
-				
+					// form login 사용 X. JSON 형식으로 사용자 정보 요청
+					.formLogin().disable()
+					
+					// jwt token 필터를 id/password 인증 필터 전에 추가
+					.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+					.addFilterBefore(jwtAuthorizationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)
+					
+					.exceptionHandling().authenticationEntryPoint(customJwtAuthEntryPoint());
+					
 //				.and()
-//				.oauth2Login()
-//				// OAuth2 로그인 성공 후 사용자 정보를 가져올 때의 설정들을 담당
-//				.userInfoEndpoint()
-//				// 사용자 정보를 가져온 후 진행할 새로운 기능에 대해 기재
-//				.userService(customOAuth2UserService);
+//					.oauth2Login()
+//					// OAuth2 로그인 성공 후 사용자 정보를 가져올 때의 설정들을 담당
+//						.userInfoEndpoint()
+//						// 사용자 정보를 가져온 후 진행할 새로운 기능에 대해 기재
+//							.userService(customOAuth2UserService);	
 
 	}
 

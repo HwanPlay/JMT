@@ -249,14 +249,16 @@ public class UserController {
 						file.delete();
 				}
 			}
-
+			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 			saveFileName = dateFormat.format(new Date()) + '_'
 					+ UUID.randomUUID().toString().replace("-", "").substring(0, 10) + '.' + fileExtension;
 
+			System.out.println("저장중이요");
 			// 파일 저장
 			profileImgService.saveFile(multipartFile, realPath, saveFileName);
+			System.out.println("저장완료");
 
 			return saveFileName;
 		}
