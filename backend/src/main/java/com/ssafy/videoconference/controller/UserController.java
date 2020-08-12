@@ -185,7 +185,7 @@ public class UserController {
 
 			// 서버 폴더 경로명
 			// 파일은 http방식으로 저장되는 것이 아니라, 서버의 하드디스크 전체 경로에 맞추어서 저장
-			String realPath = servletContext.getRealPath(IMGFOLDER);
+			String realPath = IMGFOLDER;
 			System.out.println(realPath);
 			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
 			if (!userFileName.contains("default")) {
@@ -204,7 +204,7 @@ public class UserController {
 					+ UUID.randomUUID().toString().replace("-", "").substring(0, 10) + '.' + fileExtension;
 
 			// 파일 저장
-			profileImgService.saveFile(multipartFile, realPath, saveFileName);
+			profileImgService.saveFile(multipartFile, IMGFOLDER, saveFileName);
 
 			// 파일 업로드 후, 사용자 DB에 이미지명 저장
 			User user = new User();

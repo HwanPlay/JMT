@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -74,7 +75,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 						UserDetail userDetail = this.userDetailsService.loadUserByUsername(userId);
 						UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 								userDetail, null, userDetail.getAuthorities());
-						System.out.println("userDetail : "+ userDetail.toString());
 						SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 						System.out.println("z?");
 					}else {
@@ -84,8 +84,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 				// ExpiredJwtException : 403 에러 (Refresh 요청)
 				// 그 외의 Exception : 401 에러 (재 로그인 요청)
 			} catch (ExpiredJwtException e) {
-//				response.sendError(500, "z");
-//				response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "zzzzzz");
 				response.setStatus(HttpStatus.FORBIDDEN.value());
 				logger.error("JWT token is expired : {}", e.getMessage());
 				

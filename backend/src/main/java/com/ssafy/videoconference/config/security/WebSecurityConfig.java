@@ -31,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
+//	@Autowired
+//	private CustomOAuth2UserService customOAuth2UserService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -81,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				// OAuth2 로그인 성공 후 사용자 정보를 가져올 때의 설정들을 담당
 //				.userInfoEndpoint()
 //				// 사용자 정보를 가져온 후 진행할 새로운 기능에 대해 기재
-//				.userService(userService);
+//				.userService(customOAuth2UserService);
 
 	}
 
