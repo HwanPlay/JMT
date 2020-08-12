@@ -117,7 +117,7 @@ public class UserController {
 
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
 	@GetMapping("/user/findUserById")
-	public ResponseEntity<User> findUserByUserId(@CurrentUser UserDetail authUser) {
+	public ResponseEntity<FindUser> findUserByUserId(@CurrentUser UserDetail authUser) {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
 
@@ -135,7 +135,7 @@ public class UserController {
 			userService.modifyUser(user);
 			
 			// 새로운 Access Token 발급
-			jwtRefresh(user.getId(), response);
+		//	jwtRefresh(user.getId(), response);
 			
 			return ResponseEntity.ok(SUCCESS);
 		} else {
@@ -149,8 +149,6 @@ public class UserController {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
 		userService.modifyPw(user);
-		jwtRefresh(user.getId(), response);
-		
 		return ResponseEntity.ok(SUCCESS);
 	}
 	
@@ -158,7 +156,7 @@ public class UserController {
 	@PostMapping("/user/modifyPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody ModifyUserPw modify, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
-		if(!passwordEncoder.matches(modify.getOldPw(), authUser.getPw()))
+		if(!passwordEncoder.matches(modify.getOldPw(), userService.findPw(authUser.getId())))
 			return ResponseEntity.ok(FAIL);
 		
 		User user = new User();
@@ -166,8 +164,6 @@ public class UserController {
 		user.setId(authUser.getId());
 		
 		userService.modifyPw(user);
-		jwtRefresh(user.getId(), response);
-		
 		return ResponseEntity.ok(SUCCESS);
 	}
 
@@ -268,9 +264,6 @@ public class UserController {
 	@ApiOperation(value = "프로필사진 삭제 - 디폴트사진으로", response = String.class)
 	@GetMapping("/user/delProfileImg")
 	public ResponseEntity<String> saveProfileImg(@CurrentUser UserDetail authUser) {
-		// 사용자 DB에 저장된 프로필 사진
-		// UserDetail authUser = (UserDetail) authentication.getPrincipal();
-		// System.out.println(authentication.getPrincipal());
 		String userFileName = userService.findUserByUserId(authUser.getId()).getProfile_img();
 //		String realPath = servletContext.getRealPath(IMGFOLDER);
 		String realPath = IMGFOLDER;
