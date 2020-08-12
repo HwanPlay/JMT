@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <ProfileBasic />
+    <div style="height: 2rem;"></div>
     <ProfilePassword />
   </v-container>
 </template>
