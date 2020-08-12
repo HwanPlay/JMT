@@ -86,9 +86,10 @@ public class GroupServiceImpl implements GroupService {
 	
 	
 	@Override
-	public void changeHasMeeting(int groupNo) {
+	public boolean changeHasMeeting(int groupNo) {
 		Group group = findById(groupNo);
 		group.setHasmeeting(!group.isHasmeeting());
+		return !group.isHasmeeting();
 	}
 
 
