@@ -56,7 +56,7 @@
               
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <GroupMembers :membersInfo=members :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
+                <GroupMembers :membersInfo=members @refresh="getGroupMembers" :groupNo=groupInfo.groupNo :hostId=groupInfo.hostId />
               </v-card-actions>
             </v-col>
           </v-card>
@@ -89,17 +89,17 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
 import axios from 'axios';
+
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+
 import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
 import EditGroup from './EditGroup.vue';
 import GroupCalendar from './GroupCalendar.vue';
-
-import SERVER from '../../api/spring.js';
-
-import SockJS from 'sockjs-client';
-import Stomp from 'webstomp-client';
 
 export default {
   name: 'group',
@@ -122,42 +122,9 @@ export default {
     reconnect : 0,
     token : '',
     recvList : [],
-    tmp_meeting : false,
+    tmp_meeting : null,
   }),
   methods: {
-    getEvents ({ start, end }) {
-      const events = [];
-
-      const min = new Date(`${start.date}T00:00:00`);
-      const max = new Date(`${end.date}T23:59:59`);
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      const eventCount = this.rnd(days, days + 20);
-
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
-
-        events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: !allDay,
-        });
-      }
-
-      this.events = events;
-    },
-    getEventColor (event) {
-      return event.color;
-    },
-    rnd (a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-
     exitGroup(){
       axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
         .then(res => {
@@ -169,12 +136,20 @@ export default {
 
     changeHasMeeting(){
       axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
-        .then(function(res) {
+        .then(res => {
           this.tmp_meeting = res.data.hasMeeting;
         })
-        .finally(function() {
+        .finally( () => {
           this.send();
         });
+    },
+
+    getGroupMembers(){
+      axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
+        .then(res => {
+          this.members = res.data.groupMembers;
+        })
+        .catch(err => console.log(err.response));
     },
 
     startMeeting(){
@@ -185,7 +160,9 @@ export default {
       //   })
       //   .catch(err => console.log(err));
       this.changeHasMeeting();
-      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+      this.$router.push({name: 'Conference',
+        params: { roomId : this.groupInfo.roomId }, 
+        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }});
     },
 
     joinMeeting(){
@@ -196,7 +173,7 @@ export default {
     connect(param) {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
+        this.ws.subscribe('/send/meeting/' + param, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
@@ -207,7 +184,7 @@ export default {
 
     send() {
       const msg = {
-        isMeeting : this.tmp_meeting,
+        meeting : this.tmp_meeting,
         groupNo : this.groupInfo.groupNo
       };
       this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
@@ -234,12 +211,7 @@ export default {
 
   watch:{
     groupInfo(){
-      console.log('diff group');
-      axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
-        .then(res => {
-          this.members = res.data.groupMembers;
-        })
-        .catch(err => console.log(err.response));    
+      this.getGroupMembers();
     }
   }
 };

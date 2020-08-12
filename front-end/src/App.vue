@@ -13,7 +13,7 @@
             <v-btn text style="height: 100%; outline:none;">
               <!-- <v-icon>fas fa-home</v-icon> -->
               <span class="routerLink" @click="closeWebrtc">
-                <v-img :src="require('./JMTwithLogo.png')" max-height="60px" max-width="120px"></v-img>
+                <v-img :src="require('./JMTLogo.png')" max-height="60px" max-width="70px"></v-img>
                 <!-- Home -->
               </span>
             </v-btn>

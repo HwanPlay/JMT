@@ -6,11 +6,16 @@
         
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(255, 128, 74)">
+            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(255, 128, 74)" @click='meetingModalOn=true'>
               <v-icon size="60">fas fa-video</v-icon>
             </v-btn>
+            <v-dialog width='500px' v-model='meetingModalOn'>
+              <StartableGroups />
+            </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 회의</h5>
+
+
           <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToGroup">
               <v-icon size="60">fas fa-user-friends</v-icon>
@@ -71,16 +76,18 @@
 </template>
 
 <script>
-import CreateGroup from '../components/Group/CreateGroup.vue';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import SERVER from '../api/spring.js';
 
+import CreateGroup from '../components/Group/CreateGroup.vue';
+import StartableGroups from '../components/Group/StartableGroups.vue';
 
 export default {
   name: 'Home',
   components: {
     CreateGroup,
+    StartableGroups
   },
   methods: {
     goToGroup () {
@@ -98,7 +105,7 @@ export default {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recvList.push(JSON.parse(res.body));
+          this.recvList.push(res.body);
           console.log(this.recvList);
         });
       });
