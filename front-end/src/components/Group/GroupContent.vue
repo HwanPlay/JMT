@@ -187,10 +187,10 @@ export default {
 
     changeHasMeeting(){
       axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
-        .then(res => {
+        .then(function(res) {
           this.tmp_meeting = res.data.hasMeeting;
         })
-        .finally(() => {
+        .finally(function() {
           this.send();
         });
     },
