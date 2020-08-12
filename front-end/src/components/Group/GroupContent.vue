@@ -67,7 +67,10 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn dark color="red" @click='destroyGroup'>그룹 해체</v-btn>
+            <v-btn dark color="red" @click='onModal=true'>그룹 관리</v-btn>
+            <v-dialog v-model="onModal" max-width="500px">
+              <EditGroup @close="onModal=false" :groupInfo=groupInfo />
+            </v-dialog>
           </div>
           <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
             그룹 탈퇴
@@ -90,7 +93,7 @@ import axios from 'axios';
 import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
-
+import EditGroup from './EditGroup.vue';
 import GroupCalendar from './GroupCalendar.vue';
 
 import SERVER from '../../api/spring.js';
@@ -104,29 +107,16 @@ export default {
     MemberCard,
     GroupMembers,
     InviteMember,
-    GroupCalendar
+    GroupCalendar,
+    EditGroup,
   },
   props: {
     groupInfo: Object,
   },
   data: () => ({
-    members : [],
-    type: 'month',
-    types: ['month', 'week', 'day', '4day'],
-    mode: 'stack',
-    modes: ['stack', 'column'],
-    weekday: [0, 1, 2, 3, 4, 5, 6],
-    weekdays: [
-      { text: 'Sun - Sat', value: [0, 1, 2, 3, 4, 5, 6] },
-      { text: 'Mon - Sun', value: [1, 2, 3, 4, 5, 6, 0] },
-      { text: 'Mon - Fri', value: [1, 2, 3, 4, 5] },
-      { text: 'Mon, Wed, Fri', value: [1, 3, 5] },
-    ],
-    value: '',
-    events: [],
-    colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    onModal: false,
 
+    members : [],
     sock : null,
     ws : null,
     reconnect : 0,
@@ -168,14 +158,6 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
 
-    destroyGroup(){
-      axios.delete(SERVER.URL+'/group/delno/'+this.groupInfo.groupNo)
-        .then(() => {
-          this.$router.push('/Home');
-        })
-        .catch(err => console.log(err.response));
-    },
-
     exitGroup(){
       axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
         .then(res => {
@@ -214,7 +196,7 @@ export default {
     connect(param) {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + param, res => {
+        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
@@ -241,17 +223,18 @@ export default {
   },
 
   mounted() {
-    axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
-      .then(res => {
-        this.members = res.data.groupMembers;
-      })
-      .catch(err => console.log(err.response));
-    this.connect(this.groupInfo.groupNo);
+    // axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
+    //   .then(res => {
+    //     this.members = res.data.groupMembers;
+    //   })
+    //   .catch(err => console.log(err.response));
+    this.connect();
   },
 
 
   watch:{
     groupInfo(){
+      console.log('diff group');
       axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           this.members = res.data.groupMembers;
