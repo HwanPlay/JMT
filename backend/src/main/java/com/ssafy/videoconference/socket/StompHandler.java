@@ -37,7 +37,6 @@ public class StompHandler implements ChannelInterceptor {
 				System.out.println("뭔가 에러 떴음!!!!!!");
 			}
 		}
-		System.out.println(message + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return message;
 	}
 
