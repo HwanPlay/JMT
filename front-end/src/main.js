@@ -78,10 +78,12 @@ axios.interceptors.response.use(
         .then(res => {
           if (res.status === 200){  // A토큰 재발급 성공
             console.log('old', localStorage.getItem('accessToken'));
-            store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
-            // isRefreshing = false;
-            // localStorage.setItem('accessToken', res.headers.accesstoken);
-            console.log('new Token!!!', localStorage.getItem('accessToken'));
+            if (res.headers.accessToken !== undefined){
+              store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
+              // isRefreshing = false;
+              // localStorage.setItem('accessToken', res.headers.accesstoken);
+              console.log('new Token!!!', localStorage.getItem('accessToken'));
+            }
             if (localStorage.getItem('accessToken') === undefined || !localStorage.getItem('accessToken')){
               return ;
             }
