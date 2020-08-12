@@ -72,6 +72,10 @@
 
 <script>
 import CreateGroup from '../components/Group/CreateGroup.vue';
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+import SERVER from '../api/spring.js';
+
 
 export default {
   name: 'Home',
@@ -87,13 +91,38 @@ export default {
     },
     closeModal (){
       this.modalOn = false;
-    }
+    },
+
+    connect() {
+      this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
+        console.log('소켓 연결 성공', frame);
+        this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
+          console.log('구독으로 받은 메세지 입니다', res.body);
+          this.recvList.push(JSON.parse(res.body));
+          console.log(this.recvList);
+        });
+      });
+    },
   },
+
+  created() {
+    this.sock = new SockJS(SERVER.URL2);
+    this.ws = Stomp.over(this.sock);
+  },
+
+  mounted() {
+    this.connect();
+  },
+
   data () {
     return {
       clock: new Date(),
       timerCount: 5,
       modalOn: false,
+      groupNo : null,
+      sock : null,
+      ws : null,
+      recvList : [],
     };
   },
   watch: {

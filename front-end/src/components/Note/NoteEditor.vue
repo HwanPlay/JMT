@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="8">
+  <b-col cols="7">
     <div class="editor">
       <!-- Upper Menu -->
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">

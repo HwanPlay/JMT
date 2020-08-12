@@ -62,9 +62,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		String accessToken = null;
 
 		if (token != null && token.startsWith("Bearer ")) {
-			System.out.println(token);
 			accessToken = token.substring(7);
-			System.out.println(accessToken);
 			// AccessToken Claim(payload)에 저장된 userId 가져오기
 			// Claim으로 변환 도중 예외가 발생하면 유효하지 않은 토큰으로 판단
 			try {
