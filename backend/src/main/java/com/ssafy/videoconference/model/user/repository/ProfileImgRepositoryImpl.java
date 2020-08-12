@@ -17,6 +17,7 @@ public class ProfileImgRepositoryImpl implements IProfileImgRepository {
 			dir.mkdirs();
 		
 		try {
+			System.out.println(rootPath + " " + saveFileName);
 			File file = new File(rootPath, saveFileName);
 			multipartFile.transferTo(file);
 		} catch (IllegalStateException | IOException e) {
