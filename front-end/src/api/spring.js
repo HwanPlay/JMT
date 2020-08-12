@@ -1,6 +1,6 @@
 export default {
   URL: 'http://joinmeeting.tk/videoconference/api',
-  URL2: 'http//joinmeeting.tk/videoconference/',
+  URL2: 'http://joinmeeting.tk/videoconference/ws',
   ROUTES: {
     
     getProfile: '/account/', // 뒤에 사용자 ID, // 결과값은 ID, 프로필사진, 이름

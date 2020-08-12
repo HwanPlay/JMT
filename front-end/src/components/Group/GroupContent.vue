@@ -211,9 +211,9 @@ export default {
     },
 
     connect() {
-      this.ws.connect({'token' : this.$store.state.accessToken}, function(frame) {
+      this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, function(res) {
+        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
@@ -234,7 +234,7 @@ export default {
   },
 
   created() {
-    this.sock = new SockJS(SERVER.URL2 + '/ws');
+    this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
 
   },
