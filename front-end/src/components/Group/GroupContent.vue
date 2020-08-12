@@ -211,12 +211,6 @@ export default {
     },
 
 
-
-    joinMeeting(){
-      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
-    },
-
-
     connect(param) {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);

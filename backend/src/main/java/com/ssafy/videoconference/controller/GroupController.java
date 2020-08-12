@@ -175,6 +175,8 @@ public class GroupController {
 	@PutMapping("/hasmeeting/{groupNo}")
 	public ResponseEntity<ApiResult> changeHasMeeting(@PathVariable("groupNo") int groupNo) {
 		boolean hasMeeting = groupService.changeHasMeeting(groupNo);
+		if(hasMeeting) System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!true!!!!!!!!!!!!!!!");
+		else System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!false!!!!!!!!!!!!!!!!!!!!!!!!");
 		return GroupResult.build(hasMeeting);
 	}
 	
