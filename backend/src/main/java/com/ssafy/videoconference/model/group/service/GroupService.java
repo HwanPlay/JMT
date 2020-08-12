@@ -2,6 +2,7 @@ package com.ssafy.videoconference.model.group.service;
 
 import java.util.List;
 
+import com.ssafy.videoconference.controller.command.ChangeGroupAllCommand;
 import com.ssafy.videoconference.controller.command.ChangeGroupNameCommand;
 import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.controller.command.ChangeIntroCommand;
@@ -39,7 +40,10 @@ public interface GroupService {
 	void changeIntro(ChangeIntroCommand command);
 	
 	
-	void changeHasMeeting(int groupNo);
+	boolean changeHasMeeting(int groupNo);
+
+
+	void changeAll(ChangeGroupAllCommand command);
 
 
 }

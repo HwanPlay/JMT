@@ -41,7 +41,7 @@
               <v-alert :value="isVerified === false" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
                 <div>인증 코드를 다시 확인해주세요!</div>
               </v-alert>
-              <span class="caption grey--text text--darken-1">서비스 사용에 필요한 이름과 로그인 시 필요한 이메일을 입력해주세요</span>
+              <span class="caption grey--text text--darken-1">서비스 사용에 필요한 이름과 이메일을 입력해주세요</span>
             </v-card-text>
           </v-window-item>
 
@@ -78,8 +78,12 @@
         <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="step++" style="outline: none;"> Next 
         </v-btn>
       </v-card-actions>
-      <v-alert :value="alert" color="pink" dark border="top" class="m-0" transition="scale-transition">
-        <v-row>
+      <v-alert :value="alert" dense type='error' prominent color="pink" dark border="left" class="m-0" transition="scale-transition">
+        지금 취소하면 작성한 모든 정보가 사라집니다. <br> 회원가입 취소를 원하시면 
+        <strong><span style='text-decoration: underline; cursor: pointer;' @click='close'>
+          이곳
+        </span></strong>을 클릭해주세요
+        <!-- <v-row>
           <v-col cols="1" class="ml-6">
             <v-icon size="50">fas fa-exclamation</v-icon>
           </v-col>
@@ -87,7 +91,7 @@
         <div>지금 취소하면 작성한 정보가 모두 사라집니다.</div>
         <div class="pb-1 mt-2">회원가입을 취소하시려면 <span style="text-decoration: underline; cursor: pointer;" @click="close">이곳</span>을 클릭해주세요.</div>
           </v-col>
-        </v-row> 
+        </v-row>  -->
       </v-alert>
     </v-card>
     </v-form>

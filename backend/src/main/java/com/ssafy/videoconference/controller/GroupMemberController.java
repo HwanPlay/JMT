@@ -25,7 +25,6 @@ import com.ssafy.videoconference.model.groupmember.bean.GroupMember;
 import com.ssafy.videoconference.model.groupmember.service.Group_memberService;
 
 
-
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/api/groupmember")
