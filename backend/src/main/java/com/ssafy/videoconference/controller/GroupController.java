@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.videoconference.controller.command.AddMemberCommand;
+import com.ssafy.videoconference.controller.command.ChangeGroupAllCommand;
 import com.ssafy.videoconference.controller.command.ChangeGroupNameCommand;
 import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.controller.command.ChangeIntroCommand;
 import com.ssafy.videoconference.controller.command.CreateGroupCommand;
+import com.ssafy.videoconference.controller.payload.ChangeGroupAllPayload;
 import com.ssafy.videoconference.controller.payload.ChangeGroupNamePayload;
 import com.ssafy.videoconference.controller.payload.ChangeHostIdPayload;
 import com.ssafy.videoconference.controller.payload.ChangeIntroPayload;
@@ -55,10 +57,12 @@ public class GroupController {
 	
 	
 	@PostMapping("/add")
-	public ResponseEntity<ApiResult> addGroup(@RequestBody CreateGroupPayload payload) {
+	public ResponseEntity<ApiResult> addGroup(@RequestBody CreateGroupPayload payload, @CurrentUser UserDetail user) {
 		CreateGroupCommand command = payload.toCommand();
 		Group gp = groupService.createGroup(command);
-		return GroupResult.build_add(gp);
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
@@ -150,6 +154,15 @@ public class GroupController {
 													@RequestBody ChangeIntroPayload payload) {
 		ChangeIntroCommand command = payload.toCommand(groupNo);
 		groupService.changeIntro(command);
+		return Result.ok();
+	}
+	
+	
+	@PutMapping("/all/{groupNo}")
+	public ResponseEntity<ApiResult> changeGroupAll(@PathVariable("groupNo") int groupNo,
+													@RequestBody ChangeGroupAllPayload payload) {
+		ChangeGroupAllCommand command = payload.toCommand(groupNo);
+		groupService.changeAll(command);
 		return Result.ok();
 	}
 	

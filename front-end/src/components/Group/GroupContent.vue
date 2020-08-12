@@ -210,10 +210,10 @@ export default {
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     },
 
-    connect() {
+    connect(param) {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
+        this.ws.subscribe('/send/meeting/' + param, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
@@ -245,7 +245,7 @@ export default {
         this.members = res.data.groupMembers;
       })
       .catch(err => console.log(err.response));
-    this.connect();
+    this.connect(this.groupInfo.groupNo);
   },
 
 

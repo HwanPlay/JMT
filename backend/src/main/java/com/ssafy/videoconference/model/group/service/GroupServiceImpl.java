@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.videoconference.controller.command.ChangeGroupAllCommand;
 import com.ssafy.videoconference.controller.command.ChangeGroupNameCommand;
 import com.ssafy.videoconference.controller.command.ChangeHostIdCommand;
 import com.ssafy.videoconference.controller.command.ChangeIntroCommand;
@@ -94,6 +95,15 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public List<Group> findByUserId(String userId) {
 		return groupRepository.findByUserId(userId);
+	}
+
+
+	@Override
+	public void changeAll(ChangeGroupAllCommand command) {
+		Group group = findById(command.getGroupNo());
+		group.setGroupName(command.getGroupName());
+		group.setGroupIntro(command.getGroupIntro());
+		groupRepository.save(group);
 	}
 
 }
