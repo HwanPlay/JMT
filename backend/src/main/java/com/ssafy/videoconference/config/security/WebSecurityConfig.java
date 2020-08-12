@@ -32,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
-	@Autowired
-	private CustomOAuth2UserService customOAuth2UserService;
+//	@Autowired
+//	private CustomOAuth2UserService customOAuth2UserService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
