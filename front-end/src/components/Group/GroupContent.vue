@@ -69,7 +69,7 @@
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
             <v-btn dark color="red" @click='onModal=true'>그룹 관리</v-btn>
             <v-dialog v-model="onModal" max-width="500px">
-              <EditGroup @close="closeModal" :groupInfo=groupInfo />
+              <EditGroup @close="onModal=false" :groupInfo=groupInfo />
             </v-dialog>
           </div>
           <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
@@ -155,18 +155,6 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-
-    closeModal(){
-      this.onModal = false;
-    },
-
-    destroyGroup(){
-      axios.delete(SERVER.URL+'/group/delno/'+this.groupInfo.groupNo)
-        .then(() => {
-          this.$router.push('/Home');
-        })
-        .catch(err => console.log(err.response));
     },
 
     exitGroup(){

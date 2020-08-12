@@ -1,5 +1,5 @@
 <template>
-    <v-card flat style="max-width: 500px; height: 500px;">
+    <v-card flat style="max-width: 500px;">
     <v-container>
       <v-snackbar v-model="snackbar" absolute top right color="success">
         <span>수정 완료!!</span>
@@ -19,7 +19,7 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn text color="blue" @click="submit">
-          그룹 생성
+          정보 수정
         </v-btn>
         </v-card-actions>
         <v-alert :value="alert" outlined dense type="error" prominent border="left" transition="scale-transition">
@@ -45,7 +45,6 @@ export default {
       editGroupInfo:{
         groupIntro: this.groupInfo.groupIntro,
         groupName: this.groupInfo.groupName,
-        hostId: this.$store.state.userId
       },
       rules: {
         name: [val => (val || '').length > 0 || '그룹 이름을 정해주세요'],
@@ -60,15 +59,12 @@ export default {
   },
 
   methods: {
-    reset () {
-      this.$refs.form.reset();
-    },
     submit () {
       this.snackbar = true;
-      axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
+      axios.put(SERVER.URL + '/group/all/'+this.groupInfo.groupNo, this.editGroupInfo)
         .then(res => {
-          console.log('CreateGroup!', res);
-          this.$router.push('/Home').catch(()=>{});
+          console.log('EditGroupInfo!', res);
+          this.$store.commit('SET_GROUP_INFO', res);
           this.reset();
           this.$emit('close');
         })
