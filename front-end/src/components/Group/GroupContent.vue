@@ -14,11 +14,12 @@
         </v-col>
 
         <v-col cols="4">
+
           <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
             회의 시작
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
-          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId !== this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
+          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
             회의 참여
             <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
           </v-btn>
@@ -66,7 +67,10 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn dark color="red" @click='destroyGroup'>그룹 해체</v-btn>
+            <v-btn dark color="red" @click='onModal=true'>그룹 관리</v-btn>
+            <v-dialog v-model="onModal" max-width="500px">
+              <EditGroup @close="closeModal" :groupInfo=groupInfo />
+            </v-dialog>
           </div>
           <v-btn dark color="red" @click="exitGroup" v-if="groupInfo.hostId !== this.$store.state.userId">
             그룹 탈퇴
@@ -89,10 +93,13 @@ import axios from 'axios';
 import MemberCard from './MemberCard.vue';
 import GroupMembers from './GroupMembers.vue';
 import InviteMember from './InviteMember.vue';
-
+import EditGroup from './EditGroup.vue';
 import GroupCalendar from './GroupCalendar.vue';
 
 import SERVER from '../../api/spring.js';
+
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 
 export default {
   name: 'group',
@@ -100,28 +107,21 @@ export default {
     MemberCard,
     GroupMembers,
     InviteMember,
-    GroupCalendar
+    GroupCalendar,
+    EditGroup,
   },
   props: {
     groupInfo: Object,
   },
   data: () => ({
+    onModal: false,
+
     members : [],
-    type: 'month',
-    types: ['month', 'week', 'day', '4day'],
-    mode: 'stack',
-    modes: ['stack', 'column'],
-    weekday: [0, 1, 2, 3, 4, 5, 6],
-    weekdays: [
-      { text: 'Sun - Sat', value: [0, 1, 2, 3, 4, 5, 6] },
-      { text: 'Mon - Sun', value: [1, 2, 3, 4, 5, 6, 0] },
-      { text: 'Mon - Fri', value: [1, 2, 3, 4, 5] },
-      { text: 'Mon, Wed, Fri', value: [1, 3, 5] },
-    ],
-    value: '',
-    events: [],
-    colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    sock : null,
+    ws : null,
+    reconnect : 0,
+    token : '',
+    recvList : [],
   }),
   methods: {
     getEvents ({ start, end }) {
@@ -157,6 +157,10 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
 
+    closeModal(){
+      this.onModal = false;
+    },
+
     destroyGroup(){
       axios.delete(SERVER.URL+'/group/delno/'+this.groupInfo.groupNo)
         .then(() => {
@@ -172,6 +176,18 @@ export default {
         })
         .catch(err => console.log(err.response));
     },
+
+
+    changeHasMeeting(){
+      axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
+        .then(() => {
+          console.log('Changed HasMeeting!');
+        })
+        .finally(() => {
+          this.send();
+        });
+    },
+
     startMeeting(){
       // axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
       //   .then(() => {
@@ -179,28 +195,63 @@ export default {
       //     this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
       //   })
       //   .catch(err => console.log(err));
+      this.changeHasMeeting();
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
-
     },
+
+
     joinMeeting(){
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+    },
+
+    connect() {
+      this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
+        console.log('소켓 연결 성공', frame);
+        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
+          console.log('구독으로 받은 메세지 입니다', res.body);
+          this.recvList.push(JSON.parse(res.body));
+          console.log(this.recvList);
+        });
+      });
+    },
+
+
+    send() {
+      const msg = {
+        isMeeting : this.groupInfo.hasMeeting,
+        groupNo : this.groupInfo.groupNo
+      };
+      this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }
+
+
+  },
+
+  created() {
+    this.sock = new SockJS(SERVER.URL2);
+    this.ws = Stomp.over(this.sock);
+
   },
 
   mounted() {
-    axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
-      .then(res => {
-        this.members = res.data.groupMembers;
-      })
-      .catch(err => console.log(err.response));
+    // axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
+    //   .then(res => {
+    //     this.members = res.data.groupMembers;
+    //   })
+    //   .catch(err => console.log(err.response));
+    this.connect();
   },
+
+
   watch:{
     groupInfo(){
+      console.log('diff group');
       axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
         .then(res => {
           this.members = res.data.groupMembers;
         })
-        .catch(err => console.log(err.response));    }
+        .catch(err => console.log(err.response));    
+    }
   }
 };
 </script>

@@ -3664,6 +3664,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
             track.enabled = false;
+            connection.streamEvents[stream.streamid].isAudioMuted = true;
              console.log("화면끄기입니다.");
           });
           console.log("화면끄기입니다.");
@@ -3690,13 +3691,14 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         if (typeof type == 'undefined' || type == 'audio') {
           getTracks(stream, 'audio').forEach(function(track) {
             track.enabled = true;
-            connection.streamEvents[stream.streamid].isAudioMuted = false;
+
           });
           console.log("음소거 해제 되었습니다.");
         }
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
+            
             track.enabled = true;
           });
           console.log("화면 켜기 입니다.");
@@ -4692,7 +4694,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
     connection.session = {
       audio: true,
-      video: true
+      video: false
     };
 
     connection.enableFileSharing = false;

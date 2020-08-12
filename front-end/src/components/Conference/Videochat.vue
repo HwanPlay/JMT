@@ -22,7 +22,7 @@
           </v-btn>
         </div>
         <v-bottom-navigation
-          
+          dark
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
@@ -37,20 +37,20 @@
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="videoOnOff = !videoOnOff">
-            <span v-show="videoOnOff">OFF</span>
-            <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
+          <v-btn @click="onVideo" >
+            <span v-show="!videoOnOff">OFF</span>
+            <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
-            <span v-show="!videoOnOff">ON</span>
-            <v-icon v-show="!videoOnOff">mdi-video</v-icon>
+            <span v-show="videoOnOff">ON</span>
+            <v-icon v-show="videoOnOff">mdi-video</v-icon>
           </v-btn>
 
-          <v-btn @click="micOnOff = !micOnOff">
-            <span v-show="micOnOff">OFF</span>
-            <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
+          <v-btn @click="onMic">
+            <span v-show="!micOnOff">OFF</span>
+            <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
 
-            <span v-show="!micOnOff">ON</span>
-            <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
+            <span v-show="micOnOff">ON</span>
+            <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
           <v-btn @click="castOnOff = !castOnOff">
@@ -81,10 +81,10 @@
             <v-icon>mdi-book</v-icon>
           </v-btn>
 
-          <v-btn @click="onCanvas" :disabled="disableCanvasBool">
+          <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
             <span>Canvas</span>
             <v-icon>mdi-palette</v-icon>
-          </v-btn>
+          </v-btn> -->
 
           <v-btn @click="onLeave">
             <span>Leave</span>
@@ -93,97 +93,6 @@
         </v-bottom-navigation>
       </div>
 
-      <!-- <div class="footer">
-          <div class="RoomInput">
-            채팅방이름을 입력하세요
-            <input type="text" placeholder="채팅방 이름을 입력해주세요" v-model="roomid" />
-          </div>
-
-          <div class="MenuBtn">
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onJoin"
-            >
-              <div class="btnIcon">
-                <b-icon icon="camera-video" font-scale="2"></b-icon>
-              </div>
-            </button>
-
-            <v-btn @click="onVideo">
-              <span v-show="videoOnOff">OFF</span>
-              <v-icon v-show="videoOnOff">mdi-video-off</v-icon>
-              
-              <span v-show="!videoOnOff">ON</span>
-              <v-icon v-show="!videoOnOff">mdi-video</v-icon>
-            </v-btn>
-
-
-            <v-btn @click="onMic">
-              <span v-show="micOnOff">OFF</span>
-              <v-icon v-show="micOnOff">mdi-microphone-off</v-icon>
-              
-              <span v-show="!micOnOff">ON</span>
-              <v-icon v-show="!micOnOff">mdi-microphone</v-icon>
-            </v-btn>
-
-            <v-btn @click="onChat">
-              <span>Chatting</span>
-              <v-icon>mdi-forum</v-icon>
-            </v-btn>
-
-
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onChat"
-            >
-              <div class="btnIcon">
-                <b-icon icon="chat-dots-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onNote"
-            >
-              <div class="btnIcon">
-                <b-icon icon="markdown-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onBroadcast"
-            >
-              <div class="btnIcon">
-                <b-icon icon="eject-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="offBroadcast"
-            >
-              <div class="btnIcon">
-                <b-icon icon="eject-fill" font-scale="2" style="transform: rotateZ(180deg); "></b-icon>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-round btn-lg bg-primary border-0"
-              @click="onLeave"
-            >
-              <div class="btnIcon">
-                <b-icon icon="Door-open-fill" font-scale="2"></b-icon>
-              </div>
-            </button>
-            <div class="container"></div>
-          </div>
-      </div> -->
-
-
     </div>
     <div id="note-container">
       <NoteEditor />
@@ -191,9 +100,10 @@
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
-          <div class="col-md-8 name pl-2">
+          <div class="col-md-8 name pl-3">
             <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i>
-            <h4 class="ml-1 mb-0">{{ this.$store.state.myName }}</h4>
+            <h4 class="ml-1 mb-0">{{ this.$store.state.myName}}
+            </h4>
           </div>
           <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center pt-1" @click="onChat"></i>
@@ -228,7 +138,7 @@ import Broadcast from "../../api/broadcast";
 import $ from "jquery";
 import Vue from "vue";
 // import WebRTC from '../../api/webrtc';
-import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
 // import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 
@@ -250,7 +160,7 @@ export default {
     return {
       img: null,
       disableInputBool: true,
-      disableCanvasBool: true,
+      // disableCanvasBool: true,
       chatContainer: null,
       value: "",
       textArea: null,
@@ -278,6 +188,63 @@ export default {
     };
   },
   methods: {
+    //회의방 참가
+    onJoin() {
+      this.disableInputBool = false;
+      this.connection.session = {
+        data: true,
+        video: false,
+        audio: true
+      };
+      this.connection.openOrJoin(this.roomId);
+      document.getElementById("videos-container").style.display = "block";
+      this.overlay = false;
+    },
+    //회의방 나가기
+    onLeave() {
+      this.connection.dontAttachStream = true;
+      this.broadcast.dontAttachStream = true;
+      // stop all local cameras
+      this.connection.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+      });
+      this.broadcast.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+      });
+      document.getElementById("videos-container").style.display = "none";
+      console.log("여기가 1번")
+      this.$router.push("/Group");
+      console.log("여기가 2번")
+ },
+    //비디오 끄고,켜기
+    onVideo() {
+      if (this.videoBool == false) {
+        let localStream = this.connection.attachStreams[0];
+        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
+        localStream.mute("video");
+
+        // console.log(this.connection.streamEvents);
+        // console.log(
+        //   this.connection.streamEvents[localStream.streamid].session.audio
+        // );
+        // console.log(localStream);
+        this.videoBool = !this.videoBool;
+
+      } else {
+        let localStream = this.connection.attachStreams[0];
+        this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
+        localStream.unmute("video");
+
+        
+        // console.log(this.connection.streamEvents);
+        // console.log(
+        //   this.connection.streamEvents[localStream.streamid].session.audio
+        // );
+        // console.log(localStream);
+        this.videoBool = !this.videoBool;
+      }
+      this.videoOnOff = !this.videoOnOff;
+    },
     onMic() {
       this.micOnOff = !this.micOnOff;
       if (this.AudioBool == false) {
@@ -347,72 +314,19 @@ export default {
         this.Chatbool = false;
       }
     },
-    onCanvas() {
-      this.disableCanvasBool = true;
-      this.designer.widgetHtmlURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
-      this.designer.widgetJsURL =
-        "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-      this.designer.appendTo(document.getElementById("widget-container"));
-    },
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
-    },
-    onJoin() {
-      this.disableInputBool = false;
-      this.connection.session = {
-        data: true,
-        video: true,
-        audio: true
-      };
-      this.connection.openOrJoin(this.roomId);
-      document.getElementById("videos-container").style.display = "block";
-      this.overlay = false;
-    },
-    onVideo() {
-      this.videoOnOff = !this.videoOnOff;
-      if (this.videoBool == false) {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
-        this.videoBool = !this.videoBool;
-      } else {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
-        localStream.unmute("video");
-        this.connection.streamEvents[localStream.streamid].session = {
-          audio: true,
-          video: true
-        };
-        console.log(this.connection.streamEvents);
-        console.log(
-          this.connection.streamEvents[localStream.streamid].session.audio
-        );
-        console.log(localStream);
-        this.videoBool = !this.videoBool;
-      }
-    },
-    onLeave() {
-      this.connection.dontAttachStream = true;
-      this.broadcast.dontAttachStream = true;
-      // stop all local cameras
-      this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      this.broadcast.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      document.getElementById("videos-container").style.display = "none";
-      this.$router.push("Group");
-    },
+    // onCanvas() {
+    //   this.disableCanvasBool = true;
+    //   this.designer.widgetHtmlURL =
+    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
+    //   this.designer.widgetJsURL =
+    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
+    //   this.designer.appendTo(document.getElementById("widget-container"));
+    // },
+    // onCapture() {
+    //   this.img = this.$refs.webrtc.capture();
+    // },
+
+
     onError(error, stream) {
       console.log("On Error Event", error, stream);
     },
@@ -468,6 +382,11 @@ export default {
   },
   mounted() {
     this.onJoin();
+    for (var group in this.$store.state.myGroups) {
+      if (this.roomId === group.roomId) {
+        console.log(group)
+      }
+    }
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       ".videos-container"
@@ -475,7 +394,7 @@ export default {
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
     );
-    this.designer = new CanvasDesigner();
+    // this.designer = new CanvasDesigner();
   },
   destroyed() {
     this.onLeave();
@@ -484,24 +403,11 @@ export default {
 </script>
 
 <style lang="scss">
-.video_list {
-  float: left;
-  position: relative;
-  top: 0;
-  bottom: 0;
-  height: 100px;
-  width: 100%;
-  overflow-y: auto;
-  background-color: black;
-}
-
 .videos-container video {
   height: 100px;
   overflow-x: hidden;
 }
-// .Main-videos-container {
-//   height: 100%;
-// }
+
 .Main-videos-container video {
   height: 90%;
   overflow-x: hidden;
@@ -511,6 +417,7 @@ export default {
   height: 100%;
   width: 100%;
   float: left;
+  overflow-y: hidden;
 }
 .Minivideo_list {
   position: relative;
@@ -535,7 +442,7 @@ export default {
   float: right;
   width: 30%;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   background-color: white;
 }
 
@@ -570,9 +477,7 @@ export default {
   padding: 0;
   padding-bottom: 0px;
 }
-.main {
-  background-color: rgb(7, 14, 29);
-}
+
 .MainContainer {
   position: relative;
   margin-top: 0;
@@ -580,28 +485,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-}
-.RoomInput {
-  color: white;
-  font-size: 20px;
-}
-#RoomInput {
-  width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
-  margin: 8px 0;
-  outline: none;
-  padding: 8px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-#RoomInput:focus {
-  border-color: dodgerBlue;
-  box-shadow: 0 0 8px 0 dodgerBlue;
-}
-.btn {
-  -webkit-appearance: default-button;
-  font-size: 12px;
 }
 
 #widget-container {
@@ -612,10 +495,10 @@ export default {
   border-top: 0;
   border-bottom: 0;
   margin-top: 50px;
+
 }
 #input-text-chat {
   position: relative;
-  height: 83px;
   width: 100%;
   border: 2px solid #aaa;
   border-radius: 4px;
@@ -625,6 +508,7 @@ export default {
   transition: 0.3s;
   background-color: white;
   z-index: 4;
+  overflow: hidden;
 }
 
 .video_list_videOrshow {
@@ -649,36 +533,6 @@ export default {
   border-color: blue transparent transparent transparent;
 }
 
-.btn-round {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.btn-round.btn-lg {
-  width: 48px;
-  height: 48px;
-}
-
-.btn-round.btn-sm {
-  width: 34px;
-  height: 34px;
-}
-
-.btn-round.btn-xs {
-  width: 24px;
-  height: 24px;
-}
-.btn btn-success btn-round btn-lg {
-  position: absolute;
-  left: 10px;
-}
-
-.btnIcon {
-  position: relative;
-  top: 0;
-  left: -5px;
-}
 
 .chat-main {
   position: relative;
@@ -687,7 +541,7 @@ export default {
 }
 .header-one {
   margin: 0;
-  height: 10%;
+  height: 100px;
   position: relative;
   width: 100%;
   background: #404040;
@@ -715,18 +569,7 @@ export default {
 .options .arrow-up:hover .fa-arrow-up {
   color: #fff;
 }
-.options .fa-arrow-up {
-  transform: rotate(40deg);
-}
-.options-left i,
-.options-right i {
-  font-size: 20px;
-  cursor: pointer;
-}
-.options-left i:hover,
-.options-right i:hover {
-  color: #000;
-}
+
 .chats {
   height: 100%;
   overflow-x: scroll;
@@ -740,7 +583,6 @@ export default {
   clear: both;
   font-size: 20px;
 }
-
 .sender-img {
   display: inline;
 }

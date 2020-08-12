@@ -27,6 +27,9 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
 	// 이름으로 유저 찾기
 	List<User> findByName(String name);
 	
+	@Transactional
+    @Query("SELECT u.pw FROM User u where u.id = :id") 
+	String findPwById(String id);
 	
 
 	@Transactional

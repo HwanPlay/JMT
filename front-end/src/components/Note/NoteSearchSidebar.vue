@@ -23,8 +23,8 @@
           v-b-toggle.sidebar-backdrop 
           v-for="note in received_note_list" :key="note.noteNo" 
           bg-variant="dark" @click="getNoteHTML(note.noteNo)" variant="primary">
-            <h3>{{ note.title }}</h3>
-            <h5>{{compute_date(note.createdDate)}}</h5>
+            <h5>{{ note.title }}</h5>
+            <span>{{compute_date(note.createdDate)}}</span>
           </b-button>
         </div>
       </div>

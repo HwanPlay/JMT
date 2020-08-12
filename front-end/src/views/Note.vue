@@ -13,6 +13,8 @@
       :noteObj="noteObj"
       @onSaveNote="saveNote"
       />
+      <b-col cols="1"></b-col>
+
     </b-row>
   </b-container>
 </template>

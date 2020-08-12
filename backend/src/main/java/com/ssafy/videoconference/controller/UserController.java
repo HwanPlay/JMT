@@ -19,9 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +37,7 @@ import com.ssafy.videoconference.config.util.JwtTokenUtil;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.FindUser;
 import com.ssafy.videoconference.model.user.bean.ModifyUser;
+import com.ssafy.videoconference.model.user.bean.ModifyUserPw;
 import com.ssafy.videoconference.model.user.bean.User;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.bean.UserRole;
@@ -118,7 +117,7 @@ public class UserController {
 
 	@ApiOperation(value = "회원 찾기 - findUserByUserId / 내 정보", response = String.class)
 	@GetMapping("/user/findUserById")
-	public ResponseEntity<User> findUserByUserId(@CurrentUser UserDetail authUser) {
+	public ResponseEntity<FindUser> findUserByUserId(@CurrentUser UserDetail authUser) {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
 
@@ -136,7 +135,7 @@ public class UserController {
 			userService.modifyUser(user);
 			
 			// 새로운 Access Token 발급
-			jwtRefresh(user.getId(), response);
+		//	jwtRefresh(user.getId(), response);
 			
 			return ResponseEntity.ok(SUCCESS);
 		} else {
@@ -145,30 +144,26 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
-	@PostMapping("/user/findPw")
+	@PostMapping("/user/newPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
 		userService.modifyPw(user);
-		jwtRefresh(user.getId(), response);
-		
 		return ResponseEntity.ok(SUCCESS);
 	}
 	
 	@ApiOperation(value = "패스워드 수정 - modifyUserPwByUserId (기존PW, 새로운PW)", response = String.class)
 	@PostMapping("/user/modifyPw")
-	public ResponseEntity<String> modifyUserPw(@RequestParam("oldPw") String oldPw, @RequestParam("newPw") String newPw, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+	public ResponseEntity<String> modifyUserPw(@RequestBody ModifyUserPw modify, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
-		if(!authUser.getPw().equals(oldPw))
+		if(!passwordEncoder.matches(modify.getOldPw(), userService.findPw(authUser.getId())))
 			return ResponseEntity.ok(FAIL);
 		
 		User user = new User();
-		user.setPw(passwordEncoder.encode(newPw));
+		user.setPw(passwordEncoder.encode(modify.getNewPw()));
 		user.setId(authUser.getId());
 		
 		userService.modifyPw(user);
-		jwtRefresh(user.getId(), response);
-		
 		return ResponseEntity.ok(SUCCESS);
 	}
 
@@ -269,9 +264,6 @@ public class UserController {
 	@ApiOperation(value = "프로필사진 삭제 - 디폴트사진으로", response = String.class)
 	@GetMapping("/user/delProfileImg")
 	public ResponseEntity<String> saveProfileImg(@CurrentUser UserDetail authUser) {
-		// 사용자 DB에 저장된 프로필 사진
-		// UserDetail authUser = (UserDetail) authentication.getPrincipal();
-		// System.out.println(authentication.getPrincipal());
 		String userFileName = userService.findUserByUserId(authUser.getId()).getProfile_img();
 //		String realPath = servletContext.getRealPath(IMGFOLDER);
 		String realPath = IMGFOLDER;

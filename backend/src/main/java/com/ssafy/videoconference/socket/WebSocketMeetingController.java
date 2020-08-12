@@ -14,6 +14,7 @@ public class WebSocketMeetingController {
 	
 	@MessageMapping("/meeting")
 	public void message(MeetingMessage message) {
-		messagingTemplate.convertAndSend("/sub/meeting" + message.getGroupNo(), message);
+		System.out.println(message + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		messagingTemplate.convertAndSend("/send/meeting/" + message.getGroupNo(), message);
 	}
 }
