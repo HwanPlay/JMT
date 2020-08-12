@@ -2,8 +2,8 @@
   <!-- <v-row justify="center"> -->
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on">
-          <v-icon>fas fa-user-plus</v-icon>
+        <v-btn v-bind="attrs" v-on="on" color="orange" rounded>
+          <v-icon color="white">fas fa-user-plus</v-icon>
         </v-btn>
       </template>
       <v-card>
