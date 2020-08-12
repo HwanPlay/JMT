@@ -1,8 +1,10 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" style="height: 100%">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">Click Me</v-btn>
+          <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
+            <v-icon size="30">mdi-account</v-icon>
+          </v-btn>
       </template>
 
       <v-card>
