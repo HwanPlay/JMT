@@ -40,7 +40,7 @@ public interface GroupService {
 	void changeIntro(ChangeIntroCommand command);
 	
 	
-	void changeHasMeeting(int groupNo);
+	boolean changeHasMeeting(int groupNo);
 
 
 	void changeAll(ChangeGroupAllCommand command);

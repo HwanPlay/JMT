@@ -122,6 +122,7 @@ export default {
     reconnect : 0,
     token : '',
     recvList : [],
+    tmp_meeting : false,
   }),
   methods: {
     getEvents ({ start, end }) {
@@ -168,8 +169,8 @@ export default {
 
     changeHasMeeting(){
       axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
-        .then(() => {
-          console.log('Changed HasMeeting!');
+        .then(res => {
+          this.tmp_meeting = res.data.hasMeeting;
         })
         .finally(() => {
           this.send();
@@ -187,12 +188,12 @@ export default {
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     },
 
-
     joinMeeting(){
       this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
     },
 
-    connect() {
+
+    connect(param) {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
@@ -206,7 +207,7 @@ export default {
 
     send() {
       const msg = {
-        isMeeting : this.groupInfo.hasMeeting,
+        isMeeting : this.tmp_meeting,
         groupNo : this.groupInfo.groupNo
       };
       this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});

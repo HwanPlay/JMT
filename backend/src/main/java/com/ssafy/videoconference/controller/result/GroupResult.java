@@ -81,6 +81,12 @@ public class GroupResult {
 		return Result.ok(apiResult);
 	}
 	
+	public static ResponseEntity<ApiResult> build(boolean hasMeeting) {
+		ApiResult apiResult = ApiResult.blank()
+				.add("hasMeeting", hasMeeting);
+		return Result.ok(apiResult);
+	}
+	
 	@Data
 	@AllArgsConstructor
 	private static class GroupData {

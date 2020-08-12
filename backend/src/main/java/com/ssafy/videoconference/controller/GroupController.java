@@ -136,7 +136,9 @@ public class GroupController {
 		groupService.changeHostId(command);
 		gmService.deleteById(groupNo, command.getHostId());
 		gmService.addMember(new AddMemberCommand(groupNo, user.getId(), user.getName()));
-		return Result.ok();
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
@@ -160,17 +162,22 @@ public class GroupController {
 	
 	@PutMapping("/all/{groupNo}")
 	public ResponseEntity<ApiResult> changeGroupAll(@PathVariable("groupNo") int groupNo,
-													@RequestBody ChangeGroupAllPayload payload) {
+													@RequestBody ChangeGroupAllPayload payload,
+													@CurrentUser UserDetail user) {
 		ChangeGroupAllCommand command = payload.toCommand(groupNo);
 		groupService.changeAll(command);
-		return Result.ok();
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
 	@PutMapping("/hasmeeting/{groupNo}")
 	public ResponseEntity<ApiResult> changeHasMeeting(@PathVariable("groupNo") int groupNo) {
-		groupService.changeHasMeeting(groupNo);
-		return Result.ok();
+		boolean hasMeeting = groupService.changeHasMeeting(groupNo);
+		if(hasMeeting) System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!true!!!!!!!!!!!!!!!");
+		else System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!false!!!!!!!!!!!!!!!!!!!!!!!!");
+		return GroupResult.build(hasMeeting);
 	}
 	
 	
