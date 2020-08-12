@@ -1,7 +1,5 @@
 <template>
-  <!-- <div style="height: 100%; width: 100%;"> -->
   <videochat :roomId='this.$route.params.roomId' />
-  <!-- </div> -->
 </template>
 
 <script>

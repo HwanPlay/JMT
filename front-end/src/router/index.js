@@ -12,8 +12,7 @@ const routes = [
   {
     path: '/Group',
     name: 'Group',
-    // component: () => import('../views/Group.vue')
-    component: () => import('../views/Groupvuti.vue')
+    component: () => import('../views/Group.vue')
   },
   {
     path: '/Note',
@@ -25,6 +24,12 @@ const routes = [
     name: 'Conference',
     props: true,
     component: () => import('../views/Conference.vue')
+  },
+  {
+    path: '/devConference',
+    name: 'devConference',
+    props: true,
+    component: () => import('../components/Conference/Videochat.vue')
   },
   {
     path: '/Settings',
