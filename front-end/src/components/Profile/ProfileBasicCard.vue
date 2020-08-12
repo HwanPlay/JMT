@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="600" tile>
+  <v-card class="mx-auto" tile>
     <b-alert
       :show="dismissCountDown"
       dismissible
@@ -79,14 +79,19 @@ export default {
           name: this.user_name,
         })
         .then((res) => {
-          console.log(res);
-          this.alertSave();
+          if(res.data === 'success'){
+            console.log(res);
+            this.makeAlert({'alertColor': 'primary', 'alertMessage': 'Success'});
+          } else {
+            console.log(res);
+            this.makeAlert({'alertColor': 'danger', 'alertMessage': 'fail to edit'});
+          }
         })
-        .catch();
+        .catch(err=>console.error(err));
     },
-    alertSave() {
-      this.alertColor = 'primary';
-      this.alertMessage = 'Success';
+    makeAlert(props) {
+      this.alertColor = props.alertColor;
+      this.alertMessage = props.alertMessage;
       this.showAlert();
     },
     countDownChanged(dismissCountDown) {
