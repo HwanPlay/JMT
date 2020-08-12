@@ -1,12 +1,8 @@
 <template>
-  <div>
-    <v-row>
-      <v-col cols=5></v-col>
-      <v-col cols=2>
-        <v-btn class="text-center" @click="showForm = !showForm" text small color="error">Password Change</v-btn>
-      </v-col>
-      <v-col cols=5></v-col>
-    </v-row>
+  <div >
+    <div class="btn-box">
+      <v-btn class="text-center" @click="showForm = !showForm" text small color="error">Password Change</v-btn>
+    </div>
 
     <b-alert
       :show="dismissCountDown"
@@ -20,8 +16,9 @@
       This alert will dismiss after {{ dismissCountDown }} seconds...
     </b-alert>
 
-    <div v-if="showForm">
+    <div class="password-box" v-if="showForm" >
       <ProfilePasswordForm 
+        
         @onSubmitSuccess="submitSuccess" 
         @onSubmitWrongPassword="submitWrongPassword"
         @onSubmitDifferentPassword="submitDifferentPassword"
@@ -75,5 +72,14 @@ export default {
 </script>
 
 <style>
-
+.btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.password-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

@@ -11,7 +11,7 @@
         <v-container>
           <v-row>
             <v-col cols="4">
-              asd
+              <img src="" alt="사진 빈칸">
             </v-col>
             <v-col cols="8">
               Name: {{this.$store.state.myName}}
