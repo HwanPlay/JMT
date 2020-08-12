@@ -8,7 +8,7 @@
       </v-list-item-content>
     </v-list-item>
     <div v-if='this.$store.state.userId===hostId'>
-      <v-btn :disabled='isExiled' color="danger" @click="exileMember">
+      <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')">
         추방
       </v-btn>
       <v-btn color="danger" @click="letHost">
