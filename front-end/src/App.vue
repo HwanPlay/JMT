@@ -7,9 +7,6 @@
 
     <!-- NavBar -->
     <div v-else>
-        <vue-webrtc
-          ref="webrtc"
-        />
       <v-app-bar app color="rgb(14, 23, 38)" dark style="margin-top: 30px;">
         <div style="height: 100%;">
           <router-link to="/Home">
@@ -33,10 +30,10 @@
           </router-link>
 
           <!-- Conference Router -->
-          <router-link to="/Conference" style="text-decoration: none;">
+          <router-link to="/devConference" style="text-decoration: none;">
             <v-btn text style="height: 99%; outline:none;">
               <v-icon>fas fa-chalkboard-teacher</v-icon>
-              <span class="routerLink mr-2 ml-2">Conference</span>
+              <span class="routerLink mr-2 ml-2">devConference</span>
             </v-btn>
           </router-link>
 
