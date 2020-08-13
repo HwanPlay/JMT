@@ -159,6 +159,7 @@ export default {
     Broadcast
   },
   props:{
+    roomId: String,
     meetingInfo: Object,
   },
   data() {
@@ -278,7 +279,7 @@ export default {
       this.broadcast.session = {
         video: true
       };
-      this.broadcast.openOrJoin(this.roomid + "a");
+      this.broadcast.openOrJoin(this.roomId + "a");
     },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
@@ -379,27 +380,9 @@ export default {
     this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
     this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    let src2 = document.createElement("script");
-    src2.setAttribute(
-      "src",
-      "https://cdn.webrtc-experiment.com/FileBufferReader.js"
-    );
-    document.body.appendChild(src2);
-
-    let src3 = document.createElement("script");
-    src3.setAttribute(
-      "src",
-      "https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"
-    );
-    document.body.appendChild(src3);
   },
   mounted() {
     this.onJoin();
-    for (var group in this.$store.state.myGroups) {
-      if (this.roomId === group.roomId) {
-        console.log(group)
-      }
-    }
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       ".videos-container"

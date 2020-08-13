@@ -1,5 +1,6 @@
 <template>
   <div>
+    
      <b-button
       @click="getNoteList(group.groupNo)"
       v-b-toggle="'co-'+group.groupNo"
@@ -12,9 +13,8 @@
               <span>{{compute_date(note.createdDate)}}</span>
               <p>{{ note.title }}</p>
             </b-button>
-
         </div>
-          <p v-else>Please write Note</p>
+        <p v-else>Please write Note</p>
       </div>
     </b-collapse>
   </div>
