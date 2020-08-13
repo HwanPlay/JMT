@@ -59,7 +59,7 @@ public class UserController {
 	private static final String FAIL = "fail";
 
 	//private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
-	private static final String IMGFOLDER = "/home/ubuntu/resources";
+	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
 	//private static final String IMGFOLDER = "/home/jenkins";
 	
 	private static final String DEFAULT_IMG = "default.jpg";
