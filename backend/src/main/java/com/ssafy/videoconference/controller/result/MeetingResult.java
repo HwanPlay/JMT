@@ -38,6 +38,13 @@ public class MeetingResult {
 	}
 	
 	
+	public static ResponseEntity<ApiResult> build(int meetingNo) {
+		ApiResult apiResult = ApiResult.blank()
+				.add("meetingNo", meetingNo);
+		return Result.ok(apiResult);
+	}
+	
+	
 	@Data
 	@AllArgsConstructor
 	private static class MeetingData {
