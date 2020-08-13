@@ -48,7 +48,7 @@
 
         <v-spacer></v-spacer>
 
-        <InviteRequest :recvList=recvList />
+        <InviteRequest />
 
         <MyProfile />
 
@@ -138,6 +138,7 @@ export default Vue.extend({
       });
     },
   },
+
   mounted() {
     this.connect();
     this.$router.push('Home');

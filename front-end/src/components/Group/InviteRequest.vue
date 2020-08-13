@@ -49,12 +49,17 @@ export default {
 
   methods: {
     getRequest() {
-      axios.get(SERVER.URL + '/getuser/' + this.$store.state.userId)
+      axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
         .then(res => {
           this.requests = res.data.requests;
+          console.log(this.requests);
         })
         .catch(err => console.log(err.response));
     }
+  },
+
+  mounted() {
+    this.getRequest();
   }
 
 

@@ -6,7 +6,7 @@
       <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
     </v-list-item-content>
     <div v-if='!isInvited' class="my-2">
-      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="send(user)">
+      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="sendRequest">
         추가
       </v-btn>
     </div>
@@ -54,6 +54,20 @@ export default {
         })
         .catch((err) => 
           console.log(err.response));
+    },
+
+    sendRequest() {
+      const info = {
+        groupNo : this.groupNo,
+        hostId : this.hostId,
+        userId : this.user.id,
+        groupName : this.groupName
+      };
+      axios.post(SERVER.URL + '/request/send', info)
+        .then(res => {
+          this.isInvited = true;
+        })
+        .catch(err => console.log(err.response));
     },
 
     connect() {
