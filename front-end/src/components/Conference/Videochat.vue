@@ -101,14 +101,14 @@
 
     </div>
     <div id="note-container">
-      <NoteEditor />
+      <NoteEditor :meetingInfo="meetingInfo" />
     </div>
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
           <div class="col-md-8 name pl-3">
             <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i>
-            <h4 class="ml-1 mb-0">{{ this.$store.state.myName}}
+            <h4 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
             </h4>
           </div>
           <div class="col-md-4 options text-right pr-0">
@@ -159,7 +159,7 @@ export default {
     Broadcast
   },
   props:{
-    roomId: String,
+    meetingInfo: Object,
   },
   data() {
     return {

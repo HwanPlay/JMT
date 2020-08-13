@@ -1,7 +1,7 @@
 <template>
   <v-row style="width: 100%; height: 100%;" >
     <v-col class="nav" cols="2">
-      <v-navigation-drawer height="100%" permanent>
+      <v-navigation-drawer dark height="100%" permanent>
         <div class="myProfile">
         <v-list>
           
@@ -27,7 +27,7 @@
           nav
           dense
         >
-          <v-list-item-group v-model="group" color="primary">
+          <v-list-item-group v-model="group">
             <v-list-item
               v-for="(group, i) in this.$store.state.myGroups"
               :key="i" @click="toggle(i)"

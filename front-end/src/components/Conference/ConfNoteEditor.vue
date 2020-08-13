@@ -216,11 +216,12 @@ export default {
     EditorMenuBubble,
   },
   props: {
-    groupId: Number,
-    meetingId: Number,
+    meetingInfo: Object
   },
   data() {
     return {
+      groupNo: this.meetingInfo.groupNo,
+      meetingNo: this.meetingInfo.meetingNo,
       keepInBounds: true,
       editor: new Editor({
         extensions: [
@@ -256,18 +257,16 @@ export default {
   methods: {
     SaveNote(){      
       // 없으면 1을 넣는다. 임시용.
-      if (this.meetingId === undefined && this.groupId === undefined){
-        this.groupId = 1;
-        this.meetingId = 1;
-      }
-
+      // if (this.meetingId === undefined && this.groupId === undefined){
+      //   this.groupId = 1;
+      //   this.meetingId = 1;
+      // }
+      console.log(this.noteObj.content, this.noteObj.title, this.groupNo, this.$store.state.userId, this.meetingNo);
       axios.post(SERVER.URL + '/note/save',{
         'content': this.noteObj.content,
-        'groupNo': this.groupId,
-        // groupId
+        'groupNo': this.groupNo,
         'id': this.$store.state.uesrId,
-        'meetingNo': this.meetingId,
-        // meetingId
+        'meetingNo': this.meetingNo,
         'title': this.noteObj.title,
       }).then(res=>console.log(res)).catch(err=>console.error(err));
     }

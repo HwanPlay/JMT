@@ -7,7 +7,7 @@
         <v-list-item-subtitle>{{ userInfo.id }}</v-list-item-subtitle>
       </v-list-item-content>
       <div v-if='this.$store.state.userId===hostId'>
-        <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')">
+        <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')" style='outline: none;'>
           추방
         </v-btn>
         <v-btn color="danger" @click="letHost">
