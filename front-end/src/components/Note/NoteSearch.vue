@@ -1,6 +1,5 @@
 <template>
   <b-col cols="3" class="rounded border border-secondary">
-    <div style="height: 2rem;"></div>
     <h2 class="text-center">Groups</h2>
     
     <NoteSearchSidebar
