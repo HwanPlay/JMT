@@ -37,17 +37,25 @@
               :key="i"
               @click="toggle(i)"
             >
-              <v-list-item-icon>
-                <v-icon style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
-              </v-list-item-icon>
+              <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
+          
+              <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px; margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
 
               <v-list-item-content>
-                <h4 id="groupNameText" style="left : -30px;" v-text="group.groupName"></h4>
+                <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
 
-          <v-btn @click="modalOn= !modalOn" width="100%" text>
+          <v-btn @click="modalOn= !modalOn" width="100%" text dark class="mt-10">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>
             <p>그룹 만들기</p>
           </v-btn>
@@ -79,9 +87,9 @@ export default {
   },
   data() {
     return {
-      group: 0,
+      group: {},
       modalOn: false,
-      onboarding: 0
+      onboarding: 0,
     };
   },
   methods: {
