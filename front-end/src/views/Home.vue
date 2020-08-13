@@ -130,6 +130,7 @@ export default {
       sock : null,
       ws : null,
       recvList : [],
+      meetingModalOn: false,
     };
   },
   watch: {
