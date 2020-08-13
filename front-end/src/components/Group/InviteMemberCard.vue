@@ -31,7 +31,7 @@ export default {
     user: Object,
     groupNo: Number,
     groupName: String,
-    hostId : String,
+    hostId: String
   },
   data(){
     return {
@@ -43,7 +43,7 @@ export default {
   methods:{
     addMember(userInfo){
       const info = {
-        groupNo: this.groupNo,
+        groupNo: this.groupInfo.groupNo,
         id: userInfo.id,
         nickname: userInfo.name
       };

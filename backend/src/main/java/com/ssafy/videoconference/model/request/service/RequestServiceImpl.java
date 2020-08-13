@@ -23,7 +23,7 @@ public class RequestServiceImpl implements RequestService{
 	
 	@Override
 	public Request sendRequest(SendRequestCommand command) {
-		Request req = Request.create(command.getGroupNo(), command.getHostId(), command.getUserId());
+		Request req = Request.create(command.getGroupNo(), command.getHostId(), command.getUserId(), command.getGroupName());
 		reqRepository.save(req);
 		return req;
 	}

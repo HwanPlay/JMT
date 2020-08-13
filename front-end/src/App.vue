@@ -48,7 +48,7 @@
 
         <v-spacer></v-spacer>
 
-        <InviteRequest />
+        <InviteRequest :recvList=recvList />
 
         <MyProfile />
 
@@ -95,7 +95,7 @@ export default Vue.extend({
       tmpLogin: false,
       sock : null,
       ws : null,
-      recvList : [],
+      recv : null,
       meetingModalOn: false,
       reconnect : 0,
     };
@@ -123,8 +123,8 @@ export default Vue.extend({
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recvList.push(res.body);
-          console.log(this.recvList);
+          this.recv = res.body;
+          console.log(this.recv);
         });
       }, error => {
         if(this.reconnect++ <= 5) {

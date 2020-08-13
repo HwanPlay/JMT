@@ -10,10 +10,11 @@
       <v-card>
         <v-container>
             
-          <v-row>
-            <v-col cols="12">
-                
-            </v-col>
+          <v-row v-for="(item, i) in requests" :key="i">
+            <v-list-item-content>
+              {{item}}
+            </v-list-item-content>
+            <v-divider></v-divider>
           </v-row>
         </v-container>        
 
@@ -34,16 +35,27 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
+import axios from 'axios';
 
 export default {
   name: 'InviteRequest',
   components: {
-  
   },
 
-  props : {
-    recvList : Object
-  },
+  data : () => ({
+    requests : null,
+  }),
+
+  methods: {
+    getRequest() {
+      axios.get(SERVER.URL + '/getuser/' + this.$store.state.userId)
+        .then(res => {
+          this.requests = res.data.requests;
+        })
+        .catch(err => console.log(err.response));
+    }
+  }
 
 
 };
