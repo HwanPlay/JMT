@@ -40,14 +40,6 @@
               :key="i"
               @click="toggle(i)"
             >
-<<<<<<< HEAD
-              <v-list-item-icon >
-                <v-icon style="margin-top : 5px; margin-left : 5px;  margin-right : -5px;">mdi-account-multiple</v-icon>
-              </v-list-item-icon>
-
-              <v-list-item-content>
-                <p id="groupNameText" v-text="group.groupName"></p>
-=======
               <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
                 <v-list-item-icon>
                   <v-icon dark style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
@@ -62,27 +54,19 @@
 
               <v-list-item-content>
                 <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
->>>>>>> 0d131faf321e3d8abb57eeae8499d859e01fa3df
               </v-list-item-content>
             </v-list-item>
             </div>
           </v-list-item-group>
-<<<<<<< HEAD
           
-          <v-btn id="groupCreate"  @click="modalOn= !modalOn" text >
-            <v-icon class="mr-2" style="color : white; ">mdi-account-multiple-plus</v-icon>
-            <p style="color : white; ">그룹 만들기</p>
-=======
-
-          <v-btn @click="modalOn= !modalOn" width="100%" text dark class="mt-10">
-            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>
+          <v-btn id="groupCreate" @click="modalOn= !modalOn" text dark class="mt-3">
+            <v-icon class="mr-2" medium>mdi-account-multiple-plus</v-icon>
             <p>그룹 만들기</p>
->>>>>>> 0d131faf321e3d8abb57eeae8499d859e01fa3df
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
             <CreateGroup @close="closeModal" />
           </v-dialog>
-          
+
         </v-list>
       </v-navigation-drawer>
     </v-col>
@@ -204,5 +188,10 @@ export default {
   height: 45px;
   width: 200px;
 }
+#groupCreate p{
+  font-size: 20px;
+  font-weight:550;
+}
+
 
 </style>
