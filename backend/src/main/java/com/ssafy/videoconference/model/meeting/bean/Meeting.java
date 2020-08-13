@@ -33,7 +33,7 @@ public class Meeting extends BaseTimeEntity{
 	private int meetingNo;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "groupNo", nullable = false)
 	private Group group;
 	

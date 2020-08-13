@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -54,7 +55,7 @@ public class Note extends BaseTimeEntity{
 	private String content;
 	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meetingNo", nullable = false)
 	private Meeting meeting;
 	
@@ -65,11 +66,11 @@ public class Note extends BaseTimeEntity{
 		note.user = new User();
 		note.meeting = new Meeting();
 		
-		note.getGroup().setGroupNo(groupNo);
-		note.getUser().setId(id);
+		note.group.setGroupNo(groupNo);
+		note.user.setId(id);
 		note.title = title;
 		note.content = content;
-		note.getMeeting().setMeetingNo(meetingNo);
+		note.meeting.setMeetingNo(meetingNo);
 		return note;
 	}
 
