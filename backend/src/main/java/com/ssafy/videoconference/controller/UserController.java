@@ -1,6 +1,7 @@
 package com.ssafy.videoconference.controller;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -241,15 +242,23 @@ public class UserController {
 			
 			System.out.println(realPath);
 			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-//			if (!oldImg.contains("default")) {
-//				File deleteFolder = new File(realPath);
-//				File[] deleteFolderList = deleteFolder.listFiles();
-//
-//				for (File file : deleteFolderList) {
-//					if (file.getPath().contains(oldImg))
-//						file.delete();
-//				}
-//			}
+			if (!oldImg.contains("default")) {
+				File deleteFolder = new File(realPath);
+				File[] deleteFolderList = deleteFolder.listFiles();
+				
+				for (File file : deleteFolderList) {
+					System.out.println("이미지 : " + file.getPath());
+					System.out.println(file.getName()); 
+					try {
+						System.out.println("url" + file.toURI().toURL());
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				//	if (file.getPath().contains(oldImg))
+				//		file.delete();
+				}
+			}
 			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
