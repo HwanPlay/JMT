@@ -46,6 +46,7 @@
         </v-col>
         
         <v-col cols="12" class="d-flex flex-row-reverse">
+          <v-btn color="red" text @click="closePassword">Cancel</v-btn>
           <v-btn @click="SubmitPassword" text color="primary">Submit</v-btn>
         </v-col>
       </v-row>
@@ -61,7 +62,6 @@ export default {
   data() {
     return {
       
-
       show1: false,
       show2: false,
       show3: false,
@@ -79,8 +79,9 @@ export default {
     };
   },
   methods: {
-    
-
+    closePassword() {
+      this.$emit('onClosePassword');
+    },
     SubmitPassword() {
       if (this.existingPassword !== this.newPassword1 && this.newPassword1===this.newPassword2){
         axios.post(SERVER.URL + '/user/modifyPw',{

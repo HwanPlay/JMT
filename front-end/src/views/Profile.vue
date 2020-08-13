@@ -2,8 +2,10 @@
   <v-container style="width: 500px">
     <ProfileBasicCard />
     <div style="height: 2rem;"></div>
-    <ProfilePassword />
-    <ProfileDelete />
+    <v-row>
+      <ProfileDelete />
+      <ProfilePassword />
+    </v-row>
   </v-container>
 </template>
 

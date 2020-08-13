@@ -11,7 +11,7 @@
         <v-container>
           <v-row>
             <v-col cols="4">
-              <img src="" alt="사진 빈칸">
+                <v-img src="../../assets/profile/blank-profile.png" aspect-ratio="1" alt="사진 자리 ㅠㅠ"></v-img>
             </v-col>
             <v-col cols="8">
               Name: {{this.$store.state.myName}}

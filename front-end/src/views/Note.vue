@@ -9,6 +9,7 @@
       <b-col cols="1"></b-col>
       
       <NoteEditor 
+      :group_list="group_list"
       @onDeleteNote="deleteNote"
       :noteObj="noteObj"
       @onSaveNote="saveNote"

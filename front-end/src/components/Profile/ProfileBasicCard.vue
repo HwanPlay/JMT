@@ -15,8 +15,8 @@
     <v-container>
       <v-row align="start" class="fill-height">
         <v-col align-self="start" class="pa-0" cols="4">
-          <v-avatar class="profile" color="grey" size="164" tile>
-            <v-img src="사진 URL" alt="사진 자리"></v-img>
+          <v-avatar class="profile"  size="164" tile>
+            <img src="../../assets/profile/blank-profile.png" alt="사진 자리 ㅠㅠ">
           </v-avatar>
         </v-col>
         <v-col class="py-0">

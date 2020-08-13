@@ -17,8 +17,8 @@
     </b-alert>
 
     <div class="password-box" v-if="showForm" >
-      <ProfilePasswordForm 
-        
+      <ProfilePasswordForm    
+        @onClosePassword="ClosePassword"     
         @onSubmitSuccess="submitSuccess" 
         @onSubmitWrongPassword="submitWrongPassword"
         @onSubmitDifferentPassword="submitDifferentPassword"
@@ -45,6 +45,9 @@ export default {
     ProfilePasswordForm,
   },
   methods: {
+    ClosePassword() {
+      this.showForm = false;
+    },
     submitWrongPassword() {
       this.alertColor = 'danger';
       this.alertMessage = 'password가 틀렸습니다.';
@@ -54,7 +57,7 @@ export default {
       this.alertColor = 'success';
       this.alertMessage = '비밀번호를 변경했습니다.';
       this.showAlert();
-      this.showForm = false;
+      this.ClosePassword();
     },
     submitDifferentPassword() {
       this.alertColor = 'danger';

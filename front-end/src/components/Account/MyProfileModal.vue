@@ -10,7 +10,7 @@
         <v-container>
           <v-row>
             <v-col cols="4">
-              asd
+              <img src="../../assets/profile/blank-profile.png" alt="사진 자리 ㅠㅠ">
             </v-col>
             <v-col cols="8">
               Name: {{this.$store.state.myName}}
