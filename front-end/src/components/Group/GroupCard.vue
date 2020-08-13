@@ -51,10 +51,10 @@ export default {
     },
 
     startMeeting(){
-      // this.changeHasMeeting();
+      this.changeHasMeeting();
       axios.post(SERVER.URL + '/meeting/add', {groupNo: this.groupInfo.groupNo, title: this.$store.state.myName+'\'s Meeting'})
         .then(res => {
-          console.log('good', res);
+          console.log('good', res); 
           this.meetingNo = res.data.meetingNo;
           this.$router.push({ name: 'Conference',
             params: { roomId: this.groupInfo.roomId },

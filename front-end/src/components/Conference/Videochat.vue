@@ -159,6 +159,7 @@ export default {
     Broadcast
   },
   props:{
+    roomId: String,
     meetingInfo: Object,
   },
   data() {
@@ -278,7 +279,7 @@ export default {
       this.broadcast.session = {
         video: true
       };
-      this.broadcast.openOrJoin(this.roomid + "a");
+      this.broadcast.openOrJoin(this.roomId + "a");
     },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
@@ -392,11 +393,6 @@ export default {
   },
   mounted() {
     this.onJoin();
-    for (var group in this.$store.state.myGroups) {
-      if (this.roomId === group.roomId) {
-        console.log(group)
-      }
-    }
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       ".videos-container"
