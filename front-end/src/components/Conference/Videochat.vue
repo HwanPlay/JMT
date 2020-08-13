@@ -183,7 +183,11 @@ export default {
       videoOnOff: true,
       micOnOff: true,
       castOnOff: true,
-      activeBtn: 0
+      activeBtn: 0,
+
+      myVideoTrackIsMuted: false,
+      trackId: null,
+      streamId : null
     };
   },
   methods: {
@@ -218,9 +222,12 @@ export default {
     //비디오 끄고,켜기
     onCam() {
       if (this.videoBool == false) {
-        // let localStream = this.connection.attachStreams[0];
-        // this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        // localStream.mute("video");
+        console.log("아아아아아아3333")
+        console.log(this.connection.streamEvents.selectFirst('local').stream.getTracks()[1]);
+        console.log("아아아아아아44444")
+        let localStream = this.connection.attachStreams[0];
+        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
+        localStream.mute('video');
 
         // localStream.unmute("audio");
         // console.log(this.connection.streamEvents);
@@ -230,14 +237,17 @@ export default {
         // console.log(localStream);
 
 
-        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
-        this.connection.send({
-            myVideoTrackIsMuted: true,
-            trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
-            streamId: this.connection.streamEvents.selectFirst('local').streamid
-        });
-        console.log(this.myVideoTrackIsMuted)
-        console.log(this.trackId, this.connection.streamId)
+        // this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
+        // this.connection.send({
+        //     myVideoTrackIsMuted: true,
+        //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
+        //     streamId: this.connection.streamEvents.selectFirst('local').streamid
+        // });
+
+
+        // console.log(this.myVideoTrackIsMuted)
+        // console.log(this.trackId, this.connection.streamId)
+
         this.videoBool = !this.videoBool;
 
       } else {
@@ -245,7 +255,8 @@ export default {
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
 
-        
+
+
         // console.log(this.connection.streamEvents);
         // console.log(
         //   this.connection.streamEvents[localStream.streamid].session.audio
@@ -344,6 +355,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
+      
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
@@ -369,6 +381,14 @@ export default {
   },
   updated() {
     this.connection.onmessage = this.appendDIV;
+    // this.connection.onmessage = function(event) {
+    // // if(event.data.myVideoTrackIsMuted === true) {
+    // //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
+    // //         document.getElementById(event.data.streamId).poster = 'https://sharedpro.in/images/user-icon.png'; // or background image
+    // //     }
+    // console.log("아잉")
+
+    // };
   },
 
   created() {

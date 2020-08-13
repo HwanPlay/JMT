@@ -3663,18 +3663,25 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
+            console.log("아아아아아아난")
+            console.log(track);
+            console.log("아아아아아아난2222")
             track.enabled = false;
           });
           // connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
           console.log("비디오 끄기");
         }
 
-        if (typeof syncAction == 'undefined' || syncAction == true) {
-          StreamsHandler.onSyncNeeded(stream.streamid, 'mute', type);
-        }
+        // if (typeof syncAction == 'undefined' || syncAction == true) {
+        //   StreamsHandler.onSyncNeeded(stream.streamid, 'mute', type);
+ 
+        // }
+
+        console.log(connection.streamEvents[stream.streamid].mediaElement);
+
 
         connection.streamEvents[stream.streamid].muteType = type || 'both';
-
+        
         fireEvent(stream, 'mute', type);
       };
 
@@ -5375,7 +5382,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
       }
     };
 
-    connection.autoCloseEntireSession = true;
+    connection.autoCloseEntireSession = false;
 
     connection.filesContainer = connection.videosContainer = document.body || document.documentElement;
     connection.isInitiator = false;
@@ -5417,6 +5424,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
     };
 
     connection.onmute = function(e) {
+      console.log("온뮤트입니다")
       if (!e || !e.mediaElement) {
         return;
       }
@@ -5466,7 +5474,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             streamid: streamid,
             action: action,
             streamSyncNeeded: true,
-            type: type || 'both'
+            type: type  //  수정 : || 'both' 지움
           }, participant);
         });
       };
