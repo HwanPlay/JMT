@@ -37,6 +37,19 @@ public class NoteResult {
 				.add("title", note.getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
+				.add("date", note.getCreatedDate());
+		return Result.ok(apiResult);
+	}
+	
+	
+	public static ResponseEntity<ApiResult> build_add(Note note) {
+		ApiResult apiResult = ApiResult.blank()
+				.add("noteNo", note.getNoteNo())
+				.add("groupNo", note.getGroup().getGroupNo())
+				.add("id", note.getUser().getId())
+				.add("title", note.getTitle())
+				.add("content", note.getContent())
+				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("start_time", note.getMeeting().getCreatedDate())
 				.add("end_time", note.getMeeting().getModifiedDate())
 				.add("date", note.getCreatedDate());

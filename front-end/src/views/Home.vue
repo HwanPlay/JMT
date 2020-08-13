@@ -10,7 +10,7 @@
               <v-icon size="60">fas fa-video</v-icon>
             </v-btn>
             <v-dialog width='500px' v-model='meetingModalOn'>
-              <StartableGroups />
+              <StartableGroups @closeModal='closeMeetingModal' />
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 회의</h5>
@@ -99,6 +99,9 @@ export default {
     closeModal (){
       this.modalOn = false;
     },
+    closeMeetingModal (){
+      this.meetingModalOn = false;
+    },
 
     connect() {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
@@ -130,6 +133,7 @@ export default {
       sock : null,
       ws : null,
       recvList : [],
+      meetingModalOn: false,
     };
   },
   watch: {
