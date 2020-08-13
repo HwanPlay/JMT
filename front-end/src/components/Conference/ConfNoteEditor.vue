@@ -175,12 +175,13 @@
             placeholder="Note Title"
           ></b-form-input>
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
-          <b-button class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="!isSave" class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="isSave" class="menubar__button save_button" @click="EditNote" variant="outline-success">Edit</b-button>
 
 
       </b-form>
       <hr>
-      <div class="border border-secondary rounded">
+      <div @click="focusNote" class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
     </div>
@@ -220,6 +221,7 @@ export default {
   },
   data() {
     return {
+      isSave: false,
       groupNo: this.meetingInfo.groupNo,
       meetingNo: this.meetingInfo.meetingNo,
       keepInBounds: true,
@@ -251,21 +253,39 @@ export default {
       noteObj:{
         content:'',
         title:'',
+        id: null,
       }
     };
   },
   methods: {
+    focusNote() {
+      this.editor.focus();
+    },
+    EditNote() {
+      const URL_saveNote = '/note/';
+            
+      axios.put(SERVER.URL + URL_saveNote + this.noteObj.id,{
+        'title': this.noteObj.title,
+        'content': this.noteObj.content
+      }).then((res)=>{
+        console.log('title:', this.noteObj.title);
+        console.log('Content:', this.noteObj.content);
+      }).catch((err)=> console.error(err));
+
+    },
     SaveNote(){      
       // 없으면 1을 넣는다. 임시용.
       // if (this.meetingId === undefined && this.groupId === undefined){
       //   this.groupId = 1;
       //   this.meetingId = 1;
       // }
-      var note = {content: this.noteObj.content, groupNo: this.groupNo, id: this.$store.state.userId, meetingNo:this.meetingNo, title: this.noteObj.title};
+      const note = {content: this.noteObj.content, groupNo: this.groupNo, id: this.$store.state.userId, meetingNo:this.meetingNo, title: this.noteObj.title};
       console.log(note);
       axios.post(SERVER.URL + '/note/save', note)
         .then(res=>{
           console.log(res);
+          this.noteObj.id = res.data.noteNo;
+          this.isSave = true;
         })
         .catch(err=>console.error(err));
     }
