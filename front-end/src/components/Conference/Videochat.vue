@@ -1,7 +1,7 @@
 <template>
   <div class="MainContainer">
     <div class="MainContent">
-      <div class="Minivideo_list">
+      <div class="Minivideo_list" id="Minivideo_list">
         <div class="videos-container" id="videos-container"></div>
       </div>
 
@@ -29,15 +29,15 @@
           background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
-          <v-btn @click="onJoin">
+          <!-- <v-btn @click="onJoin">
             <span>Join</span>
             <v-icon>mdi-login</v-icon>
-          </v-btn>
+          </v-btn> -->
           <!-- <v-overlay :value="overlay">
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="onVideo" >
+          <v-btn @click="onCam" >
             <span v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
@@ -130,7 +130,6 @@
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
-<script src="app.js"></script>
 <script>
 import RTCMultiConnection from "../../api/RTCMultiConnection";
 import Broadcast from "../../api/broadcast";
@@ -184,7 +183,11 @@ export default {
       videoOnOff: true,
       micOnOff: true,
       castOnOff: true,
-      activeBtn: 0
+      activeBtn: 0,
+
+      myVideoTrackIsMuted: false,
+      trackId: null,
+      streamId : null
     };
   },
   methods: {
@@ -217,17 +220,34 @@ export default {
       console.log("여기가 2번")
  },
     //비디오 끄고,켜기
-    onVideo() {
+    onCam() {
       if (this.videoBool == false) {
+        console.log("아아아아아아3333")
+        console.log(this.connection.streamEvents.selectFirst('local').stream.getTracks()[1]);
+        console.log("아아아아아아44444")
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute("video");
+        localStream.mute('video');
 
+        // localStream.unmute("audio");
         // console.log(this.connection.streamEvents);
         // console.log(
         //   this.connection.streamEvents[localStream.streamid].session.audio
         // );
         // console.log(localStream);
+
+
+        // this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
+        // this.connection.send({
+        //     myVideoTrackIsMuted: true,
+        //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
+        //     streamId: this.connection.streamEvents.selectFirst('local').streamid
+        // });
+
+
+        // console.log(this.myVideoTrackIsMuted)
+        // console.log(this.trackId, this.connection.streamId)
+
         this.videoBool = !this.videoBool;
 
       } else {
@@ -235,7 +255,8 @@ export default {
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
 
-        
+
+
         // console.log(this.connection.streamEvents);
         // console.log(
         //   this.connection.streamEvents[localStream.streamid].session.audio
@@ -274,7 +295,7 @@ export default {
       this.broadcast.openOrJoin(this.roomid + "a");
     },
     videoBar() {
-      $(".Minivideo_list").toggle();
+      $("#Minivideo_list").toggle();
       this.Bar = !this.Bar;
       if (this.Bar == false) {
         $(".Mainvideo").css("height", "88%");
@@ -334,6 +355,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
+      
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
@@ -359,6 +381,14 @@ export default {
   },
   updated() {
     this.connection.onmessage = this.appendDIV;
+    // this.connection.onmessage = function(event) {
+    // // if(event.data.myVideoTrackIsMuted === true) {
+    // //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
+    // //         document.getElementById(event.data.streamId).poster = 'https://sharedpro.in/images/user-icon.png'; // or background image
+    // //     }
+    // console.log("아잉")
+
+    // };
   },
 
   created() {
@@ -419,7 +449,7 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-.Minivideo_list {
+#Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
