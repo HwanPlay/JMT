@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 public class RequestMessage {
 	
+	private String sencer;
 	private String receiver;
+	private String groupName;
 	private int groupNo;
 	
 }

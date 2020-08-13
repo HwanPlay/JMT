@@ -6,7 +6,7 @@
       <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
     </v-list-item-content>
     <div v-if='!isInvited' class="my-2">
-      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="addMember(user)">
+      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="send(user)">
         추가
       </v-btn>
     </div>
@@ -29,7 +29,9 @@ export default {
   name: 'InviteMemberCard',
   props: {
     user: Object,
-    groupNo: Number
+    groupNo: Number,
+    groupName: String,
+    hostId : String,
   },
   data(){
     return {
@@ -63,8 +65,10 @@ export default {
 
     send(userInfo) {
       const msg = {
+        sender : this.hostId,
         receiver : userInfo.id,
-        groupNo : this.groupNo
+        groupNo : this.groupNo,
+        groupName : this.groupName
       };
       this.ws.send('/request', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }

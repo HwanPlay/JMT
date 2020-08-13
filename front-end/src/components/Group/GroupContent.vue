@@ -111,11 +111,10 @@ export default {
     EditGroup,
   },
   props: {
-    groupInfo: Object,
+    groupInfo: Object
   },
   data: () => ({
     onModal: false,
-
     members : [],
     sock : null,
     ws : null,
