@@ -175,12 +175,13 @@
             placeholder="Note Title"
           ></b-form-input>
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
-          <b-button class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="!isSave" class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="isSave" class="menubar__button save_button" @click="EditNote" variant="outline-success">Edit</b-button>
 
 
       </b-form>
       <hr>
-      <div class="border border-secondary rounded">
+      <div @click="focusNote" class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
     </div>
@@ -220,6 +221,7 @@ export default {
   },
   data() {
     return {
+      isSave: false,
       groupNo: this.meetingInfo.groupNo,
       meetingNo: this.meetingInfo.meetingNo,
       keepInBounds: true,
@@ -255,6 +257,12 @@ export default {
     };
   },
   methods: {
+    focusNote() {
+      this.editor.focus();
+    },
+    EditNote() {
+
+    },
     SaveNote(){      
       // 없으면 1을 넣는다. 임시용.
       // if (this.meetingId === undefined && this.groupId === undefined){
@@ -266,6 +274,7 @@ export default {
       axios.post(SERVER.URL + '/note/save', note)
         .then(res=>{
           console.log(res);
+          this.isSave = true;
         })
         .catch(err=>console.error(err));
     }
