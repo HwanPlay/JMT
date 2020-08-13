@@ -3696,6 +3696,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
+            connection.streamEvents[stream.streamid].isAudioMuted = false;
             track.enabled = true;
           });
           // make sure that video unmute doesn't affects audio (비디오 켜기가 오디오에 영향을 미치지 않는지 확인해라)

@@ -5,15 +5,15 @@
         <div class="videos-container" id="videos-container"></div>
       </div>
 
-      <!-- <div class="video_list_videOrshow" @click="videoBar"> -->
+      <div class="video_list_videOrshow">
         <!-- <span class="triangle test_1"></span> -->
-        <div class="text-center">
+        <div class="text-center" >
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
             <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-      <!-- </div> -->
+      </div>
 
       <div class="Mainvideo">
         <div class="Main-videos-container" id="Main-videos-container"></div>
@@ -101,14 +101,14 @@
 
     </div>
     <div id="note-container">
-      <NoteEditor />
+      <NoteEditor :meetingInfo="meetingInfo" />
     </div>
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
           <div class="col-md-8 name pl-3">
             <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i>
-            <h4 class="ml-1 mb-0">{{ this.$store.state.myName}}
+            <h4 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
             </h4>
           </div>
           <div class="col-md-4 options text-right pr-0">
@@ -159,7 +159,7 @@ export default {
     Broadcast
   },
   props:{
-    roomId: String,
+    meetingInfo: Object,
   },
   data() {
     return {
@@ -231,6 +231,7 @@ export default {
       if (this.videoBool == false) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
         console.log(this.connection.streamEvents.selectFirst('local'))
+       
         // this.connection.send({
         //     myVideoTrackIsMuted: true,
         //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
@@ -367,6 +368,7 @@ export default {
   },
   updated() {
     this.connection.onmessage = this.appendDIV;
+     
   },
 
   created() {
@@ -402,6 +404,7 @@ export default {
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
     );
+    
     // this.designer = new CanvasDesigner();
   },
   destroyed() {

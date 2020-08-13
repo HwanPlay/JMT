@@ -51,19 +51,20 @@ export default {
     },
 
     startMeeting(){
-      this.changeHasMeeting();
-      // axios.post(SERVER.URL + '/meeting/adds')
-      //   .then(res => {
-      //     this.meetingNo = res.meetingNo;
-      //     this.$router.push({ name: 'Conference',
-      //       params: { roomId: this.groupInfo.roomId },
-      //       query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }
-      //     })
-      // })
-      this.$router.push({ name: 'Conference',
-        params: { roomId: this.groupInfo.roomId },
-        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }
-      });
+      // this.changeHasMeeting();
+      axios.post(SERVER.URL + '/meeting/add', {groupNo: this.groupInfo.groupNo, title: this.$store.state.myName+'\'s Meeting'})
+        .then(res => {
+          console.log('good', res);
+          this.meetingNo = res.data.meetingNo;
+          this.$router.push({ name: 'Conference',
+            params: { roomId: this.groupInfo.roomId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: this.meetingNo }
+          });
+        });
+      // this.$router.push({ name: 'Conference',
+      //   params: { roomId: this.groupInfo.roomId },
+      //   query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }
+      // });
     },
 
     connect(param) {

@@ -1,5 +1,5 @@
 <template>
-  <videochat :roomId='this.$route.params.roomId' />
+  <videochat :meetingInfo="this.$route.query" />
 </template>
 
 <script>
@@ -12,8 +12,5 @@ export default {
   components: {
     Videochat,
   },
-  mounted(){
-    console.log('checkThis!', this.$route.params, this.$route.query);  // query에 .groupName과 .groupNo로 접근가능하다!!
-  }
 };
 </script>

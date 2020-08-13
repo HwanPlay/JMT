@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetail loadUserByUsername(String userId) {
 		return userRepository.findById(userId)
-				.map(u -> new UserDetail(u, Collections.singleton(new SimpleGrantedAuthority(u.getRole().getValue()))))
+				.map(u -> new UserDetail(u, Collections.singleton(new SimpleGrantedAuthority(u.getRole().getKey()))))
 				.orElseThrow(() -> new UsernameNotFoundException("User is not exist!"));
 	}
 }

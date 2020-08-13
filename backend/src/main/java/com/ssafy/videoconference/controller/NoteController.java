@@ -94,7 +94,7 @@ public class NoteController {
 	@GetMapping("/getno/{noteNo}")
 	public ResponseEntity<ApiResult> getNoteByNo(@PathVariable("noteNo") int noteNo) {
 		Note note = noteService.findByNo(noteNo);
-		return NoteResult.build(note);
+		return NoteResult.build_add(note);
 	}
 	
 }

@@ -38,7 +38,7 @@
 
             <v-row>
               <v-col lg="5" xl="4">
-                <h3>Member</h3>
+                <h3>Members</h3>
               </v-col>
               <v-col lg="7" xl="8">
                 <div v-if="groupInfo.hostId === this.$store.state.userId">
@@ -123,6 +123,7 @@ export default {
     token : '',
     recvList : [],
     tmp_meeting : null,
+    meetingNo: null,
   }),
   methods: {
     exitGroup(){
@@ -154,16 +155,14 @@ export default {
     },
 
     startMeeting(){
-      // axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
-      //   .then(() => {
-      //     console.log('change Meeting conditions');
-      //     this.$router.push({path:'/Conference', params: { roomId : this.groupInfo.roomId }});
-      //   })
-      //   .catch(err => console.log(err));
-      this.changeHasMeeting();
-      this.$router.push({name: 'Conference',
-        params: { roomId : this.groupInfo.roomId }, 
-        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName }});
+      // this.changeHasMeeting();
+      axios.post(SERVER.URL + '/meeting/add', {groupNo: this.groupInfo.groupNo, title: this.$store.state.myName+'\'s Meeting'})
+        .then(res => {
+          this.meetingNo = res.data.meetingNo;
+          this.$router.push({name: 'Conference',
+            params: { roomId : this.groupInfo.roomId }, 
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }});
+        });
     },
 
     joinMeeting(){
@@ -179,6 +178,14 @@ export default {
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
         });
+      }, error => {
+        if(this.reconnect++ <= 5) {
+          setTimeout(()=> {
+            console.log('connection reconnect');
+            this.sock = new SockJS(SERVER.URL2);
+            this.ws = Stomp.over(this.sock);
+          });
+        }
       });
     },
 

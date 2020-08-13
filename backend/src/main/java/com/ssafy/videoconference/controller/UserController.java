@@ -147,7 +147,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
-	@PostMapping("/user/newPw")
+	@PostMapping("/findPw/newPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
 
@@ -312,12 +312,12 @@ public class UserController {
 			return ResponseEntity.ok(FAIL);
 	}
 
-	@ApiOperation(value = "아이디로 패스워드 찾기", response = String.class)
-	@GetMapping("/register/findPw/{id}")
-	public ResponseEntity<String> findPw(@PathVariable("id") String userId) {
-
+	
+	@ApiOperation(value = "패스워드 찾기를 위한 이메일 인증", response = String.class)
+	@GetMapping("/findPw/sendEmail/{id}")
+	public ResponseEntity<String> sendEmailForFindPw(@PathVariable("id") String userId) {
 		if (userService.findUserByUserId(userId) != null)
-			return ResponseEntity.ok(SUCCESS);
+			return ResponseEntity.ok(sendEmail(userId));
 		else
 			return ResponseEntity.ok(FAIL);
 	}
@@ -332,7 +332,7 @@ public class UserController {
 		message.setText(new StringBuffer().append("[이메일 인증]\n").append("안녕하세요, JMT입니다.\n")
 				.append("아래 인증코드를 입력하시면 이메일계정 인증이 완료됩니다.\n\n").append("인증코드 : " + authCode).toString());
 		emailSender.send(message);
-
+		System.out.println(authCode);
 		return authCode;
 	}
 

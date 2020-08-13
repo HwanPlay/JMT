@@ -11,15 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileImgRepositoryImpl implements IProfileImgRepository {
 	@Override
 	public void saveFile(MultipartFile multipartFile, String rootPath, String saveFileName){
+		
 		System.out.println("================================");
 		rootPath = "/home/jenkins/workspace/joinmeeting/backend/resources";
 		saveFileName = "spsp.png";
+
 		File dir = new File(rootPath);
 		if(!dir.exists())
 			dir.mkdirs();
 		
 		try {
-			System.out.println(rootPath + " " + saveFileName + " 입니다." );
 			File file = new File(rootPath, saveFileName);
 			multipartFile.transferTo(file);
 		} catch (IllegalStateException | IOException e) {
