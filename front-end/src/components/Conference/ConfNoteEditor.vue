@@ -253,6 +253,7 @@ export default {
       noteObj:{
         content:'',
         title:'',
+        id: null,
       }
     };
   },
@@ -261,6 +262,15 @@ export default {
       this.editor.focus();
     },
     EditNote() {
+      const URL_saveNote = '/note/';
+            
+      axios.put(SERVER.URL + URL_saveNote + this.noteObj.id,{
+        'title': this.noteObj.title,
+        'content': this.noteObj.content
+      }).then((res)=>{
+        console.log('title:', this.noteObj.title);
+        console.log('Content:', this.noteObj.content);
+      }).catch((err)=> console.error(err));
 
     },
     SaveNote(){      
@@ -269,11 +279,12 @@ export default {
       //   this.groupId = 1;
       //   this.meetingId = 1;
       // }
-      var note = {content: this.noteObj.content, groupNo: this.groupNo, id: this.$store.state.userId, meetingNo:this.meetingNo, title: this.noteObj.title};
+      const note = {content: this.noteObj.content, groupNo: this.groupNo, id: this.$store.state.userId, meetingNo:this.meetingNo, title: this.noteObj.title};
       console.log(note);
       axios.post(SERVER.URL + '/note/save', note)
         .then(res=>{
           console.log(res);
+          this.noteObj.id = res.data.noteNo;
           this.isSave = true;
         })
         .catch(err=>console.error(err));
