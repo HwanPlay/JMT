@@ -52,4 +52,11 @@ public class MeetingController {
 	}
 	
 	
+	@GetMapping("get/currentmeeting/{groupNo}")
+	public ResponseEntity<ApiResult> getCurrentMeeting(@PathVariable("groupNo") int groupNo) {
+		int meeting = meetingService.findCurrentMeeting(groupNo);
+		return MeetingResult.build(meeting);
+	}
+	
+	
 }

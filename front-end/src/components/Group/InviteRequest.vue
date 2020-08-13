@@ -1,23 +1,20 @@
 <template>
-  <div class="text-center" style="height: 100%">
+    <div class="text-center" style="height: 100%">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
-            <v-icon size="30">mdi-account</v-icon>
+            <v-icon size="30">mdi-bell</v-icon>
           </v-btn>
       </template>
 
       <v-card>
         <v-container>
-          <v-row>
-            <v-col cols="4">
-                <v-img src="../../assets/profile/blank-profile.png" aspect-ratio="1" alt="사진 자리 ㅠㅠ"></v-img>
-            </v-col>
-            <v-col cols="8">
-              Name: {{this.$store.state.myName}}
-              <hr/>
-              userId: {{this.$store.state.userId}}
-            </v-col>
+            
+          <v-row v-for="(item, i) in requests" :key="i">
+            <v-list-item-content>
+              {{item}}
+            </v-list-item-content>
+            <v-divider></v-divider>
           </v-row>
         </v-container>        
 
@@ -38,15 +35,39 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
+import axios from 'axios';
+
 export default {
-  name: 'MyProfile',
-  data() {
-    return {
-      dialog: false,
-    };
+  name: 'InviteRequest',
+  components: {
   },
+
+  data : () => ({
+    requests : null,
+  }),
+
   methods: {
-    
+    getRequest() {
+      axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
+        .then(res => {
+          this.requests = res.data.requests;
+          console.log(this.requests);
+        })
+        .catch(err => console.log(err.response));
+    }
+  },
+
+  mounted() {
+    this.getRequest();
   }
+
+
 };
+  
+
 </script>
+
+<style>
+
+</style>

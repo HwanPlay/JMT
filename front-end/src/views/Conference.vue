@@ -1,5 +1,5 @@
 <template>
-  <videochat :meetingInfo="this.$route.query" />
+  <videochat :roomId="this.$route.params.roomId" :meetingInfo="this.$route.query" />
 </template>
 
 <script>
@@ -12,5 +12,8 @@ export default {
   components: {
     Videochat,
   },
+  mounted(){
+    console.log(this.$route.params.roomId, this.$route.query);
+  }
 };
 </script>

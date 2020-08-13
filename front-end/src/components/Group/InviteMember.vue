@@ -21,7 +21,7 @@
             이름을 검색해주세요
           </div>
           <div v-else-if="(isSearched) && (searchData.length)" v-for="(user, i) in searchData" :key="i">
-            <InviteMemberCard :user=user :groupNo=groupNo />
+            <InviteMemberCard :user=user :groupNo=groupNo :groupName=groupName :hostId=hostId />
           </div>
           <div v-else>
             검색 결과가 없습니다!
@@ -50,7 +50,9 @@ export default {
     InviteMemberCard
   },
   props:{
-    groupNo: Number
+    groupNo: Number,
+    groupName: String,
+    hostId: String
   },
   data () {
     return {

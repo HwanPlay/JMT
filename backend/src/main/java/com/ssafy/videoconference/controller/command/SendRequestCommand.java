@@ -12,4 +12,5 @@ public class SendRequestCommand {
 	private int groupNo;
 	private String hostId;
 	private String userId;
+	private String groupName;
 }

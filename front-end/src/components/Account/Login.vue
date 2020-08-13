@@ -22,8 +22,11 @@
           <div style="margin-top: 80px;">
             <div style="font-size: 13px; line-height: 18px; color:rgb(121, 134, 163);">
               비밀번호가 기억이 안나신다면
-              <span style="text-decoration: underline; cursor: pointer;">이곳</span>을 클릭해주세요
+              <span style="text-decoration: underline; cursor: pointer;" @click="passwordModalOn=true">이곳</span>을 클릭해주세요
             </div>
+            <v-dialog width='500px' v-model="passwordModalOn">
+              <FindPassword @close='passwordModalOn=false' />
+            </v-dialog>
           </div>
         </v-col>
 
@@ -47,13 +50,16 @@
 </template>
 
 <script>
-import Signup from './Signup';
 import { mapActions } from 'vuex';
+
+import Signup from './Signup';
+import FindPassword from './FindPassword.vue';
 
 export default {
   name: 'Login',
   components: {
-    Signup
+    Signup,
+    FindPassword
   },
 
   data () {
@@ -74,7 +80,8 @@ export default {
         loginData: {
           id: null,
           pw: null,
-        }
+        },
+        passwordModalOn: false
       };
     }
   },

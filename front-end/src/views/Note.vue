@@ -6,14 +6,16 @@
         @onGetNoteList="getNoteList" 
         :received_note_list="received_note_list" 
         @onGetNoteHTML="getNoteHTML"/>
-      <b-col cols="1"></b-col>
+      <b-col cols="2">
+        <NoteAlert :alertFlag="alertFlag" :alertMessage="alertMessage"/>
+      </b-col>
       
       <NoteEditor 
-      @onDeleteNote="deleteNote"
-      :noteObj="noteObj"
-      @onSaveNote="saveNote"
-      />
-      <b-col cols="1"></b-col>
+        :group_list="group_list"
+        @onDeleteNote="deleteNote"
+        :noteObj="noteObj"
+        @onSaveNote="saveNote"/>
+      <b-col cols="0.5"></b-col>
 
     </b-row>
   </b-container>
@@ -22,6 +24,8 @@
 <script>
 import NoteEditor from '../components/Note/NoteEditor.vue';
 import NoteSearch from '../components/Note/NoteSearch.vue';
+import NoteAlert from '../components/Note/NoteAlert.vue';
+
 import SERVER from '../api/spring.js';
 
 import axios from 'axios';
@@ -31,13 +35,16 @@ export default {
   components: {
     NoteEditor,
     NoteSearch,
+    NoteAlert,
   },
   data() {
     return {      
+      alertFlag: false,
+      alertMessage: '',
+
       group_list: [],
       received_note_list: [],
       USER_ID: this.$store.state.userId,
-
       noteObj: {
         Content: '',
         Id: 0,
@@ -100,12 +107,24 @@ export default {
         'title': noteObj.Title,
         'content': noteObj.Content
       }).then((res)=>{
+        this.alertFlag = !this.alertFlag;
+        this.alertMessage = 'Save!';
         console.log('title:', noteObj.Title);
         console.log('Content:', noteObj.Content);
-      }).catch((err)=> console.error(err));      
+      }).catch((err)=> console.error(err));
     },
-
-
+    deleteNote(noteId) {
+      const URLDeleteNote = '/note/delno/';
+      axios.delete(SERVER.URL+URLDeleteNote+noteId)
+        .then((res)=> {
+          this.alertFlag = !this.alertFlag;
+          this.alertMessage = 'Delete!';
+          console.log(res);
+          console.log('delete note' + noteId);
+        })
+        .catch((err)=>console.error(err));
+    }
+    
     // editNoteContent([noteId, noteContent]) {
     //   // 이거 url 수정할 것 contenet임.
     //   const URLContentEdit = 'videoconference/api/note/content/';
@@ -135,15 +154,7 @@ export default {
     //     });
     // },
 
-    deleteNote(noteId) {
-      const URLDeleteNote = '/note/delno/';
-      axios.delete(SERVER.URL+URLDeleteNote+noteId)
-        .then((res)=> {
-          console.log(res);
-          console.log('delete note' + noteId);
-        })
-        .catch((err)=>console.error(err));
-    }
+    
   },
   mounted() {
     this.get_group_list();

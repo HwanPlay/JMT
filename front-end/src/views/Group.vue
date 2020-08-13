@@ -1,6 +1,6 @@
 <template>
   <v-row style="width: 100%; height: 100%;">
-    <v-col class="nav" cols="2">
+    <v-col class="nav" id="nav-box" cols="2">
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
@@ -17,10 +17,12 @@
               <!-- @click="$router.push('/MyProfile')" -->
                <v-list-item-content class="item-content">
                 <v-list-item-title class="myName">
-                  <h2 style="color : white">{{ $store.state.myName }}</h2>
+                  <h5>{{ $store.state.myName }}</h5>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <h5 style="color : white">{{ $store.state.userId }}</h5>
+                  <div id="userIdBox">
+                    <p>{{ $store.state.userId }}</p>
+                  </div>
                 </v-list-item-subtitle>
               </v-list-item-content> 
               <!-- <v-list-item-action>
@@ -31,29 +33,40 @@
         </div>
         <v-divider></v-divider>
         <v-list nav dense>
-          <v-list-item-group v-model="group" active-class="border"  color="orange">
-            <v-list-item
+          <v-list-item-group  v-model="group" active-class="border"  color="orange">
+            <div id="v-list-item-box"  style=" margin-left : 15px;">
+            <v-list-item 
               v-for="(group, i) in this.$store.state.myGroups"
               :key="i"
               @click="toggle(i)"
             >
-              <v-list-item-icon>
-                <v-icon style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
-              </v-list-item-icon>
+              <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
+          
+              <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px; margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
 
               <v-list-item-content>
-                <h4 id="groupNameText" style="left : -30px;" v-text="group.groupName"></h4>
+                <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
               </v-list-item-content>
             </v-list-item>
+            </div>
           </v-list-item-group>
-
-          <v-btn @click="modalOn= !modalOn" width="100%" text>
-            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>
+          
+          <v-btn id="groupCreate" @click="modalOn= !modalOn" text dark class="mt-3">
+            <v-icon class="mr-2" medium>mdi-account-multiple-plus</v-icon>
             <p>그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
             <CreateGroup @close="closeModal" />
           </v-dialog>
+
         </v-list>
       </v-navigation-drawer>
     </v-col>
@@ -79,9 +92,9 @@ export default {
   },
   data() {
     return {
-      group: 0,
+      group: {},
       modalOn: false,
-      onboarding: 0
+      onboarding: 0,
     };
   },
   methods: {
@@ -123,7 +136,62 @@ export default {
     object-fit: cover;
     border-radius: 50%;
 }
+.myName{
+  
+  word-wrap: break-word;
+  display: inline-block;
+}
+.myName h5{
+  color : white; 
+  word-wrap: break-word;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 200px;
+  height: 25px;
+}
+#userIdBox{
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+#userIdBox p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 200px;
+  height: 20px;
+  font-size: 16px;
+  color: white;
+}
+
+#userIdBox p:hover {
+    text-overflow: clip;
+    white-space: normal;
+    Word-break: break-all;
+}
+
 #groupNameText{
     color: white;
+    font-size: 20px;
+    left: -20px;
 }
+#v-list-item-box{
+  height: 530px;
+  overflow-y: auto;
+}
+
+#groupCreate{
+  margin-left: 25px;
+  background-color : orange;
+  height: 45px;
+  width: 200px;
+}
+#groupCreate p{
+  font-size: 20px;
+  font-weight:550;
+}
+
+
 </style>

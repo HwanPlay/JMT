@@ -42,7 +42,7 @@
               </v-col>
               <v-col lg="7" xl="8">
                 <div v-if="groupInfo.hostId === this.$store.state.userId">
-                  <InviteMember :groupNo = groupInfo.groupNo />
+                  <InviteMember :groupNo = groupInfo.groupNo :groupName = groupInfo.groupName :hostId = groupInfo.hostId />
                 </div>
               </v-col>
             </v-row>
@@ -111,11 +111,10 @@ export default {
     EditGroup,
   },
   props: {
-    groupInfo: Object,
+    groupInfo: Object
   },
   data: () => ({
     onModal: false,
-
     members : [],
     sock : null,
     ws : null,
@@ -155,7 +154,7 @@ export default {
     },
 
     startMeeting(){
-      // this.changeHasMeeting();
+      this.changeHasMeeting();
       axios.post(SERVER.URL + '/meeting/add', {groupNo: this.groupInfo.groupNo, title: this.$store.state.myName+'\'s Meeting'})
         .then(res => {
           this.meetingNo = res.data.meetingNo;
@@ -166,7 +165,10 @@ export default {
     },
 
     joinMeeting(){
-      this.$router.push({name: 'Conference', params: { roomId : this.groupInfo.roomId }});
+      this.$router.push({name: 'Conference', 
+        params: { roomId : this.groupInfo.roomId },
+        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }
+      });
     },
 
 
@@ -174,8 +176,7 @@ export default {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/meeting/' + param, res => {
-          console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recvList.push(JSON.parse(res.body));
+          this.recvList.push(res.body);
           console.log(this.recvList);
         });
       }, error => {
@@ -184,7 +185,8 @@ export default {
             console.log('connection reconnect');
             this.sock = new SockJS(SERVER.URL2);
             this.ws = Stomp.over(this.sock);
-          });
+            this.connect();
+          }, 10*1000);
         }
       });
     },

@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.model.meeting.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,7 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingRepository.findByNo(meetingNo);
 	}
 
+	
 	@Override
 	public List<Meeting> findByGroup(int groupNo) {
 		return meetingRepository.findByGroup(groupNo);
@@ -45,4 +47,12 @@ public class MeetingServiceImpl implements MeetingService {
 		meetingRepository.deleteByGroup(groupNo);
 	}
 
+
+	@Override
+	public int findCurrentMeeting(int groupNo) {
+		ArrayList<Meeting> meeting_list = (ArrayList<Meeting>) meetingRepository.findByGroup(groupNo);
+		return meeting_list.get(meeting_list.size() - 1).getMeetingNo();
+	}
+
+	
 }

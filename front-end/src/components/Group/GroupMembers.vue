@@ -12,7 +12,7 @@
             아싸..
           </div>
           <v-card-text v-for="(memberInfo, i) in membersInfo" :key=i style="padding: 5px;">
-            <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="this.$emit('refresh')" />
+            <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="refresh" />
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -37,6 +37,11 @@ export default {
     membersInfo: Array,
     groupNo: Number,
     hostId: String,
+  },
+  methods: {
+    refresh(){
+      this.$emit('refresh');
+    }
   },
   data () {
     return{
