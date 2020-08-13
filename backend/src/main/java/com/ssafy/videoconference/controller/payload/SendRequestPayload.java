@@ -11,10 +11,11 @@ public class SendRequestPayload {
 	private int groupNo;
 	private String hostId;
 	private String userId;
+	private String groupName;
 	
 	
 	public SendRequestCommand toCommand() {
-		return new SendRequestCommand(groupNo, hostId, userId);
+		return new SendRequestCommand(groupNo, hostId, userId, groupName);
 	}
 	
 }

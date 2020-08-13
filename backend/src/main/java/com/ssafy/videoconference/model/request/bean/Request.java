@@ -44,12 +44,17 @@ public class Request extends BaseTimeEntity{
 	private String userId;
 	
 	
-	public static Request create(int groupNo, String hostId, String userId) {
+	@Column(name = "groupName", nullable = false)
+	private String groupName;
+	
+	
+	public static Request create(int groupNo, String hostId, String userId, String groupName) {
 		Request req = new Request();
 		req.group = new Group();
 		req.getGroup().setGroupNo(groupNo);
 		req.hostId = hostId;
 		req.userId = userId;
+		req.groupName = groupName;
 		return req;
 	}
 	

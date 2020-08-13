@@ -18,7 +18,8 @@ public class RequestResult {
 				.add("requestNo", req.getRequestNo())
 				.add("groupNo",  req.getGroup().getGroupNo())
 				.add("hostId",  req.getHostId())
-				.add("userId", req.getUserId());
+				.add("userId", req.getUserId())
+				.add("groupName", req.getGroupName());
 		return Result.ok(apiResult);
 	}
 	
@@ -29,7 +30,8 @@ public class RequestResult {
 			requestsData.add(new RequestData(request.getRequestNo(),
 											request.getGroup().getGroupNo(),
 											request.getHostId(),
-											request.getUserId()));
+											request.getUserId(),
+											request.getGroupName()));
 		}
 		
 		ApiResult apiResult = ApiResult.blank()
@@ -45,6 +47,7 @@ public class RequestResult {
 		private int groupNo;
 		private String hostId;
 		private String userId;
+		private String groupName;
 	}
 	
 	

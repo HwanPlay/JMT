@@ -42,7 +42,7 @@
               </v-col>
               <v-col lg="7" xl="8">
                 <div v-if="groupInfo.hostId === this.$store.state.userId">
-                  <InviteMember :groupNo = groupInfo.groupNo />
+                  <InviteMember :groupNo = groupInfo.groupNo :groupName = groupInfo.groupName :hostId = groupInfo.hostId />
                 </div>
               </v-col>
             </v-row>
@@ -111,11 +111,10 @@ export default {
     EditGroup,
   },
   props: {
-    groupInfo: Object,
+    groupInfo: Object
   },
   data: () => ({
     onModal: false,
-
     members : [],
     sock : null,
     ws : null,
