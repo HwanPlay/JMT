@@ -5,9 +5,15 @@
         <div class="videos-container" id="videos-container"></div>
       </div>
 
-      <div class="video_list_videOrshow" @click="videoBar">
-        <span class="triangle test_1"></span>
-      </div>
+      <!-- <div class="video_list_videOrshow" @click="videoBar"> -->
+        <!-- <span class="triangle test_1"></span> -->
+        <div class="text-center">
+          <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
+            <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
+          </v-btn>
+        </div>
+      <!-- </div> -->
 
       <div class="Mainvideo">
         <div class="Main-videos-container" id="Main-videos-container"></div>
@@ -179,6 +185,7 @@ export default {
       videoLength: null,
 
       // overlay: false,
+      videoBarNav: true,
       showNav: true,
       videoOnOff: true,
       micOnOff: true,
@@ -222,46 +229,26 @@ export default {
     //비디오 끄고,켜기
     onCam() {
       if (this.videoBool == false) {
-        console.log("아아아아아아3333")
-        console.log(this.connection.streamEvents.selectFirst('local').stream.getTracks()[1]);
-        console.log("아아아아아아44444")
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute('video');
-
-        // localStream.unmute("audio");
-        // console.log(this.connection.streamEvents);
-        // console.log(
-        //   this.connection.streamEvents[localStream.streamid].session.audio
-        // );
-        // console.log(localStream);
-
-
-        // this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
+        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
+        console.log(this.connection.streamEvents.selectFirst('local'))
         // this.connection.send({
         //     myVideoTrackIsMuted: true,
         //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
         //     streamId: this.connection.streamEvents.selectFirst('local').streamid
         // });
 
-
-        // console.log(this.myVideoTrackIsMuted)
-        // console.log(this.trackId, this.connection.streamId)
-
+        // this.connection.onmessage = function(event) {
+        //     if(event.data.myVideoTrackIsMuted === true) {
+        //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
+        //         document.getElementById(event.data.streamId).poster = '/images/poster.png'; // or background image
+        //     }
+        // };
         this.videoBool = !this.videoBool;
-
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
 
-
-
-        // console.log(this.connection.streamEvents);
-        // console.log(
-        //   this.connection.streamEvents[localStream.streamid].session.audio
-        // );
-        // console.log(localStream);
         this.videoBool = !this.videoBool;
       }
       this.videoOnOff = !this.videoOnOff;
@@ -272,7 +259,6 @@ export default {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
         localStream.muted = true;
-        console.log(localStream);
         this.AudioBool = !this.AudioBool;
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -281,7 +267,6 @@ export default {
         this.connection.streamEvents.selectFirst(
           "local"
         ).mediaElement.muted = true;
-        console.log(localStream);
         this.AudioBool = !this.AudioBool;
       }
     },
@@ -295,6 +280,7 @@ export default {
       this.broadcast.openOrJoin(this.roomid + "a");
     },
     videoBar() {
+      this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
       this.Bar = !this.Bar;
       if (this.Bar == false) {
@@ -381,14 +367,6 @@ export default {
   },
   updated() {
     this.connection.onmessage = this.appendDIV;
-    // this.connection.onmessage = function(event) {
-    // // if(event.data.myVideoTrackIsMuted === true) {
-    // //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
-    // //         document.getElementById(event.data.streamId).poster = 'https://sharedpro.in/images/user-icon.png'; // or background image
-    // //     }
-    // console.log("아잉")
-
-    // };
   },
 
   created() {
@@ -432,10 +410,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .videos-container video {
   height: 100px;
   overflow-x: hidden;
+  border: 2px solid white;
 }
 
 .Main-videos-container video {
@@ -454,7 +433,7 @@ export default {
   height: 100px;
   width: 100%;
   background-color: black;
-  border: 2px solid red;
+  border: 2px solid white;
   white-space: nowrap;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -511,7 +490,7 @@ export default {
 .MainContainer {
   position: relative;
   margin-top: 0;
-  // background-color: rgb(52, 63, 87);
+  /* background-color: rgb(52, 63, 87); */
   width: 100%;
   height: 100%;
   overflow-y: auto;

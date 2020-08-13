@@ -3663,22 +3663,14 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
         if (typeof type == 'undefined' || type == 'video') {
           getTracks(stream, 'video').forEach(function(track) {
-            console.log("아아아아아아난")
-            console.log(track);
-            console.log("아아아아아아난2222")
             track.enabled = false;
           });
-          // connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
           console.log("비디오 끄기");
         }
 
-        // if (typeof syncAction == 'undefined' || syncAction == true) {
-        //   StreamsHandler.onSyncNeeded(stream.streamid, 'mute', type);
- 
-        // }
-
-        console.log(connection.streamEvents[stream.streamid].mediaElement);
-
+        if (typeof syncAction == 'undefined' || syncAction == true) {
+          StreamsHandler.onSyncNeeded(stream.streamid, 'mute', type);
+        }
 
         connection.streamEvents[stream.streamid].muteType = type || 'both';
         
@@ -3708,7 +3700,6 @@ var RTCMultiConnection = function(roomid, forceOptions) {
           });
           // make sure that video unmute doesn't affects audio (비디오 켜기가 오디오에 영향을 미치지 않는지 확인해라)
           if (typeof type !== 'undefined' && type == 'video' && connection.streamEvents[stream.streamid].isAudioMuted) {
-            console.log("이게뭐야"+connection.streamEvents[stream.streamid].isAudioMuted);
             (function looper(times) {
               if (!times) {
                 times = 0;
@@ -5424,7 +5415,6 @@ var RTCMultiConnection = function(roomid, forceOptions) {
     };
 
     connection.onmute = function(e) {
-      console.log("온뮤트입니다")
       if (!e || !e.mediaElement) {
         return;
       }
@@ -5474,7 +5464,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             streamid: streamid,
             action: action,
             streamSyncNeeded: true,
-            type: type  //  수정 : || 'both' 지움
+            type: type || 'both'
           }, participant);
         });
       };
