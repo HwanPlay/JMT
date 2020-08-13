@@ -135,12 +135,13 @@ export default {
 
 
     changeHasMeeting(){
+      var tmp = null;
       axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
         .then(res => {
-          this.tmp_meeting = res.data.hasMeeting;
+          tmp = res.data.hasMeeting;
         })
         .finally( () => {
-          this.send();
+          this.send(tmp);
         });
     },
 
@@ -182,9 +183,9 @@ export default {
     },
 
 
-    send() {
+    send(tmp) {
       const msg = {
-        meeting : this.tmp_meeting,
+        meeting : tmp,
         groupNo : this.groupInfo.groupNo
       };
       this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});

@@ -89,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
 	public boolean changeHasMeeting(int groupNo) {
 		Group group = findById(groupNo);
 		group.setHasmeeting(!group.isHasmeeting());
-		return !group.isHasmeeting();
+		return group.isHasmeeting();
 	}
 
 
