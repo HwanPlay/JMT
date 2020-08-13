@@ -276,9 +276,6 @@ export default {
     }
   },
   methods: {
-    test() {
-      console.log(this.group_list);
-    },
     focusNote() {
       this.editor.focus();
     },
