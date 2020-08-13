@@ -1,11 +1,27 @@
 <template>
   <div>
     <v-list-item>
-      <v-list-item-avatar color="grey" size="40"><v-img :src="require('../../assets/profile/profile1.jpg')"></v-img></v-list-item-avatar>
+      
+      <v-badge 
+        v-if="userInfo.id === this.$store.state.userId"
+        color="green" content="It's Me" left overlap offset-x="30" offset-y="15"
+      >
+        <v-list-item-avatar color="grey" size="40">
+          <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img>
+        </v-list-item-avatar>
+      </v-badge>
+
+      <v-badge v-else dot color="white">
+        <v-list-item-avatar color="grey" size="40">
+          <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img>
+        </v-list-item-avatar>
+      </v-badge>
+      
       <v-list-item-content>
         <v-list-item-title>{{ userInfo.nickname }}</v-list-item-title>
         <v-list-item-subtitle>{{ userInfo.id }}</v-list-item-subtitle>
       </v-list-item-content>
+
       <div v-if='this.$store.state.userId===hostId'>
         <v-btn :disabled='isExiled' color="danger" @click="exileMember; this.$emit('refresh')" style='outline: none;'>
           추방
