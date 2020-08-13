@@ -11,7 +11,7 @@
         </v-list-item-avatar>
       </v-badge>
 
-      <v-badge v-else dot color="white">
+      <v-badge v-else dot color="rgb(0, 0, 0, 0)">
         <v-list-item-avatar color="grey" size="40">
           <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img>
         </v-list-item-avatar>
