@@ -178,6 +178,14 @@ export default {
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
         });
+      }, error => {
+        if(this.reconnect++ <= 5) {
+          setTimeout(()=> {
+            console.log("connection reconnect");
+            this.sock = new SockJS(SERVER.URL2);
+            this.ws = Stomp.over(this.sock);
+          })
+        }
       });
     },
 
