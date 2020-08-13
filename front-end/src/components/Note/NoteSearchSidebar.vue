@@ -1,6 +1,6 @@
 <template>
   <div class="rounded text-monospace p-2">
-
+    
     <div v-for="group in group_list" :key="group.groupNo">
       <div class="rounded group_btn">
         <b-button class="text-left" block variant="white" @click="getNoteList(group.groupNo)" v-b-toggle.sidebar-backdrop> <h3>{{group.groupName}}</h3></b-button>
@@ -13,9 +13,11 @@
       :backdrop-variant="variant"
       backdrop
       shadow
+      no-header
       width=25rem 
     >
       <div class="px-3">
+        <div style="height: 3rem;"></div>
         <h3 class="text-center">Notes</h3>
         <div class="row p-2">
 

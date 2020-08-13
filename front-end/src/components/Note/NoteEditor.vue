@@ -178,6 +178,7 @@
             required
             placeholder="Note Title"
           ></b-form-input>
+
           
           <div class="note_button">
             <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
@@ -188,7 +189,7 @@
           </div>
       </b-form>
       <hr>
-      <div class="border border-secondary rounded">
+      <div @click="focusNote" class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
     </div>
@@ -275,12 +276,17 @@ export default {
     }
   },
   methods: {
+    test() {
+      console.log(this.group_list);
+    },
+    focusNote() {
+      this.editor.focus();
+    },
     saveNote() {
       console.log('SaveNote');
       this.$emit('onSaveNote', this.dataNoteObj);
       this.editor.focus();
     },
-
     deleteNote() {
       this.$emit('onDeleteNote', this.dataNoteObj.Id);
       this.dataNoteObj.Title = 'Select Note';
