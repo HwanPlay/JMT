@@ -181,10 +181,10 @@ export default {
       }, error => {
         if(this.reconnect++ <= 5) {
           setTimeout(()=> {
-            console.log("connection reconnect");
+            console.log('connection reconnect');
             this.sock = new SockJS(SERVER.URL2);
             this.ws = Stomp.over(this.sock);
-          })
+          });
         }
       });
     },

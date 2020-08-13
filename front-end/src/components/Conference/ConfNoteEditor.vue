@@ -261,14 +261,13 @@ export default {
       //   this.groupId = 1;
       //   this.meetingId = 1;
       // }
-      console.log(this.noteObj.content, this.noteObj.title, this.groupNo, this.$store.state.userId, this.meetingNo);
-      axios.post(SERVER.URL + '/note/save',{
-        'content': this.noteObj.content,
-        'groupNo': this.groupNo,
-        'id': this.$store.state.uesrId,
-        'meetingNo': this.meetingNo,
-        'title': this.noteObj.title,
-      }).then(res=>console.log(res)).catch(err=>console.error(err));
+      var note = {content: this.noteObj.content, groupNo: this.groupNo, id: this.$store.state.userId, meetingNo:this.meetingNo, title: this.noteObj.title};
+      console.log(note);
+      axios.post(SERVER.URL + '/note/save', note)
+        .then(res=>{
+          console.log(res);
+        })
+        .catch(err=>console.error(err));
     }
   },
   beforeDestroy() {
