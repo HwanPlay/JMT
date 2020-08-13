@@ -1,9 +1,9 @@
-import axios from 'axios'
+import axios from 'axios';
 
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 일
-    console.log('request interceptor')
+    console.log('request interceptor');
     config.headers.Authorization = localStorage.getItem('accessToken');
 
     return config;
@@ -38,7 +38,7 @@ axios.interceptors.response.use(
             console.log('thisisres',res);
             isRefreshing = false;
             console.log(isRefreshing);
-            this.SET_TOKEN(res.data)
+            this.SET_TOKEN(res.data);
             return axios(originalRequest);
           }
         })
@@ -56,4 +56,4 @@ export default {
       SET_TOKEN: 'SET_TOKEN'
     })
   }
-}fdfasdfasdsdf
+};

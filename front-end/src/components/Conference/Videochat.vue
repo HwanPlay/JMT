@@ -1,13 +1,19 @@
 <template>
   <div class="MainContainer">
     <div class="MainContent">
-      <div class="Minivideo_list">
+      <div class="Minivideo_list" id="Minivideo_list">
         <div class="videos-container" id="videos-container"></div>
       </div>
 
-      <div class="video_list_videOrshow" @click="videoBar">
-        <span class="triangle test_1"></span>
-      </div>
+      <!-- <div class="video_list_videOrshow" @click="videoBar"> -->
+        <!-- <span class="triangle test_1"></span> -->
+        <div class="text-center">
+          <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
+            <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
+          </v-btn>
+        </div>
+      <!-- </div> -->
 
       <div class="Mainvideo">
         <div class="Main-videos-container" id="Main-videos-container"></div>
@@ -29,15 +35,15 @@
           background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
-          <v-btn @click="onJoin">
+          <!-- <v-btn @click="onJoin">
             <span>Join</span>
             <v-icon>mdi-login</v-icon>
-          </v-btn>
+          </v-btn> -->
           <!-- <v-overlay :value="overlay">
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="onVideo" >
+          <v-btn @click="onCam" >
             <span v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
@@ -130,7 +136,6 @@
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
-<script src="app.js"></script>
 <script>
 import RTCMultiConnection from "../../api/RTCMultiConnection";
 import Broadcast from "../../api/broadcast";
@@ -180,11 +185,16 @@ export default {
       videoLength: null,
 
       // overlay: false,
+      videoBarNav: true,
       showNav: true,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: true,
-      activeBtn: 0
+      activeBtn: 0,
+
+      myVideoTrackIsMuted: false,
+      trackId: null,
+      streamId : null
     };
   },
   methods: {
@@ -217,30 +227,28 @@ export default {
       console.log("여기가 2번")
  },
     //비디오 끄고,켜기
-    onVideo() {
+    onCam() {
       if (this.videoBool == false) {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute("video");
+        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
+        console.log(this.connection.streamEvents.selectFirst('local'))
+        // this.connection.send({
+        //     myVideoTrackIsMuted: true,
+        //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
+        //     streamId: this.connection.streamEvents.selectFirst('local').streamid
+        // });
 
-        // console.log(this.connection.streamEvents);
-        // console.log(
-        //   this.connection.streamEvents[localStream.streamid].session.audio
-        // );
-        // console.log(localStream);
+        // this.connection.onmessage = function(event) {
+        //     if(event.data.myVideoTrackIsMuted === true) {
+        //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
+        //         document.getElementById(event.data.streamId).poster = '/images/poster.png'; // or background image
+        //     }
+        // };
         this.videoBool = !this.videoBool;
-
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
 
-        
-        // console.log(this.connection.streamEvents);
-        // console.log(
-        //   this.connection.streamEvents[localStream.streamid].session.audio
-        // );
-        // console.log(localStream);
         this.videoBool = !this.videoBool;
       }
       this.videoOnOff = !this.videoOnOff;
@@ -251,7 +259,6 @@ export default {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
         localStream.muted = true;
-        console.log(localStream);
         this.AudioBool = !this.AudioBool;
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -260,7 +267,6 @@ export default {
         this.connection.streamEvents.selectFirst(
           "local"
         ).mediaElement.muted = true;
-        console.log(localStream);
         this.AudioBool = !this.AudioBool;
       }
     },
@@ -274,7 +280,8 @@ export default {
       this.broadcast.openOrJoin(this.roomid + "a");
     },
     videoBar() {
-      $(".Minivideo_list").toggle();
+      this.videoBarNav = !this.videoBarNav;
+      $("#Minivideo_list").toggle();
       this.Bar = !this.Bar;
       if (this.Bar == false) {
         $(".Mainvideo").css("height", "88%");
@@ -334,6 +341,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
+      
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
@@ -402,10 +410,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .videos-container video {
   height: 100px;
   overflow-x: hidden;
+  border: 2px solid white;
 }
 
 .Main-videos-container video {
@@ -419,12 +428,12 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-.Minivideo_list {
+#Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
   background-color: black;
-  border: 2px solid red;
+  border: 2px solid white;
   white-space: nowrap;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -481,7 +490,7 @@ export default {
 .MainContainer {
   position: relative;
   margin-top: 0;
-  // background-color: rgb(52, 63, 87);
+  /* background-color: rgb(52, 63, 87); */
   width: 100%;
   height: 100%;
   overflow-y: auto;

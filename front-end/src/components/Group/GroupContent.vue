@@ -37,10 +37,10 @@
         <v-col>
 
             <v-row>
-              <v-col cols="4">
+              <v-col lg="5" xl="4">
                 <h3>Member</h3>
               </v-col>
-              <v-col cols="8">
+              <v-col lg="7" xl="8">
                 <div v-if="groupInfo.hostId === this.$store.state.userId">
                   <InviteMember :groupNo = groupInfo.groupNo />
                 </div>
@@ -122,12 +122,12 @@ export default {
     reconnect : 0,
     token : '',
     recvList : [],
-    tmp_meeting : false,
+    tmp_meeting : null,
   }),
   methods: {
     exitGroup(){
       axios.delete(SERVER.URL+'/groupmember/delno/'+this.groupInfo.groupNo+'/'+this.$store.state.userId)
-        .then(res => {
+        .then(res => { console.log(res);
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
@@ -135,12 +135,13 @@ export default {
 
 
     changeHasMeeting(){
+      var tmp = null;
       axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
-        .then(function(res) {
-          this.tmp_meeting = res.data.hasMeeting;
+        .then(res => {
+          tmp = res.data.hasMeeting;
         })
-        .finally(function() {
-          this.send();
+        .finally( () => {
+          this.send(tmp);
         });
     },
 
@@ -170,10 +171,10 @@ export default {
     },
 
 
-    connect(param) {
+    connect(param) { console.log(param);
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
+        this.ws.subscribe('/send/meeting/' + param, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
           this.recvList.push(JSON.parse(res.body));
           console.log(this.recvList);
@@ -182,9 +183,9 @@ export default {
     },
 
 
-    send() {
+    send(tmp) {
       const msg = {
-        isMeeting : this.tmp_meeting,
+        meeting : tmp,
         groupNo : this.groupInfo.groupNo
       };
       this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});

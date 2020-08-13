@@ -12,7 +12,7 @@
       </v-card-text>
         <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" class="mr-4" @click="this.$emit('close')">
+        <v-btn text color="error" class="mr-4" @click="closeModal">
           닫기
         </v-btn>
         </v-card-actions>
@@ -35,6 +35,11 @@ export default {
     return {
       sGroups : []
     };
+  },
+  methods:{
+    closeModal(){
+      this.$emit('closeModal');
+    }
   },
   mounted() {
     axios.get(SERVER.URL+'/group/gethost/'+this.$store.state.userId)
