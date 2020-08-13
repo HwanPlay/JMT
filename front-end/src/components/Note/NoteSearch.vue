@@ -16,20 +16,25 @@
       </div>
       <v-divider></v-divider>
 
-      <div v-for="group in group_list" :key="group.groupNo">
-        <div class="rounded group_btn">
-          <b-button
-            class="text-left groupNameText"
-            block
-            variant="white"
+      <v-list nav dense>
+        <v-list-item-group active-class="border"  color="orange">
+          <v-list-item
+            v-for="(group, i) in this.$store.state.myGroups"
+            :key="i"
             @click="getNoteList(group.groupNo)"
             v-b-toggle.sidebar-backdrop
           >
-            <v-icon style="margin-top : 5px; margin-left : 10px;  margin-right : 20px;">mdi-account-multiple</v-icon>
-            <h3 style="display:inline">{{group.groupName}}</h3>
-          </b-button>
-        </div>
-      </div>
+            <v-list-item-icon>
+              <v-icon style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <h4 id="groupNameText" style="left : -30px;" v-text="group.groupName"></h4>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+      
     </v-navigation-drawer>
 
     <b-sidebar
