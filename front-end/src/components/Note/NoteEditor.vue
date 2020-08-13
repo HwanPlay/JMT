@@ -1,12 +1,13 @@
 <template>
-  <b-col cols="7">
+  <b-col cols="6">
+    
     <div class="editor">
       <!-- Upper Menu -->
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
         <div class="menubar">
           <button v-if="false" class="menubar__button">
             <!-- @click="downHTMLDocument" -->
-            <b-icon-download v-b-tooltip.hover title="Download File" font-scale="2"></b-icon-download>
+            <b-icon-download v-b-tooltip.hover title="Download File" font-scale=fontScale></b-icon-download>
           </button>
 
           <button
@@ -14,7 +15,7 @@
             :class="{ 'is-active': isActive.bold() }"
             @click="commands.bold"
           >
-            <b-icon-type-bold v-b-tooltip.hover title="bold" font-scale="2"></b-icon-type-bold>
+            <b-icon-type-bold v-b-tooltip.hover title="bold" font-scale=fonsScale></b-icon-type-bold>
           </button>
 
           <button
@@ -22,7 +23,7 @@
             :class="{ 'is-active': isActive.italic() }"
             @click="commands.italic"
           >
-            <b-icon-type-italic v-b-tooltip.hover title="Italic" font-scale="2"></b-icon-type-italic>
+            <b-icon-type-italic v-b-tooltip.hover title="Italic" font-scale=fontScale></b-icon-type-italic>
           </button>
 
           <button
@@ -30,7 +31,7 @@
             :class="{ 'is-active': isActive.strike() }"
             @click="commands.strike"
           >
-            <b-icon-type-strikethrough v-b-tooltip.hover title="Strike" font-scale="2"></b-icon-type-strikethrough>
+            <b-icon-type-strikethrough v-b-tooltip.hover title="Strike" font-scale=fontScale></b-icon-type-strikethrough>
           </button>
 
           <button
@@ -38,7 +39,7 @@
             :class="{ 'is-active': isActive.underline() }"
             @click="commands.underline"
           >
-            <b-icon-type-underline v-b-tooltip.hover title="Under line" font-scale="2"></b-icon-type-underline>
+            <b-icon-type-underline v-b-tooltip.hover title="Under line" font-scale=fontScale></b-icon-type-underline>
           </button>
 
           <button
@@ -46,7 +47,7 @@
             :class="{ 'is-active': isActive.code() }"
             @click="commands.code"
           >
-            <b-icon-code v-b-tooltip.hover title="Code" font-scale="2"></b-icon-code>
+            <b-icon-code v-b-tooltip.hover title="Code" font-scale=fontScale></b-icon-code>
           </button>
 
           <button
@@ -54,7 +55,7 @@
             :class="{ 'is-active': isActive.paragraph() }"
             @click="commands.paragraph"
           >
-            <b-icon-pencil v-b-tooltip.hover title="Paragraph" font-scale="2"></b-icon-pencil>
+            <b-icon-pencil v-b-tooltip.hover title="Paragraph" font-scale=fontScale></b-icon-pencil>
           </button>
 
           <button
@@ -62,7 +63,7 @@
             :class="{ 'is-active': isActive.heading({ level: 1 }) }"
             @click="commands.heading({ level: 1 })"
           >
-            <b-icon-type-H1 v-b-tooltip.hover title="Heading 1" font-scale="2"></b-icon-type-H1>
+            <b-icon-type-H1 v-b-tooltip.hover title="Heading 1" font-scale=fontScale></b-icon-type-H1>
           </button>
 
           <button
@@ -70,7 +71,7 @@
             :class="{ 'is-active': isActive.heading({ level: 2 }) }"
             @click="commands.heading({ level: 2 })"
           >
-            <b-icon-type-H2 v-b-tooltip.hover title="Heading 2" font-scale="2"></b-icon-type-H2>
+            <b-icon-type-H2 v-b-tooltip.hover title="Heading 2" font-scale=fontScale></b-icon-type-H2>
           </button>
 
           <button
@@ -78,7 +79,7 @@
             :class="{ 'is-active': isActive.heading({ level: 3 }) }"
             @click="commands.heading({ level: 3 })"
           >
-            <b-icon-type-H3 v-b-tooltip.hover title="Heading 3" font-scale="2"></b-icon-type-H3>
+            <b-icon-type-H3 v-b-tooltip.hover title="Heading 3" font-scale=fontScale></b-icon-type-H3>
           </button>
 
           <button
@@ -86,7 +87,7 @@
             :class="{ 'is-active': isActive.bullet_list() }"
             @click="commands.bullet_list"
           >
-            <b-icon-list-ul v-b-tooltip.hover title="Unordered List" font-scale="2"></b-icon-list-ul>
+            <b-icon-list-ul v-b-tooltip.hover title="Unordered List" font-scale=fontScale></b-icon-list-ul>
           </button>
 
           <button
@@ -94,7 +95,7 @@
             :class="{ 'is-active': isActive.ordered_list() }"
             @click="commands.ordered_list"
           >
-            <b-icon-list-ol v-b-tooltip.hover title="Ordered List" font-scale="2"></b-icon-list-ol>
+            <b-icon-list-ol v-b-tooltip.hover title="Ordered List" font-scale=fontScale></b-icon-list-ol>
           </button>
 
           <button
@@ -102,7 +103,7 @@
             :class="{ 'is-active': isActive.blockquote() }"
             @click="commands.blockquote"
           >
-            <b-icon-blockquote-left v-b-tooltip.hover title="Block Quote" font-scale="2"></b-icon-blockquote-left>
+            <b-icon-blockquote-left v-b-tooltip.hover title="Block Quote" font-scale=fontScale></b-icon-blockquote-left>
           </button>
 
           <button
@@ -110,19 +111,19 @@
             :class="{ 'is-active': isActive.code_block() }"
             @click="commands.code_block"
           >
-            <b-icon-file-code v-b-tooltip.hover title="Code Block" font-scale="2"></b-icon-file-code>
+            <b-icon-file-code v-b-tooltip.hover title="Code Block" font-scale=fontScale></b-icon-file-code>
           </button>
 
           <button class="menubar__button" @click="commands.horizontal_rule">
-            <b-icon-hr v-b-tooltip.hover title="Br" font-scale="2"></b-icon-hr>
+            <b-icon-hr v-b-tooltip.hover title="Br" font-scale=fontScale></b-icon-hr>
           </button>
 
           <button class="menubar__button" @click="commands.undo">
-            <b-icon-arrow90deg-left v-b-tooltip.hover title="Undo" font-scale="2"></b-icon-arrow90deg-left>
+            <b-icon-arrow90deg-left v-b-tooltip.hover title="Undo" font-scale=fontScale></b-icon-arrow90deg-left>
           </button>
 
           <button class="menubar__button" @click="commands.redo">
-            <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
+            <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale=fontScale></b-icon-arrow90deg-right>
           </button>
 
           <!-- <button class="menubar__button" @click="editNoteHTML">
@@ -228,6 +229,8 @@ export default {
   },
   data() {
     return {
+      fontScale: 1.5,
+      
       keepInBounds: true,
       editor: new Editor({
         extensions: [
@@ -273,7 +276,7 @@ export default {
         this.editor.setContent(this.dataNoteObj.Content);
         this.editor.focus();
       }
-    }
+    },
   },
   methods: {
     focusNote() {
@@ -289,11 +292,13 @@ export default {
       this.dataNoteObj.Title = 'Select Note';
       this.editor.setContent(this.example_data);
       this.dataNoteObj.Id = 0;
-    }
+    },
+    
   },
   beforeDestroy() {
     this.editor.destroy();
   },
+  
 };
 </script>
 <style scoped>
