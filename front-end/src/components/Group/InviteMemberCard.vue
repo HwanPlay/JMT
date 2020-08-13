@@ -6,7 +6,7 @@
       <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
     </v-list-item-content>
     <div v-if='!isInvited' class="my-2">
-      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="send(user)">
+      <v-btn  color="rgb(52, 63, 87)" dark style="outline: none;" @click="addMember(user)">
         추가
       </v-btn>
     </div>

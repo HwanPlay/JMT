@@ -57,7 +57,8 @@ public class UserController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
+	//private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
+	private static final String IMGFOLDER = "/home/ubuntu/resources";
 	//private static final String IMGFOLDER = "/home/jenkins";
 	
 	private static final String DEFAULT_IMG = "default.jpg";
@@ -240,23 +241,25 @@ public class UserController {
 			
 			System.out.println(realPath);
 			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-			if (!oldImg.contains("default")) {
-				File deleteFolder = new File(realPath);
-				File[] deleteFolderList = deleteFolder.listFiles();
-
-				for (File file : deleteFolderList) {
-					if (file.getPath().contains(oldImg))
-						file.delete();
-				}
-			}
-
+//			if (!oldImg.contains("default")) {
+//				File deleteFolder = new File(realPath);
+//				File[] deleteFolderList = deleteFolder.listFiles();
+//
+//				for (File file : deleteFolderList) {
+//					if (file.getPath().contains(oldImg))
+//						file.delete();
+//				}
+//			}
+			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 			saveFileName = dateFormat.format(new Date()) + '_'
 					+ UUID.randomUUID().toString().replace("-", "").substring(0, 10) + '.' + fileExtension;
 
+			System.out.println("저장중이요");
 			// 파일 저장
 			profileImgService.saveFile(multipartFile, realPath, saveFileName);
+			System.out.println("저장완료");
 
 			return saveFileName;
 		}

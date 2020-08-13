@@ -1,24 +1,27 @@
 <template>
-  <v-row style="width: 100%">
-    <v-col cols="2">
+  <v-row style="width: 100%; height: 100%;" >
+    <v-col class="nav" cols="2">
       <v-navigation-drawer height="100%" permanent>
+        <div class="myProfile">
         <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <v-img src="../assets/profile/profile1.jpg"></v-img>
+          
+          <v-list-item  style="text-align : center; ">
+            <v-list-item-avatar style="width : 100px; height:100px " >
+              <v-img  src="../assets/profile/profile1.jpg"></v-img>
             </v-list-item-avatar>
           </v-list-item>
 
           <v-list-item link> <!-- @click="$router.push('/MyProfile')" -->
-            <v-list-item-content>
-              <v-list-item-title class="title">{{ $store.state.myName }}</v-list-item-title>
-              <v-list-item-subtitle>{{ $store.state.userId }}</v-list-item-subtitle>
+            <v-list-item-content class="item-content">
+              <v-list-item-title class="myName"><h2 style="color : white">{{ $store.state.myName }}</h2></v-list-item-title>
+              <v-list-item-subtitle><h5 style="color : white">{{ $store.state.userId }}</h5></v-list-item-subtitle>
             </v-list-item-content>
             <!-- <v-list-item-action>
               <v-icon>mdi-menu-down</v-icon>
             </v-list-item-action> -->
           </v-list-item>
         </v-list>
+          </div>
         <v-divider></v-divider>
         <v-list
           nav
@@ -101,6 +104,21 @@ export default {
 };
 </script>
 
-<style>
+<style >
+.nav{
+  padding: 0;
+}
+.v-navigation-drawer__content{
+  background-color: rgb(52, 63, 87);
+}
+/* .v-list-item-content{
+  float: left;
+} */
 
+.myProfile{
+    display : flex; 
+    justify-content : center; 
+    align-items: center;
+
+}
 </style>
