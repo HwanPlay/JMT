@@ -1,7 +1,7 @@
 <template>
   <div class="MainContainer">
     <div class="MainContent">
-      <div class="Minivideo_list">
+      <div class="Minivideo_list" id="Minivideo_list">
         <div class="videos-container" id="videos-container"></div>
       </div>
 
@@ -29,15 +29,15 @@
           background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
-          <v-btn @click="onJoin">
+          <!-- <v-btn @click="onJoin">
             <span>Join</span>
             <v-icon>mdi-login</v-icon>
-          </v-btn>
+          </v-btn> -->
           <!-- <v-overlay :value="overlay">
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="onVideo" >
+          <v-btn @click="onCam" >
             <span v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
@@ -130,7 +130,6 @@
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
-<script src="app.js"></script>
 <script>
 import RTCMultiConnection from "../../api/RTCMultiConnection";
 import Broadcast from "../../api/broadcast";
@@ -217,17 +216,28 @@ export default {
       console.log("여기가 2번")
  },
     //비디오 끄고,켜기
-    onVideo() {
+    onCam() {
       if (this.videoBool == false) {
-        let localStream = this.connection.attachStreams[0];
-        this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
-        localStream.mute("video");
+        // let localStream = this.connection.attachStreams[0];
+        // this.connection.streamEvents[localStream.streamid].isAudioMuted = false;
+        // localStream.mute("video");
 
+        // localStream.unmute("audio");
         // console.log(this.connection.streamEvents);
         // console.log(
         //   this.connection.streamEvents[localStream.streamid].session.audio
         // );
         // console.log(localStream);
+
+
+        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
+        this.connection.send({
+            myVideoTrackIsMuted: true,
+            trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
+            streamId: this.connection.streamEvents.selectFirst('local').streamid
+        });
+        console.log(this.myVideoTrackIsMuted)
+        console.log(this.trackId, this.connection.streamId)
         this.videoBool = !this.videoBool;
 
       } else {
@@ -274,7 +284,7 @@ export default {
       this.broadcast.openOrJoin(this.roomid + "a");
     },
     videoBar() {
-      $(".Minivideo_list").toggle();
+      $("#Minivideo_list").toggle();
       this.Bar = !this.Bar;
       if (this.Bar == false) {
         $(".Mainvideo").css("height", "88%");
@@ -419,7 +429,7 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-.Minivideo_list {
+#Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
