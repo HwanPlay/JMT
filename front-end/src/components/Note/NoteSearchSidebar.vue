@@ -18,7 +18,7 @@
     >
       <div class="px-3">
         <div style="height: 3rem;"></div>
-        <h3 class="text-center">Notes</h3>
+        <h3 class="text-center">Note</h3>
         <div class="row p-2">
 
           <!-- <b-button class="col-4" 
