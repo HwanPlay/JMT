@@ -30,12 +30,12 @@
           </router-link>
 
           <!-- Conference Router -->
-          <router-link to="/devConference" style="text-decoration: none;">
+          <!-- <router-link to="/devConference" style="text-decoration: none;">
             <v-btn text style="height: 99%; outline:none;">
               <v-icon>fas fa-chalkboard-teacher</v-icon>
               <span class="routerLink mr-2 ml-2">devConference</span>
             </v-btn>
-          </router-link>
+          </router-link> -->
 
           <!-- Note Router -->
           <router-link to="/Note" style="text-decoration: none;">

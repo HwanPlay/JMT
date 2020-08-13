@@ -368,7 +368,10 @@ export default {
   },
   updated() {
     this.connection.onmessage = this.appendDIV;
-     
+    this.connection.onclose = function(event) {
+        console.log('data connection closed between you and ' + event.userid);
+    };
+
   },
 
   created() {
