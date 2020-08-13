@@ -58,15 +58,21 @@
             </v-list-item>
             </div>
           </v-list-item-group>
+<<<<<<< HEAD
 
           <v-btn @click="modalOn= !modalOn" width="100%" text dark class="mt-10">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>
+=======
+          
+          <v-btn id="groupCreate" @click="modalOn= !modalOn" text dark class="mt-3">
+            <v-icon class="mr-2" medium>mdi-account-multiple-plus</v-icon>
+>>>>>>> 4612dc4415ba4201d8c55fd66dc1bcd6cbc8fb76
             <p>그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
             <CreateGroup @close="closeModal" />
           </v-dialog>
-          
+
         </v-list>
       </v-navigation-drawer>
     </v-col>
@@ -188,5 +194,10 @@ export default {
   height: 45px;
   width: 200px;
 }
+#groupCreate p{
+  font-size: 20px;
+  font-weight:550;
+}
+
 
 </style>
