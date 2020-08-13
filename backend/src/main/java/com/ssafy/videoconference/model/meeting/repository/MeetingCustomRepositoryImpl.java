@@ -29,7 +29,7 @@ public class MeetingCustomRepositoryImpl implements MeetingCustomRepository{
 	@Override
 	public List findByGroup(int groupNo) {
 		String jpql =
-				"select * from meeting where group_no = :groupNo";
+				"select * from meeting where group_no = :groupNo order by meeting_no";
 		NativeQuery<Meeting> query = (NativeQuery<Meeting>) em.createNativeQuery(jpql, Meeting.class);
 		query.setParameter("groupNo",  groupNo);
 		return query.getResultList();
@@ -44,5 +44,6 @@ public class MeetingCustomRepositoryImpl implements MeetingCustomRepository{
 		query.setParameter("groupNo",  groupNo);
 		query.executeUpdate();
 	}
+	
 
 }

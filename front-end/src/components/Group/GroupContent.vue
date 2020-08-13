@@ -177,8 +177,7 @@ export default {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/meeting/' + param, res => {
-          console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recvList.push(JSON.parse(res.body));
+          this.recvList.push(res.body);
           console.log(this.recvList);
         });
       }, error => {
@@ -187,7 +186,8 @@ export default {
             console.log('connection reconnect');
             this.sock = new SockJS(SERVER.URL2);
             this.ws = Stomp.over(this.sock);
-          });
+            this.connect();
+          }, 10*1000);
         }
       });
     },
