@@ -122,7 +122,7 @@ public class UserController {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
 
-	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
+	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = FindUser.class)
 	@PostMapping("/user/modify")
 	public ResponseEntity<FindUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
