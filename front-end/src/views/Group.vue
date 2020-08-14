@@ -23,7 +23,7 @@
             <div id="v-list-item-box" >
             <v-list-item 
               v-for="(group, i) in this.$store.state.myGroups"
-              :key="i"
+              :key="group.groupNo"
               @click="toggle(i)"
             >
               <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
@@ -60,7 +60,7 @@
     <v-col v-if='$store.state.myGroups.length !== 0' >
       <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
     </v-col>
-    <v-col v-else >
+    <v-col v-else>
       <EmptyGroup />
     </v-col>
   </v-row>

@@ -80,12 +80,17 @@
           <v-card outlined>
             <v-col>
               <div v-if="members.length === 0">그룹원이 없습니다</div>
+<<<<<<< HEAD
               <v-card-text
                 v-for="(memberInfo, i) in members.slice(0,3)"
                 :key="i"
                 style="padding: 5px;"
               >
                 <MemberCard :userInfo="memberInfo" />
+=======
+              <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
+                <MemberCard :userInfo = memberInfo />
+>>>>>>> 9a745296e009054a80ef0d340f2d569e22e51b20
               </v-card-text>
 
               <v-card-actions>
@@ -122,7 +127,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="6">
+    <v-col cols="5">
       <GroupCalendar />
     </v-col>
   </v-row>

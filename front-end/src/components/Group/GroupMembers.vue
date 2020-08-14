@@ -11,7 +11,7 @@
           <div v-if="membersInfo.length===0">
             아싸..
           </div>
-          <v-card-text v-for="(memberInfo, i) in membersInfo" :key=i style="padding: 5px;">
+          <v-card-text v-for="memberInfo in membersInfo" :key='memberInfo.id' style="padding: 5px;">
             <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="refresh" />
           </v-card-text>
         <v-card-actions>

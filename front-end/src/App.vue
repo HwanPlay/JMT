@@ -48,7 +48,7 @@
 
         <v-spacer></v-spacer>
 
-        <InviteRequest />
+        <RequestModal />
 
         <MyProfile />
 
@@ -59,6 +59,9 @@
           </v-btn>
         </div>
       </v-app-bar>
+      <v-dialog v-model='inviteModal' max-width='500px'>
+        <InviteMessage :message=recv />
+      </v-dialog>
 
       <v-main>
         <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
@@ -72,9 +75,10 @@ import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import WebRTC from '../src/api/webrtc';
 
-import Login from '../src/components/Account/Login.vue';
-import MyProfile from '../src/components/Account/MyProfile.vue';
-import InviteRequest from '../src/components/Group/InviteRequest.vue';
+import Login from './components/Account/Login.vue';
+import MyProfile from './components/Account/MyProfile.vue';
+import RequestModal from './components/Account/RequestModal.vue';
+import InviteMessage from './components/Group/InviteMessage.vue';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
@@ -87,7 +91,8 @@ export default Vue.extend({
   components: {
     Login,
     MyProfile,
-    InviteRequest,
+    RequestModal,
+    InviteMessage
   },
 
   data() {
@@ -98,6 +103,7 @@ export default Vue.extend({
       recv : null,
       meetingModalOn: false,
       reconnect : 0,
+      inviteModal: false,
     };
   },
   methods: {
@@ -118,12 +124,14 @@ export default Vue.extend({
       this.tmpLogin = true;
     },
 
+
     connect() {
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
           console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recv = res.body;
+          this.recv = JSON.parse(res.body);
+          this.inviteModal = true;
           console.log(this.recv);
         });
       }, error => {
