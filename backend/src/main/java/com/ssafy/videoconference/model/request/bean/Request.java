@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.common.BaseTimeEntity;
@@ -23,7 +24,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@Table(name = "request")
+@Table(name = "request",
+uniqueConstraints= {
+		@UniqueConstraint(columnNames= {"groupNo", "hostId", "userId"})
+})
 public class Request extends BaseTimeEntity{
 	
 	@Id

@@ -51,5 +51,16 @@ public class RequestServiceImpl implements RequestService{
 	public Request findRequest(int groupNo, String hostId, String userId) {
 		return reqRepository.findRequest(groupNo, hostId, userId);
 	}
+	
+	
+	@Override
+	public void deleteByGroup(int groupNo) {
+		reqRepository.deleteByGroup(groupNo);
+	}
 
+
+	@Override
+	public void deleteByAll(String userId, String hostId, int groupNo) {
+		reqRepository.deleteByAll(userId, hostId, groupNo);
+	}
 }
