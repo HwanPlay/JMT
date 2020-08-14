@@ -1,24 +1,26 @@
 <template>
-  <b-container fluid>
-    <b-row>
+<v-row id="NoteContainer" style="width: 100%; height: 100%;">
+  
+      
       <NoteSearch 
         :group_list="group_list" 
         @onGetNoteList="getNoteList" 
         :received_note_list="received_note_list" 
         @onGetNoteHTML="getNoteHTML"/>
-      <b-col cols="2">
-        <NoteAlert :alertFlag="alertFlag" :alertMessage="alertMessage"/>
-      </b-col>
+
       
-      <NoteEditor 
+      <NoteEditor id="NoteEditorBox"  
         :group_list="group_list"
         @onDeleteNote="deleteNote"
         :noteObj="noteObj"
         @onSaveNote="saveNote"/>
       <b-col cols="0.5"></b-col>
 
-    </b-row>
-  </b-container>
+      <b-col cols="2" >
+        <NoteAlert :alertFlag="alertFlag" :alertMessage="alertMessage"/>
+      </b-col>
+  
+</v-row>
 </template>
 
 <script>
@@ -161,3 +163,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#NoteContainer{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#NoteEditorBox{
+  position: relative;
+  float: left;
+}
+</style>

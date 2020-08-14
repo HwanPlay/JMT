@@ -21,4 +21,10 @@ public interface RequestCustomRepository<T> {
 	
 	Request findRequest(int groupNo, String hostId, String userId);
 	
+	
+	void deleteByGroup(int groupNo);
+
+
+	void deleteByAll(String userId, String hostId, int groupNo);
+	
 }

@@ -1,6 +1,6 @@
 <template>
   <v-row style="width: 100%; height: 100%;">
-    <div class="nav" id="nav-box" cols="2">
+    <div class="nav" id="nav-box" >
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
@@ -20,7 +20,7 @@
         <v-divider></v-divider>
         <v-list nav dense>
           <v-list-item-group  v-model="group" active-class="border"  color="orange">
-            <div id="v-list-item-box"  style=" margin-left : 15px;">
+            <div id="v-list-item-box" >
             <v-list-item 
               v-for="(group, i) in this.$store.state.myGroups"
               :key="group.groupNo"
@@ -109,8 +109,14 @@ export default {
 .nav {
   padding: 0;
 }
+
+#nav-box{
+  margin-left: 15px;
+}
 .v-navigation-drawer__content {
   background-color: rgb(52, 63, 87);
+  height: 100%;
+  overflow-y: hidden;
 }
 
 #myProfile {
@@ -172,10 +178,12 @@ export default {
 }
 
 #groupCreate{
-  margin-left: 30px;
+  margin-left: 20px;
   background-color : orange;
   height: 45px;
   width: 200px;
+  position: absolute;
+  bottom: 60px;
 }
 #groupCreate p{
   font-size: 20px;

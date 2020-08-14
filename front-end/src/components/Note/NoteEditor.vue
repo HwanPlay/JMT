@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="6">
+  <b-col cols="7">
     
     <div class="editor">
       <!-- Upper Menu -->
