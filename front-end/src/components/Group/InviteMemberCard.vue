@@ -66,6 +66,7 @@ export default {
       axios.post(SERVER.URL + '/request/send', info)
         .then(res => {
           this.isInvited = true;
+          this.$el.parentNode.removeChild(this.$el);
         })
         .catch(err => console.log(err.response));
       this.send(this.user);

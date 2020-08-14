@@ -65,7 +65,7 @@
           <v-card outlined>
             <v-col>
               <div v-if="members.length === 0">그룹원이 없습니다</div>
-              <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
+              <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
                 <MemberCard :userInfo = memberInfo />
               </v-card-text>
               
