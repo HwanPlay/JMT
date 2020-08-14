@@ -17,11 +17,9 @@
 
           <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
             회의 시작
-            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
           </v-btn>
           <v-btn @click="joinMeeting" v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
             회의 참여
-            <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
           </v-btn>
         </v-col>
       </v-row>
@@ -165,10 +163,13 @@ export default {
     },
 
     joinMeeting(){
-      this.$router.push({name: 'Conference', 
-        params: { roomId : this.groupInfo.roomId },
-        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }
-      });
+      axios.get(SERVER.URL + '/meeting/get/currentmeeting/'+this.groupInfo.groupNo)
+        .then(res => {
+          this.$router.push({name: 'Conference', 
+            params: { roomId : this.groupInfo.roomId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
+          });
+        });
     },
 
 
@@ -179,7 +180,7 @@ export default {
           this.recvList.push(res.body);
           console.log('받은 데이터' + this.recvList);
         });
-      }, error => {
+      }, () => {
         if(this.reconnect++ <= 5) {
           setTimeout(()=> {
             console.log('connection reconnect');
