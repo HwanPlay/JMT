@@ -19,7 +19,7 @@
       <v-list nav dense>
         <v-list-item-group active-class="border"  color="orange">
           <v-list-item
-            v-for="(group, i) in this.$store.state.myGroups"
+            v-for="(group, i) in group_list"
             :key="i"
             @click="getNoteList(group.groupNo)"
             v-b-toggle.sidebar-backdrop
