@@ -135,12 +135,12 @@ public class UserController {
 			user.setProfile_img(newImgName);
 			System.out.println("디비에 저장한 새로운 파일명! : " + user.getProfile_img());
 			userService.modifyUser(user);
-			user.setProfile_img(IMGFOLDER+"/"+newImgName);
+			user.setProfile_img("/images/"+newImgName);
 			System.out.println("프론트에게 보낼 이미지 파일명 ! : "  + user.getProfile_img());
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
 		}
-		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(), IMGFOLDER+"/"+newImgName);
+		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(),"/images/"+newImgName);
 		System.out.println(modifyUser);
 		return ResponseEntity.ok(modifyUser);
 	}
