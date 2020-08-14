@@ -20,7 +20,7 @@
           <div v-if='!isSearched'>
             이름을 검색해주세요
           </div>
-          <div v-else-if="(isSearched) && (searchData.length)" v-for="(user, i) in searchData" :key="i">
+          <div v-else-if="(isSearched) && (searchData.length)" v-for="user in searchData" :key="user.id">
             <InviteMemberCard :user=user :groupNo=groupNo :groupName=groupName :hostId=hostId />
           </div>
           <div v-else>

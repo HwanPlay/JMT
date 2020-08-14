@@ -1,13 +1,13 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="6" >
+    <v-col cols="6" style="vertical-align:middle; padding-top: 80px;"  >
       <v-row justify="center">
         <p v-if="!groupInfo.hasMeeting"  style="padding-left: 10px; padding-right: 10px; color : green; border: 1px solid green; border-radius : 10px" > 회의 진행중이 아닙니다 </p>
         <p v-if="groupInfo.hasMeeting"  style="padding-left: 10px; padding-right: 10px; color : green; border: 1px solid red; border-radius : 10px; color:red;" >회의 진행중</p>
       </v-row>
 
-      <v-row>
+      <!-- <v-row>
         <v-col cols="8">
           <h2>{{ groupInfo.groupName }}</h2>
         </v-col>
@@ -21,7 +21,7 @@
             회의 참여
           </v-btn>
         </v-col>
-      </v-row>
+      </v-row> -->
       <div id="conferenceBox">
         <v-row >
           <v-col cols="7">
@@ -65,7 +65,7 @@
           <v-card outlined>
             <v-col>
               <div v-if="members.length === 0">그룹원이 없습니다</div>
-              <v-card-text v-for="(memberInfo, i) in members.slice(0,3)" :key=i style="padding: 5px;">
+              <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
                 <MemberCard :userInfo = memberInfo />
               </v-card-text>
               
@@ -97,7 +97,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="6">
+    <v-col cols="5">
       <GroupCalendar />
     </v-col>
   </v-row>

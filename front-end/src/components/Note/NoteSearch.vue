@@ -1,6 +1,6 @@
 <template>
-  <b-col cols="3" style="padding: 0" class="rounded">
-    <v-navigation-drawer height="100%" permanent>
+  <b id="roundedBox">
+    <!-- <v-navigation-drawer height="100%" permanent>
       <div id="myProfile">
         <div>
           <img id="myImage" src="../../assets/profile/profile1.jpg" />
@@ -35,7 +35,58 @@
         </v-list-item-group>
       </v-list>
       
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
+      <div class="nav" id="NotNav-box" cols="2">
+      <v-navigation-drawer height="100%" permanent>
+        <div id='myProfile'>
+          <div>
+          <img id="myImage" src="../../assets/profile/profile1.jpg">
+          </div>
+               <v-list-item-content class="item-content">
+                <v-list-item-title class="myName">
+                  <h5>{{ $store.state.myName }}</h5>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  <div id="userIdBox">
+                    <p>{{ $store.state.userId }}</p>
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item-content> 
+        </div>
+        <v-divider></v-divider>
+        <v-list nav dense>
+          <v-list-item-group  v-model="group" active-class="border"  color="orange">
+            <div id="v-list-item-box" >
+            <v-list-item
+            v-for="(group, i) in group_list"
+            :key="i"
+            @click="getNoteList(group.groupNo)"
+            v-b-toggle.sidebar-backdrop
+          >
+              <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
+          
+              <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15">
+                <v-list-item-icon>
+                  <v-icon dark style="margin-top : 5px; margin-left : 10px; margin-right : -15px;">mdi-account-multiple</v-icon>
+                </v-list-item-icon>
+              </v-badge>
+
+              <v-list-item-content>
+                <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
+              </v-list-item-content>
+            </v-list-item>
+            </div>
+          </v-list-item-group>
+          
+
+
+        </v-list>
+      </v-navigation-drawer>
+    </div>
 
     <b-sidebar
       id="sidebar-backdrop"
@@ -68,7 +119,7 @@
         </div>
       </div>
     </b-sidebar>
-  </b-col>
+  </b>
 </template>
 
 <script>
@@ -96,7 +147,12 @@ export default {
 };
 </script>
 <style >
-.nav {
+#roundedBox{
+  margin-left: -15px;
+}
+#NotNav-box {
+  margin-left: 15px;
+  height: 100%;
   padding: 0;
 }
 .v-navigation-drawer__content {

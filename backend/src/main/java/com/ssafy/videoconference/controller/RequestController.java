@@ -70,5 +70,13 @@ public class RequestController {
 		return RequestResult.build(req);
 	}
 	
+	
+	@DeleteMapping("/del/{userId}/{hostId}/{groupNo}")
+	public ResponseEntity<ApiResult> deleteByAll(@PathVariable("userId") String userId,
+												 @PathVariable("hostId") String hostId,
+												 @PathVariable("groupNo") int groupNo) {
+		reqService.deleteByAll(userId, hostId, groupNo);
+		return Result.ok();
+	}
 
 }

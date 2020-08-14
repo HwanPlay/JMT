@@ -6,7 +6,7 @@
       <div v-if="sGroups.length===0">
         당신의 그룹이 없습니다!
       </div>
-      <v-card-text v-for="(sGroup, i) in sGroups" :key=i style='padding: 5px;'>
+      <v-card-text v-for="sGroup in sGroups" :key='sGroup.groupNo' style='padding: 5px;'>
         <GroupCard :groupInfo=sGroup />
         <br>
       </v-card-text>
