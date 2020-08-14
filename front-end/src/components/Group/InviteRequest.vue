@@ -12,9 +12,10 @@
             
           <v-row v-for="(item, i) in requests" :key="i">
             <v-list-item-content>
-              {{item}}
+              <v-list-item-subtitle>
+                {{item}}
+              </v-list-item-subtitle>
             </v-list-item-content>
-            <v-divider></v-divider>
           </v-row>
         </v-container>        
 
