@@ -124,7 +124,7 @@ public class UserController {
 
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/user/modify")
-	public ResponseEntity<ModifyUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+	public ResponseEntity<FindUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
 		//	user.setPw(passwordEncoder.encode(user.getPw()));
 		// 프로필 사진 저장 후, 회원 수정
@@ -140,7 +140,9 @@ public class UserController {
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
 		}
-		return ResponseEntity.ok(user);
+		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(), IMGFOLDER+"/"+newImgName);
+		System.out.println(modifyUser);
+		return ResponseEntity.ok(modifyUser);
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
