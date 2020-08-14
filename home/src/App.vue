@@ -1,27 +1,34 @@
 <template>
-  <div id="app">
-    <JMTlogo />
+  <div>    
+    <NavBar />
+    
+    <v-container style="margin-top: 4rem;">
+      <JMTlogo />
+      <div style="height: 4rem;"></div>
+      <Download />
+      <IntroduceJMT />
+    </v-container>
   </div>
 </template>
 
 <script>
-import JMTlogo from './components/JMTlogo.vue';
+import JMTlogo from './components/JMTlogo';
+import NavBar from './components/NavBar';
+import IntroduceJMT from './components/IntroduceJMT';
+import Download from './components/Download';
 
 export default {
   name: 'App',
+
   components: {
     JMTlogo,
-  }
-}
-</script>
+    NavBar,
+    IntroduceJMT,
+    Download
+  },
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  data: () => ({
+    //
+  }),
+};
+</script>
