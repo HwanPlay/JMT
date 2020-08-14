@@ -1,20 +1,11 @@
 <template>
   <v-row style="width: 100%; height: 100%;">
-    <v-col class="nav" id="nav-box" cols="2">
+    <div class="nav" id="nav-box" cols="2">
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
           <img id="myImage" src="../assets/profile/profile1.jpg">
           </div>
-          <!-- <v-list id ='myProfileContent'>
-            <v-list-item style="text-align : center; ">
-              <v-list-item-avatar style="width : 100px; height:100px ">
-                <v-img src="../assets/profile/profile1.jpg"></v-img>
-              </v-list-item-avatar>
-            </v-list-item>
-
-            <v-list-item link> -->
-              <!-- @click="$router.push('/MyProfile')" -->
                <v-list-item-content class="item-content">
                 <v-list-item-title class="myName">
                   <h5>{{ $store.state.myName }}</h5>
@@ -25,11 +16,6 @@
                   </div>
                 </v-list-item-subtitle>
               </v-list-item-content> 
-              <!-- <v-list-item-action>
-              <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>-->
-            <!-- </v-list-item>
-          </v-list> -->
         </div>
         <v-divider></v-divider>
         <v-list nav dense>
@@ -69,7 +55,7 @@
 
         </v-list>
       </v-navigation-drawer>
-    </v-col>
+    </div>
 
     <v-col cols="10">
       <div v-if='this.$store.state.myGroups.length !== 0'>
@@ -183,12 +169,12 @@ export default {
     left: -20px;
 }
 #v-list-item-box{
-  height: 530px;
+  height: 400px;
   overflow-y: auto;
 }
 
 #groupCreate{
-  margin-left: 25px;
+  margin-left: 30px;
   background-color : orange;
   height: 45px;
   width: 200px;
@@ -198,5 +184,20 @@ export default {
   font-weight:550;
 }
 
+#GroupContentBox{
+  display: inline-block;
+  position:absolute;
+  left: 241px;
+  height: 100%;
+  right: 0;
+  overflow: hidden;
+  /* background-color: aqua; */
+}
+#GroupContentBox .row{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  
+}
 
 </style>

@@ -1,12 +1,13 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="5">
+    <v-col cols="6" >
       <v-row justify="center">
-        <v-btn v-if="!groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중이 아닙니다</v-btn>
-        <v-btn v-if="groupInfo.hasMeeting" dark text color="green darken-1">회의 진행중</v-btn>
+        <p v-if="!groupInfo.hasMeeting"  style="padding-left: 10px; padding-right: 10px; color : green; border: 1px solid green; border-radius : 10px" > 회의 진행중이 아닙니다 </p>
+        <p v-if="groupInfo.hasMeeting"  style="color : red" >회의 진행중</p>
       </v-row>
 
+<<<<<<< HEAD
       <v-row>
         <v-col cols="8">
           <h2>{{ groupInfo.groupName }}</h2>
@@ -22,12 +23,33 @@
           </v-btn>
         </v-col>
       </v-row>
-        
-      <h4>Leader : {{ groupInfo.hostName }}</h4>
-      <div style="height:60px">
-        <p> Intro : {{ groupInfo.groupIntro }}</p>
-      </div>
+=======
+      <div id="conferenceBox">
+        <v-row >
+          <v-col cols="8">
+            <h2>{{ groupInfo.groupName }}</h2>
+          </v-col>
 
+          <v-col cols="4">
+
+            <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
+              회의 시작
+              <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
+            </v-btn>
+            <v-btn @click="joinMeeting" v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
+              회의 참여
+              <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
+            </v-btn>
+          </v-col>
+        </v-row>
+      
+>>>>>>> ed84c124323d476d0e17e5eef3ad60b2211ffb5b
+        
+      <h4>호스트 : {{ groupInfo.hostName }}</h4>
+      <div style="height:60px">
+        <p> 소개 : {{ groupInfo.groupIntro }}</p>
+      </div>
+      </div>
       <v-divider class="mb-10"></v-divider>
       
       <v-row>
@@ -226,3 +248,16 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+
+
+#conferenceBox{
+    margin-top: 20px;
+    background-image: linear-gradient(-20deg, #c4c0cf 0%, #b8c2e0 100%, #9e9eec 100%);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
+}
+</style>

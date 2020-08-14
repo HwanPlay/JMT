@@ -29,7 +29,7 @@ const routes = [
     path: '/devConference',
     name: 'devConference',
     props: true,
-    component: () => import('../components/Conference/Videochat.vue')
+    component: () => import('../components/Conference/dev/devConference.vue')
   },
   {
     path: '/Settings',
