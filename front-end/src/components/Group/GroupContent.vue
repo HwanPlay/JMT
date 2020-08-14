@@ -1,6 +1,5 @@
 <template>
   <v-row>
-        {{ groupInfo }}
     <!-- 좌측 그룹 정보 부분 -->
     <v-col cols="5">
       <v-row justify="center">

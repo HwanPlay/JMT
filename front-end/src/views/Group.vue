@@ -72,23 +72,27 @@
     </v-col>
 
     <v-col cols="10">
-      <!-- <Group1 :groupInfo="this.$store.state.myGroups[this.onboarding]" /> -->
-      <GroupContent :groupInfo="this.$store.state.myGroups[this.onboarding]" />
+      <div v-if='this.$store.state.myGroups.length !== 0'>
+        <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
+      </div>
+      <div v-else>
+        <EmptyGroup />
+      </div>
     </v-col>
   </v-row>
 </template>
 
 <script>
-// import Group1 from '../components/Group/Group1.vue';
 import GroupContent from '../components/Group/GroupContent.vue';
-import CreateGroup from '../components/Group/CreateGroup';
+import CreateGroup from '../components/Group/CreateGroup.vue';
+import EmptyGroup from '../components/Group/EmptyGroup.vue';
 
 export default {
   name: 'Groups',
   components: {
-    // Group1,
     GroupContent,
-    CreateGroup
+    CreateGroup,
+    EmptyGroup,
   },
   data() {
     return {
@@ -112,6 +116,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getGroupInfo');
+    console.log('res',this.$store.state.myGroups.length);
   }
 };
 </script>
