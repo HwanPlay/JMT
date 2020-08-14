@@ -15,7 +15,7 @@ public class ProfileImgRepositoryImpl implements IProfileImgRepository {
 		System.out.println("================================");
 	//	rootPath = "/home/jenkins/workspace/joinmeeting/backend/resources";
 	//	saveFileName = "spsp.png";
-System.out.println(saveFileName + "name");
+		System.out.println(saveFileName + "name");
 		File dir = new File(rootPath);
 		if(!dir.exists())
 			dir.mkdirs();
