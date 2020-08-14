@@ -125,15 +125,18 @@ public class UserController {
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/user/modify")
 	public ResponseEntity<ModifyUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
-	
+		
 		//	user.setPw(passwordEncoder.encode(user.getPw()));
 		// 프로필 사진 저장 후, 회원 수정
 		String oldImg = authUser.getProfile_img();
 		String newImgName = "";
 		if ((newImgName = saveProfileImg(user.getMultipartFile(), oldImg)) != null) {
-			user.setProfile_img(newImgName);
 			user.setId(authUser.getId());
+			user.setProfile_img(newImgName);
+			System.out.println("디비에 저장한 새로운 파일명! : " + user.getProfile_img());
 			userService.modifyUser(user);
+			user.setProfile_img(IMGFOLDER+"/"+newImgName);
+			System.out.println("프론트에게 보낼 이미지 파일명 ! : "  + user.getProfile_img());
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
 		}

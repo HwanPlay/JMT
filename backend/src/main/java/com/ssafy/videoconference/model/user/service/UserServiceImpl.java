@@ -51,9 +51,9 @@ public class UserServiceImpl implements IUserService {
 		modifyUser.ifPresent(selectUser->{
 			selectUser.setName(user.getName());
 			selectUser.setProfile_img(user.getProfile_img());
-	//		selectUser.setPw(user.getPw());
 			jpaUserRepo.save(selectUser);
 		});
+		System.out.println("수정한 USER INFO : " + modifyUser.toString());
 	}
 	
 	@Override
