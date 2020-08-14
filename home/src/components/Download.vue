@@ -32,6 +32,5 @@ export default {
 }
 .btn-color:hover {
   color: rgb(255, 128, 74);
-
 }
 </style>
