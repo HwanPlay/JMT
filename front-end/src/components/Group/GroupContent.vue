@@ -4,7 +4,7 @@
     <v-col cols="6" >
       <v-row justify="center">
         <p v-if="!groupInfo.hasMeeting"  style="padding-left: 10px; padding-right: 10px; color : green; border: 1px solid green; border-radius : 10px" > 회의 진행중이 아닙니다 </p>
-        <p v-if="groupInfo.hasMeeting"  style="color : red" >회의 진행중</p>
+        <p v-if="groupInfo.hasMeeting"  style="padding-left: 10px; padding-right: 10px; color : green; border: 1px solid red; border-radius : 10px; color:red;" >회의 진행중</p>
       </v-row>
 
       <v-row>
@@ -24,11 +24,11 @@
       </v-row>
       <div id="conferenceBox">
         <v-row >
-          <v-col cols="8">
-            <h2>{{ groupInfo.groupName }}</h2>
+          <v-col cols="7">
+            <h3 id="groupName">{{ groupInfo.groupName }}</h3>
           </v-col>
 
-          <v-col cols="4">
+          <v-col style="margin-left : 20px;" cols="4">
 
             <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
               회의 시작
