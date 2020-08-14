@@ -57,13 +57,11 @@
       </v-navigation-drawer>
     </div>
 
-    <v-col cols="10">
-      <div v-if='this.$store.state.myGroups.length !== 0'>
-        <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
-      </div>
-      <div v-else>
-        <EmptyGroup />
-      </div>
+    <v-col v-if='$store.state.myGroups.length !== 0' cols="10">
+      <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
+    </v-col>
+    <v-col v-else cols="10">
+      <EmptyGroup />
     </v-col>
   </v-row>
 </template>

@@ -7,7 +7,6 @@
         <p v-if="groupInfo.hasMeeting"  style="color : red" >회의 진행중</p>
       </v-row>
 
-<<<<<<< HEAD
       <v-row>
         <v-col cols="8">
           <h2>{{ groupInfo.groupName }}</h2>
@@ -23,7 +22,6 @@
           </v-btn>
         </v-col>
       </v-row>
-=======
       <div id="conferenceBox">
         <v-row >
           <v-col cols="8">
@@ -42,9 +40,7 @@
             </v-btn>
           </v-col>
         </v-row>
-      
->>>>>>> ed84c124323d476d0e17e5eef3ad60b2211ffb5b
-        
+              
       <h4>호스트 : {{ groupInfo.hostName }}</h4>
       <div style="height:60px">
         <p> 소개 : {{ groupInfo.groupIntro }}</p>
