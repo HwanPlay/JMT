@@ -1,12 +1,5 @@
 version: "3"
 services:
-    nginx:
-        image: nginx
-        ports:
-          - 80:80
-        volumes:
-          - ./nginx/conf.d:/etc/nginx/conf.d
-   
 
     redis:
         container_name: redis
