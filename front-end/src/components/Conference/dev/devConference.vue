@@ -250,7 +250,7 @@ export default {
         video: false,
         audio: true
       };
-      this.connection.openOrJoin('appappdevConference');
+      this.connection.openOrJoin('devConference');
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
