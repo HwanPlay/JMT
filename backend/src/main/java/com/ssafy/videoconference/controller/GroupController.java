@@ -33,6 +33,7 @@ import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.groupmember.service.Group_memberService;
 import com.ssafy.videoconference.model.meeting.service.MeetingService;
 import com.ssafy.videoconference.model.note.service.NoteService;
+import com.ssafy.videoconference.model.request.service.RequestService;
 import com.ssafy.videoconference.model.user.bean.CurrentUser;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 
@@ -54,6 +55,9 @@ public class GroupController {
 	
 	@Autowired
 	private NoteService noteService;
+	
+	@Autowired
+	private RequestService reqService;
 	
 	
 	@PostMapping("/add")
@@ -106,6 +110,7 @@ public class GroupController {
 
 	@DeleteMapping("/delno/{groupNo}")
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("groupNo") int groupNo) {
+		reqService.deleteByGroup(groupNo);
 		noteService.deleteByGroup(groupNo);
 		meetingService.deleteByGroup(groupNo);
 		gmService.deleteByGroup(groupNo);
@@ -175,8 +180,6 @@ public class GroupController {
 	@PutMapping("/hasmeeting/{groupNo}")
 	public ResponseEntity<ApiResult> changeHasMeeting(@PathVariable("groupNo") int groupNo) {
 		boolean hasMeeting = groupService.changeHasMeeting(groupNo);
-		if(hasMeeting) System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!true!!!!!!!!!!!!!!!");
-		else System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!false!!!!!!!!!!!!!!!!!!!!!!!!");
 		return GroupResult.build(hasMeeting);
 	}
 	

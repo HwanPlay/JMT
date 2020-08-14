@@ -62,8 +62,6 @@ export default {
   mounted() {
     this.getRequest();
   }
-
-
 };
   
 

@@ -57,5 +57,27 @@ public class RequestCustomRepositoryImpl implements RequestCustomRepository{
 		query.setParameter("userId", userId);
 		return query.getSingleResult();
 	}
+	
+	
+	@Override
+	public void deleteByGroup(int groupNo) {
+		String jpql =
+				"delete from request where group_no = :groupNo";
+		NativeQuery<Request> query = (NativeQuery<Request>) em.createNativeQuery(jpql, Request.class);
+		query.setParameter("groupNo", groupNo);
+		query.executeUpdate();
+	}
+	
+	
+	@Override
+	public void deleteByAll(String userId, String hostId, int groupNo) {
+		String jpql =
+				"delete from request where user_id = :userId and host_id = :hostId and group_no = :groupNo";
+		NativeQuery<Request> query = (NativeQuery<Request>) em.createNativeQuery(jpql, Request.class);
+		query.setParameter("userId", userId);
+		query.setParameter("hostId", hostId);
+		query.setParameter("groupNo", groupNo);
+		query.executeUpdate();
+	}
 
 }
