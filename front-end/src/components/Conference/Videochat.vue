@@ -107,9 +107,9 @@
       <div id="container">
         <div class="row header-one text-white p-1">
           <div class="col-md-8 name pl-3">
-            <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i>
-            <h4 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
-            </h4>
+            <!-- <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i> -->
+            <h5 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
+            </h5>
           </div>
           <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center pt-1" @click="onChat"></i>
@@ -539,7 +539,7 @@ export default {
 }
 .header-one {
   margin: 0;
-  height: 100px;
+  height: 60px;
   position: relative;
   width: 100%;
   background: #404040;
@@ -579,14 +579,14 @@ export default {
   display: inline-block;
   list-style: none;
   clear: both;
-  font-size: 20px;
+  font-size: 15px;
 }
 .sender-img {
   display: inline;
 }
 .sender-img img {
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   border-radius: 100%;
 }
 
