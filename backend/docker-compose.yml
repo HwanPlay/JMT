@@ -6,8 +6,6 @@ services:
           - 80:80
         volumes:
           - ./nginx/conf.d:/etc/nginx/conf.d
-        depends_on:
-          - backend_videoconference
    
 
     redis:
@@ -24,21 +22,9 @@ services:
           MYSQL_DATABASE: videoconference
           MYSQL_ROOT_PASSWORD: teamdnsb102
         ports:
-          - 3306:3306        
+         j - 3306:3306        
         volumes:
           - db-data:/var/lib/mysql
-
-    backend_videoconference:
-        build:
-            context: ./
-            dockerfile: Dockerfile
-        container_name: joinmeeting_back
-        ports:
-          - 5000:8080
-        environment:
-          SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/videoconference?autoReconnect=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
-        depends_on:
-          - database
 
 
 volumes:
