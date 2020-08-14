@@ -13,7 +13,7 @@ public class ProfileImgRepositoryImpl implements IProfileImgRepository {
 	public void saveFile(MultipartFile multipartFile, String rootPath, String saveFileName){
 		
 		System.out.println("================================");
-		rootPath = "/home/jenkins/workspace/joinmeeting/backend/resources";
+	//	rootPath = "/home/jenkins/workspace/joinmeeting/backend/resources";
 		saveFileName = "spsp.png";
 
 		File dir = new File(rootPath);

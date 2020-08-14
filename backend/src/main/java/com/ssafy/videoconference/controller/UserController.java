@@ -59,7 +59,7 @@ public class UserController {
 	private static final String FAIL = "fail";
 
 	//private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
-	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
+	private static final String IMGFOLDER = "/home/app/resources";
 	//private static final String IMGFOLDER = "/home/jenkins";
 	
 	private static final String DEFAULT_IMG = "default.jpg";
@@ -140,7 +140,25 @@ public class UserController {
 			
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
-			
+			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
+			if (!oldImg.contains("default")) {
+				String realPath = IMGFOLDER;
+				File deleteFolder = new File(realPath);
+				File[] deleteFolderList = deleteFolder.listFiles();
+				
+				for (File file : deleteFolderList) {
+					System.out.println("이미지 : " + file.getPath());
+					System.out.println(file.getName()); 
+					try {
+						System.out.println("url" + file.toURI().toURL());
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				//	if (file.getPath().contains(oldImg))
+				//		file.delete();
+				}
+			}
 			return ResponseEntity.ok(SUCCESS);
 		} else {
 			return ResponseEntity.ok(FAIL);
@@ -241,24 +259,24 @@ public class UserController {
 			String realPath = IMGFOLDER;
 			
 			System.out.println(realPath);
-			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-			if (!oldImg.contains("default")) {
-				File deleteFolder = new File(realPath);
-				File[] deleteFolderList = deleteFolder.listFiles();
-				
-				for (File file : deleteFolderList) {
-					System.out.println("이미지 : " + file.getPath());
-					System.out.println(file.getName()); 
-					try {
-						System.out.println("url" + file.toURI().toURL());
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				//	if (file.getPath().contains(oldImg))
-				//		file.delete();
-				}
-			}
+//			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
+//			if (!oldImg.contains("default")) {
+//				File deleteFolder = new File(realPath);
+//				File[] deleteFolderList = deleteFolder.listFiles();
+//				
+//				for (File file : deleteFolderList) {
+//					System.out.println("이미지 : " + file.getPath());
+//					System.out.println(file.getName()); 
+//					try {
+//						System.out.println("url" + file.toURI().toURL());
+//					} catch (MalformedURLException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				//	if (file.getPath().contains(oldImg))
+//				//		file.delete();
+//				}
+//			}
 			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
