@@ -32,15 +32,15 @@ export default {
   methods:{
     acceptInvite(){
       const Info = {
-        groupNo: this.Request.groupNo,
+        groupNo: this.message.groupNo,
         id: this.$store.state.userId,
-        nickname: this.$store.state.userId
+        nickname: this.$store.state.myName
       };
       axios.post(SERVER.URL + '/groupmember/add', Info);
       this.removeRequest();
     },
     removeRequest(){
-      axios.delete(SERVER.URL + '/request/delno/' + Request.requestNo)
+      axios.delete(SERVER.URL + '/request/del/' + this.message.receiver + '/' + this.message.sender + '/' + this.message.groupNo)
         .then(() => {
           this.$el.parentNode.removeChild(this.$el);
         });
