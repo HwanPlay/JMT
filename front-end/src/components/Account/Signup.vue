@@ -21,10 +21,10 @@
                   <v-text-field v-model="signupData.id" :disabled="isEmailOverlap === false" :rules="Rules.email" label="E-mail(ID)" required></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pl-0 pb-0">
-                  <v-btn :loading='loading' :disabled="(isEmailOverlap === false) || !mail || loading" class="ma-2" outlined color="black" @click="isEmailOverlap = null;checkEmail(signupData.id); loader='loading'" style="outline: none;">인증</v-btn>
+                  <v-btn :loading='loading' :disabled="(isEmailOverlap === false) || !mail || loading" class="ma-2" outlined color="black" @click="checkEmail()" style="outline: none;">인증</v-btn>
                 </v-col>
               </v-row>
-              <v-alert :value="isEmailOverlap" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+              <v-alert :value="isEmailOverlap" color="pink" dark border="left" icon="fa-exclamation" transition="scale-transition"> 
                 <div>이미 사용중인 이메일입니다!</div>
               </v-alert>
               <v-row v-show="isEmailOverlap === false">
@@ -38,7 +38,7 @@
                     </v-btn>
                 </v-col>
               </v-row>
-              <v-alert :value="isVerified === false" color="pink" dark border="top" icon="fa-exclamation" transition="scale-transition"> 
+              <v-alert :value="isVerified === false" color="pink" dark border="left" icon="fa-exclamation" transition="scale-transition"> 
                 <div>인증 코드를 다시 확인해주세요!</div>
               </v-alert>
               <span class="caption grey--text text--darken-1">서비스 사용에 필요한 이름과 이메일을 입력해주세요</span>
@@ -83,15 +83,6 @@
         <strong><span style='text-decoration: underline; cursor: pointer;' @click='close'>
           이곳
         </span></strong>을 클릭해주세요
-        <!-- <v-row>
-          <v-col cols="1" class="ml-6">
-            <v-icon size="50">fas fa-exclamation</v-icon>
-          </v-col>
-          <v-col cols="10">
-        <div>지금 취소하면 작성한 정보가 모두 사라집니다.</div>
-        <div class="pb-1 mt-2">회원가입을 취소하시려면 <span style="text-decoration: underline; cursor: pointer;" @click="close">이곳</span>을 클릭해주세요.</div>
-          </v-col>
-        </v-row>  -->
       </v-alert>
     </v-card>
     </v-form>
@@ -99,6 +90,9 @@
 </template>
 
 <script>
+import SERVER from '../../api/spring.js';
+import axios from 'axios';
+
 import { mapActions } from 'vuex';
 
 export default {
@@ -114,9 +108,10 @@ export default {
       id: '',
       pw: '',
     },
-    loader: null,
     loading: false,
     verificationWord: '',
+    validationWord: '',
+    isEmailOverlap: null,
     isVerified: null,
     passwordConfirm: '',
     Rules: {
@@ -144,7 +139,7 @@ export default {
       this.resetValidation();  // 유효성검사 제거
       this.dialog = false;  // 모달 제거
       this.isVerified = null;
-      this.$store.state.isEmailOverlap = null;
+      this.isEmailOverlap = null;
     },
     resetValidation() {
       this.$refs.form.reset();  
@@ -152,9 +147,9 @@ export default {
     validate(){
       this.$refs.form.validate();
     },
-    ...mapActions(['checkEmail', 'signup']),
+    ...mapActions(['signup']),
     emailVerify(){
-      if (this.verificationWord === this.$store.state.emailValidationWord){
+      if (this.verificationWord == this.validationWord){
         this.isVerified = true;
       }else{
         this.isVerified = false;
@@ -163,13 +158,29 @@ export default {
     emailValid(){
       if (/.+@.+\..+/.test(this.signupData.id))
       {
-        console.log('check', true);
         this.mail = true;
       } else{
         console.log(false);
         this.mail = false;
       }
     },
+    checkEmail(){
+      this.isEmailOverlap = null;
+      this.loading = true;
+      axios.get(SERVER.URL + SERVER.ROUTES.checkEmail + '/' + this.signupData.id)
+        .then(res => {
+          if (res.data === 'fail'){
+            this.isEmailOverlap = true;
+          }
+          else{
+            this.validationWord = res.data;
+            console.log(res.data);
+            this.isEmailOverlap = false;
+          }
+          this.loading = false;
+        })
+        .catch(err => console.log(err));
+    }
   },
   computed: {
     passwordConfirmRules () {
@@ -182,9 +193,6 @@ export default {
       default: return '계정 생성 완료';
       }
     },
-    isEmailOverlap(){
-      return this.$store.state.isEmailOverlap;
-    },
   },
   watch: {
     signupData:{
@@ -192,12 +200,6 @@ export default {
       handler(){
         this.emailValid();
       }
-    },
-    loader(){
-      const l = this.loader;
-      this[l] = !this[l];
-      setTimeout(() => (this[l] = false), 3200);
-      this.loader = null;
     },
   }
 };

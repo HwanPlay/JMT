@@ -19,8 +19,6 @@ export default new Vuex.Store({
     myName: localStorage.getItem('myName'),
     myPicture: localStorage.getItem('myPicture'),
     
-    emailValidationWord: '',
-    isEmailOverlap: null,
     loginError: false,
     groupModalOn: false,
   },
@@ -55,18 +53,6 @@ export default new Vuex.Store({
     REFRESH_ACCESS_TOKEN(state, token) {
       localStorage.setItem('accessToken', token);
       state.accessToken = token;
-    },
-
-    SET_VALIDATION_WORD(state, word){
-      if (word === 'fail'){
-        state.isEmailOverlap = true;
-        console.log('duplicated!');
-      }
-      else{
-        state.emailValidationWord = word;
-        state.isEmailOverlap = false;
-        console.log('correct', state.emailValidationWord);
-      }
     },
     SET_LOGIN_ERROR(state, val){
       state.loginError = val;
@@ -104,16 +90,7 @@ export default new Vuex.Store({
         .catch(err => console.log(err.response));
     },
 
-    checkEmail({ commit }, email) {
-      console.log(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email);
-      axios.get(SERVER.URL + SERVER.ROUTES.checkEmail +'/'+email)
-        .then(res => {
-          commit('SET_VALIDATION_WORD', res.data);
-        })
-        .catch(err => console.log(err.response));
-    },
-
-    login({ state, commit }, loginData) {
+    login({ commit }, loginData) {
       console.log(loginData);
       axios.post(SERVER.URL + SERVER.ROUTES.login, loginData)
         .then(res => {
