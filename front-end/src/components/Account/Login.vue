@@ -63,27 +63,27 @@ export default {
   },
 
   data () {
-    {
-      return {
-        icons: [
-          'fas fa-users',
-          'far fa-edit',
-          'fas fa-chalkboard-teacher'
-        ],
-        cycle: true,
-        slides: [
-          '전 세계 사람들과, 언제 어디서든!',
-          '강의를 보면서 필기도 가능합니다!',
-          '직관적인 UI로 누구나 간편하게!'
-        ],
-        modalOpen: false,
-        loginData: {
-          id: null,
-          pw: null,
-        },
-        passwordModalOn: false
-      };
-    }
+  
+    return {
+      icons: [
+        'fas fa-users',
+        'far fa-edit',
+        'fas fa-chalkboard-teacher'
+      ],
+      cycle: true,
+      slides: [
+        '전 세계 사람들과, 언제 어디서든!',
+        '강의를 보면서 필기도 가능합니다!',
+        '직관적인 UI로 누구나 간편하게!'
+      ],
+      modalOpen: false,
+      loginData: {
+        id: null,
+        pw: null,
+      },
+      passwordModalOn: false
+    };
+  
   },
 
   methods: {

@@ -53,7 +53,7 @@
               <h3 class="title mb-2">패스워드 재설정이 완료되었습니다</h3>
               <span class="caption" style="color: rgb(52, 63, 87);">이용해주셔서 감사합니다!</span>
               <div>
-                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="close();">닫기</v-btn>
+                <v-btn class="font-weight-bold" style="outline: none; margin-top: 20px;" text @click="close(); changePw();">닫기</v-btn>
               </div>
             </div>
           </v-window-item>
@@ -62,12 +62,12 @@
       <v-divider></v-divider>
 
       <v-card-actions>
-        <v-btn :disabled="step === 3" @click="close; changePw;" text style="outline: none;">
+        <v-btn :disabled="step === 3" @click="close();" text style="outline: none;">
           Close
           </v-btn>
         <!-- <v-btn :disabled="step === 1" text @click="step--" style="outline:none;">Back</v-btn> -->
         <v-spacer></v-spacer>
-        <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="step++" style="outline: none;"> Next 
+        <v-btn :disabled="(!valid) || (step === 3) || (!isVerified)" text depressed @click="stepPlus()" style="outline: none;"> Next 
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -80,34 +80,40 @@ import SERVER from '../../api/spring.js';
 
 export default {
   name: 'findPassword',
-  data: () => ({
-    valid: true,
-    step: 1,
-    mail: false,
-    alert: false,
-    email: '',
-    pw: '',
-    loader: null,
-    loading: false,
-    verificationWord: '',
-    AuthorWord: '',
-    isVerified: null,
-    passwordConfirm: '',
-    mailCheck: null,
-    Rules: {
-      email: [
-        v => !!v || 'E-mail을 입력해주세요',
-        v => /.+@.+\..+/.test(v) || '바른 E-mail 형식을 입력해주세요',
-      ],
-      verificationWord: [
-        v => !!v || '인증번호를 입력해주세요'
-      ],
-      password: [
-        v => !!v || '패스워드를 입력해주세요',
-        v => (v && v.length >= 8) || '8자 이상의 비밀번호를 입력해주세요',
-      ],    
-    }
-  }),
+  data(){
+    return {
+      valid: true,
+      step: 1,
+      mail: false,
+      alert: false,
+      email: '',
+      pw: '',
+      loader: null,
+      loading: false,
+      verificationWord: '',
+      AuthorWord: '',
+      isVerified: null,
+      passwordConfirm: '',
+      mailCheck: null,
+      Rules: {
+        email: [
+          v => !!v || 'E-mail을 입력해주세요',
+          v => /.+@.+\..+/.test(v) || '바른 E-mail 형식을 입력해주세요',
+        ],
+        verificationWord: [
+          v => !!v || '인증번호를 입력해주세요'
+        ],
+        password: [
+          v => !!v || '패스워드를 입력해주세요',
+          v => (v && v.length >= 8) || '8자 이상의 비밀번호를 입력해주세요',
+        ],    
+      },
+      inputData: {
+        id: '',
+        pw: ''
+      },
+    };
+  },
   methods: {
     close () {
       this.step = 1;  // 모달 처음으로 되돌리기
@@ -116,6 +122,15 @@ export default {
       this.mailCheck = null;
       this.$emit('close');
     },
+    stepPlus() {
+      if (this.step === 1) {
+        this.inputData.id = this.email;
+      }
+      else{
+        this.inputData.pw = this.pw;
+      }
+      this.step += 1;
+    },
     resetValidation() {
       this.$refs.form.reset();  
     },
@@ -123,7 +138,7 @@ export default {
       this.$refs.form.validate();
     },
     emailVerify(){
-      if (this.verificationWord === this.AuthorWord){
+      if (this.verificationWord == this.AuthorWord){
         this.isVerified = true;
       }else{
         this.isVerified = false;
@@ -132,10 +147,8 @@ export default {
     emailValid(){
       if (/.+@.+\..+/.test(this.email))
       {
-        console.log('check', true);
         this.mail = true;
       } else{
-        console.log(false);
         this.mail = false;
       }
     },
@@ -155,8 +168,7 @@ export default {
         .catch(err => console.log(err));
     },
     changePw(){
-      axios.post(SERVER.URL + '/findPw/newPw', {pw: this.pw})
-        .then(() => {console.log('PW Changed!');})
+      axios.post(SERVER.URL + '/findPw/newPw', this.inputData)
         .catch((err) => console.log(err));
     }
   },

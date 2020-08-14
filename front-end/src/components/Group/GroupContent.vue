@@ -172,12 +172,12 @@ export default {
     },
 
 
-    connect(param) { console.log(param);
+    connect() { 
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + param, res => {
+        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
           this.recvList.push(res.body);
-          console.log(this.recvList);
+          console.log('받은 데이터' + this.recvList);
         });
       }, error => {
         if(this.reconnect++ <= 5) {

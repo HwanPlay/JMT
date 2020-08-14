@@ -68,6 +68,7 @@ export default {
           this.isInvited = true;
         })
         .catch(err => console.log(err.response));
+      this.send(this.user);
     },
 
     connect() {

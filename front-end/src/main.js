@@ -40,7 +40,6 @@ import { nodeName } from 'jquery';
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 일
-    console.log('request interceptor');
     config.headers.Authorization = localStorage.getItem('accessToken');
 
     return config;
@@ -55,7 +54,6 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function (response) {
-    console.log('성공인 경우');
     // 응답 데이터를 가공
     return response;
   },
@@ -65,7 +63,6 @@ axios.interceptors.response.use(
     const originalRequest = error.config;
   
     if (error.response.status === 401 && originalRequest.retry === undefined){ // A토큰 만료시
-      console.log('thisiserror', error.response);
       originalRequest.retry = true;
       // isRefreshing = true;
       const config = {
@@ -77,7 +74,6 @@ axios.interceptors.response.use(
       return axios.get(SERVER.URL + SERVER.ROUTES.reToken, config)
         .then(res => {
           if (res.status === 200){  // A토큰 재발급 성공
-            console.log('old', localStorage.getItem('accessToken'));
             if (res.headers.accessToken !== undefined){
               store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
               // isRefreshing = false;
@@ -92,8 +88,6 @@ axios.interceptors.response.use(
         })
         .catch(err => console.log(err));
     }else if(error.response.status === 500 && error.response.data.message == 'expiredRefresh'){
-      console.log('여길봐', error.response);
-      console.log('Expire refreshToken');
       localStorage.clear();
       store.commit('SET_TOKEN', null);
       // isRefreshing = false;
