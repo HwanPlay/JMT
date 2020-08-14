@@ -58,10 +58,7 @@ public class UserController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-	//private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources";
-	private static final String IMGFOLDER = "/home/app/resources";
-	//private static final String IMGFOLDER = "/home/jenkins";
-	
+	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources/profile/image";
 	private static final String DEFAULT_IMG = "default.jpg";
 
 	@Resource(name = "userService")
@@ -127,7 +124,7 @@ public class UserController {
 
 	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
 	@PostMapping("/user/modify")
-	public ResponseEntity<String> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+	public ResponseEntity<ModifyUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 	
 		//	user.setPw(passwordEncoder.encode(user.getPw()));
 		// 프로필 사진 저장 후, 회원 수정
@@ -137,32 +134,10 @@ public class UserController {
 			user.setProfile_img(newImgName);
 			user.setId(authUser.getId());
 			userService.modifyUser(user);
-			
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
-			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-			if (!oldImg.contains("default")) {
-				String realPath = IMGFOLDER;
-				File deleteFolder = new File(realPath);
-				File[] deleteFolderList = deleteFolder.listFiles();
-				
-				for (File file : deleteFolderList) {
-					System.out.println("이미지 : " + file.getPath());
-					System.out.println(file.getName()); 
-					try {
-						System.out.println("url" + file.toURI().toURL());
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				//	if (file.getPath().contains(oldImg))
-				//		file.delete();
-				}
-			}
-			return ResponseEntity.ok(SUCCESS);
-		} else {
-			return ResponseEntity.ok(FAIL);
 		}
+		return ResponseEntity.ok(user);
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
@@ -259,12 +234,12 @@ public class UserController {
 			String realPath = IMGFOLDER;
 			
 			System.out.println(realPath);
-//			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-//			if (!oldImg.contains("default")) {
-//				File deleteFolder = new File(realPath);
-//				File[] deleteFolderList = deleteFolder.listFiles();
-//				
-//				for (File file : deleteFolderList) {
+			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
+			if (!oldImg.contains("default")) {
+				File deleteFolder = new File(realPath);
+				File[] deleteFolderList = deleteFolder.listFiles();
+				
+				for (File file : deleteFolderList) {
 //					System.out.println("이미지 : " + file.getPath());
 //					System.out.println(file.getName()); 
 //					try {
@@ -273,10 +248,10 @@ public class UserController {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
-//				//	if (file.getPath().contains(oldImg))
-//				//		file.delete();
-//				}
-//			}
+					if (file.getPath().contains(oldImg))
+						file.delete();
+				}
+			}
 			System.out.println("삭제완료");
 			// 프로필 사진 추가명 : 날짜+랜덤UUID
 			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
