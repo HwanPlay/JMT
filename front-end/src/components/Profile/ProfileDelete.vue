@@ -15,7 +15,6 @@
           {{ alert_text }}
           </div>
         </v-card-text>
-
         
 
         <v-card-text>

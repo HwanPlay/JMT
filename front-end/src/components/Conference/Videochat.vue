@@ -226,6 +226,8 @@ export default {
       console.log("여기가 1번")
       this.$router.push("/Group");
       console.log("여기가 2번")
+      this.connection.onclose();
+
  },
     //비디오 끄고,켜기
     onCam() {
