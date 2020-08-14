@@ -97,7 +97,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="6">
+    <v-col cols="5">
       <GroupCalendar />
     </v-col>
   </v-row>
