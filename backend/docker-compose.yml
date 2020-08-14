@@ -22,7 +22,7 @@ services:
           MYSQL_DATABASE: videoconference
           MYSQL_ROOT_PASSWORD: teamdnsb102
         ports:
-         j - 3306:3306        
+          - 3306:3306        
         volumes:
           - db-data:/var/lib/mysql
 
