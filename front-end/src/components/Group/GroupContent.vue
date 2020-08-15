@@ -30,6 +30,8 @@
           </v-btn>
         </v-col>
       </v-row>-->
+
+      
       <div id="conferenceBox">
         <v-row>
           <v-col cols="7">
