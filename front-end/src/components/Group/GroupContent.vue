@@ -230,14 +230,10 @@ export default {
           SERVER.URL + '/meeting/get/currentmeeting/' + this.groupInfo.groupNo
         )
         .then(res => {
-          this.$router.push({
-            name: 'Conference',
-            params: { roomId: this.groupInfo.roomId },
-            query: {
-              groupNo: this.groupInfo.groupNo,
-              groupName: this.groupInfo.groupName,
-              meetingNo: res.body.meetingNo
-            }
+          console.log(res);
+          this.$router.push({name: 'Conference', 
+            params: { roomId : this.groupInfo.roomId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.data.meetingNo }
           });
         });
     },

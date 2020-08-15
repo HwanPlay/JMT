@@ -59,13 +59,15 @@
           </v-img>
 
           <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
-          <hr class="m-2">
-          <v-card-text class="text--primary" style="height: 100%;">
-            <h4>Team DNS</h4>
-            <div>How to complete the Project : JMT</div>
-            <hr>
-            <h4>SSAFY 3기 대전 1반</h4>
-            <div>Make our own Service</div>
+          <!-- <hr class="m-2"> -->
+          <v-card-text v-for="group in $store.state.myGroups" :key="group.groupNo" class="text--primary m-0 pt-0 pb-0" style="height: 100%;">
+            <div class="m-0 p-0" v-if="group.hasMeeting">
+              <hr>
+              <h4>{{ group.groupName }}</h4>
+              <p>{{ group.groupIntro }}</p>
+            </div>
+            <!-- <h4>SSAFY 3기 대전 1반</h4>
+            <div>Make our own Service</div> -->
           </v-card-text>
         </v-card>
         </v-col>

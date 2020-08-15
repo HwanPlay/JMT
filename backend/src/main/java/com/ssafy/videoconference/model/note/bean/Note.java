@@ -51,7 +51,7 @@ public class Note extends BaseTimeEntity{
 	private String title;
 	
 	
-	@Column(name = "content", nullable = false)
+	@Column(name = "content", nullable = false, length = 100000)
 	private String content;
 	
 	

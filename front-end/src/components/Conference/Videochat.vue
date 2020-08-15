@@ -195,7 +195,14 @@ export default {
 
       myVideoTrackIsMuted: false,
       trackId: null,
-      streamId : null
+      streamId : null,
+
+      //---------------WebSocket-----------------
+      sock : null,
+      ws : null,
+      reconnect : 0,
+      recv : '',
+
     };
   },
   methods: {
@@ -343,7 +350,6 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-      
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
@@ -365,8 +371,31 @@ export default {
       this.connection.send(this.value);
       this.appendDIV(this.value);
       e.target.value = "";
-    }
+    },
+
+    //---------------WebSocket-----------------
+    
+    connect() {
+      this.ws.conenct({'token' : this.$store.state.accessToKen}, frame => {
+        console.log('소켓 연결 성공', frame);
+        this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
+          this.recv = res.body;
+          console.log('받은 데이터' + JSON.parse(this.recv));
+        });
+      }, () => {
+        if(this.reconnect++ <= 5) {
+          setTimeout(()=> {
+            console.log('connection reconnect');
+            this.sock = new SockJS(SERVER.URL2);
+            this.ws = Stomp.over(this.sock);
+            this.connect();
+          }, 10*1000);
+        }
+      });
+    },
   },
+
+
   updated() {
     this.connection.onmessage = this.appendDIV;
     this.connection.onclose = function(event) {
@@ -380,6 +409,11 @@ export default {
     this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
     this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+
+    //---------------WebSocket-----------------
+    this.sock = new SockJS(SERVER.URL2);
+    this.ws = Stomp.over(this.sock);
+
   },
   mounted() {
     this.onJoin();
@@ -390,13 +424,15 @@ export default {
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
     );
-    
-    // this.designer = new CanvasDesigner();
+
+    //---------------WebSocket-----------------
+    this.connect();
   },
   destroyed() {
     this.onLeave();
   }
 };
+
 </script>
 
 <style>
