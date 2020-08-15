@@ -12,12 +12,8 @@
           <v-row>
             <v-col cols="4">
               <v-avatar class="profile"  size="164" tile>
-                <img :src="picture_URL" alt="사진 자리 ㅠㅠ">
+                <img :src="'http://joinmeeting.tk'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
               </v-avatar>
-
-              <!-- <v-img src="http://joinmeeting.tk/images/200814_2f4510ea76.jpg" aspect-ratio="1" alt="사진 자리 ㅠㅠ"></v-img>
-              <img src="http://joinmeeting.tk/images/200814_2f4510ea76.jpg" aspect-ratio="1" alt="사진 자리 ㅠㅠ"> -->
-
             </v-col>
             <v-col cols="8">
               Name: {{this.$store.state.myName}}
@@ -49,7 +45,6 @@ export default {
   data() {
     return {
       dialog: false,
-      picture_URL: 'http://joinmeeting.tk/images/' + this.$store.state.myPicture,
     };
   },
   computed: {
