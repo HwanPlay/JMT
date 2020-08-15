@@ -55,11 +55,11 @@
         </div>
         <v-divider></v-divider>
         <v-list nav dense>
-          <v-list-item-group  v-model="group" active-class="border"  color="orange">
+          <v-list-item-group  active-class="border"  color="orange">
             <div id="v-list-item-box" >
             <v-list-item
-            v-for="(group, i) in group_list"
-            :key="i"
+            v-for="group in group_list"
+            :key="group.id"
             @click="getNoteList(group.groupNo)"
             v-b-toggle.sidebar-backdrop
           >
@@ -158,7 +158,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      variant: 'dark',
+    };
   },
 };
 </script>
