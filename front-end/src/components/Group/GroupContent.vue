@@ -159,16 +159,19 @@ export default {
         .then(res => {
           this.meetingNo = res.data.meetingNo;
           this.$router.push({name: 'Conference',
-            params: { roomId : this.groupInfo.roomId }, 
+            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
             query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }});
         });
     },
 
     joinMeeting(){
-      this.$router.push({name: 'Conference', 
-        params: { roomId : this.groupInfo.roomId },
-        query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }
-      });
+      axios.get(SERVER.URL + '/meeting/get/currentmeeting/'+this.groupInfo.groupNo)
+        .then(res => {
+          this.$router.push({name: 'Conference', 
+            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
+          });
+        });
     },
 
 

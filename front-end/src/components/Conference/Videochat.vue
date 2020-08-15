@@ -14,9 +14,52 @@
           </v-btn>
         </div>
       </div>
+          <!-- <v-sheet
+            class="mx-auto"
+            elevation="8"
+            max-width="800"
+          >
+            <v-slide-group
+              v-model="model"
+              class="pa-4"
+              center-active
+              show-arrows
+            >
+              <v-slide-item
+                v-for="n in 6"
+                :key="n"
+                v-slot:default="{ active, toggle }"
+              >
+                <v-card
+                  :color="active ? 'primary' : 'grey lighten-1'"
+                  class="ma-4"
+                  height="100"
+                  width="132"
+                  @click="toggle"
+                >
+                  <v-row
+                    class="fill-height"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-scale-transition>
+                      <v-icon
+                        v-if="active"
+                        color="white"
+                        size="48"
+                        v-text="'mdi-close-circle-outline'"
+                      ></v-icon>
+                    </v-scale-transition>
+                  </v-row>
+                </v-card>
+                
+              </v-slide-item>
+            </v-slide-group>
+          </v-sheet> -->
 
       <div class="Mainvideo">
-        <div class="Main-videos-container" id="Main-videos-container"></div>
+        <div class="Main-videos-container" id="Main-videos-container">
+        </div>
       </div>
 
       <!-- <div class="fixed-bottom"> -->
@@ -59,22 +102,12 @@
             <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
-          <v-btn @click="castOnOff = !castOnOff">
-            <span v-show="castOnOff">OFF</span>
-            <v-icon v-show="castOnOff">mdi-cast-off</v-icon>
+          <v-btn @click="onCast">
+            <span v-show="!castOnOff">OFF</span>
+            <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
 
-            <span v-show="!castOnOff">ON</span>
-            <v-icon v-show="!castOnOff">mdi-cast</v-icon>
-          </v-btn>
-
-          <v-btn @click="onBroadcast">
-            <span>BroadCast</span>
-            <v-icon>mdi-cast</v-icon>
-          </v-btn>
-
-          <v-btn @click="offBroadcast">
-            <span>BroadCast off</span>
-            <v-icon>mdi-cast-off</v-icon>
+            <span v-show="castOnOff">ON</span>
+            <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
 
           <v-btn @click="onChat">
@@ -160,6 +193,7 @@ export default {
   },
   props:{
     roomId: String,
+    hostId: String,
     meetingInfo: Object,
   },
   data() {
@@ -181,8 +215,6 @@ export default {
       inputText: "",
       message: "Default Message",
       broadcast: null,
-      AudioBool: false,
-      videoBool: false,
       videoLength: null,
 
       // overlay: false,
@@ -190,12 +222,14 @@ export default {
       showNav: true,
       videoOnOff: true,
       micOnOff: true,
-      castOnOff: true,
+      castOnOff: false,
       activeBtn: 0,
 
       myVideoTrackIsMuted: false,
       trackId: null,
-      streamId : null
+      streamId : null,
+
+      // model: null,
     };
   },
   methods: {
@@ -212,26 +246,63 @@ export default {
       this.overlay = false;
     },
     //회의방 나가기
-    onLeave() {
-      this.connection.dontAttachStream = true;
-      this.broadcast.dontAttachStream = true;
-      // stop all local cameras
-      this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      this.broadcast.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
+    onLeave() { // 재접은 autoCloseEntireSession T/F 에 따라 가불가
+      var that = this;
+      console.log(this.$store.state.userId, this.hostId)
+      if (this.$store.state.userId === this.hostId) {
+        this.connection.closeSocket();
+        // that.connection.closeSocket();
+        var numberOfUsers = this.connection.getAllParticipants().length;
+        alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
+      } else {
+        this.connection.dontAttachStream = true;
+        this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+          localStream.stop();
+        });
+        var numberOfUsers = this.connection.getAllParticipants().length;
+        alert(numberOfUsers + '명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.');
+      }
+
+      // disconnect with all users
+      // this.connection.getAllParticipants().forEach(function(pid) {
+      //   that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+
+          // var user = that.connection.peers[pid];
+          // var hisFullName = user.extra;
+          // var hisUID = user.userid;
+          // var hisNativePeer = user.peer;
+          // var hisIncomingStreams = user.peer.getRemoteStreams();
+          // var hisDataChannels = user.channels;
+          // console.log(user)
+          // console.log(hisFullName)
+          // console.log(hisUID)
+          // console.log(hisNativePeer)
+          // console.log(hisIncomingStreams)
+          // console.log(hisDataChannels)
+      // });
+
+      // this.connection.dontAttachStream = true;  // 상대방 접속해도 비디오 안생기게 하는 것 채팅 가능, 리브누르고 재접속 가능
+      // this.broadcast.dontAttachStream = true;
+      // // stop all local cameras
+      // this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+      //   localStream.stop();
+      // });
+      // // close socket.io connection
+      // this.connection.closeSocket();  //새로고침할때랑 거의 동일, 각자의 로컬 스트림은 살아있고, 통신이 끊김(채팅도 불가) 호스트는 게스트 스트림 멈춤(리브누른사람의 스트림 사라짐), 호스트가 재접속시 게스트들 streamid 그대로 다시 연결됨 게스트 재접속시 새로방만들어짐
+
       document.getElementById("videos-container").style.display = "none";
-      console.log("여기가 1번")
+
       this.$router.push("/Group");
-      console.log("여기가 2번")
- },
+    },
     //비디오 끄고,켜기
     onCam() {
-      if (this.videoBool == false) {
+      // 카메라 끄기
+      if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
-        console.log(this.connection.streamEvents.selectFirst('local'))
+        // console.log(this.connection.streamEvents.selectFirst('local'))
+        // this.connection.streamEvents.selectFirst('local').mediaElement.autoplay = 'false';
+        // this.connection.streamEvents.selectFirst('local').mediaElement.style.background = 'transparent url(https://cdn.webrtc-experiment.com/images/muted.png) no-repeat center center';
+        // console.log(this.connection.streamEvents.selectFirst('local'))
        
         // this.connection.send({
         //     myVideoTrackIsMuted: true,
@@ -245,42 +316,45 @@ export default {
         //         document.getElementById(event.data.streamId).poster = '/images/poster.png'; // or background image
         //     }
         // };
-        this.videoBool = !this.videoBool;
+      // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
         localStream.unmute("video");
-
-        this.videoBool = !this.videoBool;
       }
       this.videoOnOff = !this.videoOnOff;
     },
     onMic() {
-      this.micOnOff = !this.micOnOff;
-      if (this.AudioBool == false) {
+      // 마이크 끄기
+      if (this.micOnOff == true) {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
         localStream.muted = true;
-        this.AudioBool = !this.AudioBool;
+      // 마이크 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         localStream.unmute("audio");
-
-        this.connection.streamEvents.selectFirst(
-          "local"
-        ).mediaElement.muted = true;
-        this.AudioBool = !this.AudioBool;
+        this.connection.streamEvents.selectFirst("local").mediaElement.muted = true;
       }
+      this.micOnOff = !this.micOnOff;
     },
-    offBroadcast() {
-      this.broadcast.dontAttachStream = true;
+    onCast() {
+      if (this.castOnOff == false) {
+        console.log('캐스트 켜기')
+      } else {
+        console.log('캐스트 끄기')
+      }
+      this.castOnOff = !this.castOnOff;
     },
-    onBroadcast() {
-      this.broadcast.session = {
-        video: true
-      };
-      this.broadcast.openOrJoin(this.roomId + "a");
-    },
+    // offBroadcast() {
+    //   this.broadcast.dontAttachStream = true;
+    // },
+    // onBroadcast() {
+    //   this.broadcast.session = {
+    //     video: true
+    //   };
+    //   this.broadcast.openOrJoin(this.roomId + "a");
+    // },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
@@ -394,7 +468,9 @@ export default {
     // this.designer = new CanvasDesigner();
   },
   destroyed() {
-    this.onLeave();
+    if (!!this.connection.getAllParticipants().length) {
+      this.onLeave();
+    }
   }
 };
 </script>
