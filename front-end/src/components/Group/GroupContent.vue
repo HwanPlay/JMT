@@ -212,28 +212,18 @@ export default {
         })
         .then(res => {
           this.meetingNo = res.data.meetingNo;
-          this.$router.push({
-            name: 'Conference',
-            params: { roomId: this.groupInfo.roomId },
-            query: {
-              groupNo: this.groupInfo.groupNo,
-              groupName: this.groupInfo.groupName,
-              meetingNo: this.meetingNo
-            }
-          });
+          this.$router.push({name: 'Conference',
+            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }});
         });
     },
 
-    joinMeeting() {
-      axios
-        .get(
-          SERVER.URL + '/meeting/get/currentmeeting/' + this.groupInfo.groupNo
-        )
+    joinMeeting(){
+      axios.get(SERVER.URL + '/meeting/get/currentmeeting/'+this.groupInfo.groupNo)
         .then(res => {
-          console.log(res);
           this.$router.push({name: 'Conference', 
-            params: { roomId : this.groupInfo.roomId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.data.meetingNo }
+            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
           });
         });
     },
