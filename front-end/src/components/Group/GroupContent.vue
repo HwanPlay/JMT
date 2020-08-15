@@ -161,8 +161,6 @@ export default {
     ws: null,
     reconnect: 0,
     token: '',
-    recvList: [],
-    tmp_meeting: null,
     meetingNo: null
   }),
   methods: {
@@ -223,32 +221,9 @@ export default {
         .then(res => {
           this.$router.push({name: 'Conference', 
             params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: this.meetingNo }
           });
         });
-    },
-
-    connect() {
-      this.ws.connect(
-        { token: this.$store.state.accessToken },
-        frame => {
-          console.log('소켓 연결 성공', frame);
-          this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
-            this.recvList.push(res.body);
-            console.log('받은 데이터' + this.recvList);
-          });
-        },
-        () => {
-          if (this.reconnect++ <= 5) {
-            setTimeout(() => {
-              console.log('connection reconnect');
-              this.sock = new SockJS(SERVER.URL2);
-              this.ws = Stomp.over(this.sock);
-              this.connect();
-            }, 10 * 1000);
-          }
-        }
-      );
     },
 
     send(tmp) {
@@ -275,6 +250,7 @@ export default {
     //   .catch(err => console.log(err.response));
     this.connect();
   },
+
 
   watch: {
     groupInfo() {
