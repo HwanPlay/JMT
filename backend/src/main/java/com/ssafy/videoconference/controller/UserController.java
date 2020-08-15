@@ -58,7 +58,7 @@ public class UserController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources/profile/images";
+	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources/profile/image";
 	private static final String DEFAULT_IMG = "default.jpg";
 
 	@Resource(name = "userService")
@@ -122,22 +122,27 @@ public class UserController {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
 
-	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = String.class)
+	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = FindUser.class)
 	@PostMapping("/user/modify")
-	public ResponseEntity<ModifyUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
-	
+	public ResponseEntity<FindUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
+		
 		//	user.setPw(passwordEncoder.encode(user.getPw()));
 		// 프로필 사진 저장 후, 회원 수정
 		String oldImg = authUser.getProfile_img();
 		String newImgName = "";
 		if ((newImgName = saveProfileImg(user.getMultipartFile(), oldImg)) != null) {
-			user.setProfile_img(newImgName);
 			user.setId(authUser.getId());
+			user.setProfile_img(newImgName);
+			System.out.println("디비에 저장한 새로운 파일명! : " + user.getProfile_img());
 			userService.modifyUser(user);
+			user.setProfile_img("/images/"+newImgName);
+			System.out.println("프론트에게 보낼 이미지 파일명 ! : "  + user.getProfile_img());
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
 		}
-		return ResponseEntity.ok(user);
+		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(),"/images/"+newImgName);
+		System.out.println(modifyUser);
+		return ResponseEntity.ok(modifyUser);
 	}
 
 	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)

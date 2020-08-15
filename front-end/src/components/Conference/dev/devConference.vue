@@ -55,6 +55,7 @@
                     </v-scale-transition>
                   </v-row>
                 </v-card>
+                
               </v-slide-item>
             </v-slide-group>
           </v-sheet>
@@ -249,30 +250,62 @@ export default {
         video: false,
         audio: true
       };
-      this.connection.openOrJoin(this.roomId);
+      this.connection.openOrJoin('devConference');
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
     //회의방 나가기
-    onLeave() {
-      this.connection.dontAttachStream = true;
-      this.broadcast.dontAttachStream = true;
-      // stop all local cameras
-      this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
+    onLeave() { // 재접은 autoCloseEntireSession T/F 에 따라 가불가
+      var that = this;
+      // disconnect with all users
+      var numberOfUsers = this.connection.getAllParticipants().length;
+      alert(numberOfUsers + '명이 함께한 회의가 종료되었습니다.');
+      this.connection.getAllParticipants().forEach(function(pid) {
+        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+          // var user = that.connection.peers[pid];
+          // var hisFullName = user.extra;
+          // var hisUID = user.userid;
+          // var hisNativePeer = user.peer;
+          // var hisIncomingStreams = user.peer.getRemoteStreams();
+          // var hisDataChannels = user.channels;
+          // console.log(user)
+          // console.log(hisFullName)
+          // console.log(hisUID)
+          // console.log(hisNativePeer)
+          // console.log(hisIncomingStreams)
+          // console.log(hisDataChannels)
       });
-      this.broadcast.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
-      document.getElementById("videos-container").style.display = "none";
+      // // stop all local cameras
+      // this.connection.attachStreams.forEach(function(localStream) {
+      //     localStream.stop();
+      // });
+      // // close socket.io connection
+      // this.connection.closeSocket();
 
-      this.$router.push("/Group");
+      // this.connection.dontAttachStream = true;  // 상대방 접속해도 비디오 안생기게 하는 것 채팅 가능, 리브누르고 재접속 가능
+      // this.broadcast.dontAttachStream = true;
+      // // stop all local cameras
+      // this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+      //   localStream.stop();
+      // });
+      // // close socket.io connection
+      // this.connection.closeSocket();  //새로고침할때랑 거의 동일, 각자의 로컬 스트림은 살아있고, 통신이 끊김(채팅도 불가) 호스트는 게스트 스트림 멈춤(리브누른사람의 스트림 사라짐), 호스트가 재접속시 게스트들 streamid 그대로 다시 연결됨 게스트 재접속시 새로방만들어짐
+      // this.broadcast.attachStreams.forEach(function(localStream) {
+      //   localStream.stop();
+      // });
+      // document.getElementById("videos-container").style.display = "none";
+
+      // this.$router.push("/Group");
     },
     //비디오 끄고,켜기
     onCam() {
+      // 카메라 끄기
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
-        console.log(this.connection.streamEvents.selectFirst('local'))
+        // console.log(this.connection.streamEvents.selectFirst('local'))
+        // this.connection.streamEvents.selectFirst('local').mediaElement.autoplay = 'false';
+        // this.connection.streamEvents.selectFirst('local').mediaElement.style.background = 'transparent url(https://cdn.webrtc-experiment.com/images/muted.png) no-repeat center center';
+        // console.log(this.connection.streamEvents.selectFirst('local'))
        
         // this.connection.send({
         //     myVideoTrackIsMuted: true,
@@ -286,7 +319,7 @@ export default {
         //         document.getElementById(event.data.streamId).poster = '/images/poster.png'; // or background image
         //     }
         // };
-
+      // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
@@ -295,10 +328,12 @@ export default {
       this.videoOnOff = !this.videoOnOff;
     },
     onMic() {
+      // 마이크 끄기
       if (this.micOnOff == true) {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
         localStream.muted = true;
+      // 마이크 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         localStream.unmute("audio");

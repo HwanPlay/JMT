@@ -11,7 +11,7 @@
         <v-container>
           <v-row>
             <v-col cols="4">
-                <v-img src="../../assets/profile/blank-profile.png" aspect-ratio="1" alt="사진 자리 ㅠㅠ"></v-img>
+                <v-img src="http://joinmeeting.tk/images/200814_1a799b7ffb.png" aspect-ratio="1" alt="사진 자리 ㅠㅠ"></v-img>
             </v-col>
             <v-col cols="8">
               Name: {{this.$store.state.myName}}
@@ -46,7 +46,6 @@ export default {
     };
   },
   methods: {
-    
   }
 };
 </script>
