@@ -31,7 +31,7 @@
           <v-divider inset></v-divider>
 
           <div class="my-2 save-btn">
-            <input id="file" type="file" ref="file" v-on:change="fileSelect()">
+            <input id="file" type="file" ref="file" accept="img/*" v-on:change="fileSelect()">
             <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
           </div>
         </v-col>
@@ -81,6 +81,7 @@ export default {
     fileSelect() {
       console.log(this.$refs);
       this.file = this.$refs.file.files[0];
+      console.log(this.file);
     },
     submitSave() {
       let formData = new FormData();
