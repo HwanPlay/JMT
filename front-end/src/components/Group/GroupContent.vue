@@ -182,9 +182,10 @@ export default {
     joinMeeting(){
       axios.get(SERVER.URL + '/meeting/get/currentmeeting/'+this.groupInfo.groupNo)
         .then(res => {
+          console.log(res);
           this.$router.push({name: 'Conference', 
             params: { roomId : this.groupInfo.roomId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.data.meetingNo }
           });
         });
     },
