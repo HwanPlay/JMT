@@ -145,7 +145,7 @@ public class UserController {
 		return ResponseEntity.ok(modifyUser);
 	}
 
-	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
+	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (패스워드)", response = String.class)
 	@PostMapping("/findPw/newPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
@@ -300,10 +300,13 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원탈퇴", response = String.class)
-	@DeleteMapping("/user/delUser/{id}")
-	public ResponseEntity<String> deleteUser(@CurrentUser UserDetail authUser) {
-		if (userService.removeUser(authUser.getId())) {
-			return ResponseEntity.ok(SUCCESS);
+	@DeleteMapping("/user/delUser/{pw}")
+	public ResponseEntity<String> deleteUser(@PathVariable String pw, @CurrentUser UserDetail authUser) {
+		if(passwordEncoder.matches(pw, userService.findPw(authUser.getId()))) {
+			if (userService.removeUser(authUser.getId())) {
+				return ResponseEntity.ok(SUCCESS);
+			}
+			return ResponseEntity.ok(FAIL);
 		}
 		return ResponseEntity.ok(FAIL);
 	}
