@@ -108,8 +108,8 @@
         <div class="row header-one text-white p-1">
           <div class="col-md-8 name pl-3">
             <!-- <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i> -->
-            <h5 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
-            </h5>
+            <h6 class="ml-1 mb-0">{{ this.meetingInfo.groupName }}
+            </h6>
           </div>
           <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center pt-1" @click="onChat"></i>
@@ -117,10 +117,9 @@
         </div>
 
         <div class="chat-content">
-          <div class="chats pt-3 pl-2 pr-3">
+          <div class="chats">
             <div class="chat-output"></div>
           </div>
-        </div>
         <input
           type="text"
           id="input-text-chat"
@@ -128,6 +127,7 @@
           @keyup.13="textSend"
           :disabled="disableInputBool"
         />
+        </div>
       </div>
     </div>
   </div>
@@ -195,7 +195,14 @@ export default {
 
       myVideoTrackIsMuted: false,
       trackId: null,
-      streamId : null
+      streamId : null,
+
+      //---------------WebSocket-----------------
+      sock : null,
+      ws : null,
+      reconnect : 0,
+      recv : '',
+
     };
   },
   methods: {
@@ -204,7 +211,7 @@ export default {
       this.disableInputBool = false;
       this.connection.session = {
         data: true,
-        video: false,
+        video: true,
         audio: true
       };
       this.connection.openOrJoin(this.roomId);
@@ -223,9 +230,9 @@ export default {
         localStream.stop();
       });
       document.getElementById("videos-container").style.display = "none";
-      console.log("여기가 1번")
       this.$router.push("/Group");
-      console.log("여기가 2번")
+      this.connection.onclose();
+
  },
     //비디오 끄고,켜기
     onCam() {
@@ -343,7 +350,6 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-      
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
@@ -365,8 +371,31 @@ export default {
       this.connection.send(this.value);
       this.appendDIV(this.value);
       e.target.value = "";
-    }
+    },
+
+    //---------------WebSocket-----------------
+    
+    connect() {
+      this.ws.conenct({'token' : this.$store.state.accessToKen}, frame => {
+        console.log('소켓 연결 성공', frame);
+        this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
+          this.recv = res.body;
+          console.log('받은 데이터' + JSON.parse(this.recv));
+        });
+      }, () => {
+        if(this.reconnect++ <= 5) {
+          setTimeout(()=> {
+            console.log('connection reconnect');
+            this.sock = new SockJS(SERVER.URL2);
+            this.ws = Stomp.over(this.sock);
+            this.connect();
+          }, 10*1000);
+        }
+      });
+    },
   },
+
+
   updated() {
     this.connection.onmessage = this.appendDIV;
     this.connection.onclose = function(event) {
@@ -380,6 +409,11 @@ export default {
     this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
     this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+
+    //---------------WebSocket-----------------
+    this.sock = new SockJS(SERVER.URL2);
+    this.ws = Stomp.over(this.sock);
+
   },
   mounted() {
     this.onJoin();
@@ -390,18 +424,33 @@ export default {
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
     );
-    
-    // this.designer = new CanvasDesigner();
+
+    //---------------WebSocket-----------------
+    this.connect();
   },
   destroyed() {
     this.onLeave();
   }
 };
+
 </script>
 
 <style>
+.videos-container{
+  
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; 
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* .videos-container::-webkit-scrollbar{
+  display: none;
+} */
+
+
 .videos-container video {
-  height: 100px;
+  height: 98px;
   overflow-x: hidden;
   border: 2px solid white;
 }
@@ -416,6 +465,7 @@ export default {
   width: 100%;
   float: left;
   overflow-y: hidden;
+  text-align: center;
 }
 #Minivideo_list {
   position: relative;
@@ -496,7 +546,6 @@ export default {
 
 }
 #input-text-chat {
-  position: relative;
   width: 100%;
   border: 2px solid #aaa;
   border-radius: 4px;
@@ -506,13 +555,14 @@ export default {
   transition: 0.3s;
   background-color: white;
   z-index: 4;
-  overflow: hidden;
+
 }
 
 .video_list_videOrshow {
   position: absolute;
-  left: 50%;
   width: auto;
+  left:50%;
+  transform: translate(-50%,0);
   z-index: 7;
 }
 
@@ -569,7 +619,7 @@ export default {
 }
 
 .chats {
-  height: 100%;
+  height: 93.3%;
   overflow-x: scroll;
   overflow-x: hidden;
   background: #eceff1;
@@ -605,8 +655,10 @@ export default {
 
 .chat-content {
   width: 100%;
-  height: 80%;
-  overflow: hidden;
+  height: 92.4%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;  
+  box-sizing: border-box; 
 }
 
 video::-webkit-media-controls {

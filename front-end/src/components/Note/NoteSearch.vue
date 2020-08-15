@@ -81,7 +81,6 @@
             </v-list-item>
             </div>
           </v-list-item-group>
-          
 
 
         </v-list>
@@ -180,7 +179,6 @@ export default {
   border: 1px solid red;
   background: red !important;
 }
-
 
 
 “Segoe UI”,

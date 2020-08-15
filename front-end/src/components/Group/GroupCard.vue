@@ -26,27 +26,29 @@ export default {
   data(){
     return{
       ws: null,
+      sock : null,
       recvList: [],
       tmp_meeting: false,
       meetingNo: null,
     };
   },
   methods:{
-    send(){
+    send(tmp) {
       const msg = {
-        isMeeting: this.tmp_meeting,
+        meeting : tmp,
         groupNo : this.groupInfo.groupNo
       };
-      this.ws.send('/meeting', JSON.stringify(msg), {'token': this.$store.state.accessToken});
+      this.ws.send('/meeting', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     },
 
     changeHasMeeting(){
-      axios.put(SERVER.URL + '/group/hasmeeting/' + this.groupInfo.groupNo)
+      var tmp = null;
+      axios.put(SERVER.URL+'/group/hasmeeting/'+this.groupInfo.groupNo)
         .then(res => {
-          this.tmp_meeting = res.data.hasMeeting;
+          tmp = res.data.hasMeeting;
         })
-        .finally(() => {
-          this.send();
+        .finally( () => {
+          this.send(tmp);
         });
     },
 
@@ -67,14 +69,22 @@ export default {
       // });
     },
 
-    connect(param) {
+    connect() { 
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
-          console.log('구독으로 받은 메세지 입니다', res.body);
-          this.recvList.push(JSON.parse(res.body));
-          console.log(this.recvList);
+          this.recvList.push(res.body);
+          console.log('받은 데이터' + this.recvList);
         });
+      }, () => {
+        if(this.reconnect++ <= 5) {
+          setTimeout(()=> {
+            console.log('connection reconnect');
+            this.sock = new SockJS(SERVER.URL2);
+            this.ws = Stomp.over(this.sock);
+            this.connect();
+          }, 10*1000);
+        }
       });
     },
 
