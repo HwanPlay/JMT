@@ -1,5 +1,5 @@
 <template>
-  <videochat :roomId="this.$route.params.roomId" :meetingInfo="this.$route.query" />
+  <videochat :roomId="this.$route.params.roomId" :hostId="this.$route.params.hostId" :meetingInfo="this.$route.query" />
 </template>
 
 <script>

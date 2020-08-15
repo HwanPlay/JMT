@@ -133,19 +133,16 @@ public class UserController {
 		if ((newImgName = saveProfileImg(user.getMultipartFile(), oldImg)) != null) {
 			user.setId(authUser.getId());
 			user.setProfile_img(newImgName);
-			System.out.println("디비에 저장한 새로운 파일명! : " + user.getProfile_img());
 			userService.modifyUser(user);
-			user.setProfile_img("/images/"+newImgName);
-			System.out.println("프론트에게 보낼 이미지 파일명 ! : "  + user.getProfile_img());
 			// 새로운 Access Token 발급
 		//	jwtRefresh(user.getId(), response);
 		}
-		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(),"/images/"+newImgName);
+		FindUser modifyUser = new FindUser(authUser.getId(), user.getName(),newImgName);
 		System.out.println(modifyUser);
 		return ResponseEntity.ok(modifyUser);
 	}
 
-	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (아이디, 패스워드)", response = String.class)
+	@ApiOperation(value = "패스워드 찾기 후 수정 - modifyUserPwByUserId (패스워드)", response = String.class)
 	@PostMapping("/findPw/newPw")
 	public ResponseEntity<String> modifyUserPw(@RequestBody User user, HttpServletResponse response) {
 		user.setPw(passwordEncoder.encode(user.getPw()));
@@ -300,10 +297,13 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원탈퇴", response = String.class)
-	@DeleteMapping("/user/delUser/{id}")
-	public ResponseEntity<String> deleteUser(@CurrentUser UserDetail authUser) {
-		if (userService.removeUser(authUser.getId())) {
-			return ResponseEntity.ok(SUCCESS);
+	@DeleteMapping("/user/delUser/{pw}")
+	public ResponseEntity<String> deleteUser(@PathVariable String pw, @CurrentUser UserDetail authUser) {
+		if(passwordEncoder.matches(pw, userService.findPw(authUser.getId()))) {
+			if (userService.removeUser(authUser.getId())) {
+				return ResponseEntity.ok(SUCCESS);
+			}
+			return ResponseEntity.ok(FAIL);
 		}
 		return ResponseEntity.ok(FAIL);
 	}
