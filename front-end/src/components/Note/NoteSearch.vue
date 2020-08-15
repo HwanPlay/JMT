@@ -101,8 +101,6 @@
         <div class="row p-2">
 
 
-
-
           <!-- <b-button class="col-4" 
           v-b-toggle.sidebar-backdrop 
           v-for="note in received_note_list" :key="note.noteNo" 
@@ -304,7 +302,6 @@ sans-serif,
     margin-top: 20vh;
   }
 }
-
 
 
 .wrapper {
