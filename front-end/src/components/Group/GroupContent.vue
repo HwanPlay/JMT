@@ -1,13 +1,18 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="6" style="vertical-align:middle; padding-top: 60px;">
+    <v-col cols="6" style="vertical-align:middle; padding-top: 50px;">
       <v-row justify="center">
         <p
           v-if="groupInfo.hasMeeting"
           class="conferenceStatus"
           style="color: red; border: 2px solid red;"
         >회의 진행중</p>
+        <p
+          v-if="groupInfo.hasMeeting == false"
+          class="conferenceStatus"
+          style="color: green; border: 2px solid green;"
+        >진행중인 회의가 없습니다.</p>
       </v-row>
 
       <!-- <v-row>
@@ -31,7 +36,7 @@
             <h3 id="groupName">{{ groupInfo.groupName }}</h3>
           </v-col>
 
-          <v-col style="margin-left : 20px; " cols="4">
+          <v-col cols="4">
             <v-btn
               @click="startMeeting"
               v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
@@ -54,7 +59,7 @@
         </v-row>
 
         <h4>호스트 : {{ groupInfo.hostName }}</h4>
-        <div style="height:60px">
+        <div style="height:20px">
           <p>소개 : {{ groupInfo.groupIntro }}</p>
         </div>
       </div>
@@ -80,17 +85,8 @@
           <v-card outlined>
             <v-col>
               <div v-if="members.length === 0">그룹원이 없습니다</div>
-<<<<<<< HEAD
-              <v-card-text
-                v-for="(memberInfo, i) in members.slice(0,3)"
-                :key="i"
-                style="padding: 5px;"
-              >
-                <MemberCard :userInfo="memberInfo" />
-=======
               <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
                 <MemberCard :userInfo = memberInfo />
->>>>>>> 9a745296e009054a80ef0d340f2d569e22e51b20
               </v-card-text>
 
               <v-card-actions>

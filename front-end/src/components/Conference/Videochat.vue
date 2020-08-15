@@ -5,13 +5,15 @@
         <div class="videos-container" id="videos-container"></div>
       </div>
 
-      <div class="video_list_videOrshow">
-        <!-- <span class="triangle test_1"></span> -->
-        <div class="text-center" >
-          <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
-            <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
-          </v-btn>
+      <div style="width:100%; height:40px;">
+        <div class="video_list_videOrshow">
+          <!-- <span class="triangle test_1"></span> -->
+          <div class="text-center" >
+            <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
+              <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
+              <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
+            </v-btn>
+          </div>
         </div>
       </div>
 
@@ -512,9 +514,8 @@ export default {
 }
 
 .video_list_videOrshow {
-  position: absolute;
-  left: 50%;
-  width: auto;
+  display:inline-block;
+  text-align: center;
   z-index: 7;
 }
 
