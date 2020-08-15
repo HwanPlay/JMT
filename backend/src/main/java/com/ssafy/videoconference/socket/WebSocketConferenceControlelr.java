@@ -8,12 +8,13 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-public class WebSocketMeetingController {
+public class WebSocketConferenceControlelr {
+
 	
 	private final SimpMessageSendingOperations messagingTemplate;
 	
-	@MessageMapping("/meeting")
-	public void message(MeetingMessage message) {
-		messagingTemplate.convertAndSend("/send/meeting/" + message.getGroupNo(), message);
+	@MessageMapping("/conference")
+	public void message(ConferenceMessage message) {
+		messagingTemplate.convertAndSend("/send/conference/" + message.getMeetingNo(), message);
 	}
 }
