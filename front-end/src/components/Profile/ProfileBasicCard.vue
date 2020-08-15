@@ -16,7 +16,7 @@
       <v-row align="start" class="fill-height">
         <v-col align-self="start" class="pa-0" cols="4">
           <v-avatar class="profile"  size="164" tile>
-            <img src="http://joinmeeting.tk/images/200814_1a799b7ffb.png" alt="사진 자리 ㅠㅠ">
+            <img :src="picture_URL" alt="사진 자리 ㅠㅠ">
           </v-avatar>
         </v-col>
         <v-col cols="8" class="py-0">
@@ -49,6 +49,8 @@ import SERVER from '../../api/spring.js';
 export default {
   data() {
     return {
+      picture_URL: 'http://joinmeeting.tk/images/' + this.$store.state.myPicture,
+
       max: 10,
       user_name: this.$store.state.myName,
       alertColor: '',
@@ -56,7 +58,7 @@ export default {
       dismissCountDown: 0,
       dismissSecs: 5,
 
-      ProfileImage:''
+      file:''
     };
   },
   computed: {
@@ -74,10 +76,10 @@ export default {
   watch: {
     max: 'validateField',
     model: 'validateField',
-    
   },
   methods: {
     fileSelect() {
+      console.log(this.$refs);
       this.file = this.$refs.file.files[0];
     },
     submitSave() {
@@ -101,8 +103,10 @@ export default {
           }
         })
         .then((res) => {
+          console.log(res);
           if(res.data === 'success'){
             console.log(res);
+            // this.$store.commit('SET_MY_PROFILE', res);
             this.makeAlert({'alertColor': 'primary', 'alertMessage': 'Success'});
           } else {
             console.log(res);
