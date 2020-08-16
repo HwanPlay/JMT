@@ -6,10 +6,9 @@
 
     <v-dialog v-model="dialog" width="500" height="500">
       <v-card>
-        <v-card-title class="headline">Members</v-card-title>
-        <v-divider></v-divider>
+        <v-card-title class="headline top d-flex justify-center align-center">그룹원</v-card-title>
           <div v-if="membersInfo && membersInfo.length===0">
-            아싸..
+            그룹원들을 초대해주세요
           </div>
           <v-card-text v-for="memberInfo in membersInfo" :key='memberInfo.id' style="padding: 5px;">
             <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="refresh" />
@@ -50,3 +49,10 @@ export default {
   },
 };
 </script>
+
+<style>
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
+  }
+</style>

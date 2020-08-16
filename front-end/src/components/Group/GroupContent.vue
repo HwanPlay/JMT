@@ -42,7 +42,7 @@
                         <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
+                          <v-btn :disalbed="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
                         </v-card-actions>
                       </v-form>
                     </v-container>
@@ -90,7 +90,7 @@
               <div v-if="members && members.length === 0">그룹원이 없습니다</div>
               <div v-else>
                 <v-card-text
-                  v-for="memberInfo in members.slice(0,3)"
+                  v-for="memberInfo in members"
                   :key="memberInfo.id"
                   style="padding: 5px; margin-left:-20px; margin-top:-10px;"
                 >
@@ -99,16 +99,16 @@
               </div>
 
               <v-card-actions>
-                <v-spacer></v-spacer>
-                <GroupMembers
-                  :membersInfo="members"
-                  @refresh="getGroupMembers"
-                  :groupNo="groupInfo.groupNo"
-                  :hostId="groupInfo.hostId"
-                />
               </v-card-actions>
             </v-col>
           </v-card>
+          <v-spacer></v-spacer>
+            <GroupMembers
+              :membersInfo="members"
+              @refresh="getGroupMembers"
+              :groupNo="groupInfo.groupNo"
+              :hostId="groupInfo.hostId"
+            />
         </v-col>
       </v-row>
 
@@ -133,7 +133,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="8">
+    <v-col cols="7">
       <GroupCalendar />
     </v-col>
   </v-row>

@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
-            <v-badge v-if="haveRequests" color="rgb(255, 128, 74)" :content="numberOfRequests">
+            <v-badge v-if="haveRequests" color="rgb(255, 128, 74)" dot>
               <v-icon size="30">mdi-bell</v-icon>
             </v-badge>
             <v-icon v-else size="30">mdi-bell</v-icon>
@@ -64,6 +64,7 @@ export default {
         this.requests = res.data.requests;
       })
       .catch(err => console.log(err.response));
+    console.log(this.requests.length);
   },
   computed: {
     haveRequests(){
@@ -76,7 +77,6 @@ export default {
     },
     numberOfRequests(){
       if(this.requests.lenght){
-        console.log(this.request.length);
         return this.requests.length;
       }else{
         return 0;

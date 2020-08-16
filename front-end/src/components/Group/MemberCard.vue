@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-list-item>
-      
       <v-badge 
         v-if="userInfo.id === this.$store.state.userId"
         color="green" content="It's Me" left overlap offset-x="30" offset-y="15"
