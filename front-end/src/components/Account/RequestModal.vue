@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
-            <v-badge color="rgb(255, 128, 74)" content="this.$store.state.requests.length" v-if="haveRequests">
+            <v-badge v-if="haveRequests" color="rgb(255, 128, 74)" :content="numberOfRequests">
               <v-icon size="30">mdi-bell</v-icon>
             </v-badge>
             <v-icon v-else size="30">mdi-bell</v-icon>
@@ -13,7 +13,7 @@
       <v-card>
         <v-card-title class="top justify-center align-content-center">초대 메세지</v-card-title>
         <div v-if="haveRequests">
-          <v-container v-for="request in this.$state.store.requests" :key="request.requestNo">
+          <v-container v-for="request in this.requests" :key="request.requestNo">
             <RequestCard :Request=request />
           </v-container>        
         </div>
@@ -51,13 +51,36 @@ export default {
     RequestCard
   },
 
-  data : () => ({
-    dialog: false,
-  }),
-
+  data(){
+    return {
+      dialog: false,
+      requests: null,
+    };
+  },
+  mounted(){
+    axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
+      .then(res => {
+        console.log('result', res.data.requests);
+        this.requests = res.data.requests;
+      })
+      .catch(err => console.log(err.response));
+  },
   computed: {
-    haveRequests() {
-      return this.$store.getters.haveRequests;
+    haveRequests(){
+      if (this.requests){
+        return !!this.requests.length;
+      }
+      else{
+        return false;
+      }
+    },
+    numberOfRequests(){
+      if(this.requests.lenght){
+        console.log(this.request.length);
+        return this.requests.length;
+      }else{
+        return 0;
+      }
     }
   }
 };
