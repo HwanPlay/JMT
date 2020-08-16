@@ -1,11 +1,11 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 70px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 20px;">
       <v-row justify="center">
         <v-col id="onLineStatus">
           <v-row>
-            <div style="width:100%">
+            <div id="conferenceStatusBox" style="width:100%;">
             <p
               v-if="groupInfo.hasMeeting"
               class="conferenceStatus"
@@ -24,12 +24,9 @@
         <v-col id="conferenceBox">
           <div>
             <v-row>
-              <v-col cols="7">
-                <h3 id="groupName">{{ groupInfo.groupName }}</h3>
-              </v-col>
-
-              <v-col cols="3">
-                <v-btn
+              <v-col>
+                <h3 id="groupName" style="width:150px; float:left">{{ groupInfo.groupName }}</h3>
+                <v-btn style="float:right;"
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
                   dark
@@ -65,7 +62,7 @@
             </v-row>
 
             <h6>호스트 : {{ groupInfo.hostName }}</h6>
-            <div style="height:20px">
+            <div style="height:60px; overflow-y:auto;">
               <p style="font-size : 15px;">소개 : {{ groupInfo.groupIntro }}</p>
             </div>
           </div>
@@ -76,10 +73,10 @@
       <v-row class="GroupListBox">
         <v-col>
           <v-row>
-            <v-col lg="5" xl="4">
+            <v-col cols="8">
               <h3>그룹원</h3>
             </v-col>
-            <v-col lg="7" xl="8">
+            <v-col  cols="4">
               <div v-if="groupInfo.hostId === this.$store.state.userId" style="float:right;">
                 <InviteMember
                   :groupNo="groupInfo.groupNo"
@@ -91,13 +88,13 @@
           </v-row>
 
           <v-card outlined>
-            <v-col>
+            <v-col id="MemberListBox"  style="height : 200px;">
               <div v-if="members && members.length === 0">그룹원이 없습니다</div>
               <div v-else>
                 <v-card-text
                   v-for="memberInfo in members.slice(0,3)"
                   :key="memberInfo.id"
-                  style="padding: 5px;"
+                  style="padding: 5px; margin-left:-20px; margin-top:-10px;"
                 >
                   <MemberCard :userInfo="memberInfo" />
                 </v-card-text>
@@ -125,11 +122,12 @@
               <EditGroup @close="onModal=false" :groupInfo="groupInfo" />
             </v-dialog>
           </div>
-          <v-btn
+          <v-btn class="mr-2"
             dark
             color="red"
             @click="exitGroup"
             v-if="groupInfo.hostId !== this.$store.state.userId"
+            style="margin-top : 20px;"
           >그룹 탈퇴</v-btn>
         </v-row>
       </v-col>
@@ -301,28 +299,40 @@ export default {
 
 <style scoped>
 #conferenceBox {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 10px;
+  margin-bottom: 30px;
   border-radius: 15px;
-  height: 150px;
+  height: 180px;
   /* padding: 15px; */
   box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
 }
 
 .GroupListBox {
-  height: 250px;
+  height: 320px;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
 }
-
+#conferenceStatusBox{
+ width: 100%;
+ text-align: center;
+}
 .conferenceStatus {
+  padding-top: 5px;
   font-size: 17px;
   border-radius: 10px;
+  display: inline-block;
+  height: 40px;
   text-align: center;
+  width: 70%;
 }
+
 
 #onLineStatus {
   margin: 0;
+}
+
+#MemberListBox{
+  overflow-y :auto;
 }
 </style>
