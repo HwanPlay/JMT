@@ -217,12 +217,13 @@ export default {
     EditorMenuBubble,
   },
   props: {
+    groupInfo: Object,
     meetingInfo: Object
   },
   data() {
     return {
       isSave: false,
-      groupNo: this.meetingInfo.groupNo,
+      groupNo: this.groupInfo.groupNo,
       meetingNo: this.meetingInfo.meetingNo,
       keepInBounds: true,
       editor: new Editor({

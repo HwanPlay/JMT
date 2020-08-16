@@ -26,21 +26,33 @@
               :key="group.groupNo"
               @click="toggle(i)"
             >
-              <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
-                <v-list-item-icon>
-                  <v-icon dark style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;">mdi-account-multiple</v-icon>
-                </v-list-item-icon>
+              <v-list-item-icon style="margin-left:10px">
+                <v-icon dark>mdi-account-multiple</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-badge v-if="$store.state.userId === group.hostId" color="red" content="HOST" overlap offset-x="45" offset-y="20">
+                  <div id="groupNameText" v-text="group.groupName"></div>  
+                </v-badge>
+                <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap>
+                  <div id="groupNameText" v-text="group.groupName"></div>
+                </v-badge>
+                <!-- <div id="groupNameText" v-text="group.groupName"></div> -->
+              </v-list-item-content>
+              <!-- <v-icon color="white">mdi-key</v-icon> -->
+              <!-- <v-icon  v-if="$store.state.userId === group.hostId" color="white">mdi-key-variant</v-icon> -->
+              <!-- <v-badge v-if="$store.state.userId === group.hostId" color="red" content="HOST" overlap offset-x="" offset-y="15">
+                <v-list-item-content>
+                  <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
+                </v-list-item-content>
               </v-badge>
           
               <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15">
-                <v-list-item-icon>
-                  <v-icon dark style="margin-top : 5px; margin-left : 10px; margin-right : -15px;">mdi-account-multiple</v-icon>
-                </v-list-item-icon>
-              </v-badge>
+                <v-list-item-content>
+                  <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
+                </v-list-item-content>
+              </v-badge> -->
 
-              <v-list-item-content>
-                <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
-              </v-list-item-content>
             </v-list-item>
             </div>
           </v-list-item-group>
@@ -230,7 +242,6 @@ export default {
   height: 45px;
   width: 200px;
   position: absolute;
-  bottom: 60px;
 }
 #groupCreate p{
   font-size: 20px;

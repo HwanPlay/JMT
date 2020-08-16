@@ -33,7 +33,6 @@
                   color="green"
                 >
                   회의 시작
-                  <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
                 </v-btn>
                 <v-dialog v-model="sModal" width="500px">
                   <v-card width="500px">
@@ -56,7 +55,6 @@
                   color="blue darken-2"
                 >
                   회의 참여
-                  <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
                 </v-btn>
               </v-col>
             </v-row>
@@ -161,10 +159,10 @@ export default {
     GroupMembers,
     InviteMember,
     GroupCalendar,
-    EditGroup
+    EditGroup,
   },
   props: {
-    groupInfo: Object
+    groupInfo: Object,
   },
   data() {
     return {
@@ -189,18 +187,18 @@ export default {
             '/' +
             this.$store.state.userId
         )
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.$router.push('/Home');
         })
-        .catch(err => console.log(err.response));
+        .catch((err) => console.log(err.response));
     },
 
     changeHasMeeting() {
       var tmp = null;
       axios
         .put(SERVER.URL + '/group/hasmeeting/' + this.groupInfo.groupNo)
-        .then(res => {
+        .then((res) => {
           tmp = res.data.hasMeeting;
         })
         .finally(() => {
@@ -214,10 +212,10 @@ export default {
     getGroupMembers() {
       axios
         .get(SERVER.URL + '/groupmember/getno/' + this.groupInfo.groupNo)
-        .then(res => {
+        .then((res) => {
           this.members = res.data.groupMembers;
         })
-        .catch(err => console.log(err.response));
+        .catch((err) => console.log(err.response));
     },
 
     startMeeting() {
@@ -225,22 +223,20 @@ export default {
       axios
         .post(SERVER.URL + '/meeting/add', {
           groupNo: this.groupInfo.groupNo,
-          title: this.meetingTitle
+          title: this.meetingTitle,
         })
-        .then(res => {
+        .then((res) => {
           this.meetingNo = res.data.meetingNo;
           this.sModal = false;
           this.$router.push({
             name: 'Conference',
             params: {
               roomId: this.groupInfo.roomId,
-              hostId: this.groupInfo.hostId
-            },
-            query: {
+              hostId: this.groupInfo.hostId,
               groupNo: this.groupInfo.groupNo,
               groupName: this.groupInfo.groupName,
-              meetingNo: this.meetingNo
-            }
+            },
+            query: { meetingNo: this.meetingNo },
           });
         });
     },
@@ -250,18 +246,17 @@ export default {
         .get(
           SERVER.URL + '/meeting/get/currentmeeting/' + this.groupInfo.groupNo
         )
-        .then(res => {
+        .then((res) => {
+          this.meetingNo = res.data.meetingNo;
           this.$router.push({
             name: 'Conference',
             params: {
               roomId: this.groupInfo.roomId,
-              hostId: this.groupInfo.hostId
-            },
-            query: {
+              hostId: this.groupInfo.hostId,
               groupNo: this.groupInfo.groupNo,
               groupName: this.groupInfo.groupName,
-              meetingNo: this.meetingNo
-            }
+            },
+            query: { meetingNo: this.meetingNo },
           });
         });
     },
@@ -269,12 +264,12 @@ export default {
     send(tmp) {
       const msg = {
         meeting: tmp,
-        groupNo: this.groupInfo.groupNo
+        groupNo: this.groupInfo.groupNo,
       };
       this.ws.send('/meeting', JSON.stringify(msg), {
-        token: this.$store.state.accessToken
+        token: this.$store.state.accessToken,
       });
-    }
+    },
   },
 
   created() {
@@ -291,8 +286,8 @@ export default {
   watch: {
     groupInfo() {
       this.getGroupMembers();
-    }
-  }
+    },
+  },
 };
 </script>
 
