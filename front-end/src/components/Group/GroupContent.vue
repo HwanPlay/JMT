@@ -49,11 +49,11 @@
               회의 시작?
               <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
             </v-btn>
-            <v-dialog v-model="sModal">
-              <v-card>
+            <v-dialog v-model="sModal" width="500px">
+              <v-card width="500px">
                 <v-card-title class="top">회의 시작하기</v-card-title>
                 <v-container>
-                  <v-form ref="form" max-width="500px;" lazy-validation class="ml-2 mr-2">
+                  <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
                       <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
                     <v-card-actions>
                     <v-spacer></v-spacer>
@@ -104,9 +104,11 @@
           <v-card outlined>
             <v-col>
               <div v-if="members && members.length === 0">그룹원이 없습니다</div>
-              <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
-                <MemberCard :userInfo = memberInfo />
-              </v-card-text>
+              <div v-else>
+                <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
+                  <MemberCard :userInfo = memberInfo />
+                </v-card-text>
+              </div>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -173,16 +175,19 @@ export default {
   props: {
     groupInfo: Object
   },
-  data: () => ({
-    onModal: false,
-    members: [],
-    sock: null,
-    ws: null,
-    reconnect: 0,
-    token: '',
-    meetingNo: null,
-    meetingTitle: this.$store.state.userId
-  }),
+  data(){
+    return {
+      onModal: false,
+      members: [],
+      sock: null,
+      ws: null,
+      reconnect: 0,
+      token: '',
+      meetingNo: null,
+      meetingTitle: this.$store.state.myName + '의 회의',
+      sModal: false,
+    };
+  },
   methods: {
     exitGroup() {
       axios
