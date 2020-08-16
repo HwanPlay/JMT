@@ -57,7 +57,7 @@
       </v-navigation-drawer>
     </div>
 
-    <v-col v-if='$store.state.myGroups.length !== 0 ' style="margin-left : 20px;" >
+    <v-col v-if='$store.state.myGroups && $store.state.myGroups.length !== 0 ' style="margin-left : 20px;" >
       <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
     </v-col>
     <v-col v-else>
@@ -140,7 +140,7 @@ export default {
   mounted() {
     this.$store.dispatch('getGroupInfo');
     console.log('res',this.$store.state.myGroups.length);
-    if(this.$store.state.myGroups.length != 0) {
+    if(this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
       this.connect(this.onboarding);
     }
   },

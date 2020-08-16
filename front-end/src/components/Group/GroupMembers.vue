@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="headline">Members</v-card-title>
         <v-divider></v-divider>
-          <div v-if="membersInfo.length===0">
+          <div v-if="memebersInfo && membersInfo.length===0">
             아싸..
           </div>
           <v-card-text v-for="memberInfo in membersInfo" :key='memberInfo.id' style="padding: 5px;">

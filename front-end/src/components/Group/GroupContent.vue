@@ -39,8 +39,9 @@
           </v-col>
 
           <v-col cols="4">
+            <v-btn @click="checksModal">체크</v-btn>
             <v-btn
-              @click="sModal=true"
+              @click="sModal=true;"
               v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
               dark
               color="green"
@@ -52,7 +53,7 @@
               <v-card>
                 <v-card-title class="top">회의 시작하기</v-card-title>
                 <v-container>
-                  <v-form ref="form" lazy-validation class="ml-2 mr-2">
+                  <v-form ref="form" max-width="500px;" lazy-validation class="ml-2 mr-2">
                       <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
                     <v-card-actions>
                     <v-spacer></v-spacer>
@@ -102,7 +103,7 @@
 
           <v-card outlined>
             <v-col>
-              <div v-if="members.length === 0">그룹원이 없습니다</div>
+              <div v-if="members && members.length === 0">그룹원이 없습니다</div>
               <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
                 <MemberCard :userInfo = memberInfo />
               </v-card-text>
@@ -179,7 +180,8 @@ export default {
     ws: null,
     reconnect: 0,
     token: '',
-    meetingNo: null
+    meetingNo: null,
+    meetingTitle: this.$store.state.userId
   }),
   methods: {
     exitGroup() {
@@ -196,6 +198,9 @@ export default {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
+    },
+    checksModal(){
+      console.log('값은?', this.sModal);
     },
 
     changeHasMeeting() {
@@ -264,12 +269,9 @@ export default {
   },
 
   mounted() {
-    // axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
-    //   .then(res => {
-    //     this.members = res.data.groupMembers;
-    //   })
-    //   .catch(err => console.log(err.response));
-    // this.connect();
+    this.sModal = false;
+    console.log('여길봐 ', this.meetingTitle);
+    console.log(this.$store.state.userId);
   },
 
 

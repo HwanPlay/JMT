@@ -3,7 +3,7 @@
     <v-container>
       <v-card-title>회의 시작하기</v-card-title>
       <v-divider></v-divider>
-      <div v-if="sGroups.length===0">
+      <div v-if="sGroups && sGroups.length===0">
         당신의 그룹이 없습니다!
       </div>
       <v-card-text v-for="sGroup in sGroups" :key='sGroup.groupNo' style='padding: 5px;'>
