@@ -11,7 +11,7 @@
               <h5 style="color : white;">{{ $store.state.myName }}</h5>
             </v-list-item-title>
             <v-list-item-subtitle>
-              <div id="userIdBox" >
+              <div id="userIdBoxNote" >
                 <p >{{ $store.state.userId }}</p>
               </div>
             </v-list-item-subtitle>
@@ -56,7 +56,7 @@
                   </v-badge>
 
                   <v-list-item-content style="width:90px;">
-                    <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
+                    <p id="groupName" style="padding-top: 5px" v-text="group.groupName"></p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -100,7 +100,7 @@
                   </v-badge>
 
                   <v-list-item-content>
-                    <p id="groupNameText" style="padding-top: 5px" v-text="note.note_title"></p>
+                    <p id="groupName" style="padding-top: 5px" v-text="note.note_title"></p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -129,8 +129,8 @@
                   </div>
                 </div>
                 <div class="cardInfo">
-                  <!-- <h3>{{ note.title }}</h3>
-                  <p>{{compute_date(note.createdDate)}}</p>-->
+                  <h3>{{ note.title }}</h3>
+                  <p>{{compute_date(note.createdDate)}}</p>
                 </div>
               </div>
             </div>
@@ -248,13 +248,6 @@ export default {
     compute_date(date) {
       return date.slice(2, 10);
     },
-    // showNoteList() {
-    //   this.groupListflag = true;
-    //   this.NoteListflag = false;
-    //   this.NoteContent = true;
-    //   this.EditContent = false;
-    //   this.getNoteList(this.groupId);
-    // },
     gotoGroupList(){
       this.groupListflag = true;
       this.NoteListflag = false;
@@ -313,7 +306,7 @@ export default {
   object-fit: cover;
   border-radius: 50%;
 }
-#groupNameText {
+#groupName {
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -361,12 +354,12 @@ sans-serif,
   margin-left: 30px;
   justify-content: space-around;
 }
-#userIdBox{
+#userIdBoxNote{
   display: inline-block;
   word-wrap: break-word;
 }
 
-#userIdBox p {
+#userIdBoxNote p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -374,8 +367,10 @@ sans-serif,
   height: 20px;
   font-size: 16px;
   color: white;
+  font-weight:400;
 }
 .card {
+  
   text-align: center;
   float: left;
   margin-right: 20px;
@@ -411,6 +406,7 @@ sans-serif,
   -webkit-transform: translateY(0px);
   transform: translateY(0px);
   position: absolute;
+  left: -5px;
   float: left;
 }
 
@@ -442,6 +438,7 @@ sans-serif,
 }
 
 .card .cardInfo {
+  left: -5px;
   position: absolute;
   z-index: 3;
   color: white;
@@ -460,6 +457,7 @@ sans-serif,
   letter-spacing: 1px;
   font-size: 15px;
   margin-top: 8px;
+  left: -5px;
 }
 
 .cardContent {

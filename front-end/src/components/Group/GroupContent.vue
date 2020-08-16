@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 20px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 20px; margin-left : 50px;">
       <v-row justify="center">
         <v-col id="onLineStatus">
           <v-row>
@@ -25,7 +25,7 @@
           <div>
             <v-row>
               <v-col>
-                <h3 id="groupName" style="width:150px; float:left">{{ groupInfo.groupName }}</h3>
+                <h3 id="GroupContentgroupName" style="width:150px; float:left; color:Black;">{{ groupInfo.groupName }}</h3>
                 <v-btn style="float:right;"
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
@@ -298,15 +298,16 @@ export default {
   margin-bottom: 30px;
   border-radius: 15px;
   height: 180px;
+  padding: 20px;
   /* padding: 15px; */
-  box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
+  box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
 }
 
 .GroupListBox {
   height: 320px;
   border-radius: 15px;
   padding: 15px;
-  box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
+  box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
 }
 #conferenceStatusBox{
  width: 100%;
