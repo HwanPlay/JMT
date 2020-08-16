@@ -13,7 +13,7 @@ export default {
     Videochat,
   },
   mounted(){
-    console.log(this.$route.params.roomId, this.$route.query);
+    console.log(this.$route.params, this.$route.query);
   }
 };
 </script>

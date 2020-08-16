@@ -60,9 +60,9 @@
           </v-col>
         </v-row>
 
-        <h4>호스트 : {{ groupInfo.hostName }}</h4>
+        <h5>호스트 : {{ groupInfo.hostName }}</h5>
         <div style="height:20px">
-          <p>소개 : {{ groupInfo.groupIntro }}</p>
+          <p style="font-size : 16px;">소개 : {{ groupInfo.groupIntro }}</p>
         </div>
       </div>
       <v-divider class="mb-10"></v-divider>
@@ -250,7 +250,7 @@ export default {
     //     this.members = res.data.groupMembers;
     //   })
     //   .catch(err => console.log(err.response));
-    this.connect();
+    // this.connect();
   },
 
 
@@ -282,7 +282,7 @@ export default {
 .conferenceStatus {
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 10px;
 }
 </style>
