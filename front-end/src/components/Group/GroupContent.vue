@@ -123,12 +123,9 @@
               <EditGroup @close="onModal=false" :groupInfo="groupInfo" />
             </v-dialog>
           </div>
-          <v-btn
-            dark
-            color="red"
-            @click="exitGroup"
-            v-if="groupInfo.hostId !== this.$store.state.userId"
-          >그룹 탈퇴</v-btn>
+          <div class="mr-2" v-if="groupInfo.hostId !== this.$store.state.userId">
+            <v-btn dark color="red" @click="exitGroup" style="margin-top : 20px;">그룹 탈퇴</v-btn>
+          </div>
         </v-row>
       </v-col>
     </v-col>
