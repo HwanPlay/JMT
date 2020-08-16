@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       groupList: [],
-      receivedNoteList: []
+      receivedNoteList: [],
+      currentGroup: 0,
     };
   },
   methods: {
@@ -46,12 +47,14 @@ export default {
         .then(res => {
           this.receivedNoteList = res.data.notes;
           console.log(this.receivedNoteList);
+          this.currentGroup = groupId;
         })
         .catch(err => console.error(err));
     },
     openNoteDetail({noteNo, groupNo}) {
       console.log(noteNo,groupNo);
-      this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: groupNo }});
+      // currentGroup를 groupNo로 고쳐야 함.
+      this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: this.currentGroup }});
     },
   },
   mounted() {
