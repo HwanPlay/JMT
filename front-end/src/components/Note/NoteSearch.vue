@@ -361,6 +361,10 @@ sans-serif,
   margin-left: 30px;
   justify-content: space-around;
 }
+#userIdBox{
+  display: inline-block;
+  word-wrap: break-word;
+}
 
 #userIdBox p {
   overflow: hidden;

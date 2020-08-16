@@ -1,89 +1,79 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 50px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 70px;">
       <v-row justify="center">
-        <p
-          v-if="groupInfo.hasMeeting"
-          class="conferenceStatus"
-          style="color: red; border: 2px solid red;"
-        >회의 진행중</p>
-        <p
-          v-if="groupInfo.hasMeeting == false"
-          class="conferenceStatus"
-          style="color: green; border: 2px solid green;"
-        >진행중인 회의가 없습니다.</p>
+        <v-col id="onLineStatus">
+          <v-row>
+            <div style="width:100%">
+            <p
+              v-if="groupInfo.hasMeeting"
+              class="conferenceStatus"
+              style="color: red; border: 2px solid red;"
+            >회의 진행중</p>
+            <p
+              v-if="groupInfo.hasMeeting == false"
+              class="conferenceStatus"
+              style="color: green; border: 2px solid green;"
+            >진행중인 회의가 없습니다.</p>
+            </div>
+          </v-row>
+        </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col id="conferenceBox">
+          <div>
+            <v-row>
+              <v-col cols="7">
+                <h3 id="groupName">{{ groupInfo.groupName }}</h3>
+              </v-col>
 
-      <!-- <v-row>
-        <v-col cols="8">
-          <h2>{{ groupInfo.groupName }}</h2>
+              <v-col cols="3">
+                <v-btn
+                  @click="sModal=true;"
+                  v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
+                  dark
+                  color="green"
+                >
+                  회의 시작
+                  <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
+                </v-btn>
+                <v-dialog v-model="sModal" width="500px">
+                  <v-card width="500px">
+                    <v-card-title class="top">회의 시작하기</v-card-title>
+                    <v-container>
+                      <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
+                        <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
+                        </v-card-actions>
+                      </v-form>
+                    </v-container>
+                  </v-card>
+                </v-dialog>
+                <v-btn
+                  @click="joinMeeting"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting"
+                  dark
+                  color="blue darken-2"
+                >
+                  회의 참여
+                  <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
+                </v-btn>
+              </v-col>
+            </v-row>
+
+            <h6>호스트 : {{ groupInfo.hostName }}</h6>
+            <div style="height:20px">
+              <p style="font-size : 15px;">소개 : {{ groupInfo.groupIntro }}</p>
+            </div>
+          </div>
         </v-col>
-
-        <v-col cols="4">
-
-          <v-btn @click="startMeeting" v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting" dark color="green">
-            회의 시작
-          </v-btn>
-          <v-btn @click="joinMeeting" v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting" dark color="blue darken-2">
-            회의 참여
-          </v-btn>
-        </v-col>
-      </v-row>-->
-
-      
-      <div id="conferenceBox">
-        <v-row>
-          <v-col cols="7">
-            <h3 id="groupName">{{ groupInfo.groupName }}</h3>
-          </v-col>
-
-          <v-col cols="4">
-            <v-btn
-              @click="sModal=true;"
-              v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
-              dark
-              color="green"
-            >
-              회의 시작?
-              <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
-            </v-btn>
-            <v-dialog v-model="sModal" width="500px">
-              <v-card width="500px">
-                <v-card-title class="top">회의 시작하기</v-card-title>
-                <v-container>
-                  <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
-                      <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="error" class="mr-4" @click="startMeeting">
-                      회의 시작
-                    </v-btn>
-                    </v-card-actions>
-                  </v-form>
-                </v-container>  
-              </v-card>
-            </v-dialog>
-            <v-btn
-              @click="joinMeeting"
-              v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting"
-              dark
-              color="blue darken-2"
-            >
-              회의 참여
-              <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 참여</router-link> -->
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <h5>호스트 : {{ groupInfo.hostName }}</h5>
-        <div style="height:20px">
-          <p style="font-size : 16px;">소개 : {{ groupInfo.groupIntro }}</p>
-        </div>
-      </div>
+      </v-row>
       <!-- <v-divider class="mb-10"></v-divider> -->
 
-      <v-row>
+      <v-row class="GroupListBox">
         <v-col>
           <v-row>
             <v-col lg="5" xl="4">
@@ -104,8 +94,12 @@
             <v-col>
               <div v-if="members && members.length === 0">그룹원이 없습니다</div>
               <div v-else>
-                <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
-                  <MemberCard :userInfo = memberInfo />
+                <v-card-text
+                  v-for="memberInfo in members.slice(0,3)"
+                  :key="memberInfo.id"
+                  style="padding: 5px;"
+                >
+                  <MemberCard :userInfo="memberInfo" />
                 </v-card-text>
               </div>
 
@@ -126,7 +120,7 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn dark color="red" @click="onModal=true">그룹 관리</v-btn>
+            <v-btn dark color="red" @click="onModal=true" style="margin-top : 20px;">그룹 관리</v-btn>
             <v-dialog v-model="onModal" max-width="500px">
               <EditGroup @close="onModal=false" :groupInfo="groupInfo" />
             </v-dialog>
@@ -143,7 +137,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols=8>
+    <v-col cols="8">
       <GroupCalendar />
     </v-col>
   </v-row>
@@ -174,7 +168,7 @@ export default {
   props: {
     groupInfo: Object
   },
-  data(){
+  data() {
     return {
       onModal: false,
       members: [],
@@ -184,7 +178,7 @@ export default {
       token: '',
       meetingNo: null,
       meetingTitle: this.$store.state.myName + '의 회의',
-      sModal: false,
+      sModal: false
     };
   },
   methods: {
@@ -215,7 +209,7 @@ export default {
           this.send(tmp);
         });
     },
-    startMeetingOn(){
+    startMeetingOn() {
       console.log('hoo');
     },
 
@@ -230,25 +224,46 @@ export default {
 
     startMeeting() {
       this.changeHasMeeting();
-      axios.post(SERVER.URL + '/meeting/add', {
-        groupNo: this.groupInfo.groupNo,
-        title: this.meetingTitle
-      })
+      axios
+        .post(SERVER.URL + '/meeting/add', {
+          groupNo: this.groupInfo.groupNo,
+          title: this.meetingTitle
+        })
         .then(res => {
           this.meetingNo = res.data.meetingNo;
           this.sModal = false;
-          this.$router.push({name: 'Conference',
-            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }});
+          this.$router.push({
+            name: 'Conference',
+            params: {
+              roomId: this.groupInfo.roomId,
+              hostId: this.groupInfo.hostId
+            },
+            query: {
+              groupNo: this.groupInfo.groupNo,
+              groupName: this.groupInfo.groupName,
+              meetingNo: this.meetingNo
+            }
+          });
         });
     },
 
-    joinMeeting(){
-      axios.get(SERVER.URL + '/meeting/get/currentmeeting/'+this.groupInfo.groupNo)
+    joinMeeting() {
+      axios
+        .get(
+          SERVER.URL + '/meeting/get/currentmeeting/' + this.groupInfo.groupNo
+        )
         .then(res => {
-          this.$router.push({name: 'Conference', 
-            params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: this.meetingNo }
+          this.$router.push({
+            name: 'Conference',
+            params: {
+              roomId: this.groupInfo.roomId,
+              hostId: this.groupInfo.hostId
+            },
+            query: {
+              groupNo: this.groupInfo.groupNo,
+              groupName: this.groupInfo.groupName,
+              meetingNo: this.meetingNo
+            }
           });
         });
     },
@@ -275,7 +290,6 @@ export default {
     console.log(this.$store.state.userId);
   },
 
-
   watch: {
     groupInfo() {
       this.getGroupMembers();
@@ -287,18 +301,28 @@ export default {
 
 <style scoped>
 #conferenceBox {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 40px;
-  margin-left: 10px;
+  border-radius: 15px;
+  height: 150px;
+  /* padding: 15px; */
+  box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
+}
+
+.GroupListBox {
+  height: 250px;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
 }
 
 .conferenceStatus {
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 20px;
+  font-size: 17px;
   border-radius: 10px;
+  text-align: center;
+}
+
+#onLineStatus {
+  margin: 0;
 }
 </style>
