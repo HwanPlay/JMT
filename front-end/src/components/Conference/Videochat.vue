@@ -168,13 +168,12 @@
 import axios from 'axios';
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-import Broadcast from "../../api/broadcast";
+// import Broadcast from "../../api/broadcast";
 // import Sharescreen from './Sharescreen.vue';
 import $ from "jquery";
 import Vue from "vue";
 // import WebRTC from '../../api/webrtc';
 // import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
-// import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -191,11 +190,10 @@ export default {
     // Sharescreen,
     NoteEditor,
     RTCMultiConnection,
-    Broadcast
+    // Broadcast
   },
   props:{
-    roomId: String,
-    hostId: String,
+    groupInfo: Object,
     meetingInfo: Object,
   },
   data() {
@@ -249,81 +247,36 @@ export default {
         video: true,
         audio: true
       };
-      this.connection.openOrJoin(this.roomId);
+      this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
     //회의방 나가기
-    onLeave() { // 재접은 autoCloseEntireSession T/F 에 따라 가불가
+    onLeave() {
       var that = this;
-      console.log(this.$store.state.userId, this.hostId)
-      if (this.$store.state.userId === this.hostId) {
+      // console.log(this.$store.state.userId, this.groupInfo.hostId)
+      var numberOfUsers = this.connection.getAllParticipants().length;
+
+      if (this.$store.state.userId === this.groupInfo.hostId) {
         this.connection.closeSocket();
-        // that.connection.closeSocket();
-        var numberOfUsers = this.connection.getAllParticipants().length;
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         this.connection.dontAttachStream = true;
-        this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+        this.connection.attachStreams.forEach(function(localStream) {
           localStream.stop();
         });
-        var numberOfUsers = this.connection.getAllParticipants().length;
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.');
       }
-
-      // disconnect with all users
-      // this.connection.getAllParticipants().forEach(function(pid) {
-      //   that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
-
-          // var user = that.connection.peers[pid];
-          // var hisFullName = user.extra;
-          // var hisUID = user.userid;
-          // var hisNativePeer = user.peer;
-          // var hisIncomingStreams = user.peer.getRemoteStreams();
-          // var hisDataChannels = user.channels;
-          // console.log(user)
-          // console.log(hisFullName)
-          // console.log(hisUID)
-          // console.log(hisNativePeer)
-          // console.log(hisIncomingStreams)
-          // console.log(hisDataChannels)
-      // });
-
-      // this.connection.dontAttachStream = true;  // 상대방 접속해도 비디오 안생기게 하는 것 채팅 가능, 리브누르고 재접속 가능
-      // this.broadcast.dontAttachStream = true;
-      // // stop all local cameras
-      // this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
-      //   localStream.stop();
-      // });
-      // // close socket.io connection
-      // this.connection.closeSocket();  //새로고침할때랑 거의 동일, 각자의 로컬 스트림은 살아있고, 통신이 끊김(채팅도 불가) 호스트는 게스트 스트림 멈춤(리브누른사람의 스트림 사라짐), 호스트가 재접속시 게스트들 streamid 그대로 다시 연결됨 게스트 재접속시 새로방만들어짐
-
       document.getElementById("videos-container").style.display = "none";
-      axios.put(SERVER.URL + '/group/hasmeeting/'+this.meetingInfo.groupNo);
+      axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
+
       this.$router.push("/Group");
     },
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
       if (this.videoOnOff == true) {
-        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false; // it will disable only video track
-        // console.log(this.connection.streamEvents.selectFirst('local'))
-        // this.connection.streamEvents.selectFirst('local').mediaElement.autoplay = 'false';
-        // this.connection.streamEvents.selectFirst('local').mediaElement.style.background = 'transparent url(https://cdn.webrtc-experiment.com/images/muted.png) no-repeat center center';
-        // console.log(this.connection.streamEvents.selectFirst('local'))
-       
-        // this.connection.send({
-        //     myVideoTrackIsMuted: true,
-        //     trackId: this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].id,
-        //     streamId: this.connection.streamEvents.selectFirst('local').streamid
-        // });
-
-        // this.connection.onmessage = function(event) {
-        //     if(event.data.myVideoTrackIsMuted === true) {
-        //         document.getElementById(event.data.streamId).pause(); // you can set "srcObject=null" or removeAttribute('srcObject')
-        //         document.getElementById(event.data.streamId).poster = '/images/poster.png'; // or background image
-        //     }
-        // };
+        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
       // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -482,9 +435,9 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    this.broadcast = new RTCMultiConnection();
+    // this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+    // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -497,9 +450,9 @@ export default {
     this.connection.videosContainer = document.querySelector(
       "#videos-container"
     );
-    this.broadcast.videosContainer = document.querySelector(
-      ".Main-videos-container"
-    );
+    // this.broadcast.videosContainer = document.querySelector(
+    //   ".Main-videos-container"
+    // );
 
     //---------------WebSocket-----------------
     this.connect();
