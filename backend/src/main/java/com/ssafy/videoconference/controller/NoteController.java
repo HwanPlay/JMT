@@ -80,8 +80,7 @@ public class NoteController {
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("noteNo") int noteNo) {
 		noteService.deleteByNo(noteNo);
 		return Result.ok();
-	}
-	
+	}	
 	
 	
 	@GetMapping("/get/group/{groupNo}") 

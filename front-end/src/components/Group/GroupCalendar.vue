@@ -95,7 +95,7 @@ import axios from 'axios';
 export default {
   data: () => ({
     focus: '',
-    type: 'month',
+    type: 'week',
     typeToLabel: {
       month: 'Month',
       week: 'Week',

@@ -61,7 +61,7 @@ public class NoteResult {
 		ArrayList<NoteData> notesData = new ArrayList<>();
 		for(Note note : notes) {
 			notesData.add(new NoteData(note.getNoteNo(),
-										note.getTitle(),
+										note.getMeeting().getTitle(),
 										note.getMeeting().getMeetingNo(),
 										note.getCreatedDate(),
 										note.getMeeting().getCreatedDate(),
