@@ -1,24 +1,24 @@
 <template>
   <v-card flat style="max-width: 500px; max-height: 500px;">
-      <v-card-title class="top">그룹 생성하기</v-card-title>
+    <v-card-title class="top d-flex justify-center align-center">그룹 생성하기</v-card-title>
     <v-container>
       <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
           <v-col cols= "5">
-            <v-text-field v-model="createGroupInfo.groupName" :rules="rules.name" label="그룹 명" required></v-text-field>
+            <v-text-field v-model="createGroupInfo.groupName" :counter="10" :rules="rules.name" label="그룹 명" required></v-text-field>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols= "6">
-            <div class="hostId">{{ $store.state.userId }}</div>
+            <!-- <div class="hostId">{{ $store.state.userId }}</div> -->
           </v-col>
         </v-row>
-        <v-textarea v-model="createGroupInfo.groupIntro" :rules="rules.intro" label="그룹 소개" required></v-textarea>
+        <v-textarea v-model="createGroupInfo.groupIntro" :counter="80" :rules="rules.intro" label="그룹 소개" required></v-textarea>
         <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="error" class="mr-4" @click="reset">
           초기화
         </v-btn>
-        <v-btn text color="blue" @click="submit">
+        <v-btn :disabled="!valid" text color="blue" @click="submit">
           그룹 생성
         </v-btn>
         </v-card-actions>
@@ -65,7 +65,12 @@ export default {
     },
   },
   computed:{
-    
+    valid (){
+      return (this.createGroupInfo.groupIntro && this.createGroupInfo.groupName);
+    }
+  },
+  mounted(){
+    this.reset();
   }
 };
 </script>

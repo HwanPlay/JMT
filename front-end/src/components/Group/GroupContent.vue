@@ -42,7 +42,7 @@
                         <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
+                          <v-btn :disalbed="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
                         </v-card-actions>
                       </v-form>
                     </v-container>
@@ -71,10 +71,10 @@
       <v-row class="GroupListBox">
         <v-col>
           <v-row>
-            <v-col cols="8">
+            <v-col cols="8" class="pt-0">
               <h3>그룹원</h3>
             </v-col>
-            <v-col  cols="4">
+            <v-col cols="4" class="pt-0">
               <div v-if="groupInfo.hostId === this.$store.state.userId" style="float:right;">
                 <InviteMember
                   :groupNo="groupInfo.groupNo"
@@ -85,9 +85,13 @@
             </v-col>
           </v-row>
 
-          <v-card outlined>
+          <div>
+            <v-divider class="m-1"></v-divider>
             <v-col id="MemberListBox"  style="height : 200px;">
-              <div v-if="members && members.length === 0">그룹원이 없습니다</div>
+              <div v-if="members && members.length === 0">
+                <v-icon color="rgb(52, 63, 87);" class="d-flex justify-center align-center mt-4" size="100">far fa-dizzy</v-icon>
+                <h4 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h4>
+              </div>
               <div v-else>
                 <v-card-text
                   v-for="memberInfo in members.slice(0,3)"
@@ -99,16 +103,18 @@
               </div>
 
               <v-card-actions>
-                <v-spacer></v-spacer>
-                <GroupMembers
-                  :membersInfo="members"
-                  @refresh="getGroupMembers"
-                  :groupNo="groupInfo.groupNo"
-                  :hostId="groupInfo.hostId"
-                />
               </v-card-actions>
             </v-col>
-          </v-card>
+          </div>
+          <v-spacer></v-spacer>
+          <div v-if="members && members.length !== 0">
+            <GroupMembers
+              :membersInfo="members"
+              @refresh="getGroupMembers"
+              :groupNo="groupInfo.groupNo"
+              :hostId="groupInfo.hostId"
+            />
+          </div>
         </v-col>
       </v-row>
 

@@ -5,8 +5,22 @@
         <v-list-item-title>{{ groupInfo.groupName }}</v-list-item-title>
       </v-list-item-content>
       <div>
-        <v-btn color='warning' style='outline: none;' @click='startMeeting'>회의 시작</v-btn>
+        <v-btn color='warning' style='outline: none;' @click='sModal=true'>회의 시작</v-btn>
       </div>
+        <v-dialog v-model="sModal" width="500px">
+          <v-card width="500px">
+            <v-card-title class="top">회의 시작하기</v-card-title>
+            <v-container>
+              <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
+                <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn :disabled="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
+                </v-card-actions>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
     </v-list-item>
   </div>
 </template>
@@ -30,6 +44,8 @@ export default {
       recvList: [],
       tmp_meeting: false,
       meetingNo: null,
+      meetingTitle: this.$store.state.myName + '의 회의',
+      sModal: false
     };
   },
   methods:{
