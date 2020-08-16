@@ -150,6 +150,7 @@ export default Vue.extend({
   mounted() {
     this.connect();
     this.$router.push('Home');
+    console.log(this.inviteModal);
   },
   
   created() {
