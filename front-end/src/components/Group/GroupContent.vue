@@ -246,6 +246,7 @@ export default {
           SERVER.URL + '/meeting/get/currentmeeting/' + this.groupInfo.groupNo
         )
         .then((res) => {
+          this.meetingNo = res.data.meetingNo;
           this.$router.push({
             name: 'Conference',
             params: {
