@@ -1,7 +1,8 @@
 <template>
   <v-container fluid ma-0 pa-0 >
     <v-row>
-      <EditorDetailSideBar />      
+      <EditorDetailSideBar :noteList="noteList" @onGetNoteHTML="getNoteHTML" />      
+      <EditorTiptap :noteObj="noteObj" @onSaveNote="saveNote" />
     </v-row>
   </v-container>
 </template>
@@ -11,49 +12,91 @@ import SERVER from '../api/spring';
 import axios from 'axios';
 
 import EditorDetailSideBar from '../components/Editor/EditorDetailSideBar';
+import EditorTiptap from '../components/Editor/EditorTiptap';
 
 export default {
   name: 'EditorDetail',
   data() {
     return {
-      noteObj: {
-        id: 0,
-        title: '',
-        content: '',
-      }
+      noteObj: {},
+      noteList: [],
     };
   },
   components: {
     EditorDetailSideBar,
+    EditorTiptap
   },
   methods: {
-    getNoteHTML(noteId) {
-
-      if (this.$route.query.noteId) {
-        noteId = this.$route.query.noteId;
-      } else if (noteId === undefined) {
+    getNoteHTML(noteNo) {
+      if(noteNo) {
+        console.log('1번');
+      } else if (this.$route.query.noteNo) {
+        console.log('2번');
+        noteNo = this.$route.query.noteNo;
+      } else if (noteNo === undefined) {
         return;
       }
 
       const URL_getNoteByNo = '/note/getno/';
 
       axios
-        .get(SERVER.URL + URL_getNoteByNo + noteId)
+        .get(SERVER.URL + URL_getNoteByNo + noteNo)
         .then(res => {
           console.log(res.data);
-          this.noteObj.Content = res.data.content;
-          this.noteObj.Id = res.data.noteNo;
-          this.noteObj.Title = res.data.note_title;
-
+          this.noteObj = res.data;
         })
         .catch(err => {
           console.error(err);
           this.noteContent = 'axios Error is occured';
         });
     },
+    getNoteList(groupNo) {
+      if (this.$route.query.groupNo) {
+        groupNo = this.$route.query.groupNo;
+      } else if (groupNo === undefined) {
+        return;
+      }
+
+      const FUNC_URL = '/note/get/group/';
+
+      axios
+        .get(SERVER.URL + FUNC_URL + groupNo)
+        .then(res => {
+          console.log('getNoteList',res);
+          this.noteList = res.data.notes;
+        })
+        .catch(err => console.error(err));
+    },
+    saveNote(noteObj) {
+      const URL_saveNote = '/note/';
+
+      axios
+        .put(SERVER.URL + URL_saveNote + noteObj.Id, {
+          title: noteObj.Title,
+          content: noteObj.Content
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => console.error(err));
+    },
+    deleteNote(noteId) {
+      const URLDeleteNote = '/note/delno/';
+      axios
+        .delete(SERVER.URL + URLDeleteNote + noteId)
+        .then(res => {
+          this.alertFlag = !this.alertFlag;
+          this.alertMessage = 'Delete!';
+          console.log(res);
+          console.log('delete note' + noteId);
+        })
+        .catch(err => console.error(err));
+      this.getNoteList(this.groupId);
+    },
   },
   mounted() {
     this.getNoteHTML();
+    this.getNoteList();
   }
 };
 </script>

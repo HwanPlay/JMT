@@ -3,7 +3,7 @@
     <EditorGroupListProfile />
     <button>그룹목록보기</button>
     <v-divider></v-divider>
-    <EditorDetailSideBarNoteList />
+    <EditorDetailSideBarNoteList :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
   </v-col>
 </template>
 
@@ -16,6 +16,14 @@ export default {
   components: {
     EditorGroupListProfile,
     EditorDetailSideBarNoteList
+  },
+  props: {
+    noteList: Array,
+  },
+  methods: {
+    getNoteHTML(noteNo) {
+      this.$emit('onGetNoteHTML', noteNo);
+    }
   }
 };
 </script>
