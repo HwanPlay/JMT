@@ -456,6 +456,7 @@ export default {
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
           console.log('챗 받은 데이터:', JSON.parse(this.recv));
+          
         });
       }, () => {
         if(this.reconnect++ <= 5) {

@@ -9,8 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ssafy.videoconference.model.common.BaseTimeEntity;
@@ -28,7 +28,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@Table(name = "note")
+@Table(name = "note",
+uniqueConstraints= {
+		@UniqueConstraint(columnNames= {"groupNo", "id", "meetingNo"})
+	})
 public class Note extends BaseTimeEntity{
 	
 	
