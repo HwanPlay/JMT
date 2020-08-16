@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="6" style="vertical-align:middle; padding-top: 50px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 50px;">
       <v-row justify="center">
         <p
           v-if="groupInfo.hasMeeting"
@@ -125,7 +125,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="5">
+    <v-col cols=8>
       <GroupCalendar />
     </v-col>
   </v-row>
