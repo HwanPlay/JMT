@@ -182,6 +182,9 @@
 
           
           <div class="note_button">
+            <div>
+              <button @click="test">asd</button>
+            </div>
             <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
@@ -193,6 +196,7 @@
       <div @click="focusNote" class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
+      
     </div>
   </b-col>
 </template>
@@ -271,6 +275,8 @@ export default {
     noteObj: {
       deep: true,
       handler() {
+        console.log('이거');
+        console.log(this.noteObj);
         this.dataNoteObj.Content = this.noteObj.Content;
         this.dataNoteObj.Title = this.noteObj.Title;
         this.dataNoteObj.Id = this.noteObj.Id;
@@ -280,6 +286,9 @@ export default {
     },
   },
   methods: {
+    test() {
+      console.log(this.noteObj);
+    },
     focusNote() {
       this.editor.focus();
     },

@@ -17,10 +17,10 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           
-          <v-btn v-if="NoteListflag" small  color="primary" id="gotoGroupList" @click="gotoGroupList">그룹목록보기</v-btn>
+          <v-btn v-show="NoteListflag" small  color="primary" id="gotoGroupList" @click="gotoGroupList">그룹목록보기</v-btn>
         </div>
         <v-divider></v-divider>
-        <div v-if="groupListflag">
+        <div v-show="groupListflag">
           <v-list nav dense>
             <v-list-item-group active-class="border" color="orange">
               <div id="v-list-item-box">
@@ -64,7 +64,7 @@
           </v-list>
         </div>
 
-        <div v-if="NoteListflag">
+        <div v-show="NoteListflag">
           <v-list nav dense>
             <v-list-item-group active-class="border" color="orange">
               <div id="v-list-item-box">
@@ -100,7 +100,7 @@
                   </v-badge>
 
                   <v-list-item-content>
-                    <p id="groupNameText" style="padding-top: 5px" v-text="note.title"></p>
+                    <p id="groupNameText" style="padding-top: 5px" v-text="note.note_title"></p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -108,7 +108,7 @@
           </v-list>
         </div>
       </v-navigation-drawer>
-      <div v-if="NoteContent" class="px-3">
+      <div v-show="NoteContent" class="px-3">
         <h2 class="text-center" style="color:black; margin-left : 40px; margin-top:30px;">Note</h2>
         <div class="row p-2">
           <div class="row p-2" id="menu_box">
@@ -117,13 +117,12 @@
               v-b-toggle.sidebar-backdrop
               v-for="note in received_note_list"
               :key="note.noteNo"
-              @click="getNoteHTML(note.noteNo)"
             >
-              <div class="card">
+              <div class="card btn" @click="getNoteHTML(note.noteNo)">
                 <!-- <img src="https://images.unsplash.com/photo-1477666250292-1419fac4c25c?auto=format&amp;fit=crop&amp;w=667&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" /> -->
                 <div class="cardContent">
                   <div id="cardTitle">
-                    <h3 style=" color:black;">{{ note.title }}</h3>
+                    <h3 style=" color:black;">{{ note.note_title }}</h3>
                   </div>
                   <div id="cardDate">
                     <p style=" color:black;">{{compute_date(note.createdDate)}}</p>
@@ -138,7 +137,7 @@
           </div>
         </div>
       </div>
-      <div v-if="EditContent" id="EditBox">
+      <div v-show="EditContent" id="EditBox">
         <NoteEditor
           id="NoteEditorBox"
           :group_list="group_list"
@@ -179,6 +178,7 @@ export default {
       axios
         .get(SERVER.URL + FUNC_URL + groupId)
         .then(res => {
+          console.log(res);
           this.received_note_list = res.data.notes;
         })
         .catch(err => console.error(err));
@@ -186,10 +186,8 @@ export default {
     },
 
     getNoteHTML(NoteId) {
-      this.groupListflag = false;
-      this.NoteListflag = true;
-      this.NoteContent = false;
-      this.EditContent = true;
+      console.log(NoteId);
+      
       if (this.$route.params.NoteId_Cal) {
         NoteId = this.$route.params.NoteId_Cal;
       } else if (NoteId === undefined) {
@@ -201,15 +199,21 @@ export default {
       axios
         .get(SERVER.URL + URL_getNoteByNo + NoteId)
         .then(res => {
+          console.log('이거 시작');
           console.log(res.data);
           this.noteObj.Content = res.data.content;
           this.noteObj.Id = res.data.noteNo;
-          this.noteObj.Title = res.data.title;
+          this.noteObj.Title = res.data.note_title;
+
         })
         .catch(err => {
           console.error(err);
           this.noteContent = 'axios Error is occured';
         });
+      this.groupListflag = false;
+      this.NoteListflag = true;
+      this.NoteContent = false;
+      this.EditContent = true;
     },
     saveNote(noteObj) {
       const URL_saveNote = '/note/';
@@ -256,6 +260,7 @@ export default {
       this.NoteListflag = false;
       this.NoteContent = true;
       this.EditContent = false;
+      console.log(this.groupId);
       this.getNoteList(this.groupId);
     }
   },
