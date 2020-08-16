@@ -144,7 +144,7 @@
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
     <v-col cols=8>
-      <GroupCalendar />
+      <GroupCalendar :groupNo="groupInfo.groupNo"/>
     </v-col>
   </v-row>
 </template>
@@ -270,6 +270,7 @@ export default {
   },
 
   mounted() {
+    console.log('groupInfo:', this.groupInfo);
     this.sModal = false;
     console.log('여길봐 ', this.meetingTitle);
     console.log(this.$store.state.userId);

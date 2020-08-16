@@ -182,9 +182,6 @@
 
           
           <div class="note_button">
-            <div>
-              <button @click="test">asd</button>
-            </div>
             <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
@@ -286,9 +283,6 @@ export default {
     },
   },
   methods: {
-    test() {
-      console.log(this.noteObj);
-    },
     focusNote() {
       this.editor.focus();
     },
