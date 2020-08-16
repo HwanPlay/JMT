@@ -8,14 +8,16 @@
       </template>
 
       <v-card>
+        
         <v-container>
           <v-row>
             <v-col cols="4">
               <v-avatar class="profile"  size="164" tile>
-                <img :src="'http://joinmeeting.tk'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
+                <img :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
               </v-avatar>
             </v-col>
-            <v-col cols="8">
+            <v-spacer></v-spacer>
+            <v-col cols="7">
               Name: {{this.$store.state.myName}}
               <hr/>
               userId: {{this.$store.state.userId}}
@@ -50,6 +52,11 @@ export default {
   computed: {
   },
   methods: {
+    
   }
 };
 </script>
+
+<style scoped>
+
+</style>

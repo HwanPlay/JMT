@@ -250,7 +250,7 @@ export default {
     //     this.members = res.data.groupMembers;
     //   })
     //   .catch(err => console.log(err.response));
-    this.connect();
+    // this.connect();
   },
 
 

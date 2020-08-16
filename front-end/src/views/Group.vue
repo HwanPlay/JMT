@@ -121,7 +121,7 @@ export default {
           console.log('소켓 연결 성공', frame);
           this.ws.subscribe('/send/meeting/' + this.$store.state.myGroups[i].groupNo, res => {
             this.recv = res.body;
-            console.log('받은 데이터' + JSON.parse(this.recv));
+            console.log('받은 데이터:', JSON.parse(this.recv));
           });
         },
         () => {

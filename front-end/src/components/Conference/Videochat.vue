@@ -1,12 +1,49 @@
 <template>
-  <div class="MainContainer">
-    <div class="MainContent">
-      <div class="Minivideo_list" id="Minivideo_list">
-        <div class="videos-container" id="videos-container"></div>
+  <div id="MainContainer">
+    <div id="MainContent">
+      <div id="Minivideo_list">
+        <div id="videos-container"></div>
       </div>
 
-      <div class="video_list_videOrshow">
-        <!-- <span class="triangle test_1"></span> -->
+      <!-- <v-sheet>
+        <v-slide-group
+          v-model="model"
+          center-active
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 10"
+            :key="n"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="mx-1"
+              height="100"
+              width="132"
+              @click="toggle"
+            >
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+            
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>   -->
+
+      <div id="video_list_videOrshow">
         <div class="text-center" >
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
@@ -14,48 +51,6 @@
           </v-btn>
         </div>
       </div>
-          <!-- <v-sheet
-            class="mx-auto"
-            elevation="8"
-            max-width="800"
-          >
-            <v-slide-group
-              v-model="model"
-              class="pa-4"
-              center-active
-              show-arrows
-            >
-              <v-slide-item
-                v-for="n in 6"
-                :key="n"
-                v-slot:default="{ active, toggle }"
-              >
-                <v-card
-                  :color="active ? 'primary' : 'grey lighten-1'"
-                  class="ma-4"
-                  height="100"
-                  width="132"
-                  @click="toggle"
-                >
-                  <v-row
-                    class="fill-height"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-scale-transition>
-                      <v-icon
-                        v-if="active"
-                        color="white"
-                        size="48"
-                        v-text="'mdi-close-circle-outline'"
-                      ></v-icon>
-                    </v-scale-transition>
-                  </v-row>
-                </v-card>
-                
-              </v-slide-item>
-            </v-slide-group>
-          </v-sheet> -->
 
       <div class="Mainvideo">
         <div class="Main-videos-container" id="Main-videos-container">
@@ -179,6 +174,11 @@ import Vue from "vue";
 // import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
 // import BroadCast from '../../api/broadcast';
 import NoteEditor from "./ConfNoteEditor";
+
+import SERVER from '../../api/spring';
+
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 
 // Vue.use(WebRTC)
 // Vue.use(BroadCast)
@@ -374,32 +374,32 @@ export default {
     onNote() {
       $("#note-container").toggle();
       if (this.NoteBool == false && this.Chatbool == false) {
-        $(".MainContent").css("width", "70%");
+        $("#MainContent").css("width", "70%");
         this.NoteBool = true;
       } else if (this.NoteBool == true && this.Chatbool == false) {
-        $(".MainContent").css("width", "100%");
+        $("#MainContent").css("width", "100%");
         this.NoteBool = false;
       } else if (this.NoteBool == false && this.Chatbool == true) {
-        $(".MainContent").css("width", "50%");
+        $("#MainContent").css("width", "50%");
         this.NoteBool = true;
       } else {
-        $(".MainContent").css("width", "80%");
+        $("#MainContent").css("width", "80%");
         this.NoteBool = false;
       }
     },
     onChat() {
       $("#chat-container").toggle();
       if (this.Chatbool == false && this.NoteBool == false) {
-        $(".MainContent").css("width", "80%");
+        $("#MainContent").css("width", "80%");
         this.Chatbool = true;
       } else if (this.Chatbool == true && this.NoteBool == false) {
-        $(".MainContent").css("width", "100%");
+        $("#MainContent").css("width", "100%");
         this.Chatbool = false;
       } else if (this.Chatbool == false && this.NoteBool == true) {
-        $(".MainContent").css("width", "50%");
+        $("#MainContent").css("width", "50%");
         this.Chatbool = true;
       } else {
-        $(".MainContent").css("width", "70%");
+        $("#MainContent").css("width", "70%");
         this.Chatbool = false;
       }
     },
@@ -449,11 +449,11 @@ export default {
     //---------------WebSocket-----------------
     
     connect() {
-      this.ws.conenct({'token' : this.$store.state.accessToKen}, frame => {
-        console.log('소켓 연결 성공', frame);
+      this.ws.connect({ token : this.$store.state.accessToKen }, frame => {
+        console.log('챗 소켓 연결 성공', frame);
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
-          console.log('받은 데이터' + JSON.parse(this.recv));
+          console.log('챗 받은 데이터:', JSON.parse(this.recv));
         });
       }, () => {
         if(this.reconnect++ <= 5) {
@@ -492,7 +492,7 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
-      ".videos-container"
+      "#videos-container"
     );
     this.broadcast.videosContainer = document.querySelector(
       ".Main-videos-container"
@@ -511,7 +511,7 @@ export default {
 </script>
 
 <style>
-.videos-container{
+#videos-container{
   
   white-space: nowrap;
   overflow-x: auto;
@@ -524,7 +524,7 @@ export default {
 } */
 
 
-.videos-container video {
+#videos-container video {
   height: 98px;
   overflow-x: hidden;
   border: 2px solid white;
@@ -534,7 +534,7 @@ export default {
   height: 90%;
   overflow-x: hidden;
 }
-.MainContent {
+#MainContent {
   position: relative;
   height: 100%;
   width: 100%;
@@ -601,7 +601,7 @@ export default {
   padding-bottom: 0px;
 }
 
-.MainContainer {
+#MainContainer {
   position: relative;
   margin-top: 0;
   /* background-color: rgb(52, 63, 87); */
@@ -633,29 +633,13 @@ export default {
 
 }
 
-.video_list_videOrshow {
+#video_list_videOrshow {
   position: absolute;
   width: auto;
   left:50%;
   transform: translate(-50%,0);
   z-index: 7;
 }
-
-.triangle {
-  display: inline-block;
-  width: 20px;
-  border-style: solid;
-  border-width: 20px;
-  transition: all ease 1s;
-}
-
-.triangle.test_1 {
-  border-color: #7d1919 transparent transparent transparent;
-}
-.triangle.test_1:hover {
-  border-color: blue transparent transparent transparent;
-}
-
 
 .chat-main {
   position: relative;
