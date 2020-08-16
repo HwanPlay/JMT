@@ -39,7 +39,6 @@
           </v-col>
 
           <v-col cols="4">
-            <v-btn @click="checksModal">체크</v-btn>
             <v-btn
               @click="sModal=true;"
               v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
@@ -203,9 +202,6 @@ export default {
           this.$router.push('/Home');
         })
         .catch(err => console.log(err.response));
-    },
-    checksModal(){
-      console.log('값은?', this.sModal);
     },
 
     changeHasMeeting() {
