@@ -49,7 +49,7 @@
     <!-- <v-spacer></v-spacer> -->
 
     <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols="4" style="height: 700px;">
+    <v-col cols="4" style="height: 100%;">
       <v-row style="height: 100%;" align="center" justify="center">
        <v-col cols="12">
         <v-card tile class="mx-auto" width="100%">
