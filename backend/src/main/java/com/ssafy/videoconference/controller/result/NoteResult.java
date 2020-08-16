@@ -64,6 +64,7 @@ public class NoteResult {
 		ArrayList<NoteData> notesData = new ArrayList<>();
 		for(Note note : notes) {
 			notesData.add(new NoteData(note.getNoteNo(),
+										note.getTitle(),
 										note.getMeeting().getTitle(),
 										note.getMeeting().getMeetingNo(),
 										note.getCreatedDate(),
@@ -81,7 +82,8 @@ public class NoteResult {
 	@AllArgsConstructor
 	private static class NoteData {
 		private int noteNo;
-		private String title;
+		private String note_title;
+		private String meeting_title;
 		private int meetingNo;
 		private LocalDateTime createdDate;
 		private LocalDateTime meeting_start_time;
