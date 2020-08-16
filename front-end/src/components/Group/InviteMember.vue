@@ -2,7 +2,7 @@
   <!-- <v-row justify="center"> -->
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" color="white">
+        <v-btn text style="outline:none" v-bind="attrs" v-on="on" color="white">
           <v-icon color="orange">fas fa-user-plus</v-icon>
         </v-btn>
       </template>

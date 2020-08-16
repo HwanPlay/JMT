@@ -1,6 +1,6 @@
 <template>
   <v-row justify="end">
-    <v-btn text @click.stop="dialog = true">
+    <v-btn style="outline:none" text @click.stop="dialog = true">
       더보기...
     </v-btn>
 
