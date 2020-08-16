@@ -40,6 +40,16 @@ const routes = [
     path: '/Profile',
     name: 'Profile',
     component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/editor',
+    name: 'Editor',
+    component: () => import('../views/Editor.vue')
+  },
+  {
+    path: '/editor/detail',
+    name: 'EditorDetail',
+    component: () => import('../views/EditorDetail.vue')
   }
 ];
 

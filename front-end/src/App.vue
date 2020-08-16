@@ -44,6 +44,10 @@
               <span class="routerLink mr-2 ml-2">Note</span>
             </v-btn>
           </router-link>
+
+          <router-link to="/editor">
+            editor
+          </router-link>
         </div>
 
         <v-spacer></v-spacer>

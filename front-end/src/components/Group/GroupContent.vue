@@ -139,13 +139,8 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-<<<<<<< HEAD
-    <v-col cols=8>
-      <GroupCalendar :groupNo="groupInfo.groupNo" :groupInfo="groupInfo" :meetingNoteInfo="meetingNoteInfo"/>
-=======
     <v-col cols="7">
       <GroupCalendar />
->>>>>>> f0bc393163b2d128377d0bcd56bdb558cf01e9c0
     </v-col>
   </v-row>
 </template>
@@ -174,10 +169,6 @@ export default {
   },
   props: {
     groupInfo: Object,
-<<<<<<< HEAD
-    meetingNoteInfo: Array,
-=======
->>>>>>> f0bc393163b2d128377d0bcd56bdb558cf01e9c0
   },
   data() {
     return {
