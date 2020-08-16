@@ -52,7 +52,6 @@
           @click:event='showEvent'
           @click:more='viewDay'
           @click:date='viewDay'
-          @change='updateRange'
         ></v-calendar>
         <v-menu
           v-model='selectedOpen'
@@ -93,6 +92,12 @@
 import SERVER from '../../api/spring.js';
 import axios from 'axios';
 export default {
+  name: 'GroupCalendar',
+  props: {
+    meetingNoteInfo: Array,
+    groupNo: Number,
+    groupInfo: Object,
+  },
   data: () => ({
     focus: '',
     type: 'week',
@@ -117,9 +122,41 @@ export default {
     ],
   }),
   mounted() {
-    this.$refs.calendar.checkChange();
+    this.$refs.calendar.checkChange(); 
+    this.updateCalendar();    
+  },
+  // created() {
+  //   axios.get(SERVER.URL +'/note/get/group/'+this.groupNo)
+  //     .then((res)=> {
+  //       console.log('axios',res.data.notes);
+  //       this.meetingNoteInfo = res.data.notes;
+  //     })
+  //     .catch(err=>console.error(err));   
+  // },
+  watch: {
+    groupInfo: {
+      deep: true, 
+      handler() {
+        this.updateCalendar();
+      }
+    }
   },
   methods: {
+    updateCalendar() {
+      const events = [];
+
+      this.groupInfo.forEach(note => {
+        events.push({
+          name: note.meeting_title,
+          start: note.meeting_start_time,
+          end: note.meeting_end_time,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          timed: false,
+          id: note.noteNo,
+        });
+      });
+      this.events = events;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';

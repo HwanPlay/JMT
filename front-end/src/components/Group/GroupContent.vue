@@ -144,7 +144,7 @@
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
     <v-col cols=8>
-      <GroupCalendar :groupNo="groupInfo.groupNo"/>
+      <GroupCalendar :groupNo="groupInfo.groupNo" :groupInfo="groupInfo" :meetingNoteInfo="meetingNoteInfo"/>
     </v-col>
   </v-row>
 </template>
@@ -172,7 +172,8 @@ export default {
     EditGroup
   },
   props: {
-    groupInfo: Object
+    groupInfo: Object,
+    meetingNoteInfo: Array,
   },
   data(){
     return {

@@ -24,7 +24,7 @@
             <v-list-item 
               v-for="(group, i) in this.$store.state.myGroups"
               :key="group.groupNo"
-              @click="toggle(i)"
+              @click="toggle({'i':i, 'groupNo': group.groupNo})"
             >
               <v-badge v-if="$store.state.userId === group.hostId" color="red" dot overlap offset-x="25" offset-y="15">
                 <v-list-item-icon>
@@ -58,7 +58,7 @@
     </div>
 
     <v-col v-if='$store.state.myGroups && $store.state.myGroups.length !== 0 ' style="margin-left : 20px;" >
-      <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
+      <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" :meetingNoteInfo="meetingNoteInfo" />
     </v-col>
     <v-col v-else>
       <EmptyGroup />
@@ -76,6 +76,7 @@ import SERVER from '../api/spring.js';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
+import Axios from 'axios';
 
 export default {
   name: 'Groups',
@@ -94,11 +95,22 @@ export default {
       reconnect : 0,
       recv : '',
 
+      hwanGroupNo: 0,
+      meetingNoteInfo: []
     };
   },
   methods: {
 
-    toggle(i) {
+    toggle({i, groupNo}) {
+      
+      Axios.get(SERVER.URL +'/note/get/group/'+groupNo)
+        .then((res)=> {
+          console.log('axios',res.data.notes);
+          this.meetingNoteInfo = res.data.notes;
+        })
+        .catch(err=>console.error(err));
+      
+      console.log(groupNo);
       console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
@@ -142,9 +154,19 @@ export default {
     console.log('res',this.$store.state.myGroups.length);
     if(this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
       this.connect(this.onboarding);
+      console.log('onboladrsadasd',this.onboarding);
+      // console.log('이거 info'+this.$store.state.myGroups[this.onboarding]);
+      console.log(this.$store.state.myGroups[0].groupNo);
     }
-  },
 
+    
+    Axios.get(SERVER.URL +'/note/get/group/'+this.$store.state.myGroups[0].groupNo)
+      .then((res)=> {
+        console.log('axios',res.data.notes);
+        this.meetingNoteInfo = res.data.notes;
+      })
+      .catch(err=>console.error(err));
+  },
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
