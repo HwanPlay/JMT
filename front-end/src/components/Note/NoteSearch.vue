@@ -4,15 +4,15 @@
       <v-navigation-drawer height="100%" permanent>
         <div id="myProfile">
           <div>
-            <img id="myImage" src="../../assets/profile/profile1.jpg" />
+            <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
           </div>
           <v-list-item-content class="item-content">
             <v-list-item-title class="myName">
-              <h5>{{ $store.state.myName }}</h5>
+              <h5 style="color : white;">{{ $store.state.myName }}</h5>
             </v-list-item-title>
             <v-list-item-subtitle>
-              <div id="userIdBox">
-                <p>{{ $store.state.userId }}</p>
+              <div id="userIdBox" >
+                <p >{{ $store.state.userId }}</p>
               </div>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -362,6 +362,15 @@ sans-serif,
   justify-content: space-around;
 }
 
+#userIdBox p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 200px;
+  height: 20px;
+  font-size: 16px;
+  color: white;
+}
 .card {
   text-align: center;
   float: left;

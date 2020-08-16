@@ -81,7 +81,7 @@
           <p style="font-size : 16px;">소개 : {{ groupInfo.groupIntro }}</p>
         </div>
       </div>
-      <v-divider class="mb-10"></v-divider>
+      <!-- <v-divider class="mb-10"></v-divider> -->
 
       <v-row>
         <v-col>
@@ -291,12 +291,6 @@ export default {
   margin-top: 30px;
   margin-bottom: 40px;
   margin-left: 10px;
-  background-image: linear-gradient(
-    -20deg,
-    #c4c0cf 0%,
-    #b8c2e0 100%,
-    #9e9eec 100%
-  );
   border-radius: 15px;
   padding: 15px;
   box-shadow: 2px 1px 7px 3px rgb(167, 167, 167);
