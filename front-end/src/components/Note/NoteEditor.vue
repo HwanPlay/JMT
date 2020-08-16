@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="7">
+  <b-col cols="12">
     
     <div class="editor">
       <!-- Upper Menu -->
@@ -219,6 +219,7 @@ import {
   History,
 } from 'tiptap-extensions';
 export default {
+  
   components: {
     EditorContent,
     EditorMenuBar,
@@ -263,7 +264,7 @@ export default {
         Content: '',
         Title: '',
         Id: 0,
-      }
+      },
     };
   },
   watch: {
@@ -293,7 +294,6 @@ export default {
       this.editor.setContent(this.example_data);
       this.dataNoteObj.Id = 0;
     },
-    
   },
   beforeDestroy() {
     this.editor.destroy();

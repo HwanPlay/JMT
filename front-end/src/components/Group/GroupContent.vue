@@ -30,6 +30,8 @@
           </v-btn>
         </v-col>
       </v-row>-->
+
+      
       <div id="conferenceBox">
         <v-row>
           <v-col cols="7">
@@ -74,9 +76,9 @@
           </v-col>
         </v-row>
 
-        <h4>호스트 : {{ groupInfo.hostName }}</h4>
+        <h5>호스트 : {{ groupInfo.hostName }}</h5>
         <div style="height:20px">
-          <p>소개 : {{ groupInfo.groupIntro }}</p>
+          <p style="font-size : 16px;">소개 : {{ groupInfo.groupIntro }}</p>
         </div>
       </div>
       <v-divider class="mb-10"></v-divider>
@@ -177,11 +179,7 @@ export default {
     ws: null,
     reconnect: 0,
     token: '',
-    recvList: [],
-    tmp_meeting: null,
-    meetingTitle: this.$store.state.myName + '의 회의',
-    meetingNo: null,
-    sModal: false,
+    meetingNo: null
   }),
   methods: {
     exitGroup() {
@@ -244,32 +242,9 @@ export default {
         .then(res => {
           this.$router.push({name: 'Conference', 
             params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: res.body.meetingNo }
+            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: this.meetingNo }
           });
         });
-    },
-
-    connect() {
-      this.ws.connect(
-        { token: this.$store.state.accessToken },
-        frame => {
-          console.log('소켓 연결 성공', frame);
-          this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
-            this.recvList.push(res.body);
-            console.log('받은 데이터' + this.recvList);
-          });
-        },
-        () => {
-          if (this.reconnect++ <= 5) {
-            setTimeout(() => {
-              console.log('connection reconnect');
-              this.sock = new SockJS(SERVER.URL2);
-              this.ws = Stomp.over(this.sock);
-              this.connect();
-            }, 10 * 1000);
-          }
-        }
-      );
     },
 
     send(tmp) {
@@ -294,8 +269,9 @@ export default {
     //     this.members = res.data.groupMembers;
     //   })
     //   .catch(err => console.log(err.response));
-    this.connect();
+    // this.connect();
   },
+
 
   watch: {
     groupInfo() {
@@ -325,7 +301,7 @@ export default {
 .conferenceStatus {
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 10px;
 }
 </style>

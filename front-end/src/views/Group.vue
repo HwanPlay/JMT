@@ -4,7 +4,7 @@
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
-          <img id="myImage" src="../assets/profile/profile1.jpg">
+          <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
           </div>
                <v-list-item-content class="item-content">
                 <v-list-item-title class="myName">
@@ -71,6 +71,12 @@ import GroupContent from '../components/Group/GroupContent.vue';
 import CreateGroup from '../components/Group/CreateGroup.vue';
 import EmptyGroup from '../components/Group/EmptyGroup.vue';
 
+
+import SERVER from '../api/spring.js';
+
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+
 export default {
   name: 'Groups',
   components: {
@@ -83,24 +89,65 @@ export default {
       group: {},
       modalOn: false,
       onboarding: 0,
+      sock : null,
+      ws : null,
+      reconnect : 0,
+      recv : '',
+
     };
   },
   methods: {
+
     toggle(i) {
       console.log('change!', i);
       this.onboarding = i;
+      this.connect(this.onboarding);
     },
+
     createGroup() {
       this.$store.state.groupModalOn = true;
       console.log(this.$store.state.groupModalOn);
     },
     closeModal() {
       this.modalOn = false;
-    }
+    },
+
+    connect(i) {
+      this.sock = new SockJS(SERVER.URL2);
+      this.ws = Stomp.over(this.sock);
+      this.ws.connect(
+        { token: this.$store.state.accessToken },
+        frame => {
+          console.log('소켓 연결 성공', frame);
+          this.ws.subscribe('/send/meeting/' + this.$store.state.myGroups[i].groupNo, res => {
+            this.recv = res.body;
+            console.log(this.recv);
+          });
+        },
+        () => {
+          if (this.reconnect++ <= 5) {
+            setTimeout(() => {
+              console.log('connection reconnect');
+              this.sock = new SockJS(SERVER.URL2);
+              this.ws = Stomp.over(this.sock);
+              this.connect(i);
+            }, 10 * 1000);
+          }
+        }
+      );
+    },
   },
   mounted() {
     this.$store.dispatch('getGroupInfo');
     console.log('res',this.$store.state.myGroups.length);
+    if(this.$store.state.myGroups.length != 0) {
+      this.connect(this.onboarding);
+    }
+  },
+
+  created() {
+    this.sock = new SockJS(SERVER.URL2);
+    this.ws = Stomp.over(this.sock);
   }
 };
 </script>
