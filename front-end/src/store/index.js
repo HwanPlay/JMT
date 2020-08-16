@@ -31,6 +31,9 @@ export default new Vuex.Store({
         return !!state.accessToken;
       }
     },
+    haveRequests(state){
+      return !!state.requests;
+    }
   },
 
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)
@@ -70,7 +73,7 @@ export default new Vuex.Store({
       state.myName = val.data.name;
       localStorage.setItem('myPicture', val.data.profile_img);
       state.myPicture = val.data.profile_img;
-    }
+    },
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함
 
@@ -91,7 +94,6 @@ export default new Vuex.Store({
     },
 
     login({ commit }, loginData) {
-      console.log(loginData);
       axios.post(SERVER.URL + SERVER.ROUTES.login, loginData)
         .then(res => {
           commit('SET_USER_ID', loginData.id);
@@ -103,7 +105,7 @@ export default new Vuex.Store({
               commit('SET_MY_PROFILE', res);
             })
             .catch(err => {
-              console.log('profile error'+err.response);
+              console.log('profile error'+err);
             });
         })
         .catch(() => {

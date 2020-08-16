@@ -1,15 +1,15 @@
 <template>
-  <v-card flat style="width: 500px; height: 500px;">
+  <v-card flat style="max-width: 500px; max-height: 500px;">
+      <v-card-title class="top">그룹 생성하기</v-card-title>
     <v-container>
-      <v-snackbar v-model="snackbar" absolute top right color="success">
-        <span>Registration successful!</span>
-        <v-icon dark>mdi-checkbox-marked-circle</v-icon>
-      </v-snackbar>
-      <v-card-title>그룹 생성하기</v-card-title>
       <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
           <v-col cols= "5">
             <v-text-field v-model="createGroupInfo.groupName" :rules="rules.name" label="그룹 명" required></v-text-field>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols= "6">
+            <div class="hostId">{{ $store.state.userId }}</div>
           </v-col>
         </v-row>
         <v-textarea v-model="createGroupInfo.groupIntro" :rules="rules.intro" label="그룹 소개" required></v-textarea>
@@ -45,7 +45,6 @@ export default {
         name: [val => (val || '').length > 0 || '그룹 이름을 정해주세요'],
         intro: [val => (val || '').length > 0 || '그룹 소개를 작성해주세요'],
       },
-      snackbar: false,
     };
   },
 
@@ -54,7 +53,6 @@ export default {
       this.$refs.form.reset();
     },
     submit () {
-      this.snackbar = true;
       console.log(this.createGroupInfo);
       axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
         .then(res => {
@@ -73,5 +71,11 @@ export default {
 </script>
 
 <style>
-
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
+  }
+  .hostId{
+    border-bottom-width: 10px;
+  }
 </style>

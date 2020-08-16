@@ -1,13 +1,13 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 버튼 부분 -->
-    <v-col cols="6" style="height: 100%;">
+    <v-col cols="7" style="height: 100%;" class="ml-2">
       <v-row style="height: 100%;" align="center" justify="center">
         
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" color="rgb(255, 128, 74)" @click='meetingModalOn=true'>
-              <v-icon size="60">fas fa-video</v-icon>
+            <v-btn class="rounded-xl" dark depressed style="height: 145px; width: 145px; outline: none;" color="rgb(255, 128, 74)" @click='meetingModalOn=true'>
+              <v-icon size="70">fas fa-video</v-icon>
             </v-btn>
             <v-dialog width='500px' v-model='meetingModalOn'>
               <StartableGroups @closeModal='closeMeetingModal' />
@@ -17,8 +17,8 @@
 
 
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToGroup">
-              <v-icon size="60">fas fa-user-friends</v-icon>
+            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 145px; width: 145px; outline: none;" color="rgb(52, 63, 87)" @click="goToGroup">
+              <v-icon size="70">fas fa-user-friends</v-icon>
             </v-btn>
           </div>
           <h5 style="margin-top: 20px;">내 그룹</h5>
@@ -26,8 +26,8 @@
 
         <v-col class="text-center" cols="12" sm="4">
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="height: 130px; width: 130px; outline: none;" @click="modalOn=true" color="rgb(52, 63, 87)">
-              <v-icon size="60">fas fa-plus-square</v-icon>
+            <v-btn class="rounded-xl" dark depressed style="height: 145px; width: 145px; outline: none;" @click="modalOn=true" color="rgb(52, 63, 87)">
+              <v-icon size="70">fas fa-plus-square</v-icon>
             </v-btn>
             <v-dialog v-model="modalOn" max-width="500px">
               <CreateGroup @close="closeModal" />
@@ -36,8 +36,8 @@
           <h5 style="margin-top: 20px;">새 그룹</h5>
 
           <div class="my-2">
-            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 130px; width: 130px; outline: none;" color="rgb(52, 63, 87)" @click="goToNote">
-              <v-icon size="60">fas fa-file-alt</v-icon>
+            <v-btn class="rounded-xl" dark depressed style="margin-top: 50px; height: 145px; width: 145px; outline: none;" color="rgb(52, 63, 87)" @click="goToNote">
+              <v-icon size="70">fas fa-file-alt</v-icon>
             </v-btn>
           </div>
           <h5 style="margin-top: 20px;">내 노트</h5>
@@ -46,26 +46,28 @@
       </v-row>
     </v-col>
 
-    <v-spacer></v-spacer>
+    <!-- <v-spacer></v-spacer> -->
 
     <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols="4" style="height: 100%;">
+    <v-col cols="4" style="height: 700px;">
       <v-row style="height: 100%;" align="center" justify="center">
        <v-col cols="12">
-        <v-card class="mx-auto" width="100%">
+        <v-card tile class="mx-auto" width="100%">
           <v-img class="white--text align-center" height="200px" :src="require('../assets/Watch/watch50.jpg')">
             <h1 class="ml-5">{{ clock | moment('HH:mm:ss') }}</h1>
             <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YYYY-MM-DD') }}</h4>
           </v-img>
 
-          <v-card-subtitle class="pb-0"><h3>현재 회의중</h3></v-card-subtitle>
+          <v-card-subtitle class="pb-0"><h3>About JMT</h3></v-card-subtitle>
           <!-- <hr class="m-2"> -->
-          <v-card-text v-for="group in $store.state.myGroups" :key="group.groupNo" class="text--primary m-0 pt-0 pb-0" style="height: 100%;">
-            <div class="m-0 p-0" v-if="group.hasMeeting">
+          <v-card-text class="text--primary m-0 pt-0 pb-0" style="height: 100%;">
               <hr>
-              <h4>{{ group.groupName }}</h4>
-              <p>{{ group.groupIntro }}</p>
-            </div>
+              <h4>JMT는</h4>
+              <h6>누구나 쉽게 사용가능한</h6>
+              <h6>그룹 기반의 화상회의 서비스입니다</h6>
+              <h6>무슨 말을 더 넣을까</h6>
+              <h6>무슨말을 넣어야하나</h6>
+              <p></p>
             <!-- <h4>SSAFY 3기 대전 1반</h4>
             <div>Make our own Service</div> -->
           </v-card-text>

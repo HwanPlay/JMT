@@ -165,6 +165,8 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import axios from 'axios';
+
 import RTCMultiConnection from "../../api/RTCMultiConnection";
 import Broadcast from "../../api/broadcast";
 // import Sharescreen from './Sharescreen.vue';
@@ -297,7 +299,7 @@ export default {
       // this.connection.closeSocket();  //새로고침할때랑 거의 동일, 각자의 로컬 스트림은 살아있고, 통신이 끊김(채팅도 불가) 호스트는 게스트 스트림 멈춤(리브누른사람의 스트림 사라짐), 호스트가 재접속시 게스트들 streamid 그대로 다시 연결됨 게스트 재접속시 새로방만들어짐
 
       document.getElementById("videos-container").style.display = "none";
-
+      axios.put(SERVER.URL + '/group/hasmeeting/'+this.meetingInfo.groupNo);
       this.$router.push("/Group");
     },
     //비디오 끄고,켜기
@@ -425,7 +427,7 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (event.data || event) +
         "</p></div></li></ul>";
       this.chatContainer.appendChild(this.textArea);

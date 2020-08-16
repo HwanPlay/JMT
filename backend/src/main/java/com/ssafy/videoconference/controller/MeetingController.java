@@ -58,5 +58,4 @@ public class MeetingController {
 		return MeetingResult.build(meeting);
 	}
 	
-	
 }

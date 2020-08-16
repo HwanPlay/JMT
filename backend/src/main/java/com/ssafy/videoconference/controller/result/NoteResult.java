@@ -19,7 +19,8 @@ public class NoteResult {
 				.add("noteNo", note.getNoteNo())
 				.add("groupName", groupName)
 				.add("id", note.getUser().getId())
-				.add("title", note.getTitle())
+				.add("note_title", note.getTitle())
+				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("start_time", note.getMeeting().getCreatedDate())
@@ -34,7 +35,8 @@ public class NoteResult {
 				.add("noteNo", note.getNoteNo())
 				.add("groupNo", note.getGroup().getGroupNo())
 				.add("id", note.getUser().getId())
-				.add("title", note.getTitle())
+				.add("note_title", note.getTitle())
+				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("date", note.getCreatedDate());
@@ -47,7 +49,8 @@ public class NoteResult {
 				.add("noteNo", note.getNoteNo())
 				.add("groupNo", note.getGroup().getGroupNo())
 				.add("id", note.getUser().getId())
-				.add("title", note.getTitle())
+				.add("note_title", note.getTitle())
+				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("start_time", note.getMeeting().getCreatedDate())
@@ -62,6 +65,7 @@ public class NoteResult {
 		for(Note note : notes) {
 			notesData.add(new NoteData(note.getNoteNo(),
 										note.getTitle(),
+										note.getMeeting().getTitle(),
 										note.getMeeting().getMeetingNo(),
 										note.getCreatedDate(),
 										note.getMeeting().getCreatedDate(),
@@ -78,7 +82,8 @@ public class NoteResult {
 	@AllArgsConstructor
 	private static class NoteData {
 		private int noteNo;
-		private String title;
+		private String note_title;
+		private String meeting_title;
 		private int meetingNo;
 		private LocalDateTime createdDate;
 		private LocalDateTime meeting_start_time;

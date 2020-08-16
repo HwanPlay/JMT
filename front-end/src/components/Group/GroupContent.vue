@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="6" style="vertical-align:middle; padding-top: 50px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 50px;">
       <v-row justify="center">
         <p
           v-if="groupInfo.hasMeeting"
@@ -40,14 +40,30 @@
 
           <v-col cols="4">
             <v-btn
-              @click="startMeeting"
+              @click="sModal=true;"
               v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
               dark
               color="green"
             >
-              회의 시작
+              회의 시작?
               <!-- <router-link :to="{ name: 'Conference', params: { ??? }}">회의 시작</router-link> -->
             </v-btn>
+            <v-dialog v-model="sModal" width="500px">
+              <v-card width="500px">
+                <v-card-title class="top">회의 시작하기</v-card-title>
+                <v-container>
+                  <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
+                      <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="error" class="mr-4" @click="startMeeting">
+                      회의 시작
+                    </v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-container>  
+              </v-card>
+            </v-dialog>
             <v-btn
               @click="joinMeeting"
               v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting"
@@ -86,10 +102,12 @@
 
           <v-card outlined>
             <v-col>
-              <div v-if="members.length === 0">그룹원이 없습니다</div>
-              <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
-                <MemberCard :userInfo = memberInfo />
-              </v-card-text>
+              <div v-if="members && members.length === 0">그룹원이 없습니다</div>
+              <div v-else>
+                <v-card-text v-for="memberInfo in members.slice(0,3)" :key='memberInfo.id' style="padding: 5px;">
+                  <MemberCard :userInfo = memberInfo />
+                </v-card-text>
+              </div>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -125,7 +143,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="5">
+    <v-col cols=8>
       <GroupCalendar />
     </v-col>
   </v-row>
@@ -156,15 +174,19 @@ export default {
   props: {
     groupInfo: Object
   },
-  data: () => ({
-    onModal: false,
-    members: [],
-    sock: null,
-    ws: null,
-    reconnect: 0,
-    token: '',
-    meetingNo: null
-  }),
+  data(){
+    return {
+      onModal: false,
+      members: [],
+      sock: null,
+      ws: null,
+      reconnect: 0,
+      token: '',
+      meetingNo: null,
+      meetingTitle: this.$store.state.myName + '의 회의',
+      sModal: false,
+    };
+  },
   methods: {
     exitGroup() {
       axios
@@ -193,6 +215,9 @@ export default {
           this.send(tmp);
         });
     },
+    startMeetingOn(){
+      console.log('hoo');
+    },
 
     getGroupMembers() {
       axios
@@ -205,13 +230,13 @@ export default {
 
     startMeeting() {
       this.changeHasMeeting();
-      axios
-        .post(SERVER.URL + '/meeting/add', {
-          groupNo: this.groupInfo.groupNo,
-          title: this.$store.state.myName + '\'s Meeting'
-        })
+      axios.post(SERVER.URL + '/meeting/add', {
+        groupNo: this.groupInfo.groupNo,
+        title: this.meetingTitle
+      })
         .then(res => {
           this.meetingNo = res.data.meetingNo;
+          this.sModal = false;
           this.$router.push({name: 'Conference',
             params: { roomId : this.groupInfo.roomId, hostId : this.groupInfo.hostId },
             query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo:this.meetingNo }});
@@ -245,12 +270,9 @@ export default {
   },
 
   mounted() {
-    // axios.get(SERVER.URL+'/groupmember/getno/'+this.groupInfo.groupNo)
-    //   .then(res => {
-    //     this.members = res.data.groupMembers;
-    //   })
-    //   .catch(err => console.log(err.response));
-    // this.connect();
+    this.sModal = false;
+    console.log('여길봐 ', this.meetingTitle);
+    console.log(this.$store.state.userId);
   },
 
 
