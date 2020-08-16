@@ -11,7 +11,7 @@
               <h5 style="color : white;">{{ $store.state.myName }}</h5>
             </v-list-item-title>
             <v-list-item-subtitle>
-              <div id="userIdBox" >
+              <div id="userIdBoxNote" >
                 <p >{{ $store.state.userId }}</p>
               </div>
             </v-list-item-subtitle>
@@ -56,7 +56,7 @@
                   </v-badge>
 
                   <v-list-item-content style="width:90px;">
-                    <p id="groupNameText" style="padding-top: 5px" v-text="group.groupName"></p>
+                    <p id="groupName" style="padding-top: 5px" v-text="group.groupName"></p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -100,7 +100,7 @@
                   </v-badge>
 
                   <v-list-item-content>
-                    <p id="groupNameText" style="padding-top: 5px" v-text="note.note_title"></p>
+                    <p id="groupName" style="padding-top: 5px" v-text="note.note_title"></p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -130,7 +130,8 @@
                 </div>
                 <div class="cardInfo">
                   <!-- <h3>{{ note.title }}</h3>
-                  <p>{{compute_date(note.createdDate)}}</p>-->
+                  <p>{{compute_date(note.createdDate)}}</p> -->
+                  <p style="font-size : 40px;">자세히 보기</p>
                 </div>
               </div>
             </div>
@@ -264,13 +265,6 @@ export default {
     compute_date(date) {
       return date.slice(2, 10);
     },
-    // showNoteList() {
-    //   this.groupListflag = true;
-    //   this.NoteListflag = false;
-    //   this.NoteContent = true;
-    //   this.EditContent = false;
-    //   this.getNoteList(this.groupId);
-    // },
     gotoGroupList(){
       this.groupListflag = true;
       this.NoteListflag = false;
@@ -329,7 +323,7 @@ export default {
   object-fit: cover;
   border-radius: 50%;
 }
-#groupNameText {
+#groupName {
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -377,8 +371,12 @@ sans-serif,
   margin-left: 30px;
   justify-content: space-around;
 }
+#userIdBoxNote{
+  display: inline-block;
+  word-wrap: break-word;
+}
 
-#userIdBox p {
+#userIdBoxNote p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -386,8 +384,10 @@ sans-serif,
   height: 20px;
   font-size: 16px;
   color: white;
+  font-weight:400;
 }
 .card {
+  
   text-align: center;
   float: left;
   margin-right: 20px;
@@ -404,18 +404,23 @@ sans-serif,
   -webkit-transition: 0.4s ease-out;
   transition: 0.4s ease-out;
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
+  
 }
 
 .card:hover {
   -webkit-transform: translateY(20px);
   transform: translateY(20px);
+  
+ 
 }
 .card:hover .cardContent {
   opacity: 0;
+  
 }
 
 .card:hover:before {
   opacity: 1;
+  background-color: #355070;
 }
 
 .card:hover .cardInfo {
@@ -424,6 +429,8 @@ sans-serif,
   transform: translateY(0px);
   position: absolute;
   float: left;
+  top: 50px;
+  left: 2px;
 }
 
 .card:before {
@@ -462,6 +469,8 @@ sans-serif,
   transform: translateY(30px);
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  top: 50px;
+  left: 2px;
 }
 
 .card .cardInfo h1 {
@@ -472,6 +481,8 @@ sans-serif,
   letter-spacing: 1px;
   font-size: 15px;
   margin-top: 8px;
+  top: 50px;
+  left: 2px;
 }
 
 .cardContent {

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-list-item>
-      
+    <!-- {{userInfo}} -->
+    <v-list-item class="pl-0">
       <v-badge 
         v-if="userInfo.id === this.$store.state.userId"
-        color="green" content="It's Me" left overlap offset-x="30" offset-y="15"
+        color="green" content="It's Me" left overlap offset-x="45" offset-y="15"
       >
         <v-list-item-avatar color="grey" size="40">
           <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img>

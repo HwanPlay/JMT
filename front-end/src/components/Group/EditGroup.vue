@@ -1,18 +1,14 @@
 <template>
     <v-card flat style="max-width: 500px;">
-    <v-container>
-      <v-snackbar v-model="snackbar" absolute top right color="success">
-        <span>수정 완료!!</span>
-        <v-icon dark>mdi-checkbox-marked-circle</v-icon>
-      </v-snackbar>
-      <v-card-title>그룹 정보 수정</v-card-title>
+      <v-card-title class="top d-flex justify-center align-center">그룹 정보 수정</v-card-title>
+      <v-container>
       <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
           <v-col cols= "5">
-            <v-text-field v-model="editGroupInfo.groupName" :rules="rules.name" label="그룹 명" required></v-text-field>
+            <v-text-field v-model="editGroupInfo.groupName" :counter="10" :rules="rules.name" label="그룹 명" required></v-text-field>
           </v-col>
         </v-row>
-        <v-textarea v-model="editGroupInfo.groupIntro" :rules="rules.intro" label="그룹 소개" required></v-textarea>
+        <v-textarea v-model="editGroupInfo.groupIntro" :counter="50" :rules="rules.intro" label="그룹 소개" required></v-textarea>
         <v-card-actions>
         <v-btn text color="error" class="mr-4" @click="alert = !alert">
           그룹 해체
@@ -83,5 +79,8 @@ export default {
 </script>
 
 <style>
-
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
+  }
 </style>
