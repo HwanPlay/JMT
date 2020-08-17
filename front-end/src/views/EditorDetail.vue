@@ -71,7 +71,7 @@ export default {
     },
     saveNote(noteObj) {
       const URL_saveNote = '/note/';
-
+      console.log(noteObj);
       axios
         .put(SERVER.URL + URL_saveNote + noteObj.Id, {
           title: noteObj.Title,
@@ -79,6 +79,7 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.getNoteList();
         })
         .catch(err => console.error(err));
     },

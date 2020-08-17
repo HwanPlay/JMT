@@ -31,7 +31,7 @@ export default {
   methods: {
     getGroupList() {
       const GROUP_URL = '/group/get/all/';
-
+      
       axios
         .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
         .then(res => {
@@ -42,6 +42,13 @@ export default {
     },
     getNoteList(groupId) {
       const URL = '/note/get/group/';
+      
+      if(groupId) {
+        console.log('groupNo가 있을때');
+      } else if (this.$route.query.groupNo){
+        groupId = this.$route.query.groupNo;
+      }
+
       axios
         .get(SERVER.URL + URL + groupId)
         .then(res => {
@@ -59,6 +66,7 @@ export default {
   },
   mounted() {
     this.getGroupList();
+    this.getNoteList();
   }
 };
 </script>

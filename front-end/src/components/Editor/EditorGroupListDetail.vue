@@ -15,6 +15,9 @@ export default {
   methods: {
     getNoteList(groupId) {
       this.$emit('onGetNoteList', groupId);
+      if (this.$route.query.groupNo !== groupId){
+        this.$router.push({name: 'Editor', query: {groupNo: groupId}});
+      }
     }
   }
 };
