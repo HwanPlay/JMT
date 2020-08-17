@@ -1,19 +1,16 @@
 <template>
   <v-card class="mx-auto" max-width="344">
-    {{ message }}
+    <v-card-title class="top justify-center align-content-center">그룹 초대 메세지</v-card-title>
     <v-card-text>
-      <div>그룹 초대 메세지</div>
-      <p class="display-1 text--primary">
-        {{ message.hostId }}님의 초대
-      </p>
-      <p>{{ message.groupName }} 그룹</p>
+      <v-list-item-title>{{ message.sender }}님의 초대</v-list-item-title>
+      <v-list-item-subtitle>{{ message.groupName }} 그룹</v-list-item-subtitle>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="deep-purple accent-4" @click='removeRequest'>
+      <v-btn text style="outline:none" color="rgb(52, 63, 87)" @click='removeRequest'>
         거절
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn text color="deep-purple accent-4" @click='acceptInvite'>
+      <v-btn text style="outline:none" color="rgb(255, 128, 74)" @click='acceptInvite'>
         수락
       </v-btn>
     </v-card-actions>
@@ -50,5 +47,8 @@ export default {
 </script>
 
 <style>
-
+  .top {
+    background-color: white;
+    color: rgb(52, 63, 87);
+  }
 </style>

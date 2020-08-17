@@ -285,13 +285,15 @@ export default {
 
   mounted() {
     this.sModal = false;
-    console.log('여길봐 ', this.meetingTitle);
-    console.log(this.$store.state.userId);
   },
 
   watch: {
     groupInfo() {
       this.getGroupMembers();
+    },
+    sModal(){
+      this.meetingTitle = this.$store.state.myName + '의 회의';
+
     },
   },
 };

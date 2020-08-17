@@ -21,6 +21,7 @@ export default new Vuex.Store({
     
     loginError: false,
     groupModalOn: false,
+
   },
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
@@ -31,9 +32,6 @@ export default new Vuex.Store({
         return !!state.accessToken;
       }
     },
-    haveRequests(state){
-      return !!state.requests;
-    }
   },
 
   mutations: { // 데이터를 변경하는 부분(commit을 통해 실행)

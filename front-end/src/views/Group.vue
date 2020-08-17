@@ -62,7 +62,7 @@
             <p>그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
-            <CreateGroup @close="closeModal" />
+            <CreateGroup :modalOn=modalOn @close="closeModal"/>
           </v-dialog>
 
         </v-list>

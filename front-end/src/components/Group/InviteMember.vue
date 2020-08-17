@@ -76,13 +76,13 @@ export default {
             this.inputValue = '';
             this.isSearched = true;
           });
-      }
-    },
-
+      }},
   },
-  mounted(){
-    this.isSearched = false,
-    this.searchData = {};
+  watch:{
+    dialog(){
+      this.isSearched = false;
+      this.SearchData = {};
+    }
   }
 };
 </script>

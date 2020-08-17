@@ -2,7 +2,7 @@
     <div class="text-center" style="height: 100%">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-          <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
+          <v-btn text v-bind="attrs" v-on="on" @click="check" class="mr-2" style="height: 100%; width:100%; outline:none;">
             <v-badge v-if="haveRequests" color="rgb(255, 128, 74)" dot>
               <v-icon size="30">mdi-bell</v-icon>
             </v-badge>
@@ -14,7 +14,7 @@
         <v-card-title class="top justify-center align-content-center">초대 메세지</v-card-title>
         <div v-if="haveRequests">
           <v-container v-for="request in this.requests" :key="request.requestNo">
-            <RequestCard :Request=request />
+            <RequestCard :dialog=dialog :Request=request />
           </v-container>        
         </div>
         <div v-else class="justify-center align-content-center d-flex mt-5">
@@ -57,6 +57,12 @@ export default {
       requests: null,
     };
   },
+  methods:{
+    check(){
+      console.log(this.haveRequests);
+    }
+  },
+
   mounted(){
     axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
       .then(res => {
@@ -82,7 +88,7 @@ export default {
         return 0;
       }
     }
-  }
+  },
 };
   
 

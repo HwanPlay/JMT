@@ -1,6 +1,6 @@
 <template>
-    <v-card flat style="max-width: 500px;">
-      <v-card-title class="top d-flex justify-center align-center">그룹 정보 수정</v-card-title>
+  <v-card flat style="max-width: 500px;">
+    <v-card-title class="top d-flex justify-center align-center">그룹 정보 수정</v-card-title>
       <v-container>
       <v-form ref="form" lazy-validation class="ml-2 mr-2">
         <v-row>
@@ -51,7 +51,8 @@ export default {
     };
   },
   props:{
-    groupInfo: Object
+    groupInfo: Object,
+    onModal: Boolean,
   },
 
   methods: {
@@ -61,7 +62,6 @@ export default {
         .then(res => {
           console.log('EditGroupInfo!', res);
           this.$store.commit('SET_GROUP_INFO', res);
-          this.reset();
           this.$emit('close');
         })
         .catch(err => console.log(err.response));
@@ -75,6 +75,12 @@ export default {
         .catch(err => console.log(err.response));  
     },
   },
+  watch:{
+    onModal(){
+      this.editGroupInfo.groupIntro = this.groupInfo.groupIntro;
+      this.groupName = this.groupInfo.groupName;
+    }
+  }
 };
 </script>
 
