@@ -21,5 +21,8 @@ public interface NoteCustomRepository<T> {
 	
 	void deleteByGroup(int groupNo);
 	
+	
+	Note findByAll(int groupNo, int meetingNo, String id);
+	
 
 }
