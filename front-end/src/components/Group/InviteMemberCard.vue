@@ -44,16 +44,16 @@ export default {
         groupName : this.groupName
       };
       axios.post(SERVER.URL + '/request/send', info)
-        .then(() => {
+        .then(res => {
           this.$emit('send');
           this.isInvited = true;
           this.$el.parentNode.removeChild(this.$el);
+          this.send(this.user, res.data.requestNo);
         })
         .catch(err => {
           this.$emit('fail');
           console.log(err.response);
         });
-      this.send(this.user);
     },
 
     connect() {
@@ -63,12 +63,13 @@ export default {
       });
     },
 
-    send(userInfo) {
+    send(userInfo, requestNo) {
       const msg = {
         sender : this.hostId,
         receiver : userInfo.id,
         groupNo : this.groupNo,
-        groupName : this.groupName
+        groupName : this.groupName,
+        requestNumber: requestNo
       };
       this.ws.send('/request', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }

@@ -66,11 +66,11 @@
           </v-btn>
         </div>
       </v-app-bar>
-      <v-dialog v-model='inviteModal' max-width='500px'>
-        <InviteMessage :message=recv />
+      <v-dialog v-model='inviteModal' width='500px'>
+        <InviteMessage :message=recv @done="inviteModal=false;"  />
       </v-dialog>
     </div >
-    
+
       <v-main v-if="isLoggedIn || tmpLogin">
         <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
       </v-main>
