@@ -123,7 +123,7 @@
 
           <v-btn @click="onLeave">
             <span>Leave</span>
-            <v-icon>mdi-logout</v-icon>
+            <v-icon>mdi-export</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </div>
