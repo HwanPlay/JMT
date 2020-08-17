@@ -12,7 +12,7 @@
             <h3 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h3>
           </div>
           <v-card-text v-for="memberInfo in membersInfo" :key='memberInfo.id' style="padding: 5px;">
-            <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="refresh" />
+            <MemberCard :userInfo=memberInfo :groupNo=groupNo :hostId=hostId @refresh="refresh" :modal="true" :dialog=dialog />
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

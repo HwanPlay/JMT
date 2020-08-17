@@ -68,7 +68,7 @@
             <p>그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
-            <CreateGroup @close="closeModal" />
+            <CreateGroup :modalOn=modalOn @close="closeModal"/>
           </v-dialog>
         </v-list>
       </v-navigation-drawer>
@@ -136,7 +136,7 @@ export default {
           meetingList.forEach(meeting => {
             Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
               .then((res)=> {
-                console.log('result', meeting, res);
+                // console.log('result', meeting, res);
 
                 calendar_meeting.push({
                   name: meeting.title,

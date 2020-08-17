@@ -38,16 +38,16 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		response.addHeader("AccessToken", "Bearer " + accessToken);
 		response.addHeader("RefreshToken", "Bearer " + refreshToken);
 
-		String accessTokenKey = userDetail.getId()+"_accessToken";
 		String refreshTokenKey = userDetail.getId()+"_refreshToken";
 		
 		// 만일, redis에 사용자 jwt token이 남아있다면, delete
-		initJwtToken(accessTokenKey,refreshTokenKey);
+		initJwtToken(accessToken,refreshTokenKey);
 		
-		redisTemplate.opsForValue().set(accessTokenKey, accessToken);
-		redisTemplate.expire(accessTokenKey, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+		redisTemplate.opsForValue().set(accessToken, userDetail.getId());
+		redisTemplate.expire(accessToken, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 		System.out.println(new Date());
 		System.out.println(jwtTokenUtil.getExpirationDateFromToken(accessToken));
+		
 		redisTemplate.opsForValue().set(refreshTokenKey, refreshToken);
 		redisTemplate.expire(refreshTokenKey, jwtTokenUtil.JWT_REFRESH_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 		

@@ -9,10 +9,9 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols= "6">
-            <!-- <div class="hostId">{{ $store.state.userId }}</div> -->
           </v-col>
         </v-row>
-        <v-textarea v-model="createGroupInfo.groupIntro" :counter="80" :rules="rules.intro" label="그룹 소개" required></v-textarea>
+        <v-textarea v-model="createGroupInfo.groupIntro" :counter="50" :rules="rules.intro" label="그룹 소개" required></v-textarea>
         <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="error" class="mr-4" @click="reset">
@@ -34,6 +33,9 @@ import SERVER from '../../api/spring.js';
 
 export default {
   name: 'CreateGroup',
+  props:{
+    modalOn: Boolean,
+  },
   data () {
     return {
       createGroupInfo:{
@@ -71,6 +73,11 @@ export default {
   },
   mounted(){
     this.reset();
+  },
+  watch:{
+    modalOn(){
+      this.reset();
+    }
   }
 };
 </script>

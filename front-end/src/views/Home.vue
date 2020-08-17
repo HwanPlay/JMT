@@ -10,7 +10,7 @@
               <v-icon size="70">fas fa-video</v-icon>
             </v-btn>
             <v-dialog width='500px' v-model='meetingModalOn'>
-              <StartableGroups @closeModal='closeMeetingModal' />
+              <StartableGroups @closeModal='closeMeetingModal' :meetingModalOn=meetingModalOn />
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 회의</h5>
@@ -30,7 +30,7 @@
               <v-icon size="70">fas fa-plus-square</v-icon>
             </v-btn>
             <v-dialog v-model="modalOn" max-width="500px">
-              <CreateGroup @close="closeModal" />
+              <CreateGroup @close="closeModal" :modalOn=modalOn />
             </v-dialog>
           </div>
           <h5 style="margin-top: 20px;">새 그룹</h5>
@@ -104,6 +104,9 @@ export default {
     closeMeetingModal (){
       this.meetingModalOn = false;
     },
+    reset(){
+      console.log('hoood');
+    }
   },
 
   data () {

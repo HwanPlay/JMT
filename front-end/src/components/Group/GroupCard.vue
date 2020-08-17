@@ -1,28 +1,22 @@
 <template>
-  <div>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title>{{ groupInfo.groupName }}</v-list-item-title>
-      </v-list-item-content>
-      <div>
-        <v-btn color='warning' style='outline: none;' @click='sModal=true'>회의 시작</v-btn>
-      </div>
-        <v-dialog v-model="sModal" width="500px">
-          <v-card width="500px">
-            <v-card-title class="top">회의 시작하기</v-card-title>
-            <v-container>
-              <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
-                <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn :disabled="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
-                </v-card-actions>
-              </v-form>
-            </v-container>
-          </v-card>
-        </v-dialog>
-    </v-list-item>
-  </div>
+  <v-window v-model="step">
+    <v-window-item :value="1">
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>{{ groupInfo.groupName }}</v-list-item-title>
+        </v-list-item-content>
+        <div>
+          <v-btn color='warning' style='outline: none;' @click='step++'>회의 시작</v-btn>
+        </div>
+      </v-list-item>
+    </v-window-item>
+    <v-window-item :value="2">
+      <v-list-item>
+        <v-text-field style="width: 50%" v-model="meetingTitle" label="회의 명" required></v-text-field>
+        <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click='startMeeting'>회의 시작</v-btn>
+      </v-list-item>
+    </v-window-item>
+  </v-window>
 </template>
 
 <script>
@@ -36,16 +30,18 @@ export default {
   name: 'GroupCard',
   props: {
     groupInfo: Object,
+    meetingModalOn: Boolean,
   },
   data(){
     return{
+      step: 1,
       ws: null,
       sock : null,
       recvList: [],
       tmp_meeting: false,
       meetingNo: null,
       meetingTitle: this.$store.state.myName + '의 회의',
-      sModal: false
+      sModal: false,
     };
   },
   methods:{
@@ -111,11 +107,21 @@ export default {
   },
 
   mounted(){
+    this.step = 1;
     this.connect();
+  },
+
+  watch:{
+    meetingModalOn(){
+      this.step = 1;
+    }
   }
 };
 </script>
 
 <style>
-
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
+  }
 </style>

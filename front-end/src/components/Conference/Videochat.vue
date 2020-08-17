@@ -6,7 +6,7 @@
         <div id="videos-container"></div>
       </div>
 
-      <!-- <v-sheet>
+      <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
@@ -42,7 +42,7 @@
             
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>   -->
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -218,6 +218,7 @@ export default {
       inputText: "",
       message: "Default Message",
       broadcast: null,
+      videoLength: null,
 
       // overlay: false,
       videoBarNav: true,
@@ -226,6 +227,10 @@ export default {
       micOnOff: true,
       castOnOff: false,
       activeBtn: 0,
+
+      myVideoTrackIsMuted: false,
+      trackId: null,
+      streamId : null,
 
       model: null,
       endMeeting: null,
@@ -266,11 +271,11 @@ export default {
       this.$router.push("/Group");
     },
     ondisconnect() {
-      this.connection.attachStreams.forEach(function(localStream) { localStream.stop() });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
+      this.$store.commit('SET_VIDEO_ON', false);
     },
     //비디오 끄고,켜기
     onCam() {
@@ -383,6 +388,7 @@ export default {
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (event.data || event) +
         "</p></div></li></ul>";
+      console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
       this.textArea.focus();
@@ -408,7 +414,7 @@ export default {
         console.log('챗 소켓 연결 성공', frame);
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
-
+          // console.log('res.body', res.body);
           this.endMeeting = JSON.parse(this.recv)
           console.log('챗 받은 데이터:', this.endMeeting);
           if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
@@ -466,6 +472,9 @@ export default {
     this.connection.videosContainer = document.querySelector("#videos-container");
     // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
+    console.log('check check', this.$store.state.videoOn);
+    this.$store.commit('SET_VIDEO_ON', true);
+    console.log('check check', this.$store.state.videoOn);
     //---------------WebSocket-----------------
     this.connect();
   },
