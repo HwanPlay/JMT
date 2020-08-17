@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.$store.state.userId===userInfo.id">
+    <div v-if="this.$store.state.userId===userInfo.id && modal">
       <v-window v-model='step'>
         <v-window-item :value="1">
           <v-list-item class="pl-0">
@@ -84,6 +84,8 @@ export default {
     userInfo: Object,
     groupNo: Number,
     hostId: String,
+    modal: Boolean,
+    dialog: Boolean,
   },
   data(){
     return {
@@ -117,6 +119,11 @@ export default {
           this.nickName = this.newNickname;
           this.step = 1;
         });
+    }
+  },
+  watch:{
+    dialog(){
+      this.step = 1;
     }
   }
 };
