@@ -62,9 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 					// 세션 사용 X
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-					.maximumSessions(1)
-			        .maxSessionsPreventsLogin(true);
-				http
+
+				.and()
 					.logout()
 					.logoutUrl("/api/logout")
 					.logoutSuccessUrl("/api/result")
