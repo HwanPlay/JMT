@@ -6,7 +6,7 @@
         <div id="videos-container"></div>
       </div>
 
-      <v-sheet>
+      <!-- <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
@@ -42,7 +42,7 @@
             
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>  
+      </v-sheet>   -->
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -218,7 +218,6 @@ export default {
       inputText: "",
       message: "Default Message",
       broadcast: null,
-      videoLength: null,
 
       // overlay: false,
       videoBarNav: true,
@@ -228,11 +227,8 @@ export default {
       castOnOff: false,
       activeBtn: 0,
 
-      myVideoTrackIsMuted: false,
-      trackId: null,
-      streamId : null,
-
       model: null,
+      endMeeting: null,
 
       //---------------WebSocket-----------------
       sock : null,
@@ -270,6 +266,7 @@ export default {
       this.$router.push("/Group");
     },
     ondisconnect() {
+      this.connection.attachStreams.forEach(function(localStream) { localStream.stop() });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
@@ -411,10 +408,10 @@ export default {
         console.log('챗 소켓 연결 성공', frame);
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
-          // console.log('res.body', res.body);
-          endMeeting = JSON.parse(this.recv)
-          console.log('챗 받은 데이터:', endMeeting);
-          if (endMeeting.host) {
+
+          this.endMeeting = JSON.parse(this.recv)
+          console.log('챗 받은 데이터:', this.endMeeting);
+          if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
             this.ondisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");

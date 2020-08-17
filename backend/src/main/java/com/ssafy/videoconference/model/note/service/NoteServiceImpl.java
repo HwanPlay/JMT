@@ -73,6 +73,11 @@ public class NoteServiceImpl implements NoteService {
 		noteRepository.deleteByGroup(groupNo);
 	}
 
+	@Override
+	public Note findByAll(int groupNo, int meetingNo, String id) {
+		return noteRepository.findByAll(groupNo, meetingNo, id);
+	}
+
 	
 	
 }

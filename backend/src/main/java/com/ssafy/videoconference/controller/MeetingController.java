@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import com.ssafy.videoconference.controller.result.ApiResult;
 import com.ssafy.videoconference.controller.result.MeetingResult;
 import com.ssafy.videoconference.model.meeting.bean.Meeting;
 import com.ssafy.videoconference.model.meeting.service.MeetingService;
+import com.ssafy.videoconference.model.note.bean.Note;
+import com.ssafy.videoconference.model.note.service.NoteService;
+import com.ssafy.videoconference.model.user.bean.CurrentUser;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -28,6 +33,9 @@ public class MeetingController {
 	
 	@Autowired
 	private MeetingService meetingService;
+	
+	@Autowired
+	private NoteService noteService;
 	
 	
 	@PostMapping("/add")
@@ -57,5 +65,6 @@ public class MeetingController {
 		int meeting = meetingService.findCurrentMeeting(groupNo);
 		return MeetingResult.build(meeting);
 	}
+	
 	
 }
