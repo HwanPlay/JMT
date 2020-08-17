@@ -84,12 +84,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    deleteNote(noteId) {
+    deleteNote({noteId, groupNo}) {
       const URLDeleteNote = '/note/delno/';
       console.log(this.noteList, this.noteObj);
       
       axios
-        .delete(SERVER.URL + URLDeleteNote + noteId)
+        .delete(SERVER.URL + URLDeleteNote + noteId + '/' + groupNo)
         .then(res => {
           console.log('del res', res);
           this.getNoteList(this.groupId);
