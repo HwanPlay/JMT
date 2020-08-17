@@ -76,10 +76,12 @@ public class NoteController {
 	}
 	
 	
-	@DeleteMapping("/delno/{noteNo}")
-	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("noteNo") int noteNo) {
+	@DeleteMapping("/delno/{noteNo}/{groupNo}")
+	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("noteNo") int noteNo,
+												@PathVariable("groupNo") int groupNo) {
 		noteService.deleteByNo(noteNo);
-		return Result.ok();
+		int count = noteService.countByGroup(groupNo);
+		return NoteResult.build(count);
 	}	
 	
 	
