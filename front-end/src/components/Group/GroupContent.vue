@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 20px; margin-left : 45px;">
+    <v-col cols="5" style="vertical-align:middle; padding-top: 20px; margin-left : 40px;">
       <v-row justify="center">
         <v-col id="onLineStatus">
           <v-row>
@@ -25,8 +25,8 @@
           <div>
             <v-row style="margin-bottom : -10px;">
               <v-col>
-                <h3 id="GroupContentgroupName" style="width:250px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
-                <v-btn style="float:right;"
+                <h3 id="GroupContentgroupName" style="width:230px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
+                <v-btn style="float:right; "
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
                   dark
@@ -78,7 +78,7 @@
             </div>
 
             <!-- <h6>호스트 : {{ groupInfo }}</h6> -->
-            <div style="height:60px; overflow-y:auto; margin-top : -12px;">
+            <div style="height:60px; overflow-y:auto; margin-top : -8px;">
               <p style="font-size : 15px;">{{ groupInfo.groupIntro }}</p>
             </div>
           </div>
@@ -157,7 +157,7 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="7">
+    <v-col cols="6" >
       <GroupCalendar />
     </v-col>
   </v-row>
