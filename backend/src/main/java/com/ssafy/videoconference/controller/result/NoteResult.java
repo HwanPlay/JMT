@@ -81,12 +81,13 @@ public class NoteResult {
 	
 	public static ResponseEntity<ApiResult> build_note(Note note) {		
 		ApiResult apiResult = ApiResult.blank();
-		if(note == null) {
-			apiResult.add("isNote", false);
-			return Result.ok(apiResult);
-		}
-		
-		apiResult.blank().add("isNote", true).add("noteNo", note.getNoteNo());
+		apiResult.add("isNote", true).add("noteNo", note.getNoteNo());
+		return Result.ok(apiResult);
+	}
+	
+	
+	public static ResponseEntity<ApiResult> build_error(boolean b) {
+		ApiResult apiResult = ApiResult.blank().add("isNote", b);
 		return Result.ok(apiResult);
 	}
 	

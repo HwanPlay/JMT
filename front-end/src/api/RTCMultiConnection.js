@@ -5374,7 +5374,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
       }
     };
 
-    connection.autoCloseEntireSession = false;
+    connection.autoCloseEntireSession = true;
 
     connection.filesContainer = connection.videosContainer = document.body || document.documentElement;
     connection.isInitiator = false;

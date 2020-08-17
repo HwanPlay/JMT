@@ -60,7 +60,7 @@ public class NoteCustomRepositoryImpl implements NoteCustomRepository {
 	@Override
 	public Note findByAll(int groupNo, int meetingNo, String id) {
 		String jpql =
-				"select * from note where group_no = :groupNo and meeting_no = :meetingNo, id = :id";
+				"select * from note where group_no = :groupNo and meeting_no = :meetingNo and id = :id";
 		NativeQuery<Note> query = (NativeQuery<Note>) em.createNativeQuery(jpql, Note.class);
 		query.setParameter("groupNo", groupNo);
 		query.setParameter("meetingNo", meetingNo);

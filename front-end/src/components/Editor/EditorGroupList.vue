@@ -1,11 +1,11 @@
 <template>
-  <v-col cols="3">
+  <div style="width:256px; background-color: rgb(52, 63, 87); margin-left:30px;">
     <EditorGroupListProfile />
     
     <v-divider></v-divider>
     <EditorGroupListDetail :groupList="groupList" @onGetNoteList="getNoteList" />
     
-  </v-col>
+  </div>
 </template>
 
 <script>

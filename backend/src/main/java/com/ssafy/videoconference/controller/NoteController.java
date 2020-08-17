@@ -106,7 +106,12 @@ public class NoteController {
 	public ResponseEntity<ApiResult> getNoteNoByMeeting(@PathVariable("groupNo") int groupNo,
 														@PathVariable("meetingNo") int meetingNo,
 														@CurrentUser UserDetail user) {
-		Note note = noteService.findByAll(groupNo, meetingNo, user.getId());
+		Note note;
+		try {
+			note = noteService.findByAll(groupNo, meetingNo, user.getId());
+		} catch(Exception e) {
+			return NoteResult.build_error(false);
+		}
 		return NoteResult.build_note(note);
 	}
 	

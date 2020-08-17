@@ -1,14 +1,22 @@
 <template>
-  <v-list-item>
-    <v-list-item-content>
-      <v-list-item-title>{{ Request.groupName }} 그룹</v-list-item-title>
-      <v-list-item-subtitle>{{ Request.hostId }}님의 초대</v-list-item-subtitle>
-    </v-list-item-content>
-    <div>
-      <v-btn color='error' style='outline: none;' @click='acceptInvite'>수락</v-btn>
-      <v-btn color='danger' style='outline: none' @click='removeRequest'>거절</v-btn>
-    </div>
-  </v-list-item>
+  <v-window v-model="step">
+    <v-window-item :value="1">
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>{{ Request.groupName }} 그룹</v-list-item-title>
+          <v-list-item-subtitle>{{ Request.hostId }}님의 초대</v-list-item-subtitle>
+        </v-list-item-content>
+          <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click="step++">수락</v-btn>
+          <v-btn text color='danger' style='outline: none' @click='removeRequest'>거절</v-btn>
+        </v-list-item>
+      </v-window-item>
+      <v-window-item :value="2">
+        <v-list-item>
+          <v-text-field v-model="nickname" label="닉네임" required></v-text-field>
+          <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click='acceptInvite'>가입</v-btn>
+        </v-list-item>
+      </v-window-item>
+    </v-window>
 </template>
 
 <script>
@@ -18,18 +26,23 @@ import SERVER from '../../api/spring.js';
 export default {
   name: 'RequestCard',
   props: {
-    Request: Object
+    Request: Object,
+    dialog: Boolean,
+  },
+  data(){
+    return {
+      nickname: this.$store.state.myName,
+      step: 1
+    };
   },
   methods:{
     acceptInvite(){
       const Info = {
         groupNo: this.Request.groupNo,
         id: this.$store.state.userId,
-        nickname: this.$store.state.myName
+        nickname: this.nickname
       };
-      console.log(Info);
       axios.post(SERVER.URL + '/groupmember/add', Info);
-      console.log('good');
       this.removeRequest();
     },
     removeRequest(){
@@ -37,6 +50,11 @@ export default {
         .then(() => {
           this.$el.parentNode.removeChild(this.$el);
         });
+    }
+  },
+  watch:{
+    dialog(){
+      this.step = 1;
     }
   }
 };

@@ -1,6 +1,12 @@
 <template>
   <!-- <v-row justify="center"> -->
     <v-dialog v-model="dialog" width="600px">
+      <v-snackbar v-model="successSnackbar" :timeout="500" centered absolute center color="success">
+        <span>초대장 발송 완료!</span>
+      </v-snackbar>
+      <v-snackbar v-model="failSnackbar" :timeout="500" centered absolute center color="error">
+        <span>초대장 발송 실패!</span>
+      </v-snackbar>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text style="outline:none" v-bind="attrs" v-on="on" color="white">
           <v-icon color="orange">fas fa-user-plus</v-icon>
@@ -21,7 +27,7 @@
             이름을 검색해주세요
           </div>
           <div v-else-if="(isSearched) && searchData && (searchData.length)" v-for="user in searchData" :key="user.id">
-            <InviteMemberCard :user=user :groupNo=groupNo :groupName=groupName :hostId=hostId />
+            <InviteMemberCard :user=user :groupNo=groupNo :groupName=groupName :hostId=hostId @send="successSnackbar=true" @fail="failSnackbar=true" />
           </div>
           <div v-else>
             검색 결과가 없습니다!
@@ -61,7 +67,9 @@ export default {
       searchData: {},
       isSearched: false,
       checked: false,
-      inputVal : ''
+      inputVal : '',
+      successSnackbar: false,
+      failSnackbar : false,
     };
   },
   methods: {
@@ -76,13 +84,13 @@ export default {
             this.inputValue = '';
             this.isSearched = true;
           });
-      }
-    },
-
+      }},
   },
-  mounted(){
-    this.isSearched = false,
-    this.searchData = {};
+  watch:{
+    dialog(){
+      this.isSearched = false;
+      this.SearchData = {};
+    }
   }
 };
 </script>

@@ -1,10 +1,12 @@
 <template>
-  <v-container fluid ma-0 pa-0 >
-    <v-row>
-      <EditorGroupList :groupList="groupList" @onGetNoteList="getNoteList" />
-      <EditorNoteList :receivedNoteList="receivedNoteList" @onOpenNoteDetail="openNoteDetail" />
-    </v-row>
-  </v-container>
+  <v-row style="height: 100%; width:100%;">
+    <div style="height: 100%; width:100%;">
+      <v-row  style=" height: 100%; width:100%;">
+        <EditorGroupList :groupList="groupList" @onGetNoteList="getNoteList" />
+        <EditorNoteList style="float : left;" :receivedNoteList="receivedNoteList" @onOpenNoteDetail="openNoteDetail" />
+      </v-row>
+   </div>
+  </v-row>
 </template>
 
 <script>
