@@ -63,7 +63,7 @@
             <v-toolbar :color='selectedEvent.color' dark>
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
-                <router-link :to="{ name: 'Note', params: { NoteId_Cal: selectedEvent.id }}">
+                <router-link :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -144,7 +144,7 @@ export default {
   methods: {
     updateCalendar() {
       const events = [];
-      console.log('update');
+      console.log('update', this.meetingNoteInfo);
       this.meetingNoteInfo.forEach(note => {
         events.push({
           name: note.meeting_title,
@@ -153,6 +153,7 @@ export default {
           color: this.colors[this.rnd(0, this.colors.length - 1)],
           timed: false,
           id: note.noteNo,
+          groupNo: note.groupNo,
         });
       });
       this.events = events;
@@ -213,7 +214,7 @@ export default {
             res.forEach(ele=>{
               console.log('ele:',ele);
               ele.data.notes.forEach(note => {
-                console.log('note:');
+                console.log('note:---------------------------------------');
                 console.log(note);
                 calendarData.push({
                   name: note.title,
