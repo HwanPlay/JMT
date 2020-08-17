@@ -11,7 +11,7 @@
 import SERVER from '../api/spring';
 import axios from 'axios';
 
-import EditorDetailSideBar from '../components/Editor/EditorDetailSideBar';
+import EditorDetailSideBar from '../components/Editor/EditorDetailSideBar.vue';
 import EditorTiptap from '../components/Editor/EditorTiptap';
 
 export default {
@@ -29,10 +29,12 @@ export default {
   methods: {
     getNoteHTML(noteNo) {
       if(noteNo) {
+        // 사이드바에서 올라옴. 사이드바 바꿀 필요 없음.
         console.log('1번');
       } else if (this.$route.query.noteNo) {
-        console.log('2번');
+        // 다른 view에서 온 요쳥.
         noteNo = this.$route.query.noteNo;
+        console.log('2번');
       } else if (noteNo === undefined) {
         return;
       }
@@ -97,7 +99,8 @@ export default {
   mounted() {
     this.getNoteHTML();
     this.getNoteList();
-  }
+  },
+
 };
 </script>
 

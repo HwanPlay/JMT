@@ -1,9 +1,11 @@
 <template>
   <v-col cols="3">
     <EditorGroupListProfile />
-    <button>그룹목록보기</button>
+    <button @click="goToGroupList">그룹목록보기</button>
     <v-divider></v-divider>
+
     <EditorDetailSideBarNoteList :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
+    
   </v-col>
 </template>
 
@@ -23,6 +25,9 @@ export default {
   methods: {
     getNoteHTML(noteNo) {
       this.$emit('onGetNoteHTML', noteNo);
+    },
+    goToGroupList() {
+      console.log('그룹 목록');
     }
   }
 };

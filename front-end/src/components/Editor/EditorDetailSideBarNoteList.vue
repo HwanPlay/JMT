@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="note in noteList" :key="note.noteNo" v-text="note.note_title"
-      @click="getNoteHTML(note.noteNo)"
+      @click="getNoteHTML( note.noteNo )"
     ></li>
   </ul>
 </template>
@@ -15,7 +15,11 @@ export default {
   methods: {
     getNoteHTML(noteNo) {
       console.log(noteNo);
+      if (this.$route.query.noteNo === noteNo) {
+        return;
+      }
       this.$emit('onGetNoteHTML', noteNo);
+      this.$router.push({name: 'EditorDetail', query: {noteNo: noteNo}});
     }
   }
 };
