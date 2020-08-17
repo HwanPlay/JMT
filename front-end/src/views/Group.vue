@@ -116,8 +116,9 @@ export default {
 
     toggle({i, groupNo}) {
       
-      Axios.get(SERVER.URL +'/note/get/group/'+groupNo)
+      Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
         .then((res)=> {
+          console.log(res);
           console.log('axios',res.data.notes);
           this.meetingNoteInfo = res.data.notes;
         })

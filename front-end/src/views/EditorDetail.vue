@@ -84,20 +84,18 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    deleteNote(noteId) {
+    deleteNote({noteNo, groupNo}) {
       const URLDeleteNote = '/note/delno/';
       console.log(this.noteList, this.noteObj);
       
       axios
-        .delete(SERVER.URL + URLDeleteNote + noteId)
+        .delete(SERVER.URL + URLDeleteNote + noteNo + '/' + groupNo)
         .then(res => {
-          console.log('del res', res);
-          this.getNoteList(this.groupId);
-          console.log(this.noteList);
-          if (this.noteList && this.noteList.length !== 0){
-            this.getNoteHTML(this.noteList[0].noteNo);
-          } else {
+          console.log('del res', res.data.count);
+          if (res.data.count === 0){
             this.$router.push({name: 'Editor'});            
+          } else {
+            this.getNoteHTML(this.noteList[0].noteNo);
           }
         })
         .catch(err => {

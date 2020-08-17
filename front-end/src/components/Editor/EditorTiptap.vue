@@ -265,6 +265,7 @@ export default {
         Content: '',
         Title: '',
         Id: 0,
+        groupNo: 0,
       },
     };
   },
@@ -277,6 +278,7 @@ export default {
         this.dataNoteObj.Content = this.noteObj.content;
         this.dataNoteObj.Title = this.noteObj.note_title;
         this.dataNoteObj.Id = this.noteObj.noteNo;
+        this.dataNoteObj.groupNo = this.noteObj.groupNo;
         this.editor.setContent(this.dataNoteObj.Content);
         this.editor.focus();
       }
@@ -292,7 +294,7 @@ export default {
       this.editor.focus();
     },
     deleteNote() {
-      this.$emit('onDeleteNote', this.dataNoteObj.Id);
+      this.$emit('onDeleteNote', {noteNo:this.dataNoteObj.Id, groupNo: this.dataNoteObj.groupNo });
     },
   },
   beforeDestroy() {
