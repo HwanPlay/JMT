@@ -37,4 +37,6 @@ public interface NoteService {
 
 	void changeNote(ChangeNoteCommand command);
 	
+	
+	int countByGroup(int groupNo);
 }

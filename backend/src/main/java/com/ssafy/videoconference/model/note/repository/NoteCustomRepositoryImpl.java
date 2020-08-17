@@ -56,4 +56,17 @@ public class NoteCustomRepositoryImpl implements NoteCustomRepository {
 		query.executeUpdate();
 	}
 
+
+	@Override
+	public int countNoteByGroup(int groupNo) {
+		String jpql =
+				"select count(*) from note where group_no = :groupNo";
+		NativeQuery<Number> query = (NativeQuery<Number>) em.createNativeQuery(jpql, Note.class);
+		query.setParameter("groupNo", groupNo);
+		int count = ((Number) query.getSingleResult()).intValue();
+		return count;
+	}
+	
+	
+
 }
