@@ -45,8 +45,11 @@
             </v-btn>
           </router-link>
 
-          <router-link to="/editor">
-            editor
+          <router-link to="/editor" style="text-decoration: none;">
+            <v-btn text style="height: 99%; outline:none;">
+              <v-icon>mdi-book</v-icon>
+              <span class="routerLink mr-2 ml-2">Editor</span>
+            </v-btn>
           </router-link>
         </div>
 
