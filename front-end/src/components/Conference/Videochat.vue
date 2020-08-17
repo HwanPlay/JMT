@@ -3,16 +3,16 @@
     <div id="MainContent">
 
       <div id="Minivideo_list">
-        <div id="videos-container"></div>
+        <div></div>
       </div>
 
-      <!-- <v-sheet>
+      <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
           show-arrows
         >
-          <v-slide-item
+          <v-slide-item id="videos-container"
             v-for="n in 10"
             :key="n"
             v-slot:default="{ active, toggle }"
@@ -42,7 +42,7 @@
             
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>   -->
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -142,7 +142,7 @@
             <h6 class="ml-1 mb-0">{{ this.groupInfo.groupName }}
             </h6>
           </div>
-          <div class="col-md-4 text-right pr-0">
+          <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center" @click="onChat"></i>
           </div>
         </div>
@@ -262,6 +262,7 @@ export default {
 
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.connection.closeSocket();
+        this.send(true);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         this.connection.dontAttachStream = true;
@@ -425,6 +426,17 @@ export default {
         }
       });
     },
+
+
+    send(param) {
+      const msg = {
+        host: param,
+        meetingNo: this.meetingInfo.meetingNo,
+      };
+      this.ws.send('/conference', JSON.stringify(msg), {
+        token: this.$store.state.accessToken,
+      });
+    }
   },
 
 
@@ -450,12 +462,8 @@ export default {
   mounted() {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector(
-      "#videos-container"
-    );
-    // this.broadcast.videosContainer = document.querySelector(
-    //   ".Main-videos-container"
-    // );
+    this.connection.videosContainer = document.querySelector("#videos-container");
+    // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
     //---------------WebSocket-----------------
     this.connect();

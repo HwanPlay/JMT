@@ -28,6 +28,7 @@ public class GroupMemberResult {
 			gmsData.add(new GroupMemberData(gm.getGroupMemberNo(),
 											gm.getGroup().getGroupNo(),
 											gm.getUser().getId(),
+											gm.getUser().getProfile_img(),
 											gm.getNickname()));
 		}
 		ApiResult apiResult = ApiResult.blank()
@@ -43,6 +44,7 @@ public class GroupMemberResult {
 		private int groupMemberNo;
 		private int groupNo;
 		private String id;
+		private String profile;
 		private String nickname;
 	}
 }
