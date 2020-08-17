@@ -4,7 +4,7 @@
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
-          <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
+            <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
           </div>
                <v-list-item-content class="item-content">
                 <v-list-item-title class="myName">
