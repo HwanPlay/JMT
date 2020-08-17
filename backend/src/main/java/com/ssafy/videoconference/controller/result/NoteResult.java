@@ -20,7 +20,6 @@ public class NoteResult {
 				.add("groupName", groupName)
 				.add("id", note.getUser().getId())
 				.add("note_title", note.getTitle())
-				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("start_time", note.getMeeting().getCreatedDate())
@@ -36,7 +35,6 @@ public class NoteResult {
 				.add("groupNo", note.getGroup().getGroupNo())
 				.add("id", note.getUser().getId())
 				.add("note_title", note.getTitle())
-				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("date", note.getCreatedDate());
@@ -50,7 +48,6 @@ public class NoteResult {
 				.add("groupNo", note.getGroup().getGroupNo())
 				.add("id", note.getUser().getId())
 				.add("note_title", note.getTitle())
-				.add("meeting_title", note.getMeeting().getTitle())
 				.add("content", note.getContent())
 				.add("meeting", note.getMeeting().getMeetingNo())
 				.add("start_time", note.getMeeting().getCreatedDate())
