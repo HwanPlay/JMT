@@ -134,7 +134,7 @@ export default {
   //     .catch(err=>console.error(err));   
   // },
   watch: {
-    groupInfo: {
+    meetingNoteInfo: {
       deep: true, 
       handler() {
         this.updateCalendar();
@@ -144,8 +144,8 @@ export default {
   methods: {
     updateCalendar() {
       const events = [];
-
-      this.groupInfo.forEach(note => {
+      console.log('update');
+      this.meetingNoteInfo.forEach(note => {
         events.push({
           name: note.meeting_title,
           start: note.meeting_start_time,
@@ -237,7 +237,5 @@ export default {
 </script>
 
 <style scoped>
-.close-btn:hover {
-  
-}
+
 </style>

@@ -31,7 +31,7 @@ export default {
   methods: {
     getGroupList() {
       const GROUP_URL = '/group/get/all/';
-
+      
       axios
         .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
         .then(res => {
@@ -42,6 +42,16 @@ export default {
     },
     getNoteList(groupId) {
       const URL = '/note/get/group/';
+      
+      if(groupId) {
+        console.log('groupNo가 있을때');
+      } else if (this.$route.query.groupNo){
+        groupId = this.$route.query.groupNo;
+      } else {
+        this.initGetNoteList();
+        return;
+      }
+
       axios
         .get(SERVER.URL + URL + groupId)
         .then(res => {
@@ -56,9 +66,22 @@ export default {
       // currentGroup를 groupNo로 고쳐야 함.
       this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: this.currentGroup }});
     },
+    initGetNoteList() {
+      const GROUP_URL = '/group/get/all/';
+      
+      axios
+        .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
+        .then(res => {
+          this.groupList = res.data.groups;
+          console.log(this.groupList);
+          this.getNoteList(this.groupList[0].groupNo);
+        })
+        .catch(err => console.error(err));
+    }
   },
   mounted() {
     this.getGroupList();
+    this.getNoteList();
   }
 };
 </script>

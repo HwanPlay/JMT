@@ -293,9 +293,6 @@ export default {
     },
     deleteNote() {
       this.$emit('onDeleteNote', this.dataNoteObj.Id);
-      this.dataNoteObj.Title = 'Select Note';
-      this.editor.setContent(this.example_data);
-      this.dataNoteObj.Id = 0;
     },
   },
   beforeDestroy() {
