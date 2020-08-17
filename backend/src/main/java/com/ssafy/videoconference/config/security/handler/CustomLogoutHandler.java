@@ -22,22 +22,10 @@ public class CustomLogoutHandler implements LogoutHandler {
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		System.out.println("logout - redis delete");
-		//request.getParameter("");
-//		System.out.println(SecurityContextHolder.getContext());
-//		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		System.out.println(userDetail.toString());
+
 		String accessToken = request.getHeader("accessToken").substring(7);
 		System.out.println(accessToken);
 		
-//		User user = null;
-//		try {
-//			user = (User)new ObjectMapper().readValue(request.getInputStream(), User.class);
-//			System.out.println("logout id : " + user.getId());
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-		
-//		String accessTokenKey = user.getId() + "_accessToken";
 		String refreshTokenKey = redisTemplate.opsForValue().get(accessToken) + "_refreshToken";
 		
 		redisTemplate.delete(accessToken);
