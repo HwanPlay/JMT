@@ -261,6 +261,7 @@ export default {
         })
         .catch(err => console.error(err));
       this.getNoteList(this.groupId);
+      
     },
     compute_date(date) {
       return date.slice(2, 10);

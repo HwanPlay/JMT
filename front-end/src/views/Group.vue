@@ -4,7 +4,7 @@
       <v-navigation-drawer height="100%" permanent>
         <div id='myProfile'>
           <div>
-          <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
+            <img id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture">
           </div>
                <v-list-item-content class="item-content">
                 <v-list-item-title class="myName">
@@ -250,8 +250,12 @@ export default {
 
 #groupNameText{
     color: white;
+    width: 100px; 
     font-size: 20px;
     left: -20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 #v-list-item-box{
   height: 400px;
