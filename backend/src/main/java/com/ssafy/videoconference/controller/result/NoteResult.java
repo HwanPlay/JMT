@@ -86,7 +86,7 @@ public class NoteResult {
 			return Result.ok(apiResult);
 		}
 		
-		apiResult.blank().add("isNote", true).add("noteNo", note.getNoteNo());
+		apiResult.add("isNote", true).add("noteNo", note.getNoteNo());
 		return Result.ok(apiResult);
 	}
 	
