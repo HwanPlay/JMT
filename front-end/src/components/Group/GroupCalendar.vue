@@ -63,11 +63,7 @@
             <v-toolbar :color='selectedEvent.color' dark>
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
-<<<<<<< HEAD
-                <router-link :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
-=======
                 <router-link v-if="selectedEvent.isNote" :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
->>>>>>> hwan-editor
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -221,6 +217,7 @@ export default {
               ele.data.notes.forEach(note => {
                 console.log('note:---------------------------------------');
                 console.log(note);
+                console.log(note.meeting_start_time);
                 calendarData.push({
                   name: note.title,
                   start: note.meeting_start_time,

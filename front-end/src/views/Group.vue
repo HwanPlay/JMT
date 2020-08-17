@@ -139,14 +139,10 @@ export default {
                   isNote: res.data.isNote,
 
                 });
-                // console.log(calendar_meeting);
               }).catch();
           });
-          // console.log('axios',res.data.notes);
-          // this.meetingNoteInfo = res.data.notes;
         })
         .catch(err=>console.error(err));
-      // console.log(calendar_meeting);
       
       this.meetingNoteInfo = calendar_meeting;
       
@@ -215,6 +211,7 @@ export default {
             meetingList.forEach(meeting => {
               Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
                 .then((res)=> {
+                  console.log(meeting.createdDate);
                   calendar_meeting.push({
                     name: meeting.title,
                     start: meeting.createdDate,
