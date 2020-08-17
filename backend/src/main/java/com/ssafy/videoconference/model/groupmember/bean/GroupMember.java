@@ -42,7 +42,7 @@ public class GroupMember extends BaseTimeEntity {
 	private Group group;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id", nullable = false)
 	private User user;
 	

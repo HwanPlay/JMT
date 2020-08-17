@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 20px; margin-left : 45px;">
+    <v-col cols="5" style="vertical-align:middle; padding-top: 20px; margin-left : 40px;">
       <v-row justify="center">
         <v-col id="onLineStatus">
           <v-row>
@@ -23,10 +23,10 @@
       <v-row justify="center">
         <v-col id="conferenceBox">
           <div>
-            <v-row>
+            <v-row style="margin-bottom : -10px;">
               <v-col>
-                <h3 id="GroupContentgroupName" style="width:150px; float:left; color:Black;">{{ groupInfo.groupName }}</h3>
-                <v-btn style="float:right;"
+                <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
+                <v-btn style="float:right; "
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
                   dark
@@ -49,7 +49,7 @@
                   </v-card>
                 </v-dialog>
                 <v-btn
-                  @click="joinMeeting"
+                  @click="joinMeeting" style="float:right;"
                   v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting"
                   dark
                   color="blue darken-2"
@@ -58,10 +58,28 @@
                 </v-btn>
               </v-col>
             </v-row>
+            <div style="margin-top:-30px; " >
+              <v-row >
+                  <v-col cols="11">
+                      <v-row>
+                      <v-badge dot color="rgb(0, 0, 0, 0)">
+                        <v-list-item-avatar color="grey" size="80">
+                          <v-img :src="require('../../assets/profile/profile1.jpg')"></v-img>
+                        </v-list-item-avatar>
+                      </v-badge>
 
-            <h6>호스트 : {{ groupInfo.hostName }}</h6>
-            <div style="height:60px; overflow-y:auto;">
-              <p style="font-size : 15px;">소개 : {{ groupInfo.groupIntro }}</p>
+                      <v-list-item-content style="width:400px;">
+                        <v-list-item-title style="padding-top : 2px; font-size :20px;">{{ groupInfo.hostName }}</v-list-item-title>
+                        <v-list-item-subtitle style="margin-left : 3px;">{{ groupInfo.hostId }}</v-list-item-subtitle>
+                      </v-list-item-content>
+                      </v-row>
+                  </v-col>
+              </v-row>
+            </div>
+
+            <!-- <h6>호스트 : {{ groupInfo }}</h6> -->
+            <div style="height:60px; overflow-y:auto; margin-top : -8px;">
+              <p style="font-size : 15px;">{{ groupInfo.groupIntro }}</p>
             </div>
           </div>
         </v-col>
@@ -87,7 +105,7 @@
 
           <div>
             <v-divider class="m-1"></v-divider>
-            <v-col id="MemberListBox"  style="height : 200px;">
+            <v-col id="MemberListBox"  style="height : 200px; margin-left: -10px;">
               <div v-if="members && members.length === 0">
                 <v-icon color="rgb(52, 63, 87);" class="d-flex justify-center align-center mt-4" size="100">far fa-dizzy</v-icon>
                 <h4 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h4>
@@ -139,8 +157,8 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="7">
-      <GroupCalendar />
+    <v-col cols="6">
+      <GroupCalendar :meetingNoteInfo="meetingNoteInfo" />
     </v-col>
   </v-row>
 </template>
@@ -169,6 +187,7 @@ export default {
   },
   props: {
     groupInfo: Object,
+    meetingNoteInfo: Array,
   },
   data() {
     return {
@@ -284,6 +303,7 @@ export default {
   },
 
   mounted() {
+    console.log('groupInfo:', this.groupInfo);
     this.sModal = false;
   },
 
@@ -302,17 +322,18 @@ export default {
 
 <style scoped>
 #conferenceBox {
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 5px;
+  margin-bottom: 20px;
   border-radius: 15px;
-  height: 180px;
+  height: 220px;
   padding: 20px;
+  padding-top: 5px;
   /* padding: 15px; */
   box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
 }
 
 .GroupListBox {
-  height: 320px;
+  height: 290px;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);

@@ -6,7 +6,7 @@
         <div id="videos-container"></div>
       </div>
 
-      <!-- <v-sheet>
+      <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
@@ -42,7 +42,7 @@
             
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>   -->
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -142,7 +142,7 @@
             <h6 class="ml-1 mb-0">{{ this.groupInfo.groupName }}
             </h6>
           </div>
-          <div class="col-md-4 text-right pr-0">
+          <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center" @click="onChat"></i>
           </div>
         </div>
@@ -232,7 +232,8 @@ export default {
       trackId: null,
       streamId : null,
 
-      // model: null,
+      model: null,
+      endMeeting: null,
 
       //---------------WebSocket-----------------
       sock : null,
@@ -256,24 +257,24 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      var that = this;
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      var numberOfUsers = this.connection.getAllParticipants().length;
+      this.ondisconnect()
 
+      var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
-        this.connection.closeSocket();
+        this.send(true);
+        axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
-        this.connection.dontAttachStream = true;
-        this.connection.attachStreams.forEach(function(localStream) {
-          localStream.stop();
-        });
-        alert(numberOfUsers + '명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.');
+        alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
-      document.getElementById("videos-container").style.display = "none";
-      axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
-
       this.$router.push("/Group");
+    },
+    ondisconnect() {
+      var that = this;
+      this.connection.getAllParticipants().forEach(function(pid) {
+        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+      });
     },
     //비디오 끄고,켜기
     onCam() {
@@ -411,8 +412,14 @@ export default {
         console.log('챗 소켓 연결 성공', frame);
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
-          console.log('챗 받은 데이터:', JSON.parse(this.recv));
-          
+          // console.log('res.body', res.body);
+          this.endMeeting = JSON.parse(this.recv)
+          console.log('챗 받은 데이터:', this.endMeeting);
+          if (this.endMeeting.host) {
+            this.ondisconnect()
+            alert('호스트가 회의를 종료하였습니다.')
+            this.$router.push("/Group");
+          }
         });
       }, () => {
         if(this.reconnect++ <= 5) {
@@ -425,6 +432,17 @@ export default {
         }
       });
     },
+
+
+    send(param) {
+      const msg = {
+        host: param,
+        meetingNo: this.meetingInfo.meetingNo,
+      };
+      this.ws.send('/conference', JSON.stringify(msg), {
+        token: this.$store.state.accessToken,
+      });
+    }
   },
 
 
@@ -433,7 +451,6 @@ export default {
     this.connection.onclose = function(event) {
         console.log('data connection closed between you and ' + event.userid);
     };
-
   },
 
   created() {
@@ -450,21 +467,12 @@ export default {
   mounted() {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector(
-      "#videos-container"
-    );
-    // this.broadcast.videosContainer = document.querySelector(
-    //   ".Main-videos-container"
-    // );
+    this.connection.videosContainer = document.querySelector("#videos-container");
+    // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
     //---------------WebSocket-----------------
     this.connect();
   },
-  destroyed() {
-    if (!!this.connection.getAllParticipants().length) {
-      this.onLeave();
-    }
-  }
 };
 
 </script>

@@ -162,6 +162,22 @@ export default {
   components: {
     NoteEditor
   },
+  props: {
+    propsNoteObj: Object,
+  },
+  watch: {
+    propsNoteObj: {
+      deep: true,
+      handler() {
+        this.noteObj = this.propsNoteObj;
+        this.getNoteList(this.noteObj.groupNo);
+        this.groupListflag = false;
+        this.NoteListflag = true;
+        this.NoteContent = false;
+        this.EditContent = true;
+      }
+    }
+  },
   methods: {
     get_group_list() {
       const FUNC_URL = '/group/get/all/';
@@ -245,6 +261,7 @@ export default {
         })
         .catch(err => console.error(err));
       this.getNoteList(this.groupId);
+      
     },
     compute_date(date) {
       return date.slice(2, 10);

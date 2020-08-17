@@ -24,7 +24,7 @@
             <v-list-item 
               v-for="(group, i) in this.$store.state.myGroups"
               :key="group.groupNo"
-              @click="toggle(i)"
+              @click="toggle({'i':i, 'groupNo': group.groupNo})"
             >
               <v-list-item-icon style="margin-left:10px">
                 <v-icon dark>mdi-account-multiple</v-icon>
@@ -70,7 +70,7 @@
     </div>
 
     <v-col v-if='$store.state.myGroups && $store.state.myGroups.length !== 0 ' style="margin-left : 20px;" >
-      <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" />
+      <GroupContent :groupInfo="$store.state.myGroups[this.onboarding]" :meetingNoteInfo="meetingNoteInfo" />
     </v-col>
     <v-col v-else>
       <EmptyGroup />
@@ -88,6 +88,7 @@ import SERVER from '../api/spring.js';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
+import Axios from 'axios';
 
 export default {
   name: 'Groups',
@@ -106,11 +107,23 @@ export default {
       reconnect : 0,
       recv : '',
 
+      hwanGroupNo: 0,
+      meetingNoteInfo: [],
+      InitGroupList: [],
     };
   },
   methods: {
 
-    toggle(i) {
+    toggle({i, groupNo}) {
+      
+      Axios.get(SERVER.URL +'/note/get/group/'+groupNo)
+        .then((res)=> {
+          console.log('axios',res.data.notes);
+          this.meetingNoteInfo = res.data.notes;
+        })
+        .catch(err=>console.error(err));
+      
+      console.log(groupNo);
       console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
@@ -154,9 +167,32 @@ export default {
     console.log('res',this.$store.state.myGroups.length);
     if(this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
       this.connect(this.onboarding);
+      console.log('onboladrsadasd',this.onboarding);
+      // console.log('이거 info'+this.$store.state.myGroups[this.onboarding]);
+      console.log(this.$store.state.myGroups[0].groupNo);
     }
-  },
 
+    const GROUP_URL = '/group/get/all/';
+      
+    Axios
+      .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
+      .then(res => {
+        console.log(res);
+        // this.InitGroupList = res.data.groups;
+        Axios.get(SERVER.URL +'/note/get/group/'+res.data.groups[0].groupNo)
+          .then((res)=> {
+            console.log('axios',res.data.notes);
+            this.meetingNoteInfo = res.data.notes;
+          })
+          .catch(err=>console.error(err));
+      })
+      .catch(err => console.error(err));
+
+
+
+
+    
+  },
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
@@ -228,8 +264,12 @@ export default {
 
 #groupNameText{
     color: white;
+    width: 100px; 
     font-size: 20px;
     left: -20px;
+      overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #v-list-item-box{
   height: 400px;

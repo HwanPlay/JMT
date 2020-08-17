@@ -79,6 +79,13 @@ public class NoteResult {
 	}
 	
 	
+	public static ResponseEntity<ApiResult> build(int count) {
+		ApiResult apiResult = ApiResult.blank()
+				.add("count", count);
+		return Result.ok(apiResult);
+	}
+	
+	
 	@Data
 	@AllArgsConstructor
 	private static class NoteData {

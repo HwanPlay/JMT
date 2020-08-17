@@ -18,6 +18,8 @@ public interface NoteCustomRepository<T> {
 	
 	Note findByNo(int noteNo);
 	
+	
 	void deleteByGroup(int groupNo);
+	
 
 }

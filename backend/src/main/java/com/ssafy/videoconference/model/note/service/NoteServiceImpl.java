@@ -72,4 +72,7 @@ public class NoteServiceImpl implements NoteService {
 	public void deleteByGroup(int groupNo) {
 		noteRepository.deleteByGroup(groupNo);
 	}
+
+	
+	
 }
