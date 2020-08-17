@@ -79,6 +79,19 @@ public class NoteResult {
 	}
 	
 	
+	public static ResponseEntity<ApiResult> build_note(Note note) {		
+		ApiResult apiResult = ApiResult.blank();
+		apiResult.add("isNote", true).add("noteNo", note.getNoteNo());
+		return Result.ok(apiResult);
+	}
+	
+	
+	public static ResponseEntity<ApiResult> build_error(boolean b) {
+		ApiResult apiResult = ApiResult.blank().add("isNote", b);
+		return Result.ok(apiResult);
+	}
+	
+	
 	public static ResponseEntity<ApiResult> build(int count) {
 		ApiResult apiResult = ApiResult.blank()
 				.add("count", count);
