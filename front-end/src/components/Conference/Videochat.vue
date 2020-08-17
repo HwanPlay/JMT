@@ -262,6 +262,7 @@ export default {
 
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.connection.closeSocket();
+        this.send(true);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         this.connection.dontAttachStream = true;
@@ -425,6 +426,17 @@ export default {
         }
       });
     },
+
+
+    send(param) {
+      const msg = {
+        host: param,
+        meetingNo: this.meetingInfo.meetingNo,
+      };
+      this.ws.send('/conference', JSON.stringify(msg), {
+        token: this.$store.state.accessToken,
+      });
+    }
   },
 
 
