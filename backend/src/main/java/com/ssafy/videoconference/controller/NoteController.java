@@ -101,4 +101,13 @@ public class NoteController {
 		return NoteResult.build_add(note);
 	}
 	
+	
+	@GetMapping("/getno/{groupNo}/{meetingNo}")
+	public ResponseEntity<ApiResult> getNoteNoByMeeting(@PathVariable("groupNo") int groupNo,
+														@PathVariable("meetingNo") int meetingNo,
+														@CurrentUser UserDetail user) {
+		Note note = noteService.findByAll(groupNo, meetingNo, user.getId());
+		return NoteResult.build_note(note);
+	}
+	
 }
