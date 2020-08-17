@@ -411,8 +411,10 @@ export default {
         console.log('챗 소켓 연결 성공', frame);
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
-          console.log('챗 받은 데이터:', JSON.parse(this.recv));
-          if (this.recv.host) {
+          // console.log('res.body', res.body);
+          endMeeting = JSON.parse(this.recv)
+          console.log('챗 받은 데이터:', endMeeting);
+          if (endMeeting.host) {
             this.ondisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
