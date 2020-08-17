@@ -64,6 +64,7 @@ public class NoteResult {
 		ArrayList<NoteData> notesData = new ArrayList<>();
 		for(Note note : notes) {
 			notesData.add(new NoteData(note.getNoteNo(),
+										note.getGroup().getGroupNo(),
 										note.getTitle(),
 										note.getMeeting().getTitle(),
 										note.getMeeting().getMeetingNo(),
@@ -82,6 +83,7 @@ public class NoteResult {
 	@AllArgsConstructor
 	private static class NoteData {
 		private int noteNo;
+		private int groupNo;
 		private String note_title;
 		private String meeting_title;
 		private int meetingNo;

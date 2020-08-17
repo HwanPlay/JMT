@@ -129,8 +129,9 @@
                   </div>
                 </div>
                 <div class="cardInfo">
-                  <h3>{{ note.title }}</h3>
-                  <p>{{compute_date(note.createdDate)}}</p>
+                  <!-- <h3>{{ note.title }}</h3>
+                  <p>{{compute_date(note.createdDate)}}</p> -->
+                  <p style="font-size : 40px;">자세히 보기</p>
                 </div>
               </div>
             </div>
@@ -387,18 +388,23 @@ sans-serif,
   -webkit-transition: 0.4s ease-out;
   transition: 0.4s ease-out;
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
+  
 }
 
 .card:hover {
   -webkit-transform: translateY(20px);
   transform: translateY(20px);
+  
+ 
 }
 .card:hover .cardContent {
   opacity: 0;
+  
 }
 
 .card:hover:before {
   opacity: 1;
+  background-color: #355070;
 }
 
 .card:hover .cardInfo {
@@ -406,8 +412,9 @@ sans-serif,
   -webkit-transform: translateY(0px);
   transform: translateY(0px);
   position: absolute;
-  left: -5px;
   float: left;
+  top: 50px;
+  left: 2px;
 }
 
 .card:before {
@@ -438,7 +445,6 @@ sans-serif,
 }
 
 .card .cardInfo {
-  left: -5px;
   position: absolute;
   z-index: 3;
   color: white;
@@ -447,6 +453,8 @@ sans-serif,
   transform: translateY(30px);
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  top: 50px;
+  left: 2px;
 }
 
 .card .cardInfo h1 {
@@ -457,7 +465,8 @@ sans-serif,
   letter-spacing: 1px;
   font-size: 15px;
   margin-top: 8px;
-  left: -5px;
+  top: 50px;
+  left: 2px;
 }
 
 .cardContent {

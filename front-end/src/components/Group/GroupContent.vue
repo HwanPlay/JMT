@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <!-- 좌측 그룹 정보 부분 -->
-    <v-col cols="4" style="vertical-align:middle; padding-top: 20px; margin-left : 50px;">
+    <v-col cols="4" style="vertical-align:middle; padding-top: 20px; margin-left : 45px;">
       <v-row justify="center">
         <v-col id="onLineStatus">
           <v-row>
