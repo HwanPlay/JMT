@@ -6,7 +6,7 @@
         <div id="videos-container"></div>
       </div>
 
-      <v-sheet>
+      <!-- <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
@@ -42,7 +42,7 @@
             
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>  
+      </v-sheet>   -->
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
