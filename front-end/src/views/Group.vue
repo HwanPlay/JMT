@@ -108,7 +108,8 @@ export default {
       recv : '',
 
       hwanGroupNo: 0,
-      meetingNoteInfo: []
+      meetingNoteInfo: [],
+      InitGroupList: [],
     };
   },
   methods: {
@@ -171,13 +172,26 @@ export default {
       console.log(this.$store.state.myGroups[0].groupNo);
     }
 
-    
-    Axios.get(SERVER.URL +'/note/get/group/'+this.$store.state.myGroups[0].groupNo)
-      .then((res)=> {
-        console.log('axios',res.data.notes);
-        this.meetingNoteInfo = res.data.notes;
+    const GROUP_URL = '/group/get/all/';
+      
+    Axios
+      .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
+      .then(res => {
+        console.log(res);
+        // this.InitGroupList = res.data.groups;
+        Axios.get(SERVER.URL +'/note/get/group/'+res.data.groups[0].groupNo)
+          .then((res)=> {
+            console.log('axios',res.data.notes);
+            this.meetingNoteInfo = res.data.notes;
+          })
+          .catch(err=>console.error(err));
       })
-      .catch(err=>console.error(err));
+      .catch(err => console.error(err));
+
+
+
+
+    
   },
   created() {
     this.sock = new SockJS(SERVER.URL2);
