@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.videoconference.config.util.JwtTokenUtil;
+import com.ssafy.videoconference.controller.result.ApiResult;
+import com.ssafy.videoconference.controller.result.Result;
 import com.ssafy.videoconference.model.user.bean.UserDetail;
 import com.ssafy.videoconference.model.user.service.UserDetailsServiceImpl;
 
@@ -46,7 +48,7 @@ public class RefreshController {
 	
 	@ApiOperation(value = "만료된 Access Token 요청. Refresh Token 확인 및 발급")
 	@GetMapping("/refresh")
-	public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<ApiResult> refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 0. 만료된 access 토큰에서 userId 가져오기
 		// 1. redis db에 refresh 토큰 있는지 확인(만료 확인)
@@ -75,7 +77,7 @@ public class RefreshController {
 				
 				// expire된 Token에서도 사용자 정보를 가져올 수 있음!
 				userId = e.getClaims().getSubject();
-			
+				System.out.println("refresh Id : "  +  userId);
 				// Redis DB에 있는 Refresh Token 만료 확인 및 사용자 Refresh Token과 비교
 				if (refreshToken.equals(redis.get(userId + "_refreshToken"))) {
 					System.out.println("refresh 완료");
@@ -87,18 +89,19 @@ public class RefreshController {
 					// header에 Access Token 등록
 					response.addHeader("AccessToken", "Bearer " + newAccessToken);
 
-					String accessTokenKey = userDetail.getId()+"_accessToken";
-					
 					// Redis DB에 재 발급한 Access Token 저장 
-					redisTemplate.opsForValue().set(accessTokenKey, newAccessToken);
-					redisTemplate.expire(accessTokenKey, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
+					redisTemplate.opsForValue().set(newAccessToken, userId);
+					redisTemplate.expire(newAccessToken, jwtTokenUtil.JWT_ACCESS_TOKEN_VALIDITY, TimeUnit.MILLISECONDS);
 
 					response.setStatus(HttpStatus.OK.value());
-					return ResponseEntity.ok(SUCCESS);
+					System.out.println("success : " + userId + " : " + newAccessToken);
+					return Result.ok(SUCCESS);
 				}else {
 					// Refresh Token 만료시, 재 로그인 요청
-					response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "expiredRefresh");
-					throw new JwtException("Unauthorized - Expired Refresh Token.");
+//					response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "expiredRefresh");
+//					throw new JwtException("Unauthorized - Expired Refresh Token.");
+					return Result.forbidden();
+
 				}
 			} catch (Exception e) {
 				// 그 외 exception은 재 로그인 요청
@@ -109,7 +112,7 @@ public class RefreshController {
 		} else {
 			logger.warn("JWT Token does not begin with Bearer String");
 		}
-		return ResponseEntity.ok(FAIL);
+		return Result.failure(FAIL);
 	}
 
 }

@@ -8,7 +8,7 @@ import '@mdi/font/css/materialdesignicons.css';
 
 import '../src/assets/sass/main.scss';
 
-import { BootstrapVue, IconsPlugin ,BootstrapVueIcons } from 'bootstrap-vue';
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -29,7 +29,7 @@ new Vue({
   store,
   vuetify,
   render: h => h(App),
-  
+
 }).$mount('#app');
 
 import SERVER from '@/api/spring';
@@ -59,40 +59,36 @@ axios.interceptors.response.use(
   },
   function (error) {
     // 오류 응답을 처리
-    
+
     const originalRequest = error.config;
-  
-    if (error.response.status === 401 && originalRequest.retry === undefined){ // A토큰 만료시
+
+    if (error.response.status === 401 && originalRequest.retry === undefined) { // A토큰 만료시
       originalRequest.retry = true;
       // isRefreshing = true;
       const config = {
-        headers:{
+        headers: {
           refreshToken: localStorage.getItem('refreshToken'),
           accessToken: localStorage.getItem('accessToken')
         }
       };
       return axios.get(SERVER.URL + SERVER.ROUTES.reToken, config)
         .then(res => {
-          if (res.status === 200){  // A토큰 재발급 성공
-            if (res.headers.accessToken !== undefined){
-              store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
-              // isRefreshing = false;
-              // localStorage.setItem('accessToken', res.headers.accesstoken);
-              console.log('new Token!!!', localStorage.getItem('accessToken'));
-            }
-            if (localStorage.getItem('accessToken') === undefined || !localStorage.getItem('accessToken')){
-              return ;
-            }
+          console.log( res);
+          if (res.status === 200) {  // A토큰 재발급 성공
+            store.commit('REFRESH_ACCESS_TOKEN', res.headers.accesstoken);
+            console.log('new Token!!!', localStorage.getItem('accessToken'));
             return axios(originalRequest);
           }
         })
-        .catch(err => console.log(err));
-    }else if(error.response.status === 500 && error.response.data.message == 'expiredRefresh'){
-      localStorage.clear();
-      store.commit('SET_TOKEN', null);
-      // isRefreshing = false;
-      return ;
-    }else{
+        .catch(err => {
+          console.log(err);
+
+          localStorage.clear();
+          store.commit('SET_TOKEN', null);
+          // isRefreshing = false;
+          return;
+        });
+    } else {
       return Promise.reject(error);
     }
   });
