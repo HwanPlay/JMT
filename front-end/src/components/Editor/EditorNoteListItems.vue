@@ -1,8 +1,28 @@
 <template>
-  <v-col cols="4" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
+  <!-- <v-col cols="12" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
     <div>{{note.note_title}}</div>
     <div>{{note.createdDate}}</div>
-  </v-col>
+  </v-col> -->
+        <div style="height: 300px; margin-right: 70px;">
+
+              <div class="card btn" style="margin-left:10px;" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
+                <!-- <img src="https://images.unsplash.com/photo-1477666250292-1419fac4c25c?auto=format&amp;fit=crop&amp;w=667&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" /> -->
+                <div class="cardContent">
+                  <div id="cardTitle">
+                    <h3 style=" color:black;">{{ note.note_title }}</h3>
+                  </div>
+                  <div id="cardDate">
+                    <p style=" color:black;">{{note.createdDate}}</p>
+                  </div>
+                </div>
+                <div class="cardInfo">
+                  <!-- <h3>{{ note.title }}</h3>
+                  <p>{{compute_date(note.createdDate)}}</p> -->
+                  <p style="font-size : 40px;">자세히 보기</p>
+                </div>
+              </div>
+            </div>
+
 </template>
 
 <script>
@@ -20,5 +40,89 @@ export default {
 </script>
 
 <style>
-
+#menu_box {
+  margin-left: 10px;
+  position: absolute;
+  width: 25%;
+  height: 40%;
+  overflow-y: auto;
+}
+.card {
+  
+  text-align: center;
+  float: left;
+  margin-right: 20px;
+  width: 150px;
+  height: 240px;
+  border-radius: 15px;
+  padding: 1.5rem;
+  background: white;
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: end;
+  align-items: flex-end;
+  -webkit-transition: 0.4s ease-out;
+  transition: 0.4s ease-out;
+  box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
+  
+}
+.card:hover {
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+  
+ 
+}
+.card:hover .cardContent {
+  opacity: 0;
+  
+}
+.card:hover:before {
+  opacity: 1;
+  background-color: #355070;
+}
+.card:hover .cardInfo {
+  opacity: 1;
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  position: absolute;
+  float: left;
+  top: 50px;
+  left: 2px;
+}
+.card:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  opacity: 0;
+}
+.cardContent {
+  margin-top: 40px;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  z-index: 3;
+}
+.card .cardInfo {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  opacity: 0;
+  -webkit-transform: translateY(30px);
+  transform: translateY(30px);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  top: 50px;
+  left: 2px;
+}
 </style>
