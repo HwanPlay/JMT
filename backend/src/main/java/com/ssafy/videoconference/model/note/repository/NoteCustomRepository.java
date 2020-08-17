@@ -21,7 +21,5 @@ public interface NoteCustomRepository<T> {
 	
 	void deleteByGroup(int groupNo);
 	
-	
-	int countNoteByGroup(int groupNo);
 
 }

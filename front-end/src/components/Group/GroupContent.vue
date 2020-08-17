@@ -25,7 +25,7 @@
           <div>
             <v-row style="margin-bottom : -10px;">
               <v-col>
-                <h3 id="GroupContentgroupName" style="width:230px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
+                <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
                 <v-btn style="float:right; "
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
@@ -105,7 +105,7 @@
 
           <div>
             <v-divider class="m-1"></v-divider>
-            <v-col id="MemberListBox"  style="height : 200px;">
+            <v-col id="MemberListBox"  style="height : 200px; margin-left: -10px;">
               <div v-if="members && members.length === 0">
                 <v-icon color="rgb(52, 63, 87);" class="d-flex justify-center align-center mt-4" size="100">far fa-dizzy</v-icon>
                 <h4 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h4>

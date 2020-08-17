@@ -1,5 +1,6 @@
 package com.ssafy.videoconference.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,9 +79,11 @@ public class NoteController {
 	
 	@DeleteMapping("/delno/{noteNo}/{groupNo}")
 	public ResponseEntity<ApiResult> deleteByNo(@PathVariable("noteNo") int noteNo,
-												@PathVariable("groupNo") int groupNo) {
+												@PathVariable("groupNo") int groupNo,
+												@CurrentUser UserDetail user) {
 		noteService.deleteByNo(noteNo);
-		int count = noteService.countByGroup(groupNo);
+		ArrayList<Note> note_list = (ArrayList<Note>) noteService.findByGroup(groupNo, user.getId());
+		int count = note_list.size();
 		return NoteResult.build(count);
 	}	
 	
