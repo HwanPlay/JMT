@@ -2,7 +2,7 @@
   <v-container fluid ma-0 pa-0 >
     <v-row>
       <EditorDetailSideBar :noteList="noteList" @onGetNoteHTML="getNoteHTML" />      
-      <EditorTiptap :noteObj="noteObj" @onSaveNote="saveNote" />
+      <EditorTiptap :noteObj="noteObj" @onSaveNote="saveNote" @onDeleteNote="deleteNote" />
     </v-row>
   </v-container>
 </template>
@@ -66,6 +66,7 @@ export default {
         .then(res => {
           console.log('getNoteList',res);
           this.noteList = res.data.notes;
+          console.log(this.noteList);
         })
         .catch(err => console.error(err));
     },
@@ -85,16 +86,23 @@ export default {
     },
     deleteNote(noteId) {
       const URLDeleteNote = '/note/delno/';
+      console.log(this.noteList, this.noteObj);
+      
       axios
         .delete(SERVER.URL + URLDeleteNote + noteId)
         .then(res => {
-          this.alertFlag = !this.alertFlag;
-          this.alertMessage = 'Delete!';
-          console.log(res);
-          console.log('delete note' + noteId);
+          console.log('del res', res);
+          this.getNoteList(this.groupId);
+          console.log(this.noteList);
+          if (this.noteList && this.noteList.length !== 0){
+            this.getNoteHTML(this.noteList[0].noteNo);
+          } else {
+            this.$router.push({name: 'Editor'});            
+          }
         })
-        .catch(err => console.error(err));
-      this.getNoteList(this.groupId);
+        .catch(err => {
+          console.error(err);
+        });
     },
   },
   mounted() {
