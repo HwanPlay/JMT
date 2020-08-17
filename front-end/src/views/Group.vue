@@ -228,8 +228,12 @@ export default {
 
 #groupNameText{
     color: white;
+    width: 100px; 
     font-size: 20px;
     left: -20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 #v-list-item-box{
   height: 400px;
