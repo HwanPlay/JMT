@@ -3,7 +3,7 @@
     <div id="MainContent">
 
       <div id="Minivideo_list">
-        <div></div>
+        <div id="videos-container"></div>
       </div>
 
       <v-sheet>
@@ -12,7 +12,7 @@
           center-active
           show-arrows
         >
-          <v-slide-item id="videos-container"
+          <v-slide-item
             v-for="n in 10"
             :key="n"
             v-slot:default="{ active, toggle }"
@@ -232,7 +232,7 @@ export default {
       trackId: null,
       streamId : null,
 
-      // model: null,
+      model: null,
 
       //---------------WebSocket-----------------
       sock : null,
@@ -256,25 +256,24 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      var that = this;
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      var numberOfUsers = this.connection.getAllParticipants().length;
+      this.ondisconnect()
 
+      var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
-        this.connection.closeSocket();
         this.send(true);
+        axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
-        this.connection.dontAttachStream = true;
-        this.connection.attachStreams.forEach(function(localStream) {
-          localStream.stop();
-        });
-        alert(numberOfUsers + '명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.');
+        alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
-      document.getElementById("videos-container").style.display = "none";
-      axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
-
       this.$router.push("/Group");
+    },
+    ondisconnect() {
+      var that = this;
+      this.connection.getAllParticipants().forEach(function(pid) {
+        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+      });
     },
     //비디오 끄고,켜기
     onCam() {
@@ -413,7 +412,11 @@ export default {
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
           console.log('챗 받은 데이터:', JSON.parse(this.recv));
-          
+          if (this.recv.host) {
+            this.ondisconnect()
+            alert('호스트가 회의를 종료하였습니다.')
+            this.$router.push("/Group");
+          }
         });
       }, () => {
         if(this.reconnect++ <= 5) {
@@ -445,7 +448,6 @@ export default {
     this.connection.onclose = function(event) {
         console.log('data connection closed between you and ' + event.userid);
     };
-
   },
 
   created() {
@@ -468,11 +470,6 @@ export default {
     //---------------WebSocket-----------------
     this.connect();
   },
-  destroyed() {
-    if (!!this.connection.getAllParticipants().length) {
-      this.onLeave();
-    }
-  }
 };
 
 </script>
