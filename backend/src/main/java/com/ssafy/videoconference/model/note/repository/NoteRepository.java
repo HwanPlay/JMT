@@ -6,4 +6,5 @@ import com.ssafy.videoconference.model.note.bean.Note;
 
 public interface NoteRepository extends JpaRepository<Note, Integer>, NoteCustomRepository<Note> {
 
+
 }

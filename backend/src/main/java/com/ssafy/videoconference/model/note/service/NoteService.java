@@ -36,6 +36,9 @@ public interface NoteService {
 
 
 	void changeNote(ChangeNoteCommand command);
+
+
+	Note findByAll(int groupNo, int meetingNo, String id);
 	
 	
 }
