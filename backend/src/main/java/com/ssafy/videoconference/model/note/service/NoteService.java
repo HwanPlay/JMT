@@ -37,4 +37,5 @@ public interface NoteService {
 
 	void changeNote(ChangeNoteCommand command);
 	
+	
 }

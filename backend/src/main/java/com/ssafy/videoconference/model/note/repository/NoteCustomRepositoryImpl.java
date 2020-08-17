@@ -55,5 +55,6 @@ public class NoteCustomRepositoryImpl implements NoteCustomRepository {
 		query.setParameter("groupNo", groupNo);
 		query.executeUpdate();
 	}
-
+	
+	
 }
