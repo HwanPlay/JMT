@@ -74,8 +74,8 @@ export default new Vuex.Store({
       localStorage.setItem('myPicture', val.data.profile_img);
       state.myPicture = val.data.profile_img;
     },
-    SET_VIDEO_ON(state){
-      state.videoOn = !state.videoOn;
+    SET_VIDEO_ON(state, val){
+      state.videoOn = val;
     }
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함

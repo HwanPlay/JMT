@@ -275,7 +275,7 @@ export default {
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
-      this.$store.commit('SET_VIDEO_ON');
+      this.$store.commit('SET_VIDEO_ON', true);
     },
     //비디오 끄고,켜기
     onCam() {
@@ -473,7 +473,7 @@ export default {
     // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
     console.log('check check', this.$store.state.videoOn);
-    this.$store.commit('SET_VIDEO_ON');
+    this.$store.commit('SET_VIDEO_ON', false);
     console.log('check check', this.$store.state.videoOn);
     //---------------WebSocket-----------------
     this.connect();

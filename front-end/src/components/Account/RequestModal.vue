@@ -70,7 +70,6 @@ export default {
         this.requests = res.data.requests;
       })
       .catch(err => console.log(err.response));
-    console.log(this.requests.length);
   },
   computed: {
     haveRequests(){
