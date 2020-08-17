@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/Note',
     name: 'Note',
-    component: () => import('../views/Note.vue')
+    component: () => import('../views/Editor.vue')
   },
   {
     path: '/Conference/:roomId',
