@@ -2,7 +2,7 @@
 <v-row id="NoteContainer" style="width: 100%; height: 100%;">
   
       
-      <NoteSearch/>
+      <NoteSearch :propsNoteObj="noteObj"/>
         <!-- :group_list="group_list" 
         @onGetNoteList="getNoteList" 
         :received_note_list="received_note_list" 
@@ -34,9 +34,9 @@
 import NoteSearch from '../components/Note/NoteSearch.vue';
 // import NoteAlert from '../components/Note/NoteAlert.vue';
 
-// import SERVER from '../api/spring.js';
+import SERVER from '../api/spring.js';
 
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   name: 'Note',
@@ -53,17 +53,18 @@ export default {
       // group_list: [],
       // received_note_list: [],
       // USER_ID: this.$store.state.userId,
-      // noteObj: {
-      //   Content: '',
-      //   Id: 0,
-      //   Title: '',
-      // },
+      noteObj: {
+        Content: '',
+        Id: 0,
+        Title: '',
+        groupNo: 0,
+      },
       
     };
   },
-  // created() {
-  //   this.getNoteHTML();
-  // },
+  created() {
+    this.getNoteHTML();
+  },
   methods: {
     // api 추가
     // get_group_list() {
@@ -86,28 +87,30 @@ export default {
     //     })
     //     .catch((err) => console.error(err));
     // },
-    // getNoteHTML(NoteId) {
-    //   if (this.$route.params.NoteId_Cal) {
-    //     NoteId = this.$route.params.NoteId_Cal;
-    //   }else if(NoteId === undefined) {
-    //     return ;
-    //   }
+    getNoteHTML() {
+      const NoteId = this.$route.params.NoteId_Cal;
 
-    //   const URL_getNoteByNo = '/note/getno/';
+      if (!NoteId) {
+        return ;
+      }
 
-    //   axios
-    //     .get(SERVER.URL+URL_getNoteByNo+NoteId)
-    //     .then((res)=> {
-    //       console.log(res.data);
-    //       this.noteObj.Content = res.data.content;
-    //       this.noteObj.Id = res.data.noteNo;
-    //       this.noteObj.Title = res.data.title;
-    //     })
-    //     .catch((err)=> {
-    //       console.error(err);
-    //       this.noteContent = 'axios Error is occured';
-    //     });
-    // },
+      const URL_getNoteByNo = '/note/getno/';
+
+      axios
+        .get(SERVER.URL+URL_getNoteByNo+NoteId)
+        .then((res)=> {
+          console.log('이부분');
+          console.log(res.data);
+          this.noteObj.Content = res.data.content;
+          this.noteObj.Id = res.data.noteNo;
+          this.noteObj.Title = res.data.note_title;
+          this.noteObj.groupNo = res.data.groupNo;
+        })
+        .catch((err)=> {
+          console.error(err);
+          this.noteContent = 'axios Error is occured';
+        });
+    },
     // saveNote(noteObj) {
     //   const URL_saveNote = '/note/';
             

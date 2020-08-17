@@ -41,6 +41,7 @@ public class GroupResult {
 			groupsData.add(new GroupData(group.getGroupNo(),
 										group.getUser().getId(),
 										group.getUser().getName(),
+										group.getUser().getProfile_img(),
 										group.getGroupName(),
 										group.getGroupIntro(),
 										group.isHasmeeting(),
@@ -51,6 +52,7 @@ public class GroupResult {
 			groupsData.add(new GroupData(group.getGroupNo(),
 										group.getUser().getId(),
 										group.getUser().getName(),
+										group.getUser().getProfile_img(),
 										group.getGroupName(),
 										group.getGroupIntro(),
 										group.isHasmeeting(),
@@ -70,6 +72,7 @@ public class GroupResult {
 			groupsData.add(new GroupData(group.getGroupNo(),
 										group.getUser().getId(),
 										group.getUser().getName(),
+										group.getUser().getProfile_img(),
 										group.getGroupName(),
 										group.getGroupIntro(),
 										group.isHasmeeting(),
@@ -93,6 +96,7 @@ public class GroupResult {
 		private int groupNo;
 		private String hostId;
 		private String hostName;
+		private String profile;
 		private String groupName;
 		private String groupIntro;
 		private boolean hasMeeting;

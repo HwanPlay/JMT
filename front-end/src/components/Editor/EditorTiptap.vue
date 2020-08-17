@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="12">
+  <b-col cols="9">
     
     <div class="editor">
       <!-- Upper Menu -->
@@ -274,9 +274,9 @@ export default {
       handler() {
         console.log('이거');
         console.log(this.noteObj);
-        this.dataNoteObj.Content = this.noteObj.Content;
-        this.dataNoteObj.Title = this.noteObj.Title;
-        this.dataNoteObj.Id = this.noteObj.Id;
+        this.dataNoteObj.Content = this.noteObj.content;
+        this.dataNoteObj.Title = this.noteObj.note_title;
+        this.dataNoteObj.Id = this.noteObj.noteNo;
         this.editor.setContent(this.dataNoteObj.Content);
         this.editor.focus();
       }
@@ -293,9 +293,6 @@ export default {
     },
     deleteNote() {
       this.$emit('onDeleteNote', this.dataNoteObj.Id);
-      this.dataNoteObj.Title = 'Select Note';
-      this.editor.setContent(this.example_data);
-      this.dataNoteObj.Id = 0;
     },
   },
   beforeDestroy() {

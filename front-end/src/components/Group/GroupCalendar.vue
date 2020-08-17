@@ -52,7 +52,6 @@
           @click:event='showEvent'
           @click:more='viewDay'
           @click:date='viewDay'
-          @change='updateRange'
         ></v-calendar>
         <v-menu
           v-model='selectedOpen'
@@ -64,7 +63,7 @@
             <v-toolbar :color='selectedEvent.color' dark>
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
-                <router-link :to="{ name: 'Note', params: { NoteId_Cal: selectedEvent.id }}">
+                <router-link :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -93,6 +92,12 @@
 import SERVER from '../../api/spring.js';
 import axios from 'axios';
 export default {
+  name: 'GroupCalendar',
+  props: {
+    meetingNoteInfo: Array,
+    groupNo: Number,
+    groupInfo: Object,
+  },
   data: () => ({
     focus: '',
     type: 'week',
@@ -117,9 +122,42 @@ export default {
     ],
   }),
   mounted() {
-    this.$refs.calendar.checkChange();
+    this.$refs.calendar.checkChange(); 
+    this.updateCalendar();    
+  },
+  // created() {
+  //   axios.get(SERVER.URL +'/note/get/group/'+this.groupNo)
+  //     .then((res)=> {
+  //       console.log('axios',res.data.notes);
+  //       this.meetingNoteInfo = res.data.notes;
+  //     })
+  //     .catch(err=>console.error(err));   
+  // },
+  watch: {
+    meetingNoteInfo: {
+      deep: true, 
+      handler() {
+        this.updateCalendar();
+      }
+    }
   },
   methods: {
+    updateCalendar() {
+      const events = [];
+      console.log('update', this.meetingNoteInfo);
+      this.meetingNoteInfo.forEach(note => {
+        events.push({
+          name: note.meeting_title,
+          start: note.meeting_start_time,
+          end: note.meeting_end_time,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          timed: false,
+          id: note.noteNo,
+          groupNo: note.groupNo,
+        });
+      });
+      this.events = events;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -176,7 +214,7 @@ export default {
             res.forEach(ele=>{
               console.log('ele:',ele);
               ele.data.notes.forEach(note => {
-                console.log('note:');
+                console.log('note:---------------------------------------');
                 console.log(note);
                 calendarData.push({
                   name: note.title,
@@ -200,7 +238,5 @@ export default {
 </script>
 
 <style scoped>
-.close-btn:hover {
-  
-}
+
 </style>

@@ -157,8 +157,8 @@
 
     <v-spacer></v-spacer>
     <!-- 우측 캘린더 부분 -->
-    <v-col cols="6" >
-      <GroupCalendar />
+    <v-col cols="6">
+      <GroupCalendar :meetingNoteInfo="meetingNoteInfo" />
     </v-col>
   </v-row>
 </template>
@@ -187,6 +187,7 @@ export default {
   },
   props: {
     groupInfo: Object,
+    meetingNoteInfo: Array,
   },
   data() {
     return {
@@ -302,6 +303,7 @@ export default {
   },
 
   mounted() {
+    console.log('groupInfo:', this.groupInfo);
     this.sModal = false;
     console.log('여길봐 ', this.meetingTitle);
     console.log(this.$store.state.userId);
