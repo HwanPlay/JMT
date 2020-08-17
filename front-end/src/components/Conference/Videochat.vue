@@ -417,7 +417,7 @@ export default {
           // console.log('res.body', res.body);
           this.endMeeting = JSON.parse(this.recv)
           console.log('챗 받은 데이터:', this.endMeeting);
-          if (this.endMeeting.host) {
+          if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
             this.ondisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
