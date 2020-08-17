@@ -167,19 +167,19 @@
       </editor-menu-bubble>
 
       <!-- {{dataHTML}} -->
-      <b-form inline>
-          <b-form-input
+      <div inline>
+          <input
             v-model="noteObj.title"
             type="text"
             required
             placeholder="Note Title"
-          ></b-form-input>
+          >
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
           <b-button v-if="!isSave" class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
           <b-button v-if="isSave" class="menubar__button save_button" @click="EditNote" variant="outline-success">Edit</b-button>
 
 
-      </b-form>
+      </div>
       <hr>
       <div @click="focusNote" class="border border-secondary rounded">
         <editor-content class="editor__content scroll" :editor="editor" />
