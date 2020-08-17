@@ -73,12 +73,6 @@ public class NoteServiceImpl implements NoteService {
 		noteRepository.deleteByGroup(groupNo);
 	}
 
-		
-	@Override
-	public int countByGroup(int groupNo) {
-		int count = noteRepository.countNoteByGroup(groupNo);
-		return count;
-	}
 	
 	
 }
