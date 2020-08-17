@@ -123,14 +123,39 @@ export default {
     };
   },
   methods: {
-    toggle({ i, groupNo }) {
-      Axios.get(SERVER.URL + '/note/get/group/' + groupNo)
-        .then(res => {
-          console.log('axios', res.data.notes);
-          this.meetingNoteInfo = res.data.notes;
-        })
-        .catch(err => console.error(err));
 
+    toggle({i, groupNo}) {
+      
+      let meetingList = [];
+      const calendar_meeting = [];
+      
+      Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
+        .then((res)=> {
+          console.log(res.data.meetings);
+          meetingList = res.data.meetings;
+          meetingList.forEach(meeting => {
+            Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
+              .then((res)=> {
+                console.log('result', meeting, res);
+
+                calendar_meeting.push({
+                  name: meeting.title,
+                  start: meeting.createdDate,
+                  end: meeting.modifiedDate,
+                  groupNo: meeting.groupNo,
+                  color: 'blue',
+                  timed: false,
+                  id: res.data.noteNo,
+                  isNote: res.data.isNote,
+
+                });
+              }).catch();
+          });
+        })
+        .catch(err=>console.error(err));
+      
+      this.meetingNoteInfo = calendar_meeting;
+      
       console.log(groupNo);
       console.log('change!', i);
       this.onboarding = i;
@@ -184,19 +209,39 @@ export default {
     }
 
     const GROUP_URL = '/group/get/all/';
-
-    Axios.get(SERVER.URL + GROUP_URL + this.$store.state.userId)
+      
+    let meetingList = [];
+    const calendar_meeting = [];
+    
+    Axios
+      .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
       .then(res => {
         console.log(res);
-        // this.InitGroupList = res.data.groups;
-        Axios.get(SERVER.URL + '/note/get/group/' + res.data.groups[0].groupNo)
-          .then(res => {
-            console.log('axios', res.data.notes);
-            this.meetingNoteInfo = res.data.notes;
+        const groupNo = res.data.groups[0].groupNo;
+        Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
+          .then((res)=> {
+            meetingList = res.data.meetings;
+            meetingList.forEach(meeting => {
+              Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
+                .then((res)=> {
+                  console.log(meeting.createdDate);
+                  calendar_meeting.push({
+                    name: meeting.title,
+                    start: meeting.createdDate,
+                    end: meeting.modifiedDate,
+                    groupNo: meeting.groupNo,
+                    color: 'blue',
+                    timed: false,
+                    id: res.data.noteNo,
+                    isNote: res.data.isNote,
+                  });
+                }).catch();
+            });
+            this.meetingNoteInfo = calendar_meeting;
+            console.log(this.meetingNoteInfo);
           })
-          .catch(err => console.error(err));
-      })
-      .catch(err => console.error(err));
+          .catch(err=>console.error(err));
+      });     
   },
   created() {
     this.sock = new SockJS(SERVER.URL2);
