@@ -26,19 +26,21 @@ public class CustomLogoutHandler implements LogoutHandler {
 //		System.out.println(SecurityContextHolder.getContext());
 //		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		System.out.println(userDetail.toString());
+		String accessToken = request.getHeader("accessToken").substring(7);
+		System.out.println(accessToken);
 		
-		User user = null;
-		try {
-			user = (User)new ObjectMapper().readValue(request.getInputStream(), User.class);
-			System.out.println("logout id : " + user.getId());
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		User user = null;
+//		try {
+//			user = (User)new ObjectMapper().readValue(request.getInputStream(), User.class);
+//			System.out.println("logout id : " + user.getId());
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 		
-		String accessTokenKey = user.getId() + "_accessToken";
-		String refreshTokenKey = user.getId() + "_refreshToken";
+//		String accessTokenKey = user.getId() + "_accessToken";
+		String refreshTokenKey = redisTemplate.opsForValue().get(accessToken) + "_refreshToken";
 		
-		redisTemplate.delete(accessTokenKey);
+		redisTemplate.delete(accessToken);
 		redisTemplate.delete(refreshTokenKey);
 
 		System.out.println("Logout Success");
