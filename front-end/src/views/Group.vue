@@ -136,7 +136,7 @@ export default {
           meetingList.forEach(meeting => {
             Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
               .then((res)=> {
-                console.log('result', meeting, res);
+                // console.log('result', meeting, res);
 
                 calendar_meeting.push({
                   name: meeting.title,

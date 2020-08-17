@@ -6,7 +6,7 @@
     </div>
 
     <!-- NavBar -->
-    <div v-else>
+    <div v-else-if="!$store.state.videoOn">
       <v-app-bar app color="rgb(14, 23, 38)" dark style="margin-top: 30px;">
         <div style="height: 100%;">
           <router-link to="/Home">
@@ -66,11 +66,11 @@
       <v-dialog v-model='inviteModal' max-width='500px'>
         <InviteMessage :message=recv />
       </v-dialog>
-
-      <v-main>
+    </div >
+    
+      <v-main v-if="isLoggedIn || tmpLogin">
         <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
       </v-main>
-    </div>
   </v-app>
 </template>
 

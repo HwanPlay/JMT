@@ -22,6 +22,8 @@ export default new Vuex.Store({
     loginError: false,
     groupModalOn: false,
 
+    videoOn: false,
+
   },
   getters: { // 데이터(state)를 가공해서 가져갈 함수들
 
@@ -72,6 +74,9 @@ export default new Vuex.Store({
       localStorage.setItem('myPicture', val.data.profile_img);
       state.myPicture = val.data.profile_img;
     },
+    SET_VIDEO_ON(state){
+      state.videoOn = !state.videoOn;
+    }
   },
   actions: { // mutations에서 정의한 함수를 여기서 불러와서 실행함
 
