@@ -3,22 +3,23 @@
     <div>{{note.note_title}}</div>
     <div>{{note.createdDate}}</div>
   </v-col> -->
-        <div style="height: 300px; margin-right: 70px;">
+        <div style="height: 300px; margin-left:40px; margin-right: 40px;">
 
-              <div class="card btn" style="margin-left:10px;" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
+              <div class="card btn" style="margin-left:30px;" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
                 <!-- <img src="https://images.unsplash.com/photo-1477666250292-1419fac4c25c?auto=format&amp;fit=crop&amp;w=667&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" /> -->
                 <div class="cardContent">
                   <div id="cardTitle">
                     <h3 style=" color:black;">{{ note.note_title }}</h3>
                   </div>
                   <div id="cardDate">
-                    <p style=" color:black;">{{note.createdDate}}</p>
+                    <p style=" color:black;">{{note.createdDate | moment('YY-MM-DD')}}</p>
+                    <p style=" color:black; margin-top:-10px;">{{note.createdDate | moment('HH:mm:ss')}}</p>
                   </div>
                 </div>
                 <div class="cardInfo">
                   <!-- <h3>{{ note.title }}</h3>
                   <p>{{compute_date(note.createdDate)}}</p> -->
-                  <p style="font-size : 40px;">자세히 보기</p>
+                  <p style="font-size : 22px;">자세히 보기</p>
                 </div>
               </div>
             </div>
@@ -87,8 +88,8 @@ export default {
   transform: translateY(0px);
   position: absolute;
   float: left;
-  top: 50px;
-  left: 2px;
+  top: 110px;
+  left: 15px;
 }
 .card:before {
   content: "";
@@ -122,7 +123,21 @@ export default {
   transform: translateY(30px);
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  top: 50px;
-  left: 2px;
+  top: 110px;
+  left: 15px;
+}
+
+#cardTitle {
+  height: 100px;
+}
+#cardTitle h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.2em;
+  height: 2.4em; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
 }
 </style>

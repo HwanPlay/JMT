@@ -1,10 +1,8 @@
 <template>
-  <v-container fluid ma-0 pa-0 >
-    <v-row>
+    <v-row style=" height: 100%; width:100%;">
       <EditorDetailSideBar :noteList="noteList" @onGetNoteHTML="getNoteHTML" />      
       <EditorTiptap :noteObj="noteObj" @onSaveNote="saveNote" @onDeleteNote="deleteNote" />
     </v-row>
-  </v-container>
 </template>
 
 <script>

@@ -1,12 +1,17 @@
 <template>
-  <v-col cols="3">
+  <!-- <v-col cols="3"> -->
+  
+  <div style="width:256px; background-color: rgb(52, 63, 87); margin-left:15px;">
     <EditorGroupListProfile />
-    <button @click="goToGroupList">그룹목록보기</button>
+    <div style="text-align:center;">
+    <v-btn  small  color="primary" id="goToGroupList" @click="goToGroupList">그룹목록보기</v-btn>
+    </div>
     <v-divider></v-divider>
 
-    <EditorDetailSideBarNoteList :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
-    
-  </v-col>
+    <EditorDetailSideBarNoteList   :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
+  </div>
+
+  <!-- </v-col> -->
 </template>
 
 <script>
@@ -20,7 +25,7 @@ export default {
     EditorDetailSideBarNoteList
   },
   props: {
-    noteList: Array,
+    noteList: Array
   },
   methods: {
     getNoteHTML(noteNo) {
@@ -28,7 +33,10 @@ export default {
     },
     goToGroupList() {
       console.log(this.noteList[0].groupNo);
-      this.$router.push({name: 'Editor', query: {groupNo: this.noteList[0].groupNo}});
+      this.$router.push({
+        name: 'Editor',
+        query: { groupNo: this.noteList[0].groupNo }
+      });
 
       console.log('그룹 목록');
     }
@@ -37,5 +45,4 @@ export default {
 </script>
 
 <style>
-
 </style>

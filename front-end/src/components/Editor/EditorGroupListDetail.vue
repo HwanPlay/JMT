@@ -1,5 +1,5 @@
 <template>
-  <div class="group-list" style="padding:0;">
+  <div class="group-list" style="padding:0; height:400px;">
     <!-- <ul>
         <li v-for="group in groupList" :key="group.id" v-text="group.groupName" @click="getNoteList(group.groupNo)"></li>
     </ul>-->
@@ -57,8 +57,15 @@ export default {
 </script>
 
 <style>
-#item-box {
+#group-list{
   background-color: rgb(52, 63, 87);
+
+}
+
+#item-box {
+  overflow: auto;
+  background-color: rgb(52, 63, 87);
+  height:400px;
 }
 #NameText {
   color: white;
