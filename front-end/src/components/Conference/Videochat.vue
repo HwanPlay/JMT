@@ -233,6 +233,7 @@ export default {
       streamId : null,
 
       model: null,
+      endMeeting: null,
 
       //---------------WebSocket-----------------
       sock : null,
@@ -412,9 +413,9 @@ export default {
         this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
           this.recv = res.body;
           // console.log('res.body', res.body);
-          endMeeting = JSON.parse(this.recv)
-          console.log('챗 받은 데이터:', endMeeting);
-          if (endMeeting.host) {
+          this.endMeeting = JSON.parse(this.recv)
+          console.log('챗 받은 데이터:', this.endMeeting);
+          if (this.endMeeting.host) {
             this.ondisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
