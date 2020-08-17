@@ -46,7 +46,7 @@
           ref='calendar'
           v-model='focus'
           color='primary'
-          :events='events'
+          :events='meetingNoteInfo'
           :event-color='getEventColor'
           :type='type'
           @click:event='showEvent'
@@ -63,7 +63,11 @@
             <v-toolbar :color='selectedEvent.color' dark>
               <v-toolbar-title v-html='selectedEvent.name'></v-toolbar-title>
               <v-spacer></v-spacer>
+<<<<<<< HEAD
                 <router-link :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
+=======
+                <router-link v-if="selectedEvent.isNote" :to="{ name: 'EditorDetail', query: { noteNo: selectedEvent.id, groupNo: selectedEvent.groupNo }}">
+>>>>>>> hwan-editor
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -123,7 +127,8 @@ export default {
   }),
   mounted() {
     this.$refs.calendar.checkChange(); 
-    this.updateCalendar();    
+    // this.updateCalendar();    
+
   },
   // created() {
   //   axios.get(SERVER.URL +'/note/get/group/'+this.groupNo)
@@ -133,14 +138,14 @@ export default {
   //     })
   //     .catch(err=>console.error(err));   
   // },
-  watch: {
-    meetingNoteInfo: {
-      deep: true, 
-      handler() {
-        this.updateCalendar();
-      }
-    }
-  },
+  // watch: {
+  //   meetingNoteInfo: {
+  //     deep: true, 
+  //     handler() {
+  //       this.updateCalendar();
+  //     }
+  //   }
+  // },
   methods: {
     updateCalendar() {
       const events = [];
