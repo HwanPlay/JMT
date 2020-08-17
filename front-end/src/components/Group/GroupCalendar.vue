@@ -237,7 +237,5 @@ export default {
 </script>
 
 <style scoped>
-.close-btn:hover {
-  
-}
+
 </style>
