@@ -21,4 +21,7 @@ public interface MeetingService {
 
 
 	int findCurrentMeeting(int groupNo);
+
+
+	void updateMeetingTime(int meetingNo);
 }

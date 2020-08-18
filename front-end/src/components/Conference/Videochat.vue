@@ -105,6 +105,12 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
+<<<<<<< HEAD
+=======
+
+          <!-- <v-btn @click="onCastJoin">
+          </v-btn> -->
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -163,20 +169,26 @@
     </div>
   </div>
 </template>
-<script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
+
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import Vue from "vue";
 import axios from 'axios';
+import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
+<<<<<<< HEAD
 // import Broadcast from "../../api/broadcast";
 // import Sharescreen from './Sharescreen.vue';
 import $ from "jquery";
 import Vue from "vue";
 // import WebRTC from '../../api/webrtc';
 // import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+=======
+
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -184,16 +196,16 @@ import SERVER from '../../api/spring';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
-// Vue.use(WebRTC)
-// Vue.use(BroadCast)
-
 export default {
   name: "Videochat",
   components: {
     // Sharescreen,
     NoteEditor,
+<<<<<<< HEAD
     RTCMultiConnection,
     // Broadcast
+=======
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
   },
   props:{
     groupInfo: Object,
@@ -258,22 +270,38 @@ export default {
     //회의방 나가기
     onLeave() {
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      this.ondisconnect()
+      this.onDisconnect()
 
       var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.send(true);
         axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
+        axios.put(SERVER.URL + '/meeting/update/' + this.meetingInfo.meetingNo);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
       this.$router.push("/Group");
     },
-    ondisconnect() {
+    onDisconnect() {
+      this.connection.dontAttachStream = true;
+      this.connection.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+      });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
-        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+        that.connection.disconnectWith(pid);
+      });
+    },
+    onBroadDisconnect() {
+      this.broadcast.dontAttachStream = true;
+      // this.broadcast.attachStreams.forEach(function(localStream) {
+      //   localStream.stop();
+      // });
+      this.broadcast.removeStream();
+      var that = this.broadcast;
+      this.broadcast.getAllParticipants().forEach(function(pid) {
+        that.broadcast.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
       this.$store.commit('SET_VIDEO_ON', false);
     },
@@ -306,6 +334,7 @@ export default {
     },
     onCast() {
       if (this.castOnOff == false) {
+<<<<<<< HEAD
         console.log('캐스트 켜기')
       } else {
         console.log('캐스트 끄기')
@@ -321,6 +350,19 @@ export default {
     //   };
     //   this.broadcast.openOrJoin(this.roomId + "a");
     // },
+=======
+        console.log('캐스트 켜기1');
+         this.broadcast.session = {
+           video: true
+        };
+        this.broadcast.openOrJoin(this.groupInfo.roomId);
+        
+      } else {
+        console.log('캐스트 끄기1');
+      }
+      this.castOnOff = !this.castOnOff;
+    },
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
@@ -363,18 +405,6 @@ export default {
         this.Chatbool = false;
       }
     },
-    // onCanvas() {
-    //   this.disableCanvasBool = true;
-    //   this.designer.widgetHtmlURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
-    //   this.designer.widgetJsURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-    //   this.designer.appendTo(document.getElementById("widget-container"));
-    // },
-    // onCapture() {
-    //   this.img = this.$refs.webrtc.capture();
-    // },
-
 
     onError(error, stream) {
       console.log("On Error Event", error, stream);
@@ -384,9 +414,15 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
+<<<<<<< HEAD
+=======
+      // console.log(userInfo)
+      var picture = (event.data).substring(0, 21);
+      var text = (event.data).substring(21);
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (event.data || event) +
+        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        (text || event) +
         "</p></div></li></ul>";
       console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
@@ -402,8 +438,17 @@ export default {
         ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
+<<<<<<< HEAD
       this.connection.send(this.value);
       this.appendDIV(this.value);
+=======
+        this.connection.send(this.$store.state.myPicture + this.value);
+        var msg = {
+          data : this.$store.state.myPicture + this.value
+        }
+        this.appendDIV(msg);
+      }
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       e.target.value = "";
     },
 
@@ -418,9 +463,10 @@ export default {
           this.endMeeting = JSON.parse(this.recv)
           console.log('챗 받은 데이터:', this.endMeeting);
           if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
-            this.ondisconnect()
+            this.onDisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
+            this.$store.commit('SET_VIDEO_ON', false);
           }
         });
       }, () => {
@@ -457,9 +503,13 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
+<<<<<<< HEAD
     // this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
     // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+=======
+    this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -472,9 +522,7 @@ export default {
     this.connection.videosContainer = document.querySelector("#videos-container");
     // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
-    console.log('check check', this.$store.state.videoOn);
     this.$store.commit('SET_VIDEO_ON', true);
-    console.log('check check', this.$store.state.videoOn);
     //---------------WebSocket-----------------
     this.connect();
   },
@@ -483,6 +531,7 @@ export default {
 </script>
 
 <style>
+<<<<<<< HEAD
 #videos-container{
   
   white-space: nowrap;
@@ -500,6 +549,13 @@ export default {
   height: 98px;
   overflow-x: hidden;
   border: 2px solid white;
+=======
+#videos-container video {
+  height: 99px;
+  margin: 0px 1px;
+  border: 2px groove white;
+  border-radius: 3px;
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 }
 
 .Main-videos-container video {
@@ -530,7 +586,7 @@ export default {
   height: 88.2%;
   overflow-y: hidden;
   text-align: center;
-  background-color: black;
+  background-color: rgb(229, 235, 239)
 }
 #note-container {
   display: none;
