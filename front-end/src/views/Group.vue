@@ -81,6 +81,7 @@
       <GroupContent
         :groupInfo="$store.state.myGroups[this.onboarding]"
         :meetingNoteInfo="meetingNoteInfo"
+        :conferenceAlert="conferenceAlert"
       />
     </v-col>
     <v-col v-else>

@@ -7,12 +7,12 @@
           <v-row>
             <div id="conferenceStatusBox" style="width:100%;">
             <p
-              v-if="groupInfo.hasMeeting"
+              v-if="(groupInfo.hasMeeting || this.conferenceAlert)"
               class="conferenceStatus"
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="groupInfo.hasMeeting == false"
+              v-if="(groupInfo.hasMeeting == false && !this.conferenceAlert)"
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
             >진행중인 회의가 없습니다.</p>
@@ -50,7 +50,7 @@
                 </v-dialog>
                 <v-btn
                   @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && groupInfo.hasMeeting"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && (groupInfo.hasMeeting || this.conferenceAlert)"
                   dark
                   color="blue darken-2"
                 >
@@ -188,6 +188,7 @@ export default {
   props: {
     groupInfo: Object,
     meetingNoteInfo: Array,
+    conferenceAlert: Boolean,
   },
   data() {
     return {
