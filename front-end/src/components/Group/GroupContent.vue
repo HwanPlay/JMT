@@ -7,12 +7,12 @@
           <v-row>
             <div id="conferenceStatusBox" style="width:100%;">
             <p
-              v-if="(groupInfo.hasMeeting || this.isMyGroup)"
+              v-if="(groupInfo.hasMeeting || this.conferenceOn)"
               class="conferenceStatus"
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="(groupInfo.hasMeeting == false && !this.isMyGroup)"
+              v-if="(groupInfo.hasMeeting == false && !this.conferenceOn)"
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
             >진행중인 회의가 없습니다.</p>
@@ -50,7 +50,7 @@
                 </v-dialog>
                 <v-btn
                   @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && (groupInfo.hasMeeting || this.isMyGroup)"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && (groupInfo.hasMeeting || this.conferenceOn)"
                   dark
                   color="blue darken-2"
                 >
@@ -310,12 +310,14 @@ export default {
   },
 
   computed: {
-    isMyGroup(){
-      if(this.tmpGroupNo == this.groupInfo.groupNo && this.conferenceAlert){
-        return true;
-      }else{
-        return false;
+    conferenceOn(){
+      if(this.tmpGroupNo == this.groupInfo.groupNo){
+        console.log('same Group!!!');
+        if(this.conferenceAlert){
+          return true;
+        }
       }
+      return false;
     }
   },
 
@@ -325,8 +327,12 @@ export default {
     },
     sModal(){
       this.meetingTitle = this.$store.state.myName + '의 회의';
-
     },
+    conferenceAlert(){
+      console.log('lookk!!!!!!11');
+      console.log(this.groupInfo.groupNo);
+      console.log(this.conferenceAlert);
+    }
   },
 };
 </script>
