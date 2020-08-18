@@ -105,12 +105,9 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
-<<<<<<< HEAD
-=======
 
           <!-- <v-btn @click="onCastJoin">
           </v-btn> -->
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -179,16 +176,6 @@ import axios from 'axios';
 import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-<<<<<<< HEAD
-// import Broadcast from "../../api/broadcast";
-// import Sharescreen from './Sharescreen.vue';
-import $ from "jquery";
-import Vue from "vue";
-// import WebRTC from '../../api/webrtc';
-// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
-=======
-
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -201,11 +188,6 @@ export default {
   components: {
     // Sharescreen,
     NoteEditor,
-<<<<<<< HEAD
-    RTCMultiConnection,
-    // Broadcast
-=======
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
   },
   props:{
     groupInfo: Object,
@@ -334,23 +316,6 @@ export default {
     },
     onCast() {
       if (this.castOnOff == false) {
-<<<<<<< HEAD
-        console.log('캐스트 켜기')
-      } else {
-        console.log('캐스트 끄기')
-      }
-      this.castOnOff = !this.castOnOff;
-    },
-    // offBroadcast() {
-    //   this.broadcast.dontAttachStream = true;
-    // },
-    // onBroadcast() {
-    //   this.broadcast.session = {
-    //     video: true
-    //   };
-    //   this.broadcast.openOrJoin(this.roomId + "a");
-    // },
-=======
         console.log('캐스트 켜기1');
          this.broadcast.session = {
            video: true
@@ -362,7 +327,6 @@ export default {
       }
       this.castOnOff = !this.castOnOff;
     },
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
@@ -414,12 +378,9 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
-<<<<<<< HEAD
-=======
       // console.log(userInfo)
       var picture = (event.data).substring(0, 21);
       var text = (event.data).substring(21);
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (text || event) +
@@ -431,24 +392,17 @@ export default {
       document.getElementById("input-text-chat").focus();
     },
     textSend(e) {
-      console.log(e.target.value);
+      if (e.target.value) {
       // removing trailing/leading whitespace
-      this.value =
-        this.$store.state.myName +
-        ": " +
+        this.value = this.$store.state.myName + ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-<<<<<<< HEAD
-      this.connection.send(this.value);
-      this.appendDIV(this.value);
-=======
         this.connection.send(this.$store.state.myPicture + this.value);
         var msg = {
           data : this.$store.state.myPicture + this.value
         }
         this.appendDIV(msg);
       }
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       e.target.value = "";
     },
 
@@ -503,13 +457,7 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-<<<<<<< HEAD
-    // this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-=======
-    this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -531,31 +479,11 @@ export default {
 </script>
 
 <style>
-<<<<<<< HEAD
-#videos-container{
-  
-  white-space: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; 
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-/* .videos-container::-webkit-scrollbar{
-  display: none;
-} */
-
-
-#videos-container video {
-  height: 98px;
-  overflow-x: hidden;
-  border: 2px solid white;
-=======
 #videos-container video {
   height: 99px;
   margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
->>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 }
 
 .Main-videos-container video {
