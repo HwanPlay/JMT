@@ -354,7 +354,7 @@ export default {
       console.log(typeof(event.data));
       var picture = null;
       var text = null;
-      if(!event) { 
+      if(event) { 
         picture = (event.data).substring(0, 21);
         text = (event.data).substring(21);
       }
