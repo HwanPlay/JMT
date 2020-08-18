@@ -167,13 +167,20 @@
       </editor-menu-bubble>
 
       <!-- {{dataHTML}} -->
-      <div inline>
+      <div class="d-flex justify-space-around">
+        <input 
+          type="text" 
+          class="title-form form-control" 
+          v-model="noteObj.title" 
+          required
+          placeholder="Note Title">
+<!-- 
           <input
             v-model="noteObj.title"
             type="text"
             required
             placeholder="Note Title"
-          >
+          > -->
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
           <b-button v-if="!isSave" class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
           <b-button v-if="isSave" class="menubar__button save_button" @click="EditNote" variant="outline-success">Edit</b-button>
@@ -312,5 +319,8 @@ export default {
 }
 hr {
   margin: 0.5rem auto;
+}
+.title-form {
+  width: 15rem;
 }
 </style>
