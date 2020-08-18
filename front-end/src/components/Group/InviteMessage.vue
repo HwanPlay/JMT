@@ -43,7 +43,7 @@ export default {
       this.removeRequest();
     },
     removeRequest(){
-      axios.delete(SERVER.URL + '/request/delno/' + this.message.requestNumber + '/' + this.message.sender + '/' + this.message.groupNo)
+      axios.delete(SERVER.URL + '/request/delno/' + this.message.requestNo)
         .then(() => {
           this.$emit('done');
         });

@@ -69,7 +69,7 @@ export default {
         receiver : userInfo.id,
         groupNo : this.groupNo,
         groupName : this.groupName,
-        requestNumber: requestNo
+        requestNo: requestNo
       };
       this.ws.send('/request', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }

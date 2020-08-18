@@ -116,10 +116,8 @@ export default {
       ws: null,
       reconnect: 0,
       recv: '',
-
-      hwanGroupNo: 0,
       meetingNoteInfo: [],
-      InitGroupList: []
+      conferenceAlert: false
     };
   },
   methods: {
@@ -128,7 +126,7 @@ export default {
       
       let meetingList = [];
       const calendar_meeting = [];
-      
+      this.conferenceAlert = false;
       Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
         .then((res)=> {
           console.log(res.data.meetings);
@@ -180,6 +178,7 @@ export default {
           this.ws.subscribe(
             '/send/meeting/' + this.$store.state.myGroups[i].groupNo,
             res => {
+              this.conferenceAlert = true;
               this.recv = res.body;
               console.log(this.recv);
             }
