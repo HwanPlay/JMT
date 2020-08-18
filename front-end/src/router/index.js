@@ -50,7 +50,7 @@ const routes = [
     path: '/editor/detail',
     name: 'EditorDetail',
     component: () => import('../views/EditorDetail.vue')
-  }
+  },
 ];
 
 const router = new VueRouter({

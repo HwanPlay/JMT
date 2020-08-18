@@ -59,7 +59,7 @@ export default {
       if (this.$route.query.noteNo === noteNo) {
         return;
       }
-      this.$emit('onGetNoteHTML', noteNo);
+      // this.$emit('onGetNoteHTML', noteNo);
       this.$router.push({name: 'EditorDetail', query: {noteNo: noteNo, groupNo: groupNo}});
     }
   }
