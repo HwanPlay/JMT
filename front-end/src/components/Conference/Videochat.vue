@@ -368,6 +368,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event, picture) {
+      console.log(picture + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       this.textArea = document.createElement("div");
       // console.log(userInfo)
       this.textArea.innerHTML =
