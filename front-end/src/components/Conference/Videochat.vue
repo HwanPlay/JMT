@@ -87,6 +87,8 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
+          <v-btn @click="onCastJoin">
+          </v-btn>
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -299,13 +301,27 @@ export default {
           audio: true,
           oneway : true
         }
-        this.broadcast.open(this.groupInfo.roomId);
+        this.broadcast.open(this.groupInfo.roomId+'a');
       }
       //  else {
       //   this.broadcast.sdpConstraints.mandatory
       //   console.log('캐스트 끄기')
       // }
       // this.castOnOff = !this.castOnOff;
+    },
+
+    onCastJoin() {
+      console.log("아아아아아아");
+      //  else {
+      //   this.broadcast.sdpConstraints.mandatory
+      //   console.log('캐스트 끄기')
+      // }
+      // this.castOnOff = !this.castOnOff;
+      this.broadcast.sdpConstraints.mandatory = {
+              OfferToReceiveAudio: true,
+              OfferToReceiveVideo: true
+          };
+        this.broadcast.Join(this.groupInfo.roomId+'a');
     },
     // offBroadcast() {
     //   this.broadcast.dontAttachStream = true;
