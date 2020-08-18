@@ -130,6 +130,8 @@ export default Vue.extend({
 
 
     connect() {
+      this.sock = new SockJS(SERVER.URL2);
+      this.ws = Stomp.over(this.sock);
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {

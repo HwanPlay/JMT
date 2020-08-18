@@ -123,7 +123,6 @@ export default {
   methods: {
 
     toggle({i, groupNo}) {
-      
       let meetingList = [];
       const calendar_meeting = [];
       this.conferenceAlert = false;
