@@ -208,6 +208,9 @@ export default {
       ws : null,
       reconnect : 0,
       recv : '',
+
+      // broadcast
+      isBoradcast : false,
     };
   },
   methods: {
@@ -237,6 +240,7 @@ export default {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
       this.$router.push("/Group");
+      this.$store.commit('SET_VIDEO_ON', false);
     },
     ondisconnect() {
       this.connection.dontAttachStream = true;
@@ -247,7 +251,6 @@ export default {
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
-      this.$store.commit('SET_VIDEO_ON', false);
     },
     //비디오 끄고,켜기
     onCam() {
@@ -278,43 +281,29 @@ export default {
       this.micOnOff = !this.micOnOff;
     },
     onCast() {
+      console.log("broadcase test - isRoom : " + this.broadcast.isInitiator);
       if (this.castOnOff == false) {
-        console.log('캐스트 켜기')
-        this.broadcast.session={
-          video: true,
-          audio: true,
-          oneway : true
-        }
-        this.broadcast.open(this.groupInfo.roomId+'a');
-      }
-      //  else {
-      //   this.broadcast.sdpConstraints.mandatory
-      //   console.log('캐스트 끄기')
-      // }
-      // this.castOnOff = !this.castOnOff;
-    },
-
-    onCastJoin() {
-      console.log("아아아아아아");
-      //  else {
-      //   this.broadcast.sdpConstraints.mandatory
-      //   console.log('캐스트 끄기')
-      // }
-      // this.castOnOff = !this.castOnOff;
-      this.broadcast.sdpConstraints.mandatory = {
-              OfferToReceiveAudio: true,
-              OfferToReceiveVideo: true
-          };
-        this.broadcast.Join(this.groupInfo.roomId+'a');
+        console.log('캐스트 켜기1');
+         this.broadcast.session = {
+           video: true
+        };
+        this.broadcast.openOrJoin(this.groupInfo.roomId+'a');
+        
+      } else {
+        console.log('캐스트 끄기1');
+        this.broadcast.closeSoket;
+        console.log('close');
+      }this.broadcast.dontAttachStream = true;
+      this.castOnOff = !this.castOnOff;
     },
     // offBroadcast() {
-    //   this.broadcast.dontAttachStream = true;
+    //   this.connection.dontAttachStream = true;
     // },
     // onBroadcast() {
-    //   this.broadcast.session = {
+    //   this.connection.session = {
     //     video: true
     //   };
-    //   this.broadcast.openOrJoin(this.roomId + "a");
+    //   this.connection.openOrJoin(this.roomId + "a");
     // },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
