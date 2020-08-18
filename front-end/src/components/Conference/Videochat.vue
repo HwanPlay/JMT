@@ -347,14 +347,15 @@ export default {
     logEvent(event) {
       console.log("Event : ", event);
     },
-    appendDIV(event, picture) {
-      console.log(event + "??????????????????????????????????")
-      console.log(picture + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
+      console.log(event.data)
+      var picture = event.data.substring(0, 26);
+      var text = event.data.substring(26);
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (event.data || event) +
+        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        (text || event) +
         "</p></div></li></ul>";
       console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
@@ -368,8 +369,8 @@ export default {
         this.value = this.$store.state.myName + ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-        this.connection.send(this.value + this.$store.state.myPicture);
-        this.appendDIV(this.value, this.$store.state.myPicture);
+        this.connection.send(this.$store.state.myPicture + this.value);
+        this.appendDIV(this.$store.state.myPicture + this.value);
       }
       e.target.value = "";
     },
