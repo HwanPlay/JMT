@@ -54,5 +54,12 @@ public class MeetingServiceImpl implements MeetingService {
 		return meeting_list.get(meeting_list.size() - 1).getMeetingNo();
 	}
 
+
+	@Override
+	public void updateMeetingTime(int meetingNo) {
+		Meeting meeting = meetingRepository.findByNo(meetingNo);
+		meetingRepository.save(meeting);
+	}
+
 	
 }
