@@ -68,11 +68,15 @@ export default {
       this.changeHasMeeting();
       axios.post(SERVER.URL + '/meeting/add', {groupNo: this.groupInfo.groupNo, title: this.$store.state.myName+'\'s Meeting'})
         .then(res => {
-          console.log('good', res); 
           this.meetingNo = res.data.meetingNo;
           this.$router.push({ name: 'Conference',
-            params: { roomId: this.groupInfo.roomId },
-            query: { groupNo: this.groupInfo.groupNo, groupName: this.groupInfo.groupName, meetingNo: this.meetingNo }
+            params: {
+              roomId: this.groupInfo.roomId,
+              hostId: this.groupInfo.hostId,
+              groupNo: this.groupInfo.groupNo,
+              groupName: this.groupInfo.groupName,
+            },
+            query: { meetingNo: this.meetingNo },
           });
         });
       // this.$router.push({ name: 'Conference',

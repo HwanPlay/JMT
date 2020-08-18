@@ -12,7 +12,7 @@
     </div>
   </v-list-item>
 </template>
-
+  
 <script>
 import axios from 'axios';
 import SERVER from '../../api/spring.js';

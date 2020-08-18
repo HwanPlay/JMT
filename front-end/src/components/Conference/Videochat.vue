@@ -6,43 +6,25 @@
         <div id="videos-container"></div>
       </div>
 
-      <v-sheet>
+      <!-- <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
           show-arrows
         >
-          <v-slide-item
-            v-for="n in 10"
-            :key="n"
-            v-slot:default="{ active, toggle }"
-          >
+          <v-slide-item v-slot:default="{ active, toggle }" id="videos-container">
             <v-card
               :color="active ? 'primary' : 'grey lighten-1'"
               class="mx-1"
               height="100"
               width="132"
               @click="toggle"
-            >
-              <v-row
-                class="fill-height"
-                align="center"
-                justify="center"
-              >
-                <v-scale-transition>
-                  <v-icon
-                    v-if="active"
-                    color="white"
-                    size="48"
-                    v-text="'mdi-close-circle-outline'"
-                  ></v-icon>
-                </v-scale-transition>
-              </v-row>
-            </v-card>
-            
+              style="display: inline"
+            ></v-card>
           </v-slide-item>
+
         </v-slide-group>
-      </v-sheet>  
+      </v-sheet> -->
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -271,6 +253,10 @@ export default {
       this.$router.push("/Group");
     },
     ondisconnect() {
+      this.connection.dontAttachStream = true;
+      this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+        localStream.stop();
+      });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
@@ -499,7 +485,7 @@ export default {
 #videos-container video {
   height: 98px;
   overflow-x: hidden;
-  border: 2px solid white;
+  /* border: 2px solid white; */
 }
 
 .Main-videos-container video {
