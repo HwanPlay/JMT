@@ -83,6 +83,7 @@
         :meetingNoteInfo="meetingNoteInfo"
         :conferenceAlert="conferenceAlert"
         :tmpGroupNo="tmpGroupNo"
+        :nowMeeting="nowMeeting"
       />
     </v-col>
     <v-col v-else>
@@ -120,7 +121,8 @@ export default {
       recv: '',
       meetingNoteInfo: [],
       conferenceAlert: false,
-      tmpGroupNo: null
+      tmpGroupNo: null,
+      nowMeeting : null
     };
   },
   methods: {
@@ -130,11 +132,13 @@ export default {
       let meetingList = [];
       const calendar_meeting = [];
       this.conferenceAlert = false;
+
       Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
         .then((res)=> {
           console.log(res.data.meetings);
           meetingList = res.data.meetings;
           meetingList.forEach(meeting => {
+            this.nowMeeting = meeting.hasMeeting;
             Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
               .then((res)=> {
                 // console.log('result', meeting, res);
@@ -182,8 +186,8 @@ export default {
             '/send/meeting/' + this.$store.state.myGroups[i].groupNo,
             res => {
               this.conferenceAlert = true;
-              this.tmpGroupNo = res.body.groupNo;
               this.recv = res.body;
+              this.tmpGroupNo = JSON.parse(this.recv).groupNo;
               console.log(this.recv);
             }
           );
