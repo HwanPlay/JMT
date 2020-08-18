@@ -28,7 +28,7 @@ function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true
     },
-    // icon: __dirname +  ''
+
   });
 
 
@@ -41,11 +41,13 @@ function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html');
   }
-
+  win.setIcon('src/assets/JMT/JMTLogo.png');
   win.on('closed', () => {
     win = null;
   });
 }
+
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

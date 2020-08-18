@@ -37,6 +37,7 @@ export default {
   },
   methods:{
     sendRequest() {
+      this.send(this.user);
       const info = {
         groupNo : this.groupNo,
         hostId : this.hostId,
@@ -48,7 +49,6 @@ export default {
           this.$emit('send');
           this.isInvited = true;
           this.$el.parentNode.removeChild(this.$el);
-          this.send(this.user, res.data.requestNo);
         })
         .catch(err => {
           this.$emit('fail');
@@ -63,13 +63,12 @@ export default {
       });
     },
 
-    send(userInfo, requestNo) {
+    send(userInfo) {
       const msg = {
         sender : this.hostId,
         receiver : userInfo.id,
         groupNo : this.groupNo,
         groupName : this.groupName,
-        requestNumber: requestNo
       };
       this.ws.send('/request', JSON.stringify(msg), {'token' : this.$store.state.accessToken});
     }
