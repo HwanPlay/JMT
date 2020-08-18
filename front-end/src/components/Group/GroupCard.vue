@@ -1,5 +1,6 @@
 <template>
   <v-window v-model="step">
+    <hr>
     <v-window-item :value="1">
       <v-list-item>
         <v-list-item-content>
