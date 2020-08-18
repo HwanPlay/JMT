@@ -348,6 +348,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event, picture) {
+      console.log(event + "??????????????????????????????????")
       console.log(picture + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       this.textArea = document.createElement("div");
       // console.log(userInfo)
@@ -367,7 +368,7 @@ export default {
         this.value = this.$store.state.myName + ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-        this.connection.send(this.value);
+        this.connection.send(this.value + this.$store.state.myPicture);
         this.appendDIV(this.value, this.$store.state.myPicture);
       }
       e.target.value = "";
