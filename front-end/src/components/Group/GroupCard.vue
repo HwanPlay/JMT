@@ -1,5 +1,6 @@
 <template>
   <v-window v-model="step">
+    <hr>
     <v-window-item :value="1">
       <v-list-item>
         <v-list-item-content>
@@ -12,7 +13,7 @@
     </v-window-item>
     <v-window-item :value="2">
       <v-list-item>
-        <v-text-field style="width: 50%" v-model="meetingTitle" label="회의 명" required></v-text-field>
+        <v-text-field style="width: 50%" v-model="meetingTitle" label="회의 명" required @keypress.enter="startMeeting"></v-text-field>
         <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click='startMeeting'>회의 시작</v-btn>
       </v-list-item>
     </v-window-item>

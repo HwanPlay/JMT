@@ -1,18 +1,51 @@
 <template>
   <div id="MainContainer">
-    <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list"
-        center-active
-        show-arrows
-        dark
-      >
-        <v-slide-item id="videos-container">
-          <div class="mx-auto" height="100"></div>
-        </v-slide-item>
-      </v-slide-group>
+    <div id="MainContent">
+
+      <div id="Minivideo_list">
+        <div id="videos-container"></div>
+      </div>
+
+      <v-sheet>
+        <v-slide-group
+          v-model="model"
+          center-active
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 10"
+            :key="n"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="mx-1"
+              height="100"
+              width="132"
+              @click="toggle"
+            >
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+            
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
-        <div class="text-center">
+        <div class="text-center" >
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
             <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
@@ -38,7 +71,7 @@
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
-          background-color="rgb(14, 23, 38)"
+          background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
@@ -72,9 +105,12 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
+<<<<<<< HEAD
+=======
 
           <!-- <v-btn @click="onCastJoin">
           </v-btn> -->
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -97,7 +133,8 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-    </v-sheet>
+
+    </div>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -130,7 +167,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -143,7 +179,16 @@ import axios from 'axios';
 import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
+<<<<<<< HEAD
+// import Broadcast from "../../api/broadcast";
+// import Sharescreen from './Sharescreen.vue';
+import $ from "jquery";
+import Vue from "vue";
+// import WebRTC from '../../api/webrtc';
+// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+=======
 
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -156,6 +201,11 @@ export default {
   components: {
     // Sharescreen,
     NoteEditor,
+<<<<<<< HEAD
+    RTCMultiConnection,
+    // Broadcast
+=======
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
   },
   props:{
     groupInfo: Object,
@@ -194,6 +244,7 @@ export default {
       trackId: null,
       streamId : null,
 
+      model: null,
       endMeeting: null,
 
       //---------------WebSocket-----------------
@@ -201,9 +252,6 @@ export default {
       ws : null,
       reconnect : 0,
       recv : '',
-
-      // broadcast
-      isBoradcast : false,
     };
   },
   methods: {
@@ -234,7 +282,6 @@ export default {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
       this.$router.push("/Group");
-      this.$store.commit('SET_VIDEO_ON', false);
     },
     onDisconnect() {
       this.connection.dontAttachStream = true;
@@ -256,11 +303,11 @@ export default {
       this.broadcast.getAllParticipants().forEach(function(pid) {
         that.broadcast.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
+      this.$store.commit('SET_VIDEO_ON', false);
     },
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
-      
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
       // 카메라 켜기
@@ -287,6 +334,23 @@ export default {
     },
     onCast() {
       if (this.castOnOff == false) {
+<<<<<<< HEAD
+        console.log('캐스트 켜기')
+      } else {
+        console.log('캐스트 끄기')
+      }
+      this.castOnOff = !this.castOnOff;
+    },
+    // offBroadcast() {
+    //   this.broadcast.dontAttachStream = true;
+    // },
+    // onBroadcast() {
+    //   this.broadcast.session = {
+    //     video: true
+    //   };
+    //   this.broadcast.openOrJoin(this.roomId + "a");
+    // },
+=======
         console.log('캐스트 켜기1');
          this.broadcast.session = {
            video: true
@@ -298,6 +362,7 @@ export default {
       }
       this.castOnOff = !this.castOnOff;
     },
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
@@ -349,9 +414,12 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
+<<<<<<< HEAD
+=======
       // console.log(userInfo)
       var picture = (event.data).substring(0, 21);
       var text = (event.data).substring(21);
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (text || event) +
@@ -363,17 +431,24 @@ export default {
       document.getElementById("input-text-chat").focus();
     },
     textSend(e) {
-      if (e.target.value) {
+      console.log(e.target.value);
       // removing trailing/leading whitespace
-        this.value = this.$store.state.myName + ": " +
+      this.value =
+        this.$store.state.myName +
+        ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
+<<<<<<< HEAD
+      this.connection.send(this.value);
+      this.appendDIV(this.value);
+=======
         this.connection.send(this.$store.state.myPicture + this.value);
         var msg = {
           data : this.$store.state.myPicture + this.value
         }
         this.appendDIV(msg);
       }
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
       e.target.value = "";
     },
 
@@ -428,7 +503,13 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
+<<<<<<< HEAD
+    // this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+    // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+=======
+    this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -450,11 +531,31 @@ export default {
 </script>
 
 <style>
+<<<<<<< HEAD
+#videos-container{
+  
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; 
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* .videos-container::-webkit-scrollbar{
+  display: none;
+} */
+
+
+#videos-container video {
+  height: 98px;
+  overflow-x: hidden;
+  border: 2px solid white;
+=======
 #videos-container video {
   height: 99px;
   margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
+>>>>>>> 0cfe43cd8a2a49a1d3abb9cc75473b0647cad1d4
 }
 
 .Main-videos-container video {
@@ -467,13 +568,17 @@ export default {
   width: 100%;
   float: left;
   overflow-y: hidden;
+  text-align: center;
 }
 #Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
-  background-color: rgb(14, 23, 38);
-  /* border: 1px solid white; */
+  background-color: black;
+  border: 2px solid white;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 .Mainvideo {
   position: relative;
@@ -504,14 +609,13 @@ export default {
   position: relative;
   border: 1px #ddd solid;
   height: 100%;
+  /* overflow-y: auto; */
 }
 
 .chat-output {
   float: left;
   position: absolute;
   bottom: 0px;
-  height: 100%;
-  overflow-y: auto;
 }
 
 .footer {
