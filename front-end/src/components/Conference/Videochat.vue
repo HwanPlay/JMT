@@ -271,6 +271,10 @@ export default {
       this.$router.push("/Group");
     },
     ondisconnect() {
+      this.connection.dontAttachStream = true;
+      this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+        localStream.stop();
+      });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
