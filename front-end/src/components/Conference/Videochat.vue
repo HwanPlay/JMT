@@ -339,9 +339,18 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
-      console.log(event.data)
-      var picture = event.data.substring(0, 26);
-      var text = event.data.substring(26);
+      console.log(event.data);
+      console.log(typeof(event.data));
+      var picture = null;
+      var text = null;
+      if(!event) { 
+        picture = (event.data).substring(0, 21);
+        text = (event.data).substring(21);
+      }
+      else {
+        picture = event.substring(0, 21);
+        text = event.substring(21);
+      }
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (text || event) +
