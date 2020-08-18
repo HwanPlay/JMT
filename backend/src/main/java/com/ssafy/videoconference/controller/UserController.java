@@ -130,7 +130,23 @@ public class UserController {
 		// 프로필 사진 저장 후, 회원 수정
 		String oldImg = authUser.getProfile_img();
 		String newImgName = "";
-		if ((newImgName = saveProfileImg(user.getMultipartFile(), oldImg)) != null) {
+	
+		if("default".equals(user.getProfile_img()) && user.getMultipartFile() != null && !user.getMultipartFile().isEmpty()) {
+			newImgName = DEFAULT_IMG;
+			
+			// 서버에 있는 기존 사진은 삭제
+			if (!oldImg.contains("default")) {
+				File deleteFolder = new File(IMGFOLDER);
+				File[] deleteFolderList = deleteFolder.listFiles();
+				
+				for (File file : deleteFolderList) {
+					if (file.getPath().contains(oldImg))
+						file.delete();
+				}
+			}
+		}
+		else{
+			newImgName = saveProfileImg(user.getMultipartFile(), oldImg);
 			user.setId(authUser.getId());
 			user.setProfile_img(newImgName);
 			userService.modifyUser(user);
@@ -164,56 +180,6 @@ public class UserController {
 		
 		userService.modifyPw(user);
 		return ResponseEntity.ok(SUCCESS);
-	}
-
-	@ApiOperation(value = "프로필사진 추가", response = String.class)
-	@PostMapping("/user/addProfileImg")
-	public ResponseEntity<String> saveProfileImg2(@RequestParam("filename") MultipartFile multipartFile,
-			Authentication authentication) {
-		// MultipartFile : 사용자 PC의 업로드된 스트림정보를 저장
-		if (multipartFile != null && !multipartFile.isEmpty()) {
-
-			UserDetail authUser = (UserDetail) authentication.getPrincipal();
-
-			// 사용자 DB에 저장된 프로필 사진
-			String userFileName = userService.findUserByUserId(authUser.getId()).getProfile_img();
-			String saveFileName = userFileName;
-
-			// 파일형
-			String fileExtension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
-
-			// 서버 폴더 경로명
-			// 파일은 http방식으로 저장되는 것이 아니라, 서버의 하드디스크 전체 경로에 맞추어서 저장
-			String realPath = IMGFOLDER;
-			System.out.println(realPath);
-			// 디폴트 프로필이 아니라면, 서버에 올라온 프로필 삭제
-			if (!userFileName.contains("default")) {
-				File deleteFolder = new File(realPath);
-				File[] deleteFolderList = deleteFolder.listFiles();
-
-				for (File file : deleteFolderList) {
-					if (file.getPath().contains(userFileName))
-						file.delete();
-				}
-			}
-
-			// 프로필 사진 추가명 : 날짜+랜덤UUID
-			DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
-			saveFileName = dateFormat.format(new Date()) + '_'
-					+ UUID.randomUUID().toString().replace("-", "").substring(0, 10) + '.' + fileExtension;
-
-			// 파일 저장
-			profileImgService.saveFile(multipartFile, IMGFOLDER, saveFileName);
-
-			// 파일 업로드 후, 사용자 DB에 이미지명 저장
-			User user = new User();
-			user.setId(authUser.getId());
-			user.setProfile_img(saveFileName);
-			userService.modifyUserProfileImg(user);
-
-			return ResponseEntity.ok(SUCCESS);
-		}
-		return ResponseEntity.ok(FAIL);
 	}
 
 	public String saveProfileImg(MultipartFile multipartFile, String oldImg) {
@@ -260,7 +226,7 @@ public class UserController {
 
 			return saveFileName;
 		}
-		return null;
+		return oldImg;
 	}
 
 	@ApiOperation(value = "프로필사진 삭제 - 디폴트사진으로", response = String.class)
