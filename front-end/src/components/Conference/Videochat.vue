@@ -72,8 +72,9 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
-          <v-btn @click="onCastJoin">
-          </v-btn>
+
+          <!-- <v-btn @click="onCastJoin">
+          </v-btn> -->
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -229,7 +230,7 @@ export default {
     //회의방 나가기
     onLeave() {
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      this.ondisconnect()
+      this.onDisconnect()
 
       var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
@@ -242,7 +243,7 @@ export default {
       this.$router.push("/Group");
       this.$store.commit('SET_VIDEO_ON', false);
     },
-    ondisconnect() {
+    onDisconnect() {
       this.connection.dontAttachStream = true;
       this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
@@ -250,6 +251,17 @@ export default {
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+      });
+    },
+    onBroadDisconnect() {
+      this.broadcast.dontAttachStream = true;
+      // this.broadcast.attachStreams.forEach(function(localStream) {
+      //   localStream.stop();
+      // });
+      this.broadcast.removeStream();
+      var that = this.broadcast;
+      this.broadcast.getAllParticipants().forEach(function(pid) {
+        that.broadcast.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
     },
     //비디오 끄고,켜기
@@ -287,11 +299,12 @@ export default {
          this.broadcast.session = {
            video: true
         };
-        this.broadcast.openOrJoin(this.groupInfo.roomId+'a');
+        this.broadcast.open(this.groupInfo.roomId+'a');
         
       } else {
         console.log('캐스트 끄기1');
-        this.broadcast.closeSoket;
+        // this.broadcast.closeSocket();
+        this.onBroadDisconnect();
         console.log('close');
       }this.broadcast.dontAttachStream = true;
       this.castOnOff = !this.castOnOff;
@@ -402,7 +415,7 @@ export default {
           this.endMeeting = JSON.parse(this.recv)
           console.log('챗 받은 데이터:', this.endMeeting);
           if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
-            this.ondisconnect()
+            this.onDisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
           }
