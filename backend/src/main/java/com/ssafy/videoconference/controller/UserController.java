@@ -122,7 +122,7 @@ public class UserController {
 		return ResponseEntity.ok(userService.findUserByUserId(authUser.getId()));
 	}
 
-	@ApiOperation(value = "회원 수정 - modifyUserByUserId", response = FindUser.class)
+	@ApiOperation(value = "회원 수정 - modifyUserByUserId. 파일형식(jpg,jpeg,png)이 잘못된 경우 NULL Return", response = FindUser.class)
 	@PostMapping("/user/modify")
 	public ResponseEntity<FindUser> modifyUser(ModifyUser user, @CurrentUser UserDetail authUser, HttpServletResponse response) {
 		
@@ -147,6 +147,9 @@ public class UserController {
 		}
 		else{
 			newImgName = saveProfileImg(user.getMultipartFile(), oldImg);
+			// 파일 형식 에러, 400
+			if(newImgName == null)
+				return ResponseEntity.badRequest().body(null);
 			user.setId(authUser.getId());
 			user.setProfile_img(newImgName);
 			userService.modifyUser(user);
