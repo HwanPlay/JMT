@@ -227,7 +227,8 @@ public class UserController {
 			String fileExtension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
 			System.out.println(fileExtension);
 			// jpg, jpeg, png 인 경우만 프로필 사진 가능
-			if (!"jpg".equals(fileExtension) && !"jpeg".equals(fileExtension) && !"png".equals(fileExtension))
+			fileExtension = fileExtension.toUpperCase();
+			if (!"JPG".equals(fileExtension) && !"JPEG".equals(fileExtension) && !"PNG".equals(fileExtension))
 				return null;
 
 			// 서버 폴더 경로명
@@ -242,14 +243,6 @@ public class UserController {
 				File[] deleteFolderList = deleteFolder.listFiles();
 				
 				for (File file : deleteFolderList) {
-//					System.out.println("이미지 : " + file.getPath());
-//					System.out.println(file.getName()); 
-//					try {
-//						System.out.println("url" + file.toURI().toURL());
-//					} catch (MalformedURLException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 					if (file.getPath().contains(oldImg))
 						file.delete();
 				}
