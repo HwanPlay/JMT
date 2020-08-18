@@ -415,9 +415,7 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -428,11 +426,9 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
+    // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
-    console.log('check check', this.$store.state.videoOn);
     this.$store.commit('SET_VIDEO_ON', true);
-    console.log('check check', this.$store.state.videoOn);
     //---------------WebSocket-----------------
     this.connect();
   },
@@ -441,19 +437,6 @@ export default {
 </script>
 
 <style>
-/* #videos-container{
-  
-  white-space: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; 
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-} */
-
-/* .videos-container::-webkit-scrollbar{
-  display: none;
-} */
-
-
 #videos-container video {
   height: 99px;
   margin: 0px 1px;
