@@ -4,16 +4,15 @@
     <v-divider></v-divider>
     <div class="프로필 사진">
 
-       <div class="pt-4 d-flex justify-center align-center">
+       <div class=" d-flex justify-center align-center">
         <v-avatar size="164" tile>
           <img id="profile" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
         </v-avatar>
       </div>
 
 
-      <div>
-        <input id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
-            <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
+      <div class=" d-flex justify-end">
+        <input style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
       </div>
 
       <v-divider></v-divider>
@@ -24,9 +23,14 @@
         </div>
         <div>
           <i class="mdi mdi-account-circle"></i>
-          UserName: {{this.$store.state.myName}}
+          UserName: <input style="color:white;" class="inline" type="text"  v-model="user_name">
+          <!-- <v-form ref="form">
+            <v-text-field v-model="user_name" :counter="max" :rules="rules" label="User Name"></v-text-field>
+          </v-form> -->
         </div>
       </div>
+      <v-btn @click="submitSave" style="color:white;" text color="#526387" class="align-self-end">Save</v-btn>
+
       <v-divider></v-divider>
       <div class="d-flex justify-space-around">
         <ProfileDelete />
@@ -53,10 +57,11 @@ export default {
   },
   data() {
     return {
-      file:''
+      file:'',
+      user_name: this.$store.state.myName,
     };
   },
-  methdos: {
+  methods: {
     fileSelect() {
       console.log(this.$refs);
       this.file = this.$refs.file.files[0];
@@ -83,9 +88,9 @@ export default {
             console.log(res);
             if(res.status === 200){
               this.$store.commit('SET_MY_PROFILE', res);
-              this.makeAlert({'alertColor': 'primary', 'alertMessage': 'Success'});
+              // this.makeAlert({'alertColor': 'primary', 'alertMessage': 'Success'});
             } else {
-              this.makeAlert({'alertColor': 'danger', 'alertMessage': 'fail to edit'});
+              // this.makeAlert({'alertColor': 'danger', 'alertMessage': 'fail to edit'});
             }
           })
           .catch(err=>console.error(err));
@@ -103,11 +108,7 @@ export default {
   object-fit: cover;
   border-radius: 50%;
 }
-.modal-bg {
-  background-color: rgb(14, 23, 38);
-}
-div {
-  color: white;
-}
+
+
 
 </style>

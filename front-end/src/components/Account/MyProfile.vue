@@ -63,5 +63,10 @@ export default {
 </script>
 
 <style scoped>
-
+div {
+  color: white;
+}
+.modal-bg {
+  background-color: rgb(14, 23, 38);
+}
 </style>
