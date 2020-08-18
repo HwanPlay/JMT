@@ -223,7 +223,7 @@ export default {
             meetingList.forEach(meeting => {
               Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
                 .then((res)=> {
-                  console.log(meeting.createdDate);
+                  // console.log(meeting.createdDate);
                   calendar_meeting.push({
                     name: meeting.title,
                     start: meeting.createdDate,
