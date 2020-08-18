@@ -1,33 +1,18 @@
 <template>
   <div id="MainContainer">
-    <div id="MainContent">
-
-      <div id="Minivideo_list">
-        <div id="videos-container"></div>
-      </div>
-
-      <!-- <v-sheet>
-        <v-slide-group
-          v-model="model"
-          center-active
-          show-arrows
-        >
-          <v-slide-item v-slot:default="{ active, toggle }" id="videos-container">
-            <v-card
-              :color="active ? 'primary' : 'grey lighten-1'"
-              class="mx-1"
-              height="100"
-              width="132"
-              @click="toggle"
-              style="display: inline"
-            ></v-card>
-          </v-slide-item>
-
-        </v-slide-group>
-      </v-sheet> -->
+    <v-sheet id="MainContent">
+      <v-slide-group id="Minivideo_list"
+        center-active
+        show-arrows
+        dark
+      >
+        <v-slide-item id="videos-container">
+          <div class="mx-auto" height="100"></div>
+        </v-slide-item>
+      </v-slide-group>
 
       <div id="video_list_videOrshow">
-        <div class="text-center" >
+        <div class="text-center">
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
             <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
@@ -53,7 +38,7 @@
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
-          background-color="rgba(14, 23, 38, 1)"
+          background-color="rgb(14, 23, 38)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
@@ -111,8 +96,7 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-
-    </div>
+    </v-sheet>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -145,6 +129,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 <script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
@@ -216,7 +201,6 @@ export default {
       trackId: null,
       streamId : null,
 
-      model: null,
       endMeeting: null,
 
       //---------------WebSocket-----------------
@@ -256,7 +240,7 @@ export default {
     },
     ondisconnect() {
       this.connection.dontAttachStream = true;
-      this.connection.attachStreams.forEach(function(localStream) { // 커넥션에서 내 스트림만 없애기(채팅가능), 상대방꺼는 주고받을 수 있음
+      this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
       });
       var that = this;
@@ -395,6 +379,7 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
+      // console.log(userInfo)
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (event.data || event) +
@@ -406,15 +391,14 @@ export default {
       document.getElementById("input-text-chat").focus();
     },
     textSend(e) {
-      console.log(e.target.value);
+      if (e.target.value) {
       // removing trailing/leading whitespace
-      this.value =
-        this.$store.state.myName +
-        ": " +
+        this.value = this.$store.state.myName + ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-      this.connection.send(this.value);
-      this.appendDIV(this.value);
+        this.connection.send(this.value);
+        this.appendDIV(this.value);
+      }
       e.target.value = "";
     },
 
@@ -494,13 +478,13 @@ export default {
 </script>
 
 <style>
-#videos-container{
+/* #videos-container{
   
   white-space: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; 
   -ms-overflow-style: -ms-autohiding-scrollbar;
-}
+} */
 
 /* .videos-container::-webkit-scrollbar{
   display: none;
@@ -508,9 +492,9 @@ export default {
 
 
 #videos-container video {
-  height: 98px;
-  overflow-x: hidden;
-  /* border: 2px solid white; */
+  height: 100px;
+  /* overflow-x: hidden; */
+  border: 1px solid white;
 }
 
 .Main-videos-container video {
@@ -523,17 +507,13 @@ export default {
   width: 100%;
   float: left;
   overflow-y: hidden;
-  text-align: center;
 }
 #Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
-  background-color: black;
-  border: 2px solid white;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  background-color: rgb(14, 23, 38);
+  /* border: 1px solid white; */
 }
 .Mainvideo {
   position: relative;
@@ -564,13 +544,14 @@ export default {
   position: relative;
   border: 1px #ddd solid;
   height: 100%;
-  /* overflow-y: auto; */
 }
 
 .chat-output {
   float: left;
   position: absolute;
   bottom: 0px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .footer {
