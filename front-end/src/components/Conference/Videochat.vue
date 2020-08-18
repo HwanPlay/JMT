@@ -222,7 +222,7 @@ export default {
     //회의방 나가기
     onLeave() {
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      this.ondisconnect()
+      this.onDisconnect()
 
       var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
@@ -236,7 +236,7 @@ export default {
       this.$router.push("/Group");
       this.$store.commit('SET_VIDEO_ON', false);
     },
-    ondisconnect() {
+    onDisconnect() {
       this.connection.dontAttachStream = true;
       this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
@@ -244,6 +244,17 @@ export default {
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid);
+      });
+    },
+    onBroadDisconnect() {
+      this.broadcast.dontAttachStream = true;
+      // this.broadcast.attachStreams.forEach(function(localStream) {
+      //   localStream.stop();
+      // });
+      this.broadcast.removeStream();
+      var that = this.broadcast;
+      this.broadcast.getAllParticipants().forEach(function(pid) {
+        that.broadcast.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
     },
     //비디오 끄고,켜기
@@ -339,9 +350,18 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
-      console.log(event.data)
-      var picture = event.data.substring(0, 26);
-      var text = event.data.substring(26);
+      console.log(event.data);
+      console.log(typeof(event.data));
+      var picture = null;
+      var text = null;
+      if(!event) { 
+        picture = (event.data).substring(0, 21);
+        text = (event.data).substring(21);
+      }
+      else {
+        picture = event.substring(0, 21);
+        text = event.substring(21);
+      }
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (text || event) +
@@ -375,7 +395,7 @@ export default {
           this.endMeeting = JSON.parse(this.recv)
           console.log('챗 받은 데이터:', this.endMeeting);
           if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
-            this.ondisconnect()
+            this.onDisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
             this.$store.commit('SET_VIDEO_ON', false);
