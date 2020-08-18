@@ -1,6 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="344">
-    {{message}}
+  <v-card class="mx-auto" width="100%">
     <v-card-title class="top justify-center align-content-center">그룹 초대 메세지</v-card-title>
     <v-card-text>
       <v-list-item-title>{{ message.sender }}님의 초대</v-list-item-title>

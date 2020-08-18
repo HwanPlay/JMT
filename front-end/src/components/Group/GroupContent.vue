@@ -7,12 +7,12 @@
           <v-row>
             <div id="conferenceStatusBox" style="width:100%;">
             <p
-              v-if="(nowMeeting || this.conferenceOn)"
+              v-if="(nowMeeting || this.conferenceOn || groupInfo.hasMeeting)"
               class="conferenceStatus"
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="(nowMeeting == false && !this.conferenceOn)"
+              v-if="(groupInfo.hasMeeting == false && nowMeeting == false && !this.conferenceOn)"
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
             >진행중인 회의가 없습니다.</p>
@@ -28,7 +28,7 @@
                 <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
                 <v-btn style="float:right; "
                   @click="sModal=true;"
-                  v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting"
+                  v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting || !hasMeeting"
                   dark
                   color="green"
                 >
@@ -39,7 +39,7 @@
                     <v-card-title class="top">회의 시작하기</v-card-title>
                     <v-container>
                       <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
-                        <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
+                        <v-text-field v-model="meetingTitle" label="회의 명" @keypress.enter="startMeeting" required></v-text-field>
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn :disalbed="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
@@ -50,7 +50,7 @@
                 </v-dialog>
                 <v-btn
                   @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && (nowMeeting || this.conferenceOn)"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && (hasMeeting || nowMeeting || this.conferenceOn)"
                   dark
                   color="blue darken-2"
                 >

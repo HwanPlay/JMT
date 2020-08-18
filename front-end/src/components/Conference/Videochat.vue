@@ -1,18 +1,51 @@
 <template>
   <div id="MainContainer">
-    <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list"
-        center-active
-        show-arrows
-        dark
-      >
-        <v-slide-item id="videos-container">
-          <div class="mx-auto" height="100"></div>
-        </v-slide-item>
-      </v-slide-group>
+    <div id="MainContent">
+
+      <div id="Minivideo_list">
+        <div id="videos-container"></div>
+      </div>
+
+      <v-sheet>
+        <v-slide-group
+          v-model="model"
+          center-active
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 10"
+            :key="n"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="mx-1"
+              height="100"
+              width="132"
+              @click="toggle"
+            >
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+            
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
-        <div class="text-center">
+        <div class="text-center" >
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
             <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
@@ -38,7 +71,7 @@
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
-          background-color="rgb(14, 23, 38)"
+          background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
@@ -72,8 +105,6 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
-          <v-btn @click="onCastJoin">
-          </v-btn>
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -96,7 +127,8 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-    </v-sheet>
+
+    </div>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -129,7 +161,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
@@ -140,7 +171,7 @@
 import axios from 'axios';
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-import Broadcast from "../../api/broadcast";
+// import Broadcast from "../../api/broadcast";
 // import Sharescreen from './Sharescreen.vue';
 import $ from "jquery";
 import Vue from "vue";
@@ -162,7 +193,7 @@ export default {
     // Sharescreen,
     NoteEditor,
     RTCMultiConnection,
-    Broadcast
+    // Broadcast
   },
   props:{
     groupInfo: Object,
@@ -201,6 +232,7 @@ export default {
       trackId: null,
       streamId : null,
 
+      model: null,
       endMeeting: null,
 
       //---------------WebSocket-----------------
@@ -208,9 +240,6 @@ export default {
       ws : null,
       reconnect : 0,
       recv : '',
-
-      // broadcast
-      isBoradcast : false,
     };
   },
   methods: {
@@ -222,7 +251,7 @@ export default {
         video: true,
         audio: true
       };
-      this.connection.openOrJoin(this.groupInfo.roomId+'a');
+      this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
@@ -240,22 +269,17 @@ export default {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
       this.$router.push("/Group");
-      this.$store.commit('SET_VIDEO_ON', false);
     },
     ondisconnect() {
-      this.connection.dontAttachStream = true;
-      this.connection.attachStreams.forEach(function(localStream) {
-        localStream.stop();
-      });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
+      this.$store.commit('SET_VIDEO_ON', false);
     },
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
-      
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
       // 카메라 켜기
@@ -281,29 +305,21 @@ export default {
       this.micOnOff = !this.micOnOff;
     },
     onCast() {
-      console.log("broadcase test - isRoom : " + this.broadcast.isInitiator);
       if (this.castOnOff == false) {
-        console.log('캐스트 켜기1');
-         this.broadcast.session = {
-           video: true
-        };
-        this.broadcast.openOrJoin(this.groupInfo.roomId+'a');
-        
+        console.log('캐스트 켜기')
       } else {
-        console.log('캐스트 끄기1');
-        this.broadcast.closeSoket;
-        console.log('close');
-      }this.broadcast.dontAttachStream = true;
+        console.log('캐스트 끄기')
+      }
       this.castOnOff = !this.castOnOff;
     },
     // offBroadcast() {
-    //   this.connection.dontAttachStream = true;
+    //   this.broadcast.dontAttachStream = true;
     // },
     // onBroadcast() {
-    //   this.connection.session = {
+    //   this.broadcast.session = {
     //     video: true
     //   };
-    //   this.connection.openOrJoin(this.roomId + "a");
+    //   this.broadcast.openOrJoin(this.roomId + "a");
     // },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
@@ -368,7 +384,6 @@ export default {
     },
     appendDIV(event) {
       this.textArea = document.createElement("div");
-      // console.log(userInfo)
       this.textArea.innerHTML =
         "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (event.data || event) +
@@ -380,14 +395,15 @@ export default {
       document.getElementById("input-text-chat").focus();
     },
     textSend(e) {
-      if (e.target.value) {
+      console.log(e.target.value);
       // removing trailing/leading whitespace
-        this.value = this.$store.state.myName + ": " +
+      this.value =
+        this.$store.state.myName +
+        ": " +
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-        this.connection.send(this.value);
-        this.appendDIV(this.value);
-      }
+      this.connection.send(this.value);
+      this.appendDIV(this.value);
       e.target.value = "";
     },
 
@@ -441,9 +457,9 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    this.broadcast = new RTCMultiConnection();
+    // this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+    // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -454,7 +470,7 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
+    // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
     console.log('check check', this.$store.state.videoOn);
     this.$store.commit('SET_VIDEO_ON', true);
@@ -467,13 +483,13 @@ export default {
 </script>
 
 <style>
-/* #videos-container{
+#videos-container{
   
   white-space: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; 
   -ms-overflow-style: -ms-autohiding-scrollbar;
-} */
+}
 
 /* .videos-container::-webkit-scrollbar{
   display: none;
@@ -481,9 +497,9 @@ export default {
 
 
 #videos-container video {
-  height: 100px;
-  /* overflow-x: hidden; */
-  border: 1px solid white;
+  height: 98px;
+  overflow-x: hidden;
+  border: 2px solid white;
 }
 
 .Main-videos-container video {
@@ -496,13 +512,17 @@ export default {
   width: 100%;
   float: left;
   overflow-y: hidden;
+  text-align: center;
 }
 #Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
-  background-color: rgb(14, 23, 38);
-  /* border: 1px solid white; */
+  background-color: black;
+  border: 2px solid white;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 .Mainvideo {
   position: relative;
@@ -533,14 +553,13 @@ export default {
   position: relative;
   border: 1px #ddd solid;
   height: 100%;
+  /* overflow-y: auto; */
 }
 
 .chat-output {
   float: left;
   position: absolute;
   bottom: 0px;
-  height: 100%;
-  overflow-y: auto;
 }
 
 .footer {
