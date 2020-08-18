@@ -108,6 +108,7 @@ export default Vue.extend({
       meetingModalOn: false,
       reconnect : 0,
       inviteModal: false,
+      isLogin: this.isLoggedIn,
     };
   },
   methods: {
@@ -154,7 +155,6 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.connect();
     this.$router.push('Home');
     console.log(this.inviteModal);
   },
@@ -169,6 +169,16 @@ export default Vue.extend({
       return this.$store.getters.isLoggedIn;
     },
   },
+  watch: {
+    isLoggedIn(){
+      if (this.isLoggedIn){
+        console.log('Hello!!!');
+        this.connect();
+      }
+    }
+  }
+
+
 });
 </script>
 

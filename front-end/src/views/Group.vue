@@ -81,6 +81,8 @@
       <GroupContent
         :groupInfo="$store.state.myGroups[this.onboarding]"
         :meetingNoteInfo="meetingNoteInfo"
+        :conferenceAlert="conferenceAlert"
+        :tmpGroupNo="tmpGroupNo"
       />
     </v-col>
     <v-col v-else>
@@ -117,7 +119,8 @@ export default {
       reconnect: 0,
       recv: '',
       meetingNoteInfo: [],
-      conferenceAlert: false
+      conferenceAlert: false,
+      tmpGroupNo: null
     };
   },
   methods: {
@@ -178,6 +181,7 @@ export default {
             '/send/meeting/' + this.$store.state.myGroups[i].groupNo,
             res => {
               this.conferenceAlert = true;
+              this.tmpGroupNo = res.body.groupNo;
               this.recv = res.body;
               console.log(this.recv);
             }
@@ -222,7 +226,7 @@ export default {
             meetingList.forEach(meeting => {
               Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
                 .then((res)=> {
-                  console.log(meeting.createdDate);
+                  // console.log(meeting.createdDate);
                   calendar_meeting.push({
                     name: meeting.title,
                     start: meeting.createdDate,
