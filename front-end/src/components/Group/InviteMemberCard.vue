@@ -12,7 +12,7 @@
     </div>
   </v-list-item>
 </template>
-
+  
 <script>
 import axios from 'axios';
 import SERVER from '../../api/spring.js';
@@ -49,7 +49,10 @@ export default {
           this.$emit('send');
           this.isInvited = true;
           this.$el.parentNode.removeChild(this.$el);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4d8afd9645bf32f7b75c577864d9895c7927b4da
         })
         .catch(err => {
           this.$emit('fail');
