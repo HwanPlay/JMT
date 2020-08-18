@@ -1,6 +1,5 @@
 package com.ssafy.videoconference.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +17,10 @@ import com.ssafy.videoconference.controller.command.AddMeetingCommand;
 import com.ssafy.videoconference.controller.payload.AddMeetingPayload;
 import com.ssafy.videoconference.controller.result.ApiResult;
 import com.ssafy.videoconference.controller.result.MeetingResult;
+import com.ssafy.videoconference.controller.result.Result;
 import com.ssafy.videoconference.model.meeting.bean.Meeting;
 import com.ssafy.videoconference.model.meeting.service.MeetingService;
-import com.ssafy.videoconference.model.note.bean.Note;
 import com.ssafy.videoconference.model.note.service.NoteService;
-import com.ssafy.videoconference.model.user.bean.CurrentUser;
-import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -64,6 +62,13 @@ public class MeetingController {
 	public ResponseEntity<ApiResult> getCurrentMeeting(@PathVariable("groupNo") int groupNo) {
 		int meeting = meetingService.findCurrentMeeting(groupNo);
 		return MeetingResult.build(meeting);
+	}
+	
+	
+	@PutMapping("update/{meetingNo}")
+	public ResponseEntity<ApiResult> UpdateMeetingTime(@PathVariable("meetingNo") int meetingNo) {
+		meetingService.updateMeetingTime(meetingNo);
+		return Result.ok();
 	}
 	
 	

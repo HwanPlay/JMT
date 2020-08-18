@@ -59,7 +59,7 @@ public class UserController {
 	private static final String FAIL = "fail";
 
 	private static final String IMGFOLDER = "/home/jenkins/workspace/joinmeeting/backend/resources/profile/image";
-	private static final String DEFAULT_IMG = "default.jpg";
+	private static final String DEFAULT_IMG = "teamdns_default01.jpg";
 
 	@Resource(name = "userService")
 	private IUserService userService;
