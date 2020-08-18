@@ -6,43 +6,25 @@
         <div id="videos-container"></div>
       </div>
 
-      <v-sheet>
+      <!-- <v-sheet>
         <v-slide-group
           v-model="model"
           center-active
           show-arrows
         >
-          <v-slide-item
-            v-for="n in 10"
-            :key="n"
-            v-slot:default="{ active, toggle }"
-          >
+          <v-slide-item v-slot:default="{ active, toggle }" id="videos-container">
             <v-card
               :color="active ? 'primary' : 'grey lighten-1'"
               class="mx-1"
               height="100"
               width="132"
               @click="toggle"
-            >
-              <v-row
-                class="fill-height"
-                align="center"
-                justify="center"
-              >
-                <v-scale-transition>
-                  <v-icon
-                    v-if="active"
-                    color="white"
-                    size="48"
-                    v-text="'mdi-close-circle-outline'"
-                  ></v-icon>
-                </v-scale-transition>
-              </v-row>
-            </v-card>
-            
+              style="display: inline"
+            ></v-card>
           </v-slide-item>
+
         </v-slide-group>
-      </v-sheet>  
+      </v-sheet> -->
 
       <div id="video_list_videOrshow">
         <div class="text-center" >
@@ -171,7 +153,7 @@
 import axios from 'axios';
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-// import Broadcast from "../../api/broadcast";
+import Broadcast from "../../api/broadcast";
 // import Sharescreen from './Sharescreen.vue';
 import $ from "jquery";
 import Vue from "vue";
@@ -193,7 +175,7 @@ export default {
     // Sharescreen,
     NoteEditor,
     RTCMultiConnection,
-    // Broadcast
+    Broadcast
   },
   props:{
     groupInfo: Object,
@@ -251,7 +233,7 @@ export default {
         video: true,
         audio: true
       };
-      this.connection.openOrJoin(this.groupInfo.roomId);
+      this.connection.openOrJoin(this.groupInfo.roomId+'a');
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
@@ -284,6 +266,7 @@ export default {
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
+      
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
       // 카메라 켜기
@@ -311,10 +294,18 @@ export default {
     onCast() {
       if (this.castOnOff == false) {
         console.log('캐스트 켜기')
-      } else {
-        console.log('캐스트 끄기')
+        this.broadcast.session={
+          video: true,
+          audio: true,
+          oneway : true
+        }
+        this.broadcast.open(this.groupInfo.roomId);
       }
-      this.castOnOff = !this.castOnOff;
+      //  else {
+      //   this.broadcast.sdpConstraints.mandatory
+      //   console.log('캐스트 끄기')
+      // }
+      // this.castOnOff = !this.castOnOff;
     },
     // offBroadcast() {
     //   this.broadcast.dontAttachStream = true;
@@ -461,9 +452,9 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    // this.broadcast = new RTCMultiConnection();
+    this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    // this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
+    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -474,7 +465,7 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    // this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
+    this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
 
     console.log('check check', this.$store.state.videoOn);
     this.$store.commit('SET_VIDEO_ON', true);
@@ -503,7 +494,7 @@ export default {
 #videos-container video {
   height: 98px;
   overflow-x: hidden;
-  border: 2px solid white;
+  /* border: 2px solid white; */
 }
 
 .Main-videos-container video {

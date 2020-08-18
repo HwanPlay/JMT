@@ -13,6 +13,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ]);
 
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({

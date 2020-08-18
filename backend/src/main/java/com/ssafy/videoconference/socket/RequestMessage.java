@@ -12,6 +12,5 @@ public class RequestMessage {
 	private String receiver;
 	private String groupName;
 	private int groupNo;
-	private int requestNo;
 	
 }
