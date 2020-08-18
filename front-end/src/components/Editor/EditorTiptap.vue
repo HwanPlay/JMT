@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="9">
+  <b-col cols="8">
     
     <div class="editor">
       <!-- Upper Menu -->
@@ -172,13 +172,13 @@
       </editor-menu-bubble>
 
       <!-- {{dataHTML}} -->
-      <div inline>
-        <input
-            v-model="dataNoteObj.Title"
-            type="text"
-            required
-            placeholder="Note Title"
-          >
+      <div class="d-flex justify-space-around">
+        <input 
+          type="text" 
+          class="title-form form-control" 
+          v-model="dataNoteObj.Title" 
+          required
+          placeholder="Note Title">
           
           <div class="note_button">
             <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
@@ -305,5 +305,8 @@ export default {
 <style scoped>
 .note_button{
   margin: 0 0 0 auto;
+}
+.title-form {
+  width: 20rem;
 }
 </style>
