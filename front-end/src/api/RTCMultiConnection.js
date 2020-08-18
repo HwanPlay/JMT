@@ -4766,13 +4766,18 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
     connection.mediaConstraints = {
       audio: {
-        mandatory: {},
+        mandatory:  {},
         optional: connection.bandwidth.audio ? [{
           bandwidth: connection.bandwidth.audio * 8 * 1024 || 128 * 8 * 1024
         }] : []
       },
       video: {
-        mandatory: {},
+        mandatory: {
+          "minWidth": "640",
+          "maxWidth": "1280",
+          "minHeight": "480",
+          "maxHeight": "720",
+        },
         optional: connection.bandwidth.video ? [{
           bandwidth: connection.bandwidth.video * 8 * 1024 || 128 * 8 * 1024
         }, {
