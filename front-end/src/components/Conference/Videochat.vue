@@ -133,20 +133,17 @@
 
   </div>
 </template>
-<script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
+
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import Vue from "vue";
 import axios from 'axios';
+import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-import Broadcast from "../../api/broadcast";
-// import Sharescreen from './Sharescreen.vue';
-import $ from "jquery";
-import Vue from "vue";
-// import WebRTC from '../../api/webrtc';
-// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -154,16 +151,11 @@ import SERVER from '../../api/spring';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
-// Vue.use(WebRTC)
-// Vue.use(BroadCast)
-
 export default {
   name: "Videochat",
   components: {
     // Sharescreen,
     NoteEditor,
-    RTCMultiConnection,
-    Broadcast
   },
   props:{
     groupInfo: Object,
@@ -223,7 +215,7 @@ export default {
         video: true,
         audio: true
       };
-      this.connection.openOrJoin(this.groupInfo.roomId+'a');
+      this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
       this.overlay = false;
     },
@@ -251,7 +243,7 @@ export default {
       });
       var that = this;
       this.connection.getAllParticipants().forEach(function(pid) {
-        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+        that.connection.disconnectWith(pid);
       });
     },
     onBroadDisconnect() {
@@ -294,31 +286,18 @@ export default {
       this.micOnOff = !this.micOnOff;
     },
     onCast() {
-      console.log("broadcase test - isRoom : " + this.broadcast.isInitiator);
       if (this.castOnOff == false) {
         console.log('캐스트 켜기1');
          this.broadcast.session = {
            video: true
         };
-        this.broadcast.open(this.groupInfo.roomId+'a');
+        this.broadcast.openOrJoin(this.groupInfo.roomId);
         
       } else {
         console.log('캐스트 끄기1');
-        // this.broadcast.closeSocket();
-        this.onBroadDisconnect();
-        console.log('close');
-      }this.broadcast.dontAttachStream = true;
+      }
       this.castOnOff = !this.castOnOff;
     },
-    // offBroadcast() {
-    //   this.connection.dontAttachStream = true;
-    // },
-    // onBroadcast() {
-    //   this.connection.session = {
-    //     video: true
-    //   };
-    //   this.connection.openOrJoin(this.roomId + "a");
-    // },
     videoBar() {
       this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
@@ -361,18 +340,6 @@ export default {
         this.Chatbool = false;
       }
     },
-    // onCanvas() {
-    //   this.disableCanvasBool = true;
-    //   this.designer.widgetHtmlURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
-    //   this.designer.widgetJsURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-    //   this.designer.appendTo(document.getElementById("widget-container"));
-    // },
-    // onCapture() {
-    //   this.img = this.$refs.webrtc.capture();
-    // },
-
 
     onError(error, stream) {
       console.log("On Error Event", error, stream);
@@ -419,6 +386,7 @@ export default {
             this.onDisconnect()
             alert('호스트가 회의를 종료하였습니다.')
             this.$router.push("/Group");
+            this.$store.commit('SET_VIDEO_ON', false);
           }
         });
       }, () => {
@@ -495,9 +463,10 @@ export default {
 
 
 #videos-container video {
-  height: 100px;
-  /* overflow-x: hidden; */
-  border: 1px solid white;
+  height: 99px;
+  margin: 0px 1px;
+  border: 2px groove white;
+  border-radius: 3px;
 }
 
 .Main-videos-container video {
@@ -524,7 +493,7 @@ export default {
   height: 88.2%;
   overflow-y: hidden;
   text-align: center;
-  background-color: black;
+  background-color: rgb(229, 235, 239)
 }
 #note-container {
   display: none;
