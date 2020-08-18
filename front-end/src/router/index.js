@@ -51,12 +51,6 @@ const routes = [
     name: 'EditorDetail',
     component: () => import('../views/EditorDetail.vue')
   },
-
-  {
-    path: '/hwan',
-    name: 'HwanRtc',
-    component: () => import('../views/HwanRtc.vue')
-  }
 ];
 
 const router = new VueRouter({
