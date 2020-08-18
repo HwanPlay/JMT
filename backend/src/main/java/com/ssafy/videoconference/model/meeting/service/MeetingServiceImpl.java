@@ -58,6 +58,7 @@ public class MeetingServiceImpl implements MeetingService {
 	@Override
 	public void updateMeetingTime(int meetingNo) {
 		Meeting meeting = meetingRepository.findByNo(meetingNo);
+		meeting.setTitle( meeting.getTitle()+ " ");
 		meetingRepository.save(meeting);
 	}
 

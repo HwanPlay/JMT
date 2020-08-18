@@ -235,6 +235,7 @@ export default {
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.send(true);
         axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
+        axios.put(SERVER.URL + '/meeting/update/' + this.meetingInfo.meetingNo);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
