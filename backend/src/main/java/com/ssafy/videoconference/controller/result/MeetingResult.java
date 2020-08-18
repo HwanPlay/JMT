@@ -32,6 +32,7 @@ public class MeetingResult {
 		for(Meeting meeting : meetings) {
 			meetingsData.add(new MeetingData(meeting.getMeetingNo(),
 												meeting.getGroup().getGroupNo(),
+												meeting.getGroup().isHasmeeting(),
 												meeting.getTitle(),
 												meeting.getCreatedDate(),
 												meeting.getModifiedDate()));
@@ -55,6 +56,7 @@ public class MeetingResult {
 	private static class MeetingData {
 		private int meetingNo;
 		private int groupNo;
+		private boolean hasMeeting;
 		private String title;
 		private LocalDateTime createdDate;
 		private LocalDateTime modifiedDate;

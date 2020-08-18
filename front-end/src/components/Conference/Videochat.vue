@@ -236,6 +236,7 @@ export default {
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.send(true);
         axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
+        axios.put(SERVER.URL + '/meeting/update/' + this.meetingInfo.meetingNo);
         alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
       } else {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
@@ -379,11 +380,11 @@ export default {
     logEvent(event) {
       console.log("Event : ", event);
     },
-    appendDIV(event) {
+    appendDIV(event, picture) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (event.data || event) +
         "</p></div></li></ul>";
       console.log(this.textArea);
@@ -399,7 +400,7 @@ export default {
         e.target.value.toString().replace(/^\s+|\s+$/g, "");
       // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
         this.connection.send(this.value);
-        this.appendDIV(this.value);
+        this.appendDIV(this.value, this.$store.state.myPicture);
       }
       e.target.value = "";
     },
