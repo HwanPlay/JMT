@@ -12,7 +12,8 @@
 
 
       <div>
-        <input id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect">
+        <input id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
+            <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
       </div>
 
       <v-divider></v-divider>
