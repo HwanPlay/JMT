@@ -14,6 +14,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ]);
 
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -40,6 +41,7 @@ function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html');
   }
+  
 
   win.on('closed', () => {
     win = null;
