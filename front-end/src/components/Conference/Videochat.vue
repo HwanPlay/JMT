@@ -1,18 +1,51 @@
 <template>
   <div id="MainContainer">
-    <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list"
-        center-active
-        show-arrows
-        dark
-      >
-        <v-slide-item id="videos-container">
-          <div class="mx-auto" height="100"></div>
-        </v-slide-item>
-      </v-slide-group>
+    <div id="MainContent">
+
+      <div id="Minivideo_list">
+        <div id="videos-container"></div>
+      </div>
+
+      <v-sheet>
+        <v-slide-group
+          v-model="model"
+          center-active
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 10"
+            :key="n"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="mx-1"
+              height="100"
+              width="132"
+              @click="toggle"
+            >
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+            
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>  
 
       <div id="video_list_videOrshow">
-        <div class="text-center">
+        <div class="text-center" >
           <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
             <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
             <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
@@ -38,7 +71,7 @@
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
-          background-color="rgb(14, 23, 38)"
+          background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
@@ -97,7 +130,8 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-    </v-sheet>
+
+    </div>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -130,7 +164,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -143,7 +176,6 @@ import axios from 'axios';
 import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-
 import NoteEditor from "./ConfNoteEditor";
 
 import SERVER from '../../api/spring';
@@ -194,6 +226,7 @@ export default {
       trackId: null,
       streamId : null,
 
+      model: null,
       endMeeting: null,
 
       //---------------WebSocket-----------------
@@ -201,9 +234,6 @@ export default {
       ws : null,
       reconnect : 0,
       recv : '',
-
-      // broadcast
-      isBoradcast : false,
     };
   },
   methods: {
@@ -234,7 +264,6 @@ export default {
         alert(numberOfUsers + '명이 당신과 함께하였습니다.');
       }
       this.$router.push("/Group");
-      this.$store.commit('SET_VIDEO_ON', false);
     },
     onDisconnect() {
       this.connection.dontAttachStream = true;
@@ -256,11 +285,11 @@ export default {
       this.broadcast.getAllParticipants().forEach(function(pid) {
         that.broadcast.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
       });
+      this.$store.commit('SET_VIDEO_ON', false);
     },
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
-      
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
       // 카메라 켜기
@@ -467,13 +496,17 @@ export default {
   width: 100%;
   float: left;
   overflow-y: hidden;
+  text-align: center;
 }
 #Minivideo_list {
   position: relative;
   height: 100px;
   width: 100%;
-  background-color: rgb(14, 23, 38);
-  /* border: 1px solid white; */
+  background-color: black;
+  border: 2px solid white;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 .Mainvideo {
   position: relative;
@@ -504,14 +537,13 @@ export default {
   position: relative;
   border: 1px #ddd solid;
   height: 100%;
+  /* overflow-y: auto; */
 }
 
 .chat-output {
   float: left;
   position: absolute;
   bottom: 0px;
-  height: 100%;
-  overflow-y: auto;
 }
 
 .footer {

@@ -1,30 +1,38 @@
 <template>
-  <v-card flat style="max-width: 500px;">
+  <v-card flat style="max-width: 500px; height: 100%">
     <v-card-title class="top d-flex justify-center align-center">그룹 정보 수정</v-card-title>
-      <v-container>
-      <v-form ref="form" lazy-validation class="ml-2 mr-2">
-        <v-row>
-          <v-col cols= "5">
-            <v-text-field v-model="editGroupInfo.groupName" :counter="10" :rules="rules.name" label="그룹 명" required></v-text-field>
-          </v-col>
-        </v-row>
-        <v-textarea v-model="editGroupInfo.groupIntro" :counter="50" :rules="rules.intro" label="그룹 소개" required></v-textarea>
-        <v-card-actions>
-        <v-btn text color="error" class="mr-4" @click="alert = !alert">
-          그룹 해체
+      <v-container class="p-4">
+
+      <b-form-group label="이름" label-for="input-1">
+        <b-form-input
+          id="input-1"
+          v-model="editGroupInfo.groupName"
+          required
+          placeholder="그룹 이름">
+        </b-form-input>
+      </b-form-group>
+      
+      <b-form-group id="input-group-2" class="mt-7 " label="그룹 소개" label-for="input-2">
+        <b-form-textarea
+          id="input-2"
+          v-model="editGroupInfo.groupIntro"
+          required
+          placeholder="그룹 소개"
+          rows="5" 
+        ></b-form-textarea>
+      </b-form-group>
+        <v-btn class="mt-4" color="rgb(255, 128, 74)" block style="outline:none" :disabled="!valid" @click="submit">
+          <div style="color: white">수정</div>
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn text color="blue" @click="submit">
-          정보 수정
+        <v-btn class="mt-4" color="rgb(187, 201, 224)" block style="outline:none" :disabled="!valid" @click="alert=!alert">
+          <div style="color: white">해체</div>
         </v-btn>
-        </v-card-actions>
-        <v-alert :value="alert" outlined dense type="error" prominent border="left" transition="scale-transition">
+        <v-alert class="mt-6" :value="alert" outlined dense type="error" prominent border="left" transition="scale-transition">
           그룹과 관련된 모든 정보가 삭제됩니다. <br> 그룹 삭제를 원하시면 
           <strong><span style='text-decoration: underline; cursor: pointer;' @click='destroyGroup'>
             이곳
           </span></strong>을 클릭해주세요
         </v-alert>
-      </v-form>
     </v-container>
   </v-card>
 </template>
@@ -75,6 +83,11 @@ export default {
         .catch(err => console.log(err.response));  
     },
   },
+  computed: {
+    valid(){
+      return (this.editGroupInfo.groupIntro && this.editGroupInfo.groupName);
+    }
+  },
   watch:{
     onModal(){
       this.editGroupInfo.groupIntro = this.groupInfo.groupIntro;
@@ -88,5 +101,9 @@ export default {
   .top {
     background-color: rgb(52, 63, 87);
     color: white;
+  }
+  .form-control:focus {
+    border-color: rgb(255, 128, 74);
+    box-shadow: 0 0 0 0.2rem rgba(255, 128, 74, 0.3);
   }
 </style>

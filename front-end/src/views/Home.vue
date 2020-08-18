@@ -29,7 +29,7 @@
             <v-btn class="rounded-xl" dark depressed style="height: 145px; width: 145px; outline: none;" @click="modalOn=true" color="rgb(52, 63, 87)">
               <v-icon size="70">fas fa-plus-square</v-icon>
             </v-btn>
-            <v-dialog v-model="modalOn" max-width="500px">
+            <v-dialog v-model="modalOn" width="500px">
               <CreateGroup @close="closeModal" :modalOn=modalOn />
             </v-dialog>
           </div>

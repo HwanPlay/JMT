@@ -1,35 +1,41 @@
 <template>
-  <v-card flat style="max-width: 500px; max-height: 500px;">
+  <v-card flat style="max-width: 500px; height: 95%;">
     <v-card-title class="top d-flex justify-center align-center">그룹 생성하기</v-card-title>
-    <v-container>
-      <v-form ref="form" lazy-validation class="ml-2 mr-2">
-        <v-row>
-          <v-col cols= "5">
-            <v-text-field v-model="createGroupInfo.groupName" :counter="10" :rules="rules.name" label="그룹 명" required></v-text-field>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols= "6">
-          </v-col>
-        </v-row>
-        <v-textarea v-model="createGroupInfo.groupIntro" :counter="50" :rules="rules.intro" label="그룹 소개" required></v-textarea>
-        <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text color="error" class="mr-4" @click="reset">
-          초기화
-        </v-btn>
-        <v-btn :disabled="!valid" text color="blue" @click="submit">
-          그룹 생성
-        </v-btn>
+      <v-container class="p-4">
+
+        <b-form-group label="이름" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="createGroupInfo.groupName"
+            required
+            placeholder="그룹 이름">
+          </b-form-input>
+        </b-form-group>
+        
+        <b-form-group id="input-group-2" class="mt-7 " label="그룹 소개" label-for="input-2">
+          <b-form-textarea
+            id="input-2"
+            v-model="createGroupInfo.groupIntro"
+            required
+            placeholder="그룹 소개"
+            rows="5" 
+          ></b-form-textarea>
+        </b-form-group>
+
+        <v-card-actions class="p-0">
+          <v-btn class="mt-4" color="rgb(255, 128, 74)" block style="outline: none" :disabled="!valid" @click="submit">
+            <div style="color:white">CREATE</div>
+          </v-btn>
         </v-card-actions>
 
-      </v-form>
-    </v-container>
+      </v-container>
   </v-card>
 </template>
 
 <script>
 import axios from 'axios';
 import SERVER from '../../api/spring.js';
+
 
 export default {
   name: 'CreateGroup',
@@ -38,21 +44,19 @@ export default {
   },
   data () {
     return {
+      step: 1,
       createGroupInfo:{
         groupIntro: '',
         groupName: '',
-        hostId: this.$store.state.userId
-      },
-      rules: {
-        name: [val => (val || '').length > 0 || '그룹 이름을 정해주세요'],
-        intro: [val => (val || '').length > 0 || '그룹 소개를 작성해주세요'],
+        hostId: this.$store.state.userId,
       },
     };
   },
 
   methods: {
     reset () {
-      this.$refs.form.reset();
+      this.createGroupInfo.groupIntro = '';
+      this.createGroupInfo.groupName = '';
     },
     submit () {
       console.log(this.createGroupInfo);
@@ -90,4 +94,9 @@ export default {
   .hostId{
     border-bottom-width: 10px;
   }
+  .form-control:focus {
+    border-color: rgb(255, 128, 74);
+    box-shadow: 0 0 0 0.2rem rgba(255, 128, 74, 0.3);
+  }
+  
 </style>

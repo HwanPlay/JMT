@@ -160,7 +160,6 @@ export default {
       
       this.meetingNoteInfo = calendar_meeting;
       
-      console.log(groupNo);
       console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
@@ -209,9 +208,7 @@ export default {
     console.log('res', this.$store.state.myGroups.length);
     if (this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
       this.connect(this.onboarding);
-      console.log('onboladrsadasd', this.onboarding);
       // console.log('이거 info'+this.$store.state.myGroups[this.onboarding]);
-      console.log(this.$store.state.myGroups[0].groupNo);
     }
 
     const GROUP_URL = '/group/get/all/';

@@ -19,11 +19,18 @@ export default {
     return {
       noteObj: {},
       noteList: [],
+
+      groupNo: this.$route.query.groupNo,
     };
   },
   components: {
     EditorDetailSideBar,
     EditorTiptap
+  },
+  watch: {
+    groupNo() {
+      console.log(this.groupNo);
+    }
   },
   methods: {
     getNoteHTML(noteNo) {
