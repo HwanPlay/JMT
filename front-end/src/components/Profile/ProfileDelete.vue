@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="50%">
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="text-center" text small color="error" v-bind="attrs" v-on="on">Delete Account</v-btn>
       </template>
