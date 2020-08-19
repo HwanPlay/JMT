@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <!-- Login Component -->
-    <div v-if="!isLoggedIn && !tmpLogin">
-      <Login @loginConfirm="enterService" />
+    <div v-if="!isLoggedIn">
+      <Login />
     </div>
 
     <!-- NavBar -->
@@ -64,7 +64,7 @@
 
         <!-- logout Router -->
         <div class="text-center" style="height: 100%">
-          <v-btn text class="mr-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
+          <v-btn text class="mr-2" @click="logout(); ws.disconnect();" style="height: 100%; width:100%; outline:none;">
             <v-icon size="30">mdi-logout</v-icon>
           </v-btn>
         </div>
@@ -74,7 +74,7 @@
       </v-dialog>
     </div >
 
-      <v-main v-if="isLoggedIn || tmpLogin">
+      <v-main v-if="isLoggedIn">
         <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
       </v-main>
   </v-app>
@@ -107,7 +107,6 @@ export default Vue.extend({
 
   data() {
     return {
-      tmpLogin: false,
       sock : null,
       ws : null,
       recv : null,
@@ -128,9 +127,6 @@ export default Vue.extend({
       this.$router.push('Note');
     },
     ...mapActions(['logout']),
-    enterService() {
-      this.tmpLogin = true;
-    },
 
 
     connect() {
@@ -139,7 +135,9 @@ export default Vue.extend({
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
           this.recv = JSON.parse(res.body);
-          this.inviteModal = true;
+          if(this.recv.receiver == this.$store.state.userId){
+            this.inviteModal = true;
+          }
         });
       }, error => {
         if(this.reconnect++ <= 5) {

@@ -1,10 +1,11 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 버튼 부분 -->
+    <v-col cols="1"></v-col>
     <v-col cols="5" style="height: 100%;" class="ml-2">
       <v-row style="height: 100%;" align="center" justify="center">
         
-        <v-col class="text-center" cols="12" sm="4">
+        <v-col class="text-center mr-4" cols="12" sm="4">
           <div class="my-2">
             <v-btn class="rounded-xl" dark depressed style="height: 145px; width: 145px; outline: none;" color="rgb(255, 128, 74)" @click='meetingModalOn=true'>
               <v-icon size="70">fas fa-video</v-icon>
@@ -49,7 +50,7 @@
     <!-- <v-spacer></v-spacer> -->
 
     <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols=6 style="height: 100%;">
+    <v-col cols="4" style="height: 100%;">
       <v-row style="height: 100%;" align="center" justify="center">
        <v-col cols="12">
         <v-card tile class="mx-auto" width="100%">
@@ -58,15 +59,15 @@
             <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YYYY-MM-DD') }}</h4>
           </v-img>
 
-          <v-card-subtitle class="pb-0"><h3>About JMT</h3></v-card-subtitle>
+          <v-card-subtitle class="pb-0 mt-3"><h2>About JMT</h2></v-card-subtitle>
           <!-- <hr class="m-2"> -->
           <v-card-text class="text--primary m-0 pt-0 pb-0" style="height: 100%;">
               <hr>
-              <h4>JMT는</h4>
-              <h6>누구나 쉽게 사용가능한</h6>
-              <h6>그룹 기반의 화상회의 서비스입니다</h6>
-              <h6>무슨 말을 더 넣을까</h6>
-              <h6>무슨말을 넣어야하나</h6>
+              <h6>화상회의와 에디터가 하나에!</h6>
+              <h6>그룹을 기반으로 한 안전한 화상회의</h6>
+              <h6>간편한 마크다운 에디터</h6>
+              <h6>미팅 기록을 통한 회의록 관리까지</h6>
+              <h6 style="display: inline"><h2 style="display: inline; color: rgb(255, 128, 74)">JMT</h2>를 사용해보세요 !</h6>
               <p></p>
             <!-- <h4>SSAFY 3기 대전 1반</h4>
             <div>Make our own Service</div> -->

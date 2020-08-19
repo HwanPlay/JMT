@@ -1,7 +1,7 @@
 <template>
     <v-form ref="form" v-model="valid">
       <v-card class="mx-auto" max-width="500" style="background-color: rgb(187, 201, 224);">
-        <v-card-title class="title font-weight-regular justify-space-between">
+        <v-card-title class="title top font-weight-regular justify-space-between">
           <span>{{ currentTitle }}</span>
         </v-card-title>
 
@@ -229,5 +229,9 @@ export default {
     to {
       transform: rotate(360deg);
     }
+  }
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
   }
 </style>
