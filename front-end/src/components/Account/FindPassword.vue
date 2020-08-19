@@ -160,7 +160,6 @@ export default {
             this.mailCheck = true;
           }else{
             this.AuthorWord = res.data;
-            console.log(this.AuthorWord);
             this.mailCheck = false;
           }
           this.loading = false;
