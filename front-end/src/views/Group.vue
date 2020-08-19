@@ -1,5 +1,5 @@
 <template>
-  <v-row style="width: 100%; height: 100%;">
+  <v-row style="width: 100%; height: 89.2vh;">
     <div class="nav" id="nav-box">
       <v-navigation-drawer height="100%" permanent>
         <div id="myProfile">
@@ -18,7 +18,7 @@
           </v-list-item-content>
         </div>
         <v-divider></v-divider>
-        <v-list height="55%" nav dense>
+        <v-list height="50vh" nav dense>
           <v-list-item-group v-model="group" active-class="border" color="orange">
             <div id="v-list-item-box">
               <v-list-item

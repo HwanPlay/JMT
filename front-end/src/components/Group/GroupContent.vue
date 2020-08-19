@@ -346,7 +346,7 @@ export default {
   margin-top: 5px;
   margin-bottom: 20px;
   border-radius: 15px;
-  height: 220px;
+  height: 25vh;
   padding: 20px;
   padding-top: 5px;
   /* padding: 15px; */
@@ -354,7 +354,7 @@ export default {
 }
 
 .GroupListBox {
-  height: 290px;
+  height: 40vh;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
