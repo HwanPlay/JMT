@@ -5380,7 +5380,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
       }
     };
 
-    connection.autoCloseEntireSession = true;
+    connection.autoCloseEntireSession = false;
 
     connection.filesContainer = connection.videosContainer = document.body || document.documentElement;
     connection.isInitiator = false;
