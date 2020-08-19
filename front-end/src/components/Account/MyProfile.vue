@@ -1,14 +1,14 @@
 <template>
   <div class="text-center" style="height: 100%">
-    <v-dialog v-model="dialog" width="50%">
+    <v-dialog v-model="dialog" width="30%">
       <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
-            <v-icon size="30">mdi-account</v-icon>
+            <v-icon @click="initProfile" size="30">mdi-account</v-icon>
           </v-btn>
       </template>
 
       <v-card class="rounded">
-        <MyProfileFacebook />
+        <MyProfileFacebook :profileFlag="profileFlag"/>
         <!-- <v-container>
           <v-row>
             <v-col cols="4">
@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       dialog: false,
+      profileFlag: false,
     };
   },
   components: {
@@ -55,16 +56,12 @@ export default {
   computed: {
   },
   methods: {
-    
+    initProfile() {
+      this.profileFlag = !this.profileFlag;
+    }
   }
 };
 </script>
 
 <style scoped>
-div {
-  color: white;
-}
-.modal-bg {
-  background-color: rgb(14, 23, 38);
-}
 </style>

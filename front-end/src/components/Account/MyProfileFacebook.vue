@@ -1,18 +1,24 @@
 <template>
   <div class="modal-bg" >
-    <h2 class="pt-3 d-flex justify-center">Profile</h2>
-    <v-divider></v-divider>
+    <h2 class="py-3 d-flex justify-center profile-title">Profile</h2>
     <div class="프로필 사진">
 
-       <div class=" d-flex justify-center align-center">
+      <div class="img-holder d-flex justify-center">
         <v-avatar size="164" tile>
           <img id="profile" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
+          <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
+          <input hidden style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
         </v-avatar>
       </div>
 
 
       <div class=" d-flex justify-end">
-        <input style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
+
+        <div v-if="file">
+          <label for="input-file">Image:</label>
+          <span id="input-file">{{file.name}}</span>       
+        </div>
+        <!-- <div class="btn btn-primary" @click="getFileInput" >Image Upload</div> -->
       </div>
 
       <v-divider></v-divider>
@@ -23,13 +29,13 @@
         </div>
         <div>
           <i class="mdi mdi-account-circle"></i>
-          UserName: <input style="color:white;" class="inline" type="text"  v-model="user_name">
+          UserName: <input class="inline" type="text"  v-model="user_name">
           <!-- <v-form ref="form">
             <v-text-field v-model="user_name" :counter="max" :rules="rules" label="User Name"></v-text-field>
           </v-form> -->
         </div>
       </div>
-      <v-btn @click="submitSave" style="color:white;" text color="#526387" class="align-self-end">Save</v-btn>
+      <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
 
       <v-divider></v-divider>
       <div class="d-flex justify-space-around">
@@ -59,7 +65,19 @@ export default {
       user_name: this.$store.state.myName,
     };
   },
+  props: {
+    profileFlag: Boolean,
+  },
+  watch: {
+    profileFlag: function() {
+      console.log(this.profileFlag);
+      this.file = '';
+    }
+  },
   methods: {
+    getFileInput(){
+      document.querySelector('#file').click();
+    },
     fileSelect() {
       console.log(this.$refs);
       this.file = this.$refs.file.files[0];
@@ -101,12 +119,29 @@ export default {
 
 <style scoped>
 #profile {
-  width: 200px;
-  height: 200px;
+  width: 164px;
+  height: 164px;
   object-fit: cover;
   border-radius: 50%;
 }
+.img-holder{
+  position: relative;
+}
+.img-holder .profile-edit{
+  position: absolute;
+  bottom: -40%; /*your button position*/
+  right: -40%; /*your button position*/
+}
 
 
-
+.profile-title {
+  background-color: rgb(14, 23, 38);
+  color: white;
+}
+/* .profile-edit{
+  position: relative;
+  float: left;
+  right: 0;
+  bottom: 0;  
+} */
 </style>
