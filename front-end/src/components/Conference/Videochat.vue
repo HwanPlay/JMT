@@ -397,7 +397,7 @@ export default {
       //   "</li></ul>";
 
       this.textArea.innerHTML =
-        "<table class='receive-msg-tb' style='width:auto'>" +
+        "<table class='receive-msg-tb' style='width:auto;'>" +
         "<tr>" +
         "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
         "<div class='sender-img'>" +
@@ -414,9 +414,9 @@ export default {
         "</tr>" +
         "<tr>" +
         "<td>" +
-        "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        "<div class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (strCopy[1] || event) +
-        "</p>" +
+        "</div>" +
         "</td>" +
         "</tr>" +
         "</table>";
@@ -721,9 +721,17 @@ export default {
 
 .chats {
   height: 93%;
+
   overflow-x: scroll;
   overflow-x: hidden;
   background: #eceff1;
+  position: relative;
+  vertical-align: bottom;
+}
+.chat-output {
+  height: auto;
+  overflow-x: scroll;
+  overflow-x: hidden;
   position: relative;
 }
 .chats ul li {
@@ -734,7 +742,6 @@ export default {
 }
 .sender-img {
   display: inline;
-  vertical-align: text-top;
 }
 
 .sender-img img {
@@ -743,7 +750,6 @@ export default {
   border-radius: 100%;
   margin: 0px 7px;
   background: white;
-  vertical-align: top;
 }
 
 .msg-box {
@@ -761,7 +767,7 @@ export default {
 
 .chat-content {
   width: 100%;
-  height: 92.4%;
+  height: 92%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -772,15 +778,14 @@ video::-webkit-media-controls {
 }
 
 .receive-msg-username {
-  margin-left: 45px;
   color: gray;
   font-size: 13px;
   /* font-family: 'Noto Sans KR', sans-serif; */
 }
 .receive-msg-context {
-  /* max-width: 190px; */
   font-size: 14px;
   font-family: "Noto Sans KR", sans-serif;
+  word-break: break-all;
 }
 .receive-msg-tb {
   margin: 10px 10px 10px 0px;
