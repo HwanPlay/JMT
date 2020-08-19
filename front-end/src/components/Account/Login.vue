@@ -87,7 +87,6 @@ export default {
 
   methods: {
     openModal () {
-      console.log(this.modalOpen);
       this.modalOpen = !this.modalOpen;
     },
     closeModal () {

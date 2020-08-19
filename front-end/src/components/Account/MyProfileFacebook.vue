@@ -86,11 +86,9 @@ export default {
       document.querySelector('#upload').click();
     },
     fileSelect() {
-      console.log(event.target.files.length);
       if (event.target.files.length) { 
         this.file = this.$refs.file.files[0];
         
-        console.log('파일 선택함.',this.file);
         var oldImage = document.querySelector('#profileImage');
         
         if (oldImage) {
@@ -109,10 +107,8 @@ export default {
 
           /* reader 시작시 함수 구현 */
           reader.onload = (function (aImg) {
-            console.log(1);
 
             return function (event) {
-              console.log(3);
               /* base64 인코딩 된 스트링 데이터 */
               aImg.src = event.target.result;
             };
@@ -125,14 +121,12 @@ export default {
                 이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
             */
             reader.readAsDataURL(get_file[0]);
-            console.log(2);
           }
           preview.appendChild(newImage);
         }
       }
     },
     submitSave() {
-      console.log(event);
       
       let formData = new FormData();
       
@@ -141,7 +135,6 @@ export default {
         formData.append('multipartFile', this.file);
       }
       
-      console.log(this.file);
       // console.log(...formData);
       // formData.forEach(ele=> {
       //   console.log(ele[key]);
@@ -160,7 +153,6 @@ export default {
             }
           })
           .then((res) => {
-            console.log(res);
             if(res.status === 200){
               this.$store.commit('SET_MY_PROFILE', res);
               // this.makeAlert({'alertColor': 'primary', 'alertMessage': 'Success'});

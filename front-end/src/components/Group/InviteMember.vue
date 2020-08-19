@@ -79,7 +79,6 @@ export default {
       if (this.inputVal.trim()){
         axios.get(SERVER.URL + '/user/findUserByName?group_no='+this.groupNo+'&name=' + this.inputVal)
           .then(res => {
-            console.log(res);
             this.searchData = res.data;
             this.inputValue = '';
             this.isSearched = true;

@@ -22,7 +22,7 @@
                 color="red"
                 content="HOST"
                 overlap
-                offset-x="45"
+                offset-x="53"
                 offset-y="20"
               >
                 <div id="NameText" v-text="group.groupName"></div>

@@ -66,7 +66,7 @@
               <h6>화상회의와 에디터가 하나에!</h6>
               <h6>그룹을 기반으로 한 안전한 화상회의</h6>
               <h6>간편한 마크다운 에디터</h6>
-              <h6>미팅 기록을 통한 회의록 관리까지</h6>
+              <h6>회의 기록을 통한 에디터 관리까지</h6>
               <h6 style="display: inline"><h2 style="display: inline; color: rgb(255, 128, 74)">JMT</h2>를 사용해보세요 !</h6>
               <p></p>
             <!-- <h4>SSAFY 3기 대전 1반</h4>
@@ -105,9 +105,6 @@ export default {
     closeMeetingModal (){
       this.meetingModalOn = false;
     },
-    reset(){
-      console.log('hoood');
-    }
   },
 
   data () {

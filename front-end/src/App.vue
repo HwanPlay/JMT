@@ -142,7 +142,6 @@ export default Vue.extend({
       }, error => {
         if(this.reconnect++ <= 5) {
           setTimeout(()=> {
-            console.log('connection reconnect');
             this.sock = new SockJS(SERVER.URL2);
             this.ws = Stomp.over(this.sock);
             this.connect();
@@ -172,7 +171,6 @@ export default Vue.extend({
   watch: {
     isLoggedIn(){
       if (this.isLoggedIn){
-        console.log('Hello!!!');
         this.connect();
       }
     }

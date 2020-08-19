@@ -6,7 +6,7 @@
           <v-list-item class="pl-0">
             <v-badge 
               v-if="userInfo.id === this.$store.state.userId"
-              color="green" content="It's Me" left overlap offset-x="45" offset-y="15"
+              color="green" content="It's Me" left overlap offset-x="50" offset-y="15"
             >
               <v-list-item-avatar color="grey" size="40">
                 <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
@@ -43,7 +43,7 @@
     <v-list-item v-else class="pl-0">
       <v-badge 
         v-if="userInfo.id === this.$store.state.userId"
-        color="green" content="It's Me" left overlap offset-x="45" offset-y="15"
+        color="green" content="It's Me" left overlap offset-x="55" offset-y="15"
       >
         <v-list-item-avatar color="grey" size="40">
           <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
@@ -108,12 +108,10 @@ export default {
       axios.put(SERVER.URL+'/group/host/'+this.groupNo, {hostId : this.userInfo.id})
         .then(() => {
           this.$router.push('Home');
-          console.log('Change Host');
         })
         .catch(err => console.log(err.response));
     },
     changeNickname(){
-      console.log(this.nickName, this.newNickname);
       axios.put(SERVER.URL+'/groupmember/name/'+this.userInfo.groupMemberNo, { nickname: this.newNickname })
         .then(() => { 
           this.nickName = this.newNickname;

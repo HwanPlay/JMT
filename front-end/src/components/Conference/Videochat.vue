@@ -1,88 +1,105 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="video_list" center-active show-arrows dark>
-        <v-slide-item id="videos-container" class="container-fluid d-flex">
-          <div class="row justify-content-center align-items-center"></div>
-        </v-slide-item>
-      </v-slide-group>
+      <!-- <v-slide-group id="Minivideo_list" center-active show-arrows dark> -->
+        <!-- <v-slide-item id="videos-container"> -->
+          <!-- <div class="mx-auto"></div> -->
+        <!-- </v-slide-item> -->
+      <!-- </v-slide-group> -->
 
-      <!-- <div id="Mainvideo">
-        <div id="Main-videos-container"></div>
+      <!-- <div id="video_list_videOrshow">
+        <div class="text-center">
+          <v-btn
+            text
+            color="rgb(255, 128, 74)"
+            @click="videoBar"
+            background-color="rgba(14, 23, 38, 1)"
+          >
+            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
+          </v-btn>
+        </div>
       </div> -->
 
-    <div class="footer">
-      <div class="text-center mb-2">
-        <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
-          <v-icon v-show="showNav">mdi-chevron-down</v-icon>
-          <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
-        </v-btn>
+        <div id="Mainvideo">
+          <div style=" width:100%; height: 100%;">
+          <div id="videos-container"></div>
+          </div>
+        </div>
+
+
+      <div class="footer">
+        <div class="text-center mb-2">
+          <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
+            <v-icon v-show="showNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
+          </v-btn>
+        </div>
+        <v-bottom-navigation 
+          dark
+          v-model="activeBtn"
+          :input-value="showNav"
+          color="rgb(255, 128, 74)"
+          background-color="rgba(14, 23, 38, 1)"
+        >
+          <!-- <v-btn @click="overlay = !overlay"> -->
+          <!-- <v-btn @click="onJoin">
+            <span>Join</span>
+            <v-icon>mdi-login</v-icon>
+          </v-btn>-->
+          <!-- <v-overlay :value="overlay">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+          </v-overlay>-->
+
+          <v-btn @click="onCam">
+            <span v-show="!videoOnOff">OFF</span>
+            <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
+
+            <span v-show="videoOnOff">ON</span>
+            <v-icon v-show="videoOnOff">mdi-video</v-icon>
+          </v-btn>
+
+          <v-btn @click="onMic">
+            <span v-show="!micOnOff">OFF</span>
+            <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
+
+            <span v-show="micOnOff">ON</span>
+            <v-icon v-show="micOnOff">mdi-microphone</v-icon>
+          </v-btn>
+
+          <!-- <v-btn @click="onCast">
+            <span v-show="!castOnOff">OFF</span>
+            <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
+
+            <span v-show="castOnOff">ON</span>
+            <v-icon v-show="castOnOff">mdi-cast</v-icon>
+          </v-btn> -->
+
+          <!-- <v-btn @click="test">
+          </v-btn>-->
+
+          <v-btn @click="onChat">
+            <span>Chatting</span>
+            <v-icon>mdi-forum</v-icon>
+          </v-btn>
+
+          <v-btn @click="onNote">
+            <span>Note</span>
+            <v-icon>mdi-book</v-icon>
+          </v-btn>
+
+          <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
+            <span>Canvas</span>
+            <v-icon>mdi-palette</v-icon>
+          </v-btn>-->
+
+          <v-btn @click="onLeave">
+            <span>Leave</span>
+            <v-icon>mdi-export</v-icon>
+          </v-btn>
+        </v-bottom-navigation>
       </div>
-      <v-bottom-navigation
-        dark
-        v-model="activeBtn"
-        :input-value="showNav"
-        color="rgb(255, 128, 74)"
-        background-color="rgba(14, 23, 38, 1)"
-      >
-        <!-- <v-btn @click="overlay = !overlay"> -->
-        <!-- <v-btn @click="onJoin">
-          <span>Join</span>
-          <v-icon>mdi-login</v-icon>
-        </v-btn>-->
-        <!-- <v-overlay :value="overlay">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-        </v-overlay>-->
-
-        <v-btn @click="onCam">
-          <span v-show="!videoOnOff">OFF</span>
-          <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
-
-          <span v-show="videoOnOff">ON</span>
-          <v-icon v-show="videoOnOff">mdi-video</v-icon>
-        </v-btn>
-
-        <v-btn @click="onMic">
-          <span v-show="!micOnOff">OFF</span>
-          <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
-
-          <span v-show="micOnOff">ON</span>
-          <v-icon v-show="micOnOff">mdi-microphone</v-icon>
-        </v-btn>
-
-        <!-- <v-btn @click="onCast">
-          <span v-show="!castOnOff">OFF</span>
-          <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
-
-          <span v-show="castOnOff">ON</span>
-          <v-icon v-show="castOnOff">mdi-cast</v-icon>
-        </v-btn> -->
-
-        <!-- <v-btn @click="test">
-        </v-btn>-->
-
-        <v-btn @click="onChat">
-          <span>Chatting</span>
-          <v-icon>mdi-forum</v-icon>
-        </v-btn>
-
-        <v-btn @click="onNote">
-          <span>Note</span>
-          <v-icon>mdi-book</v-icon>
-        </v-btn>
-
-        <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
-          <span>Canvas</span>
-          <v-icon>mdi-palette</v-icon>
-        </v-btn>-->
-
-        <v-btn @click="onLeave">
-          <span>Leave</span>
-          <v-icon>mdi-export</v-icon>
-        </v-btn>
-      </v-bottom-navigation>
-    </div>
-  </v-sheet>
+    </v-sheet>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -510,27 +527,26 @@ export default {
 </script>
 
 <style>
-#flexbox {
-  width: 500px;
-  height: 375px;
-  margin: 0px 2px;
-  background-color: white;
-  border: 2px groove white;
-  border-radius: 3px;
+#videos-container{
+  width:100%;
+  height:100%;
+  overflow-y :auto;
 }
 #videos-container video {
-  height: 300px;
-  margin: 0px 2px;
+  height: 50%;
+  width: 30%;
+  margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
 }
 #Mainvideo {
   position: relative;
-  height: 88%;
+  height: 95%;
   background-color: black;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 #Main-videos-container {
   width: 640px;
