@@ -10,12 +10,10 @@
       <v-app-bar app color="rgb(14, 23, 38)" dark style="margin-top: 30px;">
         <div style="height: 100%;">
           <router-link to="/Home">
-            <v-btn text style="height: 100%; outline:none;">
+            <v-btn class="shake" text style="height: 100%; outline:none;">
               <!-- <v-icon>fas fa-home</v-icon> -->
-              <span class="routerLink" @click="closeWebrtc">
-                <v-img :src="require('./JMTLogo.png')" max-height="60px" max-width="70px"></v-img>
+              <v-img :src="require('./JMTLogo.png')" max-height="60px" max-width="70px"></v-img>
                 <!-- Home -->
-              </span>
             </v-btn>
           </router-link>
         </div>
@@ -66,12 +64,12 @@
 
         <!-- logout Router -->
         <div class="text-center" style="height: 100%">
-          <v-btn text class="mr-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
+          <v-btn text class="mr-2" @click="logout(); ws.disconnect();" style="height: 100%; width:100%; outline:none;">
             <v-icon size="30">mdi-logout</v-icon>
           </v-btn>
         </div>
       </v-app-bar>
-      <v-dialog v-model='inviteModal' width='500px'>
+      <v-dialog v-model='inviteModal' width="400px">
         <InviteMessage :message=recv @done="inviteModal=false;"  />
       </v-dialog>
     </div >
@@ -120,9 +118,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    closeWebrtc(){
-      this.$refs.webrtc.leave();
-    },
     goToGroup() {
       this.$router.push('Group');
     },
@@ -142,12 +137,9 @@ export default Vue.extend({
       this.sock = new SockJS(SERVER.URL2);
       this.ws = Stomp.over(this.sock);
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
-        console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
-          console.log('구독으로 받은 메세지 입니다', res.body);
           this.recv = JSON.parse(res.body);
           this.inviteModal = true;
-          console.log(this.recv);
         });
       }, error => {
         if(this.reconnect++ <= 5) {
@@ -169,6 +161,9 @@ export default Vue.extend({
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
+  },
+  destroyed() {
+    this.ws.disconnect();
   },
   
   computed: {

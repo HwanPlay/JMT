@@ -2,41 +2,43 @@
   <!-- <v-col cols="12" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
     <div>{{note.note_title}}</div>
     <div>{{note.createdDate}}</div>
-  </v-col> -->
-        <div style="height: 300px; margin-left:40px; margin-right: 40px;">
-
-              <div class="card btn" style="margin-left:30px;" @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})">
-                <!-- <img src="https://images.unsplash.com/photo-1477666250292-1419fac4c25c?auto=format&amp;fit=crop&amp;w=667&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" /> -->
-                <div class="cardContent">
-                  <div id="cardTitle">
-                    <h3 style=" color:black;">{{ note.note_title }}</h3>
-                  </div>
-                  <div id="cardDate">
-                    <p style=" color:black;">{{note.createdDate | moment('YY-MM-DD')}}</p>
-                    <p style=" color:black; margin-top:-10px;">{{note.createdDate | moment('HH:mm:ss')}}</p>
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <!-- <h3>{{ note.title }}</h3>
-                  <p>{{compute_date(note.createdDate)}}</p> -->
-                  <p style="font-size : 22px;">자세히 보기</p>
-                </div>
-              </div>
-            </div>
-
+  </v-col>-->
+  <div style="height: 300px; margin-left:40px; margin-right: 40px;">
+    <div
+      class="card btn"
+      style="margin-left:0px;"
+      @click="openNoteDetail({'noteNo':note.noteNo, 'groupNo': note.groupNo})"
+    >
+      <!-- <img src="https://images.unsplash.com/photo-1477666250292-1419fac4c25c?auto=format&amp;fit=crop&amp;w=667&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" /> -->
+      <div class="cardContent">
+        <div id="cardTitle">
+          <h3 style=" color:black;">{{ note.note_title }}</h3>
+        </div>
+        <div id="cardDate">
+          <p style=" color:black;">{{note.createdDate | moment('YY-MM-DD')}}</p>
+          <p style=" color:black; margin-top:-10px;">{{note.createdDate | moment('HH:mm:ss')}}</p>
+        </div>
+      </div>
+      <div class="cardInfo">
+        <!-- <h3>{{ note.title }}</h3>
+        <p>{{compute_date(note.createdDate)}}</p>-->
+        <p style="font-size : 22px;">자세히 보기</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'EditorNoteListItems',
   props: {
-    note: Object
+    note: Object,
   },
   methods: {
-    openNoteDetail({noteNo, groupNo}) {
-      this.$emit('onOpenNoteDetail', {noteNo, groupNo});
-    }
-  }
+    openNoteDetail({ noteNo, groupNo }) {
+      this.$emit('onOpenNoteDetail', { noteNo, groupNo });
+    },
+  },
 };
 </script>
 
@@ -49,15 +51,14 @@ export default {
   overflow-y: auto;
 }
 .card {
-  
   text-align: center;
   float: left;
-  margin-right: 20px;
-  width: 150px;
+  margin-right: 0px;
+  width: 180px;
   height: 240px;
   border-radius: 15px;
   padding: 1.5rem;
-  background: white;
+  background: aliceblue;
   position: relative;
   display: -webkit-box;
   display: flex;
@@ -66,17 +67,13 @@ export default {
   -webkit-transition: 0.4s ease-out;
   transition: 0.4s ease-out;
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
-  
 }
 .card:hover {
   -webkit-transform: translateY(20px);
   transform: translateY(20px);
-  
- 
 }
 .card:hover .cardContent {
   opacity: 0;
-  
 }
 .card:hover:before {
   opacity: 1;

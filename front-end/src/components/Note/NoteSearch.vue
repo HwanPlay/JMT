@@ -387,7 +387,7 @@ sans-serif,
   color: white;
   font-weight:400;
 }
-.card {
+ .card {
   
   text-align: center;
   float: left;

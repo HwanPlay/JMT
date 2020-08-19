@@ -5,31 +5,27 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon:200,400,700,800&amp;subset=korean" rel="stylesheet">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title><%= htmlWebpackPlugin.options.title %></title>
-  
+
   <!-- <style>
     div {
       outline: darkblue dashed 3px;
     }
   </style> -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
 </head>
 
 <body>
   <nav>
     <!-- <div id="titleshown">JMT</div> -->
-    <div id="l-buttons">
+    <!-- <div id="l-buttons"> -->
       <!-- <img class="logo" src='JMTLogo.png'>
         <img class="logo" src="JMT.png"> -->
-      <div id="back" onclick="window.history.back()"><i class="fas fa-less-than icns"></i></div>
+      <!-- <div id="back" onclick="window.history.back()"><i class="fas fa-less-than icns"></i></div>
       <div id="forward" onclick="window.history.forward()"><i class="fas fa-greater-than icns"></i></div>
       <div id="refresh" onClick="window.location.reload()"><i class="fas fa-redo icns"></i></div>
-    </div>
+    </div> -->
 
     <div id="r-buttons">
       <div id="minimize"><i class="far fa-window-minimize"></i></div>
@@ -40,15 +36,6 @@
 
   <div id="app"></div>
   <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-
-  
-  <script src="/dist/RTCMultiConnection.js"></script>
-  <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-
-  <!-- custom layout for HTML5 audio/video elements -->
-  <link rel="stylesheet" href="/dev/getHTMLMediaElement.css">
-  <script src="/dev/getHTMLMediaElement.js"></script>
 </body>
 
 </html>
@@ -81,12 +68,19 @@
     display: none;
   }
 
+ @font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
   /* body { font-family: 'Nanum Gothic', serif; } */
-  
-  * { 
-      font-family: 'Do Hyeon', sans-serif;
-    }
-/* 
+
+  * {
+    font-family: 'GmarketSansMedium'
+  }
+
+  /* 
   p { font-family: 'East Sea Dokdo', sans-serif}
 
   div { font-family: 'East Sea Dokdo', sans-serif}

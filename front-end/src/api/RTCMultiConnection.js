@@ -2177,9 +2177,10 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
     mediaElement.setAttribute('autoplay', true);
     mediaElement.setAttribute('playsinline', true);
-    mediaElement.setAttribute('controls', true);
+    // mediaElement.setAttribute('controls', true);
     mediaElement.setAttribute('muted', false);
     mediaElement.setAttribute('volume', 1);
+    mediaElement.setAttribute('class', 'col-6');
 
     // http://goo.gl/WZ5nFl
     // Firefox don't yet support onended for any stream (remote/local)
@@ -4766,13 +4767,18 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
     connection.mediaConstraints = {
       audio: {
-        mandatory: {},
+        mandatory:  {},
         optional: connection.bandwidth.audio ? [{
           bandwidth: connection.bandwidth.audio * 8 * 1024 || 128 * 8 * 1024
         }] : []
       },
       video: {
-        mandatory: {},
+        mandatory: {
+          "minWidth": "640",
+          "maxWidth": "1280",
+          "minHeight": "480",
+          "maxHeight": "720",
+        },
         optional: connection.bandwidth.video ? [{
           bandwidth: connection.bandwidth.video * 8 * 1024 || 128 * 8 * 1024
         }, {
