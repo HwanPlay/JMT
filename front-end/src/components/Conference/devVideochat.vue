@@ -1,30 +1,12 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list" center-active show-arrows dark>
+      <v-slide-group id="Minivideo_list" center-active show-arrows dark next-icon>
         <v-slide-item id="videos-container">
-          <div class="mx-auto"></div>
+          <v-row class="m-auto" ></v-row>
         </v-slide-item>
       </v-slide-group>
-
-      <div id="video_list_videOrshow">
-        <div class="text-center">
-          <v-btn
-            text
-            color="rgb(255, 128, 74)"
-            @click="videoBar"
-            background-color="rgba(14, 23, 38, 1)"
-          >
-            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
-          </v-btn>
-        </div>
-      </div>
-
-      <div id="Mainvideo">
-        <div id="Main-videos-container"></div>
-      </div>
-
+      
       <div class="footer">
         <div class="text-center mb-2">
           <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
@@ -64,16 +46,13 @@
             <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
-          <v-btn @click="onCast">
+          <!-- <v-btn @click="onCast">
             <span v-show="!castOnOff">OFF</span>
             <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
 
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
-          </v-btn>
-
-          <!-- <v-btn @click="test">
-          </v-btn>-->
+          </v-btn> -->
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -90,7 +69,7 @@
             <v-icon>mdi-palette</v-icon>
           </v-btn>-->
 
-          <v-btn @click="onLeave">
+          <v-btn @click="onLeave" color="red">
             <span>Leave</span>
             <v-icon>mdi-export</v-icon>
           </v-btn>
@@ -179,15 +158,11 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: true,
+      showNav: false,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,
       activeBtn: 0,
-
-      myVideoTrackIsMuted: false,
-      trackId: null,
-      streamId: null,
 
       endMeeting: null,
 
@@ -300,15 +275,6 @@ export default {
       }
       this.videoBar();
       this.castOnOff = !this.castOnOff;
-    },
-    videoBar() {
-      $("#Minivideo_list").toggle();
-      if (this.videoBarNav) {
-        $("#Mainvideo").css("height", "88%");
-      } else {
-        $("#Mainvideo").css("height", "100%");
-      }
-      this.videoBarNav = !this.videoBarNav;
     },
     onNote() {
       $("#note-container").toggle();
@@ -479,9 +445,7 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -492,7 +456,6 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
@@ -517,27 +480,14 @@ export default {
 </script>
 
 <style>
+#videos-container {
+  overflow-y: auto;
+}
 #videos-container video {
-  height: 99px;
+  height: 100%;
   margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
-}
-#Mainvideo {
-  position: relative;
-  height: 88%;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#Main-videos-container {
-  width: 640px;
-  height: 480px;
-  border: 2px groove black;
-}
-#Main-videos-container video {
-  height: 100%;
 }
 #MainContent {
   position: relative;
@@ -548,9 +498,9 @@ export default {
 }
 #Minivideo_list {
   position: relative;
-  height: 100px;
+  height: 100%;
   width: 100%;
-  background-color: rgb(14, 23, 38);
+  background-color: black;
 }
 #note-container {
   display: none;
