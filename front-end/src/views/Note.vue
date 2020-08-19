@@ -98,8 +98,6 @@ export default {
       axios
         .get(SERVER.URL+URL_getNoteByNo+NoteId)
         .then((res)=> {
-          console.log('이부분');
-          console.log(res.data);
           this.noteObj.Content = res.data.content;
           this.noteObj.Id = res.data.noteNo;
           this.noteObj.Title = res.data.note_title;

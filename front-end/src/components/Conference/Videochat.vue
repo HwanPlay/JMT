@@ -1,13 +1,13 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list" center-active show-arrows dark>
-        <v-slide-item id="videos-container">
-          <div class="mx-auto"></div>
-        </v-slide-item>
-      </v-slide-group>
+      <!-- <v-slide-group id="Minivideo_list" center-active show-arrows dark> -->
+        <!-- <v-slide-item id="videos-container"> -->
+          <!-- <div class="mx-auto"></div> -->
+        <!-- </v-slide-item> -->
+      <!-- </v-slide-group> -->
 
-      <div id="video_list_videOrshow">
+      <!-- <div id="video_list_videOrshow">
         <div class="text-center">
           <v-btn
             text
@@ -19,11 +19,14 @@
             <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-      </div>
+      </div> -->
 
-      <div id="Mainvideo">
-        <div id="Main-videos-container"></div>
-      </div>
+        <div id="Mainvideo">
+          <div style=" width:100%; height: 100%;">
+          <div id="videos-container"></div>
+          </div>
+        </div>
+
 
       <div class="footer">
         <div class="text-center mb-2">
@@ -32,7 +35,7 @@
             <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-        <v-bottom-navigation
+        <v-bottom-navigation 
           dark
           v-model="activeBtn"
           :input-value="showNav"
@@ -523,19 +526,26 @@ export default {
 </script>
 
 <style>
+#videos-container{
+  width:100%;
+  height:100%;
+  overflow-y :auto;
+}
 #videos-container video {
-  height: 99px;
+  height: 50%;
+  width: 30%;
   margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
 }
 #Mainvideo {
   position: relative;
-  height: 88%;
+  height: 95%;
   background-color: black;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 #Main-videos-container {
   width: 640px;

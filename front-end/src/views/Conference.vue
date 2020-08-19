@@ -11,8 +11,5 @@ export default {
   components: {
     Videochat,
   },
-  mounted(){
-    console.log(this.$route.params, this.$route.query);
-  }
 };
 </script>

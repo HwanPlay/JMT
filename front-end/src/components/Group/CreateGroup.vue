@@ -61,10 +61,8 @@ export default {
       this.createGroupInfo.groupName = '';
     },
     submit () {
-      console.log(this.createGroupInfo);
       axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
         .then(res => {
-          console.log('CreateGroup!', res);
           this.$store.commit('SET_GROUP_INFO', res);
           this.reset();
           this.$emit('close');

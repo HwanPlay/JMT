@@ -27,20 +27,13 @@ export default {
     EditorDetailSideBar,
     EditorTiptap
   },
-  watch: {
-    groupNo() {
-      console.log(this.groupNo);
-    }
-  },
   methods: {
     getNoteHTML(noteNo) {
       if(noteNo) {
         // 사이드바에서 올라옴. 사이드바 바꿀 필요 없음.
-        console.log('1번');
       } else if (this.$route.query.noteNo) {
         // 다른 view에서 온 요쳥.
         noteNo = this.$route.query.noteNo;
-        console.log('2번');
       } else if (noteNo === undefined) {
         return;
       }
@@ -50,7 +43,6 @@ export default {
       axios
         .get(SERVER.URL + URL_getNoteByNo + noteNo)
         .then(res => {
-          console.log(res.data);
           this.noteObj = res.data;
         })
         .catch(err => {
@@ -70,34 +62,28 @@ export default {
       axios
         .get(SERVER.URL + FUNC_URL + groupNo)
         .then(res => {
-          console.log('getNoteList',res);
           this.noteList = res.data.notes;
-          console.log(this.noteList);
         })
         .catch(err => console.error(err));
     },
     saveNote(noteObj) {
       const URL_saveNote = '/note/';
-      console.log(noteObj);
       axios
         .put(SERVER.URL + URL_saveNote + noteObj.Id, {
           title: noteObj.Title,
           content: noteObj.Content
         })
         .then(res => {
-          console.log(res);
           this.getNoteList();
         })
         .catch(err => console.error(err));
     },
     deleteNote({noteNo, groupNo}) {
       const URLDeleteNote = '/note/delno/';
-      console.log(this.noteList, this.noteObj);
       
       axios
         .delete(SERVER.URL + URLDeleteNote + noteNo + '/' + groupNo)
         .then(res => {
-          console.log('del res', res.data.count);
           if (res.data.count === 0){
             this.$router.push({name: 'Editor'});            
           } else {

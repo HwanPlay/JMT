@@ -145,7 +145,6 @@ export default {
   methods: {
     updateCalendar() {
       const events = [];
-      console.log('update', this.meetingNoteInfo);
       this.meetingNoteInfo.forEach(note => {
         events.push({
           name: note.meeting_title,
@@ -201,11 +200,8 @@ export default {
       axios
         .get(SERVER.URL + '/group/get/all/' + this.$store.state.userId)
         .then((res) => {
-          console.log('res:');
-          console.log(res.data.groups);
           res.data.groups.forEach(element=>{
             
-            console.log(element);
             groupIds.push(element.groupNo);
             const axios_note = axios.get(SERVER.URL +'/note/get/group/'+element.groupNo);
 
@@ -213,11 +209,7 @@ export default {
           });
           axios.all(noteList).then(axios.spread((...res)=>{
             res.forEach(ele=>{
-              console.log('ele:',ele);
               ele.data.notes.forEach(note => {
-                console.log('note:---------------------------------------');
-                console.log(note);
-                console.log(note.meeting_start_time);
                 calendarData.push({
                   name: note.title,
                   start: note.meeting_start_time,

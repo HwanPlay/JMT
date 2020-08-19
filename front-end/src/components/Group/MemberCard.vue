@@ -108,12 +108,10 @@ export default {
       axios.put(SERVER.URL+'/group/host/'+this.groupNo, {hostId : this.userInfo.id})
         .then(() => {
           this.$router.push('Home');
-          console.log('Change Host');
         })
         .catch(err => console.log(err.response));
     },
     changeNickname(){
-      console.log(this.nickName, this.newNickname);
       axios.put(SERVER.URL+'/groupmember/name/'+this.userInfo.groupMemberNo, { nickname: this.newNickname })
         .then(() => { 
           this.nickName = this.newNickname;

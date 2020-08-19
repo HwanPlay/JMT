@@ -159,14 +159,12 @@ export default {
       
       this.meetingNoteInfo = calendar_meeting;
       this.ws.disconnect();
-      console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
     },
 
     createGroup() {
       this.$store.state.groupModalOn = true;
-      console.log(this.$store.state.groupModalOn);
     },
     closeModal() {
       this.modalOn = false;
@@ -190,7 +188,6 @@ export default {
         () => {
           if (this.reconnect++ <= 5) {
             setTimeout(() => {
-              console.log('connection reconnect');
               this.sock = new SockJS(SERVER.URL2);
               this.ws = Stomp.over(this.sock);
               this.connect(i);
@@ -211,7 +208,6 @@ export default {
         if (this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
           this.connect(this.onboarding);
         }
-        console.log(res);
         const groupNo = res.data.groups[0].groupNo;
         Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
           .then((res)=> {
@@ -233,7 +229,6 @@ export default {
                 }).catch();
             });
             this.meetingNoteInfo = calendar_meeting;
-            console.log(this.meetingNoteInfo);
           })
           .catch(err=>console.error(err));
       });     

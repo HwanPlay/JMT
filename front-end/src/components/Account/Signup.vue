@@ -160,7 +160,6 @@ export default {
       {
         this.mail = true;
       } else{
-        console.log(false);
         this.mail = false;
       }
     },

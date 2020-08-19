@@ -272,8 +272,6 @@ export default {
     noteObj: {
       deep: true,
       handler() {
-        console.log('이거');
-        console.log(this.noteObj);
         this.dataNoteObj.Content = this.noteObj.content;
         this.dataNoteObj.Title = this.noteObj.note_title;
         this.dataNoteObj.Id = this.noteObj.noteNo;

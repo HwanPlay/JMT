@@ -1,12 +1,12 @@
 <template>
   <div class="justify-center align-content-center">
-    <v-card class="d-flex justify-center align-content-end flex-wrap mt-7" flat tile min-height="500">
+    <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="500">
       <div id="imgContainer" class="text-center rounded-circle d-inline-flex align-center justify-center ma-3">
         <v-img src="../../assets/JMT/JMTLogo.png" max-width="200px"></v-img>
       </div>
     </v-card>
     <v-card class="mt-10 d-flex justify-center align-content-center flex-wrap" flat tile min-height="50">
-      <h3 cla ss="title mb-2">JMT는 <strong>그룹 기반</strong> 화상 회의 서비스 입니다!</h3>
+      <h3>JMT는 <strong>그룹 기반</strong> 화상 회의 서비스 입니다!</h3>
     </v-card>
     <v-card class="d-flex justify-center align-content-center flex-wrap" flat tile min-height="100">
       <h5>서비스를 이용하기 위해서는 그룹을 생성하시거나, 그룹 가입을 해주세요</h5>

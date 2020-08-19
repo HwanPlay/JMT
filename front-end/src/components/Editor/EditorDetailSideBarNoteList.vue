@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     getNoteHTML({noteNo, groupNo}) {
-      console.log(noteNo);
       if (this.$route.query.noteNo === noteNo) {
         return;
       }
