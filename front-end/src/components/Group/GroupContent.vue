@@ -25,8 +25,8 @@
           <div>
             <v-row style="margin-bottom : -10px;">
               <v-col>
-                <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
-                <v-btn style="float:right; "
+                <div id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</div>
+                <v-btn style="float:right;"
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting"
                   dark
@@ -218,7 +218,6 @@ export default {
             this.$store.state.userId
         )
         .then((res) => {
-          console.log(res);
           this.$router.push('/Home');
         })
         .catch((err) => console.log(err.response));
@@ -234,9 +233,6 @@ export default {
         .finally(() => {
           this.send(tmp);
         });
-    },
-    startMeetingOn() {
-      console.log('hoo');
     },
 
     getGroupMembers() {
@@ -308,7 +304,6 @@ export default {
   },
 
   mounted() {
-    console.log('groupInfo:', this.groupInfo);
     this.sModal = false;
   },
 
@@ -330,12 +325,6 @@ export default {
     sModal(){
       this.meetingTitle = this.$store.state.myName + '의 회의';
     },
-    conferenceAlert(){
-      console.log('lookk!!!!!!11');
-      console.log(this.groupInfo.groupNo);
-      console.log(this.tmpGroupNo);
-      console.log(this.conferenceAlert);
-    }
   },
 };
 </script>

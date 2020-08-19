@@ -48,7 +48,6 @@ export default {
       axios.delete(SERVER.URL + '/request/del/' + this.message.receiver + '/' + this.message.sender + '/' + this.message.groupNo)
         .then(() => {
           this.$emit('done');
-          console.log('deleted!!!!!!!!');
         })
         .catch(err => console.log(err));
     }

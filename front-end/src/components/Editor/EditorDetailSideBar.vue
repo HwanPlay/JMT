@@ -32,13 +32,10 @@ export default {
       this.$emit('onGetNoteHTML', noteNo);
     },
     goToGroupList() {
-      console.log(this.noteList[0].groupNo);
       this.$router.push({
         name: 'Editor',
         query: { groupNo: this.noteList[0].groupNo }
       });
-
-      console.log('그룹 목록');
     }
   }
 };

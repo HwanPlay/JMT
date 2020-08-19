@@ -68,7 +68,6 @@ export default new Vuex.Store({
       state.myGroups = val.data.groups;
     },
     SET_MY_PROFILE(state, val){
-      console.log(val.data);
       localStorage.setItem('myName', val.data.name);
       state.myName = val.data.name;
       localStorage.setItem('myPicture', val.data.profile_img);
@@ -87,10 +86,8 @@ export default new Vuex.Store({
         'name': signupData.name,
         'pw': signupData.pw
       };
-      console.log('thisisdata', data, signupData);
       axios.post(SERVER.URL + SERVER.ROUTES.signup, data)
         .then(res => {
-          console.log(res);
           commit('SET_LOGIN_ERROR', false);
         })
         .catch(err => console.log(err.response));
@@ -104,7 +101,6 @@ export default new Vuex.Store({
           commit('SET_LOGIN_ERROR', false);
           axios.get(SERVER.URL + SERVER.ROUTES.myProfile)
             .then((res) => {
-              console.log('myprofile', res);
               commit('SET_MY_PROFILE', res);
             })
             .catch(err => {
@@ -117,7 +113,6 @@ export default new Vuex.Store({
     },
 
     logout({ state, commit }) {
-      console.log(SERVER.URL + SERVER.ROUTES.logout, state.userId);
       const config ={
         headers :{
           'accessToken':state.accessToken
@@ -133,7 +128,6 @@ export default new Vuex.Store({
 
     // 그룹과 관련된 기능들
     getGroupInfo({ state, commit }){
-      console.log('req:', SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId);
       axios.get(SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + state.userId)
         .then(res => {
           commit('SET_GROUP_INFO', res);

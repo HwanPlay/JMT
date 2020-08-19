@@ -44,7 +44,6 @@ export default {
   mounted() {
     axios.get(SERVER.URL+'/group/gethost/'+this.$store.state.userId)
       .then(res => {
-        console.log('watch : ', res.data);
         this.sGroups = res.data.groups;
       })
       .catch(error => console.log(error.response));
