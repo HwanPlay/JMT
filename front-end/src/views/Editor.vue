@@ -3,7 +3,19 @@
     <div style="height: 100%; width:100%;">
       <v-row  style=" height: 100%; width:100%;">
         <EditorGroupList :groupList="groupList" @onGetNoteList="getNoteList" />
-        <div v-if="isEmpty">없으요</div>
+        <v-col v-if="isEmpty" class="justify-center align-content-center">
+          <v-card class="d-flex justify-center align-content-end flex-wrap mt-7" flat tile min-height="500">
+            <div id="imgContainer" class="text-center rounded-circle d-inline-flex align-center justify-center ma-3">
+              <v-img src="../assets/JMT/JMTLogo.png" max-width="200px"></v-img>
+            </div>
+          </v-card>
+          <v-card class="mt-10 d-flex justify-center align-content-center flex-wrap" flat tile min-height="50">
+            <h3 cla ss="title mb-2">해당 그룹에서 작성된 노트가 존재하지 않습니다!</h3>
+          </v-card>
+          <v-card class="d-flex justify-center align-content-center flex-wrap" flat tile min-height="100">
+            <h4>화상회의를 진행하시면서, 노트를 작성해보세요</h4>
+          </v-card>
+        </v-col>
         <div v-else>
           <EditorNoteList style="float : left;" :receivedNoteList="receivedNoteList" @onOpenNoteDetail="openNoteDetail" />
         </div>
@@ -100,5 +112,9 @@ export default {
 </script>
 
 <style>
-
+  #imgContainer{
+    background-color: rgb(187, 201, 224);
+    height: 300px;
+    width: 300px;
+  }
 </style>
