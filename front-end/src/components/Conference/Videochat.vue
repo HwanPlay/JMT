@@ -108,11 +108,11 @@
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
-          <div class="col-md-8 name pl-3">
+          <div class="col-md-10 name pl-3">
             <!-- <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i> -->
-            <h6 class="ml-1 mb-0">{{ this.groupInfo.groupName }}</h6>
+            <h6 class="ml-2 mb-0">{{ this.groupInfo.groupName }}</h6>
           </div>
-          <div class="col-md-4 options text-right pr-0">
+          <div class="col-md-1 options text-right pr-0">
             <i class="fa fa-times hover text-center" @click="onChat"></i>
           </div>
         </div>
