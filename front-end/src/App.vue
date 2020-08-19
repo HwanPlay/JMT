@@ -137,12 +137,9 @@ export default Vue.extend({
       this.sock = new SockJS(SERVER.URL2);
       this.ws = Stomp.over(this.sock);
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
-        console.log('소켓 연결 성공', frame);
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
-          console.log('구독으로 받은 메세지 입니다', res.body);
           this.recv = JSON.parse(res.body);
           this.inviteModal = true;
-          console.log(this.recv);
         });
       }, error => {
         if(this.reconnect++ <= 5) {

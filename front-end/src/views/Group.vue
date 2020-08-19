@@ -178,14 +178,12 @@ export default {
       this.ws.connect(
         { token: this.$store.state.accessToken },
         frame => {
-          console.log('소켓 연결 성공', frame);
           this.ws.subscribe(
             '/send/meeting/' + this.$store.state.myGroups[i].groupNo,
             res => {
               this.conferenceAlert = true;
               this.recv = res.body;
               this.tmpGroupNo = JSON.parse(this.recv).groupNo;
-              console.log(this.recv);
             }
           );
         },
