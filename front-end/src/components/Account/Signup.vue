@@ -173,7 +173,6 @@ export default {
           }
           else{
             this.validationWord = res.data;
-            console.log(res.data);
             this.isEmailOverlap = false;
           }
           this.loading = false;
