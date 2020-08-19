@@ -1,6 +1,9 @@
 <template>
   <div class="modal-bg" >
-    <v-card-title class="py-3 d-flex justify-center top">내 정보</v-card-title>
+    <v-card-title class="py-3 top">내 정보
+      <v-spacer></v-spacer>
+      <v-btn @click="submitSave" text rounded outlined style="color: white" color="#526387">Save</v-btn>
+    </v-card-title>
     <div class="프로필 사진">
 
       <div class="img-holder d-flex justify-center">
@@ -32,10 +35,10 @@
           </v-col>
         </v-row>
       </div>
-      <div class="d-flex justify-end text-center">
+      <!-- <div class="d-flex justify-end text-center">
         <v-btn @click="submitSave" text rounded outlined style="color: rgb(14, 23, 38)" color="#526387">Save</v-btn>
-        <!-- <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>회원 탈퇴</v-btn> -->
-      </div>
+        <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>회원 탈퇴</v-btn>
+      </div> -->
 
       <v-divider class="my-1"></v-divider>
       <div class="d-flex justify-space-around mt-2 pb-2">
