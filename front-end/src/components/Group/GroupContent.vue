@@ -7,12 +7,12 @@
           <v-row>
             <div id="conferenceStatusBox" style="width:100%;">
             <p
-              v-if="(nowMeeting || this.conferenceOn || groupInfo.hasMeeting)"
+              v-if="(nowMeeting || this.conferenceOn)"
               class="conferenceStatus"
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="(groupInfo.hasMeeting == false && nowMeeting == false && !this.conferenceOn)"
+              v-if="(nowMeeting == false && !this.conferenceOn)"
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
             >회의 진행중이 아닙니다</p>
@@ -28,11 +28,11 @@
                 <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
                 <v-btn style="float:right; "
                   @click="sModal=true;"
-                  v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting || !hasMeeting"
+                  v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting"
                   dark
                   color="green"
                 >
-                  회의 시작
+                  회의 시작 
                 </v-btn>
                 <v-dialog v-model="sModal" width="500px">
                   <v-card width="500px">
@@ -50,7 +50,7 @@
                 </v-dialog>
                 <v-btn
                   @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && (hasMeeting || nowMeeting || this.conferenceOn)"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && ( nowMeeting || this.conferenceOn)"
                   dark
                   color="blue darken-2"
                 >
