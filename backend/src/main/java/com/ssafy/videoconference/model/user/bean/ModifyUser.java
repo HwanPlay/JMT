@@ -1,7 +1,5 @@
 package com.ssafy.videoconference.model.user.bean;
 
-import java.util.Date;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;

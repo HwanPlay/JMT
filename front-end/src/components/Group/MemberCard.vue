@@ -21,7 +21,7 @@
             
             <v-list-item-content>
               <v-list-item-title>{{ nickName }}</v-list-item-title>
-              <v-list-item-subtitle>{{ userInfo.id }}</v-list-item-subtitle>
+              <v-list-item-subtitle style="font-size: 13px;">{{ userInfo.id }}</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-btn text color="rgb(255, 128, 74)" @click="step++" style='outline: none;'>
@@ -58,7 +58,7 @@
       
       <v-list-item-content>
         <v-list-item-title>{{ nickName }}</v-list-item-title>
-        <v-list-item-subtitle>{{ userInfo.id }}</v-list-item-subtitle>
+        <v-list-item-subtitle style="font-size: 13px;">{{ userInfo.id }}</v-list-item-subtitle>
       </v-list-item-content>
 
       <div v-if='this.$store.state.userId===hostId'>
