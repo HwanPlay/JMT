@@ -111,7 +111,7 @@ export default {
     this.connect();
   },
   destroyed() {
-    this.ws.disconnect();
+    this.ws.disconnect();  
   },
 
   watch:{

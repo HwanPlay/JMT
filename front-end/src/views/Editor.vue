@@ -3,7 +3,10 @@
     <div style="height: 100%; width:100%;">
       <v-row  style=" height: 100%; width:100%;">
         <EditorGroupList :groupList="groupList" @onGetNoteList="getNoteList" />
-        <EditorNoteList style="float : left;" :receivedNoteList="receivedNoteList" @onOpenNoteDetail="openNoteDetail" />
+        <div v-if="isEmpty">없으요</div>
+        <div v-else>
+          <EditorNoteList style="float : left;" :receivedNoteList="receivedNoteList" @onOpenNoteDetail="openNoteDetail" />
+        </div>
       </v-row>
    </div>
   </v-row>
@@ -28,6 +31,7 @@ export default {
       groupList: [],
       receivedNoteList: [],
       currentGroup: 0,
+      isEmpty: false,
     };
   },
   methods: {
@@ -47,10 +51,13 @@ export default {
       
       if(groupId) {
         console.log('groupNo가 있을때');
+        this.isEmpty = false;
       } else if (this.$route.query.groupNo){
+        this.isEmpty = false;
         groupId = this.$route.query.groupNo;
       } else {
         this.initGetNoteList();
+        this.isEmtpy = true;
         return;
       }
 
@@ -58,7 +65,11 @@ export default {
         .get(SERVER.URL + URL + groupId)
         .then(res => {
           this.receivedNoteList = res.data.notes;
-          console.log(this.receivedNoteList);
+          if (!this.receivedNoteList.length){
+            this.isEmpty = true;
+          }else{
+            this.isEmpty = false;
+          }
           this.currentGroup = groupId;
         })
         .catch(err => console.error(err));
