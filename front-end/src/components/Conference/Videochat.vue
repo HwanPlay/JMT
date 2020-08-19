@@ -1,102 +1,88 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list" center-active show-arrows dark>
-        <v-slide-item id="videos-container">
-          <div class="mx-auto"></div>
+      <v-slide-group id="video_list" center-active show-arrows dark>
+        <v-slide-item id="videos-container" class="container-fluid d-flex">
+          <div class="row justify-content-center align-items-center"></div>
         </v-slide-item>
       </v-slide-group>
 
-      <div id="video_list_videOrshow">
-        <div class="text-center">
-          <v-btn
-            text
-            color="rgb(255, 128, 74)"
-            @click="videoBar"
-            background-color="rgba(14, 23, 38, 1)"
-          >
-            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
-          </v-btn>
-        </div>
-      </div>
-
-      <div id="Mainvideo">
+      <!-- <div id="Mainvideo">
         <div id="Main-videos-container"></div>
+      </div> -->
+
+    <div class="footer">
+      <div class="text-center mb-2">
+        <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
+          <v-icon v-show="showNav">mdi-chevron-down</v-icon>
+          <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
+        </v-btn>
       </div>
+      <v-bottom-navigation
+        dark
+        v-model="activeBtn"
+        :input-value="showNav"
+        color="rgb(255, 128, 74)"
+        background-color="rgba(14, 23, 38, 1)"
+      >
+        <!-- <v-btn @click="overlay = !overlay"> -->
+        <!-- <v-btn @click="onJoin">
+          <span>Join</span>
+          <v-icon>mdi-login</v-icon>
+        </v-btn>-->
+        <!-- <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>-->
 
-      <div class="footer">
-        <div class="text-center mb-2">
-          <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
-            <v-icon v-show="showNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
-          </v-btn>
-        </div>
-        <v-bottom-navigation
-          dark
-          v-model="activeBtn"
-          :input-value="showNav"
-          color="rgb(255, 128, 74)"
-          background-color="rgba(14, 23, 38, 1)"
-        >
-          <!-- <v-btn @click="overlay = !overlay"> -->
-          <!-- <v-btn @click="onJoin">
-            <span>Join</span>
-            <v-icon>mdi-login</v-icon>
-          </v-btn>-->
-          <!-- <v-overlay :value="overlay">
-          <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-overlay>-->
+        <v-btn @click="onCam">
+          <span v-show="!videoOnOff">OFF</span>
+          <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
-          <v-btn @click="onCam">
-            <span v-show="!videoOnOff">OFF</span>
-            <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
+          <span v-show="videoOnOff">ON</span>
+          <v-icon v-show="videoOnOff">mdi-video</v-icon>
+        </v-btn>
 
-            <span v-show="videoOnOff">ON</span>
-            <v-icon v-show="videoOnOff">mdi-video</v-icon>
-          </v-btn>
+        <v-btn @click="onMic">
+          <span v-show="!micOnOff">OFF</span>
+          <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
 
-          <v-btn @click="onMic">
-            <span v-show="!micOnOff">OFF</span>
-            <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
+          <span v-show="micOnOff">ON</span>
+          <v-icon v-show="micOnOff">mdi-microphone</v-icon>
+        </v-btn>
 
-            <span v-show="micOnOff">ON</span>
-            <v-icon v-show="micOnOff">mdi-microphone</v-icon>
-          </v-btn>
+        <!-- <v-btn @click="onCast">
+          <span v-show="!castOnOff">OFF</span>
+          <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
 
-          <!-- <v-btn @click="onCast">
-            <span v-show="!castOnOff">OFF</span>
-            <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
+          <span v-show="castOnOff">ON</span>
+          <v-icon v-show="castOnOff">mdi-cast</v-icon>
+        </v-btn> -->
 
-            <span v-show="castOnOff">ON</span>
-            <v-icon v-show="castOnOff">mdi-cast</v-icon>
-          </v-btn> -->
+        <!-- <v-btn @click="test">
+        </v-btn>-->
 
-          <!-- <v-btn @click="test">
-          </v-btn>-->
+        <v-btn @click="onChat">
+          <span>Chatting</span>
+          <v-icon>mdi-forum</v-icon>
+        </v-btn>
 
-          <v-btn @click="onChat">
-            <span>Chatting</span>
-            <v-icon>mdi-forum</v-icon>
-          </v-btn>
+        <v-btn @click="onNote">
+          <span>Note</span>
+          <v-icon>mdi-book</v-icon>
+        </v-btn>
 
-          <v-btn @click="onNote">
-            <span>Note</span>
-            <v-icon>mdi-book</v-icon>
-          </v-btn>
+        <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
+          <span>Canvas</span>
+          <v-icon>mdi-palette</v-icon>
+        </v-btn>-->
 
-          <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
-            <span>Canvas</span>
-            <v-icon>mdi-palette</v-icon>
-          </v-btn>-->
-
-          <v-btn @click="onLeave">
-            <span>Leave</span>
-            <v-icon>mdi-export</v-icon>
-          </v-btn>
-        </v-bottom-navigation>
-      </div>
-    </v-sheet>
+        <v-btn @click="onLeave">
+          <span>Leave</span>
+          <v-icon>mdi-export</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
+    </div>
+  </v-sheet>
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -179,7 +165,7 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: true,
+      showNav: false,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,
@@ -190,6 +176,7 @@ export default {
       streamId: null,
 
       endMeeting: null,
+      model: null,
 
       //---------------WebSocket-----------------
       sock: null,
@@ -302,7 +289,7 @@ export default {
       this.castOnOff = !this.castOnOff;
     },
     videoBar() {
-      $("#Minivideo_list").toggle();
+      $("#video_list").toggle();
       if (this.videoBarNav) {
         $("#Mainvideo").css("height", "88%");
       } else {
@@ -498,7 +485,7 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
+    // this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
@@ -523,9 +510,17 @@ export default {
 </script>
 
 <style>
+#flexbox {
+  width: 500px;
+  height: 375px;
+  margin: 0px 2px;
+  background-color: white;
+  border: 2px groove white;
+  border-radius: 3px;
+}
 #videos-container video {
-  height: 99px;
-  margin: 0px 1px;
+  height: 300px;
+  margin: 0px 2px;
   border: 2px groove white;
   border-radius: 3px;
 }
@@ -552,11 +547,10 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-#Minivideo_list {
+#video_list {
   position: relative;
-  height: 100px;
-  width: 100%;
-  background-color: rgb(14, 23, 38);
+  height: 100%;
+  background-color: black;
 }
 #note-container {
   display: none;
