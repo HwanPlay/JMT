@@ -20,6 +20,7 @@
       <input type='file' id="imgInput" v-on:change="readURL"/>
       <img id="image_section" src="#" alt="your image"/>
 
+
       <div class=" d-flex justify-end">
 
         <div v-if="file">
