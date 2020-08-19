@@ -49,18 +49,18 @@
           </v-overlay>-->
 
           <v-btn @click="onCam">
-            <span v-show="!videoOnOff">OFF</span>
+            <span class="conferenceBtn" v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
-            <span v-show="videoOnOff">ON</span>
+            <span class="conferenceBtn" v-show="videoOnOff">ON</span>
             <v-icon v-show="videoOnOff">mdi-video</v-icon>
           </v-btn>
 
           <v-btn @click="onMic">
-            <span v-show="!micOnOff">OFF</span>
+            <span class="conferenceBtn" v-show="!micOnOff">OFF</span>
             <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
 
-            <span v-show="micOnOff">ON</span>
+            <span class="conferenceBtn" v-show="micOnOff">ON</span>
             <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
@@ -76,12 +76,12 @@
           </v-btn>-->
 
           <v-btn @click="onChat">
-            <span>Chatting</span>
+            <span class="conferenceBtn">CHAT</span>
             <v-icon>mdi-forum</v-icon>
           </v-btn>
 
           <v-btn @click="onNote">
-            <span>Note</span>
+            <span class="conferenceBtn">NOTE</span>
             <v-icon>mdi-book</v-icon>
           </v-btn>
 
@@ -91,7 +91,7 @@
           </v-btn>-->
 
           <v-btn @click="onLeave">
-            <span>Leave</span>
+            <span class="conferenceBtn">QUIT</span>
             <v-icon>mdi-export</v-icon>
           </v-btn>
         </v-bottom-navigation>
@@ -121,7 +121,7 @@
           <input
             type="text"
             id="input-text-chat"
-            placeholder="Enter Text Chat"
+            placeholder="메시지 입력"
             @keyup.13="textSend"
             :disabled="disableInputBool"
           />
@@ -565,6 +565,7 @@ export default {
   height: 100%;
   overflow-y: hidden;
   background-color: white;
+  border-left:1px solid #c4c4c4;
 }
 
 #chat-container {
@@ -655,7 +656,7 @@ export default {
 
 .options i,
 .options .arrow-up {
-  height: 10px;
+  height: 20px;
   width: 25px;
 }
 .options i {
@@ -737,17 +738,20 @@ video::-webkit-media-controls {
 .receive-msg-username {
   color: gray;
   font-size: 13px;
-  /* font-family: 'Noto Sans KR', sans-serif; */
 }
 .receive-msg-context {
   font-size: 14px;
-  font-family: "Noto Sans KR", sans-serif;
-  word-break: break-all;
+  font-family: "NanumSquare", sans-serif;
+ word-break: break-all;
 }
 .receive-msg-tb {
   margin: 10px 10px 10px 0px;
 }
 .receive-msg-th-img {
   vertical-align: top;
+}
+.conferenceBtn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
 }
 </style>
