@@ -258,6 +258,9 @@ export default {
       // 카메라 끄기
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
+        // var postervideo = document.querySelector('#'+this.connection.attachStreams[0].streamid)
+        // postervideo.src = null
+        // postervideo.setAttribute('poster', '../../assets/profile/blank-profile.png')
       // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -286,14 +289,12 @@ export default {
         this.broadcast.session = {
             audio: true,
             video: true,
-            oneway: true
         };
 
         this.broadcast.dontAttachStream = true;
         navigator.webkitGetUserMedia({
             video: true,
             audio: true,
-            oneway: true
         }, function(yourExternalStream) {
             that.broadcast.attachStreams = [yourExternalStream];
             that.broadcast.openOrJoin(that.groupInfo.roomId);
@@ -669,10 +670,6 @@ export default {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;  
   box-sizing: border-box; 
-}
-
-video::-webkit-media-controls {
-  display: none;
 }
 
 .receive-msg-username{
