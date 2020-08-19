@@ -182,7 +182,7 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: true,
+      showNav: false,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,
@@ -193,6 +193,7 @@ export default {
       streamId: null,
 
       endMeeting: null,
+      model: null,
 
       //---------------WebSocket-----------------
       sock: null,
@@ -305,7 +306,7 @@ export default {
       this.castOnOff = !this.castOnOff;
     },
     videoBar() {
-      $("#Minivideo_list").toggle();
+      $("#video_list").toggle();
       if (this.videoBarNav) {
         $("#Mainvideo").css("height", "88%");
       } else {
@@ -501,7 +502,7 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
+    // this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
@@ -562,11 +563,10 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-#Minivideo_list {
+#video_list {
   position: relative;
-  height: 100px;
-  width: 100%;
-  background-color: rgb(14, 23, 38);
+  height: 100%;
+  background-color: black;
 }
 #note-container {
   display: none;
