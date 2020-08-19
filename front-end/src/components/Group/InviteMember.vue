@@ -5,7 +5,7 @@
         <span>초대장 발송 완료!</span>
       </v-snackbar>
       <v-snackbar v-model="failSnackbar" :timeout="500" centered absolute center color="error">
-        <span>초대장 발송 실패!</span>
+        <span>이미 초대장을 보냈습니다!</span>
       </v-snackbar>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text style="outline:none" v-bind="attrs" v-on="on" color="white">

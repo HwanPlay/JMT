@@ -134,7 +134,6 @@ export default {
 
       Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
         .then((res)=> {
-          console.log(res.data.meetings);
           meetingList = res.data.meetings;
           meetingList.forEach(meeting => {
             this.nowMeeting = meeting.hasMeeting;
