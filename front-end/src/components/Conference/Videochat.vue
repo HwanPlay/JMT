@@ -258,6 +258,14 @@ export default {
         this.connection.streamEvents
           .selectFirst("local")
           .stream.getTracks()[1].enabled = false;
+        var postervideo = document.querySelector(
+          "#" + this.connection.attachStreams[0].streamid
+        );
+        postervideo.src = null;
+        postervideo.setAttribute(
+          "poster",
+          "../../assets/profile/blank-profile.png"
+        );
         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -288,7 +296,6 @@ export default {
         this.broadcast.session = {
           audio: true,
           video: true,
-          oneway: true,
         };
 
         this.broadcast.dontAttachStream = true;
@@ -296,7 +303,6 @@ export default {
           {
             video: true,
             audio: true,
-            oneway: true,
           },
           function (yourExternalStream) {
             that.broadcast.attachStreams = [yourExternalStream];
@@ -729,6 +735,7 @@ video::-webkit-media-controls {
 }
 
 .receive-msg-username {
+  margin-left: 45px;
   color: gray;
   font-size: 13px;
   /* font-family: 'Noto Sans KR', sans-serif; */

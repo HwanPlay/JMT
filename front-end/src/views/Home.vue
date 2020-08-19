@@ -1,7 +1,7 @@
 <template>
   <v-row style="height: 100%; width: 100%;">
     <!-- 좌측 버튼 부분 -->
-    <v-col cols="7" style="height: 100%;" class="ml-2">
+    <v-col cols="5" style="height: 100%;" class="ml-2">
       <v-row style="height: 100%;" align="center" justify="center">
         
         <v-col class="text-center" cols="12" sm="4">
@@ -49,7 +49,7 @@
     <!-- <v-spacer></v-spacer> -->
 
     <!-- 우측 시계 + 일정 버튼 -->
-    <v-col cols="4" style="height: 100%;">
+    <v-col cols=6 style="height: 100%;">
       <v-row style="height: 100%;" align="center" justify="center">
        <v-col cols="12">
         <v-card tile class="mx-auto" width="100%">
