@@ -361,10 +361,22 @@ export default {
       // console.log(userInfo)
       var picture = (event.data).substring(0, 21);
       var text = (event.data).substring(21);
+      const strCopy = text.split(':');
+      console.log('name : ' + strCopy[0]);
+
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (text || event) +
-        "</p></div></li></ul>";
+        "<ul class='p-0'>"
+        +"<li class='receive-msg float-left mb-1'>"
+        +"<p class='receive-msg-username' style='margin-bottom:2px;'>"+strCopy[0]+"</p>"
+          +"<div class='sender-img'>"
+            +"<img src='http://joinmeeting.tk/images/"+ picture+"' class='float-left'>"
+          +"</div>"
+          +"<div class='receive-msg-desc float-left ml-2'>"
+            +"<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" 
+            + (strCopy[1] || event) 
+            +"</p>"
+          +"</div>"
+        +"</li></ul>";
       console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
@@ -515,7 +527,7 @@ export default {
 #container {
   background-color: lightgrey;
   position: relative;
-  border: 1px #ddd solid;
+  /* border: 1px #ddd solid; */
   height: 100%;
   /* overflow-y: auto; */
 }
@@ -558,15 +570,16 @@ export default {
 }
 #input-text-chat {
   width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
+  border-top: 1px solid #d9d9d9;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
   background-color: white;
   z-index: 4;
-
+  height: 8%;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size : 14px;
 }
 
 #video_list_videOrshow {
@@ -584,7 +597,7 @@ export default {
 }
 .header-one {
   margin: 0;
-  height: 60px;
+  height: 7%;
   position: relative;
   width: 100%;
   background: #404040;
@@ -614,7 +627,7 @@ export default {
 }
 
 .chats {
-  height: 93.3%;
+  height: 93%;
   overflow-x: scroll;
   overflow-x: hidden;
   background: #eceff1;
@@ -630,9 +643,11 @@ export default {
   display: inline;
 }
 .sender-img img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
+  margin-left: 6px;
+  background: white;
 }
 
 .msg-box {
@@ -658,5 +673,18 @@ export default {
 
 video::-webkit-media-controls {
   display: none;
+}
+
+.receive-msg-username{
+  margin-left: 45px;
+  color : gray;
+  font-size: 13px;
+  /* font-family: 'Noto Sans KR', sans-serif; */
+
+}
+.receive-msg-context{
+  max-width: 190px;
+  font-size:14px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 </style>
