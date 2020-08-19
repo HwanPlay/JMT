@@ -141,7 +141,7 @@
       <v-col>
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
-            <v-btn dark color="red" @click="onModal=true" style="margin-top : 20px;">그룹 관리</v-btn>
+            <v-btn dark color="red" @click="onModal=true" style="margin-top : 10px;">그룹 관리</v-btn>
             <v-dialog v-model="onModal" max-width="500px" height="100%">
               <EditGroup @close="onModal=false" :groupInfo="groupInfo" />
             </v-dialog>
