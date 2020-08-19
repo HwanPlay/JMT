@@ -480,43 +480,6 @@ export default {
       );
     },
 
-    connect() {
-      this.ws.connect(
-        { token: this.$store.state.accessToKen },
-        (frame) => {
-          console.log("챗 소켓 연결 성공", frame);
-          this.ws.subscribe(
-            "/send/conference/" + this.meetingInfo.meetingNo,
-            (res) => {
-              this.recv = res.body;
-              // console.log('res.body', res.body);
-              this.endMeeting = JSON.parse(this.recv);
-              console.log("챗 받은 데이터:", this.endMeeting);
-              if (
-                this.endMeeting.host &&
-                this.$store.state.userId !== this.groupInfo.hostId
-              ) {
-                this.onDisconnect();
-                alert("호스트가 회의를 종료하였습니다.");
-                this.$router.push("/Group");
-                this.$store.commit("SET_VIDEO_ON", false);
-              }
-            }
-          );
-        },
-        () => {
-          if (this.reconnect++ <= 5) {
-            setTimeout(() => {
-              console.log("connection reconnect");
-              this.sock = new SockJS(SERVER.URL2);
-              this.ws = Stomp.over(this.sock);
-              this.connect();
-            }, 10 * 1000);
-          }
-        }
-      );
-    },
-
     send(param) {
       const msg = {
         host: param,
