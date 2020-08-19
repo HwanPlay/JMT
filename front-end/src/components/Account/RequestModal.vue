@@ -1,9 +1,9 @@
 <template>
-    <div class="text-center" style="height: 100%">
+  <div class="text-center" style="height: 100%">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-          <v-btn text v-bind="attrs" v-on="on" @click="loadRequest" class="mr-2" style="height: 100%; width:100%; outline:none;">
-            <v-badge v-if="haveRequests" color="rgb(255, 128, 74)" dot>
+          <v-btn text v-bind="attrs" v-on="on" class="mr-2" style="height: 100%; width:100%; outline:none;">
+            <v-badge v-if="haveRequests" class="animate__animated animate__headShake" color="rgb(255, 128, 74)" dot>
               <v-icon size="30">mdi-bell</v-icon>
             </v-badge>
             <v-icon v-else size="30">mdi-bell</v-icon>
@@ -59,6 +59,7 @@ export default {
   },
   methods:{
     loadRequest(){
+      this.minus = 0;
       axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
         .then(res => {
           this.requests = res.data.requests;
@@ -68,17 +69,12 @@ export default {
   },
 
   mounted(){
-    axios.get(SERVER.URL + '/request/getuser/' + this.$store.state.userId)
-      .then(res => {
-        console.log('result', res.data.requests);
-        this.requests = res.data.requests;
-      })
-      .catch(err => console.log(err.response));
+    this.loadRequest();
   },
   computed: {
     haveRequests(){
       if (this.requests){
-        return !!this.requests.length;
+        return !!(this.requests.length);
       }
       else{
         return false;
@@ -92,6 +88,11 @@ export default {
       }
     }
   },
+  watch:{
+    dialog(){
+      this.loadRequest();
+    }
+  }
 };
   
 

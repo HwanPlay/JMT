@@ -214,20 +214,6 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      this.onDisconnect();
-
-      var numberOfUsers = this.connection.getAllParticipants().length;
-      if (this.$store.state.userId === this.groupInfo.hostId) {
-        this.send(true);
-        axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
-        axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
-        alert(
-          numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다."
-        );
-      } else {
-        alert(numberOfUsers + "명이 당신과 함께하였습니다.");
-      }
       this.$router.push("/Group");
       this.$store.commit("SET_VIDEO_ON", false);
     },
@@ -255,17 +241,10 @@ export default {
     onCam() {
       // 카메라 끄기
       if (this.videoOnOff == true) {
-        this.connection.streamEvents
-          .selectFirst("local")
-          .stream.getTracks()[1].enabled = false;
-        var postervideo = document.querySelector(
-          "#" + this.connection.attachStreams[0].streamid
-        );
-        postervideo.src = null;
-        postervideo.setAttribute(
-          "poster",
-          "../../assets/profile/blank-profile.png"
-        );
+        this.connection.streamEvents.selectFirst("local").stream.getTracks()[1].enabled = false;
+        // var postervideo = document.querySelector("#" + this.connection.attachStreams[0].streamid);
+        // postervideo.src = null;
+        // postervideo.setAttribute("poster", "../../assets/profile/blank-profile.png");
         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -480,43 +459,6 @@ export default {
       );
     },
 
-    connect() {
-      this.ws.connect(
-        { token: this.$store.state.accessToKen },
-        (frame) => {
-          console.log("챗 소켓 연결 성공", frame);
-          this.ws.subscribe(
-            "/send/conference/" + this.meetingInfo.meetingNo,
-            (res) => {
-              this.recv = res.body;
-              // console.log('res.body', res.body);
-              this.endMeeting = JSON.parse(this.recv);
-              console.log("챗 받은 데이터:", this.endMeeting);
-              if (
-                this.endMeeting.host &&
-                this.$store.state.userId !== this.groupInfo.hostId
-              ) {
-                this.onDisconnect();
-                alert("호스트가 회의를 종료하였습니다.");
-                this.$router.push("/Group");
-                this.$store.commit("SET_VIDEO_ON", false);
-              }
-            }
-          );
-        },
-        () => {
-          if (this.reconnect++ <= 5) {
-            setTimeout(() => {
-              console.log("connection reconnect");
-              this.sock = new SockJS(SERVER.URL2);
-              this.ws = Stomp.over(this.sock);
-              this.connect();
-            }, 10 * 1000);
-          }
-        }
-      );
-    },
-
     send(param) {
       const msg = {
         host: param,
@@ -545,15 +487,12 @@ export default {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
   },
+
   mounted() {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector(
-      "#videos-container"
-    );
-    this.broadcast.videosContainer = document.querySelector(
-      "#Main-videos-container"
-    );
+    this.connection.videosContainer = document.querySelector("#videos-container");
+    this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
@@ -561,6 +500,17 @@ export default {
   },
   destroyed() {
     this.ws.disconnect();
+  
+    this.onDisconnect()
+    var numberOfUsers = this.connection.getAllParticipants().length;
+    if (this.$store.state.userId === this.groupInfo.hostId) {
+      this.send(true);
+      axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
+      axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
+      console.log(numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다.");
+    } else {
+      console.log(numberOfUsers + "명이 당신과 함께하였습니다.");
+    }
   },
 };
 </script>
