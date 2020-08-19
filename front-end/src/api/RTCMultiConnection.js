@@ -2180,7 +2180,9 @@ var RTCMultiConnection = function(roomid, forceOptions) {
     // mediaElement.setAttribute('controls', true);
     mediaElement.setAttribute('muted', false);
     mediaElement.setAttribute('volume', 1);
-    mediaElement.setAttribute('class', 'col-6');
+    // mediaElement.setAttribute('class', 'col-4');
+    // mediaElement.setAttribute('@click', 'toggle');
+    // mediaElement.setAttribute('v-if', 'active');
 
     // http://goo.gl/WZ5nFl
     // Firefox don't yet support onended for any stream (remote/local)
@@ -5380,7 +5382,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
       }
     };
 
-    connection.autoCloseEntireSession = true;
+    connection.autoCloseEntireSession = false;
 
     connection.filesContainer = connection.videosContainer = document.body || document.documentElement;
     connection.isInitiator = false;
