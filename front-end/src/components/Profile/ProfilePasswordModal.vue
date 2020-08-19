@@ -1,11 +1,16 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="50%">
+    <v-dialog v-model="dialog" width="30%">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="text-center" text small color="error" v-bind="attrs" v-on="on">Password Change</v-btn>
+        <!-- <v-btnclass="p-1 text-center" text small color="error" v-bind="attrs" v-on="on">비밀번호 변경</v-btnclass=> -->
+        <div class="text-center">
+          <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>비밀번호 변경</v-btn>
+        </div>
       </template>
 
       <v-card>
+        <h2 class="py-3 d-flex justify-center profile-title">비밀번호 변경</h2>
+
         <div class="password-box">
           <ProfilePasswordForm
             @onClosePassword="ClosePassword"
@@ -85,5 +90,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.profile-title {
+  background-color: rgb(14, 23, 38);
+  color: white;
 }
 </style>

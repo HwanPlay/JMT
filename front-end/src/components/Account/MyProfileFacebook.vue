@@ -18,15 +18,26 @@
           <i class="mdi mdi-email"></i> 
           Email: {{this.$store.state.userId}}
         </div>
-        <div>
-          <i class="mdi mdi-account-circle"></i>
-          UserName: <input class="inline" type="text"  v-model="user_name">
-
-        </div>
+        <v-row>
+          <v-col cols="5" class="pr-0 d-flex align-center">
+            <i class="mdi mdi-account-circle"></i>UserName: 
+          </v-col>
+          <v-col cols="7" class="pl-0">
+            <!-- <input class="inline" type="text"  v-model="user_name"> -->
+            <div ref="form">
+              <v-text-field
+                v-model="user_name"
+              ></v-text-field>
+            </div> 
+          </v-col>
+        </v-row>
       </div>
-      <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
+      <div class="d-flex justify-end text-center">
+        <v-btn @click="submitSave" text rounded outlined style="color: rgb(14, 23, 38)" color="#526387">Save</v-btn>
+        <!-- <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>회원 탈퇴</v-btn> -->
+      </div>
 
-      <v-divider></v-divider>
+      <v-divider class="my-1"></v-divider>
       <div class="d-flex justify-space-around">
         <ProfileDelete />
         <ProfilePasswordModal />
@@ -227,8 +238,8 @@ export default {
   position: absolute;
   height: 30px !important;
   width: 30px !important;
-  bottom: 5%; /*your button position*/
-  right: 5%; /*your button position*/
+  bottom: 0%; /*your button position*/
+  right: 0%; /*your button position*/
 }
 
 
