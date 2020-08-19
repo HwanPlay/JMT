@@ -80,6 +80,9 @@ export default {
       console.log(this.$refs);
       this.file = this.$refs.file.files[0];
       console.log(typeof this.file);
+      if (this.file !== undefined) { 
+        console.log('파일 선택함.');
+      }
     },
     submitSave() {
       let formData = new FormData();
