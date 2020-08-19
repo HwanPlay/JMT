@@ -322,6 +322,6 @@ hr {
 }
 .title-form {
   width: 15rem;
-  /* font-family: "NanumSquare", sans-serif; */
+  font-family: "NanumSquare", sans-serif;
 }
 </style>

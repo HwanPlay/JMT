@@ -366,7 +366,8 @@ export default {
       }
 
       const strCopy = text.split(":");
-      console.log("name : " + strCopy[0]);
+      // console.log("name : " + strCopy[0]);
+
       // this.textArea.innerHTML =
       //   "<ul class='p-0'>" +
       //   "<li class='receive-msg float-left mb-1'>" +
@@ -410,7 +411,7 @@ export default {
         "</tr>" +
         "</table>";
 
-      console.log(this.textArea);
+      // console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
       this.textArea.focus();
@@ -517,7 +518,7 @@ export default {
       axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
       console.log(numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다.");
     } else {
-      console.log(numberOfUsers + "명이 당신과 함께하였습니다.");
+      console.log(numberOfUsers + "명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.");
     }
   },
   destroyed() {
@@ -575,7 +576,6 @@ export default {
   height: 100%;
   overflow-y: hidden;
   background-color: white;
-  border-left:1px solid #c4c4c4;
 }
 
 #chat-container {
@@ -608,6 +608,7 @@ export default {
   width: 100%;
   padding: 0;
   padding-bottom: 0px;
+  background-color: black;
 }
 
 #MainContainer {
@@ -741,9 +742,9 @@ export default {
   box-sizing: border-box;
 }
 
-/* video::-webkit-media-controls {
+video::-webkit-media-controls {
   display: none;
-} */
+}
 
 .receive-msg-username {
   color: gray;
@@ -763,10 +764,5 @@ export default {
 .conferenceBtn {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
-}
-
-audio:-webkit-media-controls-timeline,
-video:-webkit-media-controls-timeline{
-  display:none;
 }
 </style>
