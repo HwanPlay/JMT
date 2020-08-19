@@ -366,7 +366,8 @@ export default {
       }
 
       const strCopy = text.split(":");
-      console.log("name : " + strCopy[0]);
+      // console.log("name : " + strCopy[0]);
+
       // this.textArea.innerHTML =
       //   "<ul class='p-0'>" +
       //   "<li class='receive-msg float-left mb-1'>" +
@@ -410,7 +411,7 @@ export default {
         "</tr>" +
         "</table>";
 
-      console.log(this.textArea);
+      // console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
       this.textArea.focus();
@@ -510,7 +511,6 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect()
-    console.log('여기', this.groupInfo.hostId, this.$store.state.userId)
     var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
@@ -608,6 +608,7 @@ export default {
   width: 100%;
   padding: 0;
   padding-bottom: 0px;
+  background-color: black;
 }
 
 #MainContainer {
@@ -741,9 +742,9 @@ export default {
   box-sizing: border-box;
 }
 
-/* video::-webkit-media-controls {
+video::-webkit-media-controls {
   display: none;
-} */
+}
 
 .receive-msg-username {
   color: gray;
@@ -760,10 +761,5 @@ export default {
 }
 .receive-msg-th-img {
   vertical-align: top;
-}
-
-audio:-webkit-media-controls-timeline,
-video:-webkit-media-controls-timeline{
-  display:none;
 }
 </style>
