@@ -204,21 +204,16 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getGroupInfo');
-    console.log('res', this.$store.state.myGroups.length);
-    if (this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
-      this.connect(this.onboarding);
-      // console.log('이거 info'+this.$store.state.myGroups[this.onboarding]);
-    }
-
-    const GROUP_URL = '/group/get/all/';
-      
     let meetingList = [];
     const calendar_meeting = [];
     
     Axios
-      .get(SERVER.URL + GROUP_URL + this.$store.state.userId)
+      .get(SERVER.URL + SERVER.ROUTES.getGroupInfo + '/' + this.$store.state.userId)
       .then(res => {
+        this.$store.commit('SET_GROUP_INFO', res);
+        if (this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
+          this.connect(this.onboarding);
+        }
         console.log(res);
         const groupNo = res.data.groups[0].groupNo;
         Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
