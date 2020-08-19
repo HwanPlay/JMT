@@ -7,9 +7,9 @@
     </template>
     <v-form ref="form" v-model="valid">
       <v-card class="mx-auto" max-width="500" style="background-color: rgb(187, 201, 224);">
-        <v-card-title class="title font-weight-regular justify-space-between">
+        <v-card-title class="title font-weight-regular justify-space-between top">
           <span>{{ currentTitle }}</span>
-          <v-avatar color="primary lighten-2" class="subheading white--text" size="24" v-text="step"></v-avatar>
+          <v-avatar color="primary lighten-2" class="subheading white--text pt-2" size="24" v-text="step"></v-avatar>
         </v-card-title>
 
         <v-window v-model="step">
@@ -241,5 +241,9 @@ export default {
     to {
       transform: rotate(360deg);
     }
+  }
+  .top {
+    background-color: rgb(52, 63, 87);
+    color: white;
   }
 </style>
