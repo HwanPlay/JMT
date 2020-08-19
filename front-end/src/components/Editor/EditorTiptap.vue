@@ -189,7 +189,7 @@
           </div>
       </div>
       <hr>
-      <div @click="focusNote" class="border border-secondary rounded">
+      <div @click="focusNote">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
       
