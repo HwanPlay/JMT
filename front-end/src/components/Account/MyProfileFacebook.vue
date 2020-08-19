@@ -4,31 +4,18 @@
     <div class="프로필 사진">
 
       <div class="img-holder d-flex justify-center">
-        <v-avatar size="164" tile>
+        <v-avatar id="preview" size="164" tile>
           <img id="profile" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
           
           <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
-          <input hidden style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
-
-          
+          <input hidden style="color:black;" id="upload" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
         </v-avatar>
-        
       </div>
       
-      <!-- <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
-      <input hidden style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="readURL()"> -->
-      <input type='file' id="imgInput" v-on:change="readURL"/>
-      <img id="image_section" src="#" alt="your image"/>
-
-
-      <div class=" d-flex justify-end">
-
-        <div v-if="file">
-          <label for="input-file">Image:</label>
-          <span id="input-file">{{file.name}}</span>       
-        </div>
-        <!-- <div class="btn btn-primary" @click="getFileInput" >Image Upload</div> -->
-      </div>
+      <!-- <input type='file' id='upload' name='upload'/> -->
+      <!-- <div v-if="imgFlag" id='preview' size="164" tile> -->
+        <!-- 미리보기 공간 -->
+      <!-- </div> -->
 
       <v-divider></v-divider>
       <div class="px-2">
@@ -70,6 +57,7 @@ export default {
   },
   data() {
     return {
+      imgFlag: false,
       file:'',
       user_name: this.$store.state.myName,
     };
@@ -80,28 +68,18 @@ export default {
   watch: {
     profileFlag: function() {
       this.file = '';
-
+      this.imgFlag = false;
     }
   },
   methods: {
-    readURL(input) {
-      console.log(input);
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-      
-        reader.onload = function (e) {
-          document.querySelector('#image_section').attr('src', e.target.result);  
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
     getFileInput(){
-      document.querySelector('#file').click();
+      document.querySelector('#upload').click(); 
+      this.imgFlag = true;
     },
     fileSelect() {
       console.log(this.$refs);
       this.file = this.$refs.file.files[0];
-      console.log(this.file);
+      console.log(typeof this.file);
     },
     submitSave() {
       let formData = new FormData();
@@ -133,6 +111,54 @@ export default {
       }
 
     },
+  },
+  mounted() {    
+    var upload = document.querySelector('#upload');
+    upload.addEventListener('change',function (e) {
+      var preview = document.querySelector('#preview');
+      var get_file = e.target.files;
+      
+      var oldImage = document.querySelector('#Img');
+      if (oldImage) {
+        oldImage.remove();
+      }
+
+
+      var image = document.createElement('img');
+      image.id = 'Img';
+      image.style.height = '100px';
+      image.style.width = '100px';
+      /* FileReader 객체 생성 */
+      var reader = new FileReader();
+
+      /* reader 시작시 함수 구현 */
+      reader.onload = (function (aImg) {
+        console.log(1);
+
+        return function (e) {
+          console.log(3);
+          /* base64 인코딩 된 스트링 데이터 */
+          aImg.src = e.target.result;
+        };
+      })(image);
+
+      if(get_file){
+        /* 
+            get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
+            onload 에 설정했던 return 으로 넘어간다.
+            이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
+        */
+        reader.readAsDataURL(get_file[0]);
+        console.log(2);
+      }
+      
+      
+
+      preview.appendChild(image);
+      // image.id = 'oldImage';
+
+      // preview.replaceChild()
+    });
   }
 };
 </script>
