@@ -1,5 +1,5 @@
 <template>
-  <v-row style="width: 100%; height: 100%;">
+  <v-row style="width: 100%; height: 91.5vh;">
     <div class="nav" id="nav-box">
       <v-navigation-drawer height="100%" permanent>
         <div id="myProfile">
@@ -18,7 +18,7 @@
           </v-list-item-content>
         </div>
         <v-divider></v-divider>
-        <v-list height="55%" nav dense>
+        <v-list height="50vh" nav dense>
           <v-list-item-group v-model="group" active-class="border" color="orange">
             <div id="v-list-item-box">
               <v-list-item
@@ -36,7 +36,7 @@
                     color="red"
                     content="HOST"
                     overlap
-                    offset-x="45"
+                    offset-x="53"
                     offset-y="20"
                   >
                     <div id="groupNameText" v-text="group.groupName"></div>
@@ -64,7 +64,7 @@
           </v-list-item-group>
 
         </v-list>
-          <v-btn id="groupCreate" @click="modalOn= !modalOn" dark class="mt-3">
+          <v-btn id="groupCreate" @click="modalOn= !modalOn" dark class="ml-7 mt-3">
             <v-icon class="mr-2" medium>mdi-account-multiple-plus</v-icon>
             <p>그룹 만들기</p>
           </v-btn>

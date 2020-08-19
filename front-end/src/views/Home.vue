@@ -59,7 +59,7 @@
             <h4 class="ml-5" style="color:rgb(187, 201, 224)">{{clock | moment('YYYY-MM-DD') }}</h4>
           </v-img>
 
-          <v-card-subtitle class="pb-0 mt-3"><h2>About <JMT style="color:rgb(255, 128, 74)">JMT</JMT></h2></v-card-subtitle>
+          <v-card-subtitle class="pb-0 mt-3"><h2 style="display: inline;">About <div style="display: inline; color:rgb(255, 128, 74)">JMT</div></h2></v-card-subtitle>
           <!-- <hr class="m-2"> -->
           <v-card-text class="text--primary m-0 pt-0 pb-0" style="height: 100%;">
               <hr>

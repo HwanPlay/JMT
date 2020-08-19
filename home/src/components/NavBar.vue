@@ -5,7 +5,7 @@
       color=" accent-4"
       dark
     >
-      <v-toolbar-title>Page title</v-toolbar-title>
+      <v-toolbar-title>다운로드 페이지</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -13,9 +13,9 @@
         Sign in
       </v-btn>
 
-      <v-btn class="nav-btn">
-        Download
-      </v-btn>
+      <!-- <v-btn class="nav-btn"> -->
+        <!-- Download -->
+      <!-- </v-btn> -->
     </v-app-bar>
   </div>
 </template>
