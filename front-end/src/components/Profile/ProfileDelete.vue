@@ -1,8 +1,12 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="50%">
+    <v-dialog v-model="dialog" width="30%">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="text-center" text small color="error" v-bind="attrs" v-on="on">Delete Account</v-btn>
+        <!-- <v-btn class="p-1 text-center" text rounded small color="red lighten-2" v-bind="attrs" v-on="on">Delete Account</v-btn> -->
+        <!-- <v-btn v-bind="attrs" v-on="on" color="error" dark large>Delete Account</v-btn> -->
+        <div class="text-center">
+          <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>회원 탈퇴</v-btn>
+        </div>
       </template>
 
       <v-card>
@@ -20,8 +24,8 @@
           This alert will dismiss after {{ dismissCountDown }} seconds...
         </b-alert>
 
-
-        <v-card-title class="headline grey lighten-2">DELETE ACCOUNT</v-card-title>
+        <h2 class="py-3 d-flex justify-center profile-title">회원 탈퇴</h2>
+        <!-- <v-card-title class="headline grey lighten-2">회원 탈퇴</v-card-title> -->
 
         <v-card-text>
           비밀번호를 입력해 주세요.
@@ -111,5 +115,9 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
+}
+.profile-title {
+  background-color: rgb(14, 23, 38);
+  color: white;
 }
 </style>

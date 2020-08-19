@@ -1,31 +1,14 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list" center-active show-arrows dark>
-        <v-slide-item id="videos-container">
-          <div class="mx-auto"></div>
+      <v-slide-group id="video_list" center-active show-arrows dark>
+        <v-slide-item id="videos-container" class="container-fluid d-flex">
+          <div class="row justify-content-center align-items-center"></div>
         </v-slide-item>
       </v-slide-group>
+    </v-sheet>
 
-      <div id="video_list_videOrshow">
-        <div class="text-center">
-          <v-btn
-            text
-            color="rgb(255, 128, 74)"
-            @click="videoBar"
-            background-color="rgba(14, 23, 38, 1)"
-          >
-            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
-          </v-btn>
-        </div>
-      </div>
-
-      <div id="Mainvideo">
-        <div id="Main-videos-container"></div>
-      </div>
-
-      <div class="footer">
+      <div id="footer">
         <div class="text-center mb-2">
           <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
             <v-icon v-show="showNav">mdi-chevron-down</v-icon>
@@ -72,9 +55,6 @@
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn> -->
 
-          <!-- <v-btn @click="test">
-          </v-btn>-->
-
           <v-btn @click="onChat">
             <span>Chatting</span>
             <v-icon>mdi-forum</v-icon>
@@ -90,13 +70,13 @@
             <v-icon>mdi-palette</v-icon>
           </v-btn>-->
 
-          <v-btn @click="onLeave">
+          <v-btn @click="onLeave" color="red">
             <span>Leave</span>
             <v-icon>mdi-export</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </div>
-    </v-sheet>
+    <!-- </v-sheet> -->
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -179,15 +159,11 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: true,
+      showNav: false,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,
       activeBtn: 0,
-
-      myVideoTrackIsMuted: false,
-      trackId: null,
-      streamId: null,
 
       endMeeting: null,
 
@@ -301,15 +277,6 @@ export default {
       this.videoBar();
       this.castOnOff = !this.castOnOff;
     },
-    videoBar() {
-      $("#Minivideo_list").toggle();
-      if (this.videoBarNav) {
-        $("#Mainvideo").css("height", "88%");
-      } else {
-        $("#Mainvideo").css("height", "100%");
-      }
-      this.videoBarNav = !this.videoBarNav;
-    },
     onNote() {
       $("#note-container").toggle();
       if (this.NoteBool == false && this.Chatbool == false) {
@@ -352,17 +319,11 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
-      
       var picture = event.data.substring(0, 21);
       var text = event.data.substring(21);
-
-      if(event.data.substring(18, 22) == "jpeg") {
-        picture = event.data.substring(0, 22);
-        text = event.data.substring(22);
-      }
-
       const strCopy = text.split(":");
       console.log("name : " + strCopy[0]);
+
       // this.textArea.innerHTML =
       //   "<ul class='p-0'>" +
       //   "<li class='receive-msg float-left mb-1'>" +
@@ -382,7 +343,7 @@ export default {
       //   "</li></ul>";
 
       this.textArea.innerHTML =
-        "<table class='receive-msg-tb' style='width:auto;'>" +
+        "<table class='receive-msg-tb' style='width:auto'>" +
         "<tr>" +
         "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
         "<div class='sender-img'>" +
@@ -399,9 +360,9 @@ export default {
         "</tr>" +
         "<tr>" +
         "<td>" +
-        "<div class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
         (strCopy[1] || event) +
-        "</div>" +
+        "</p>" +
         "</td>" +
         "</tr>" +
         "</table>";
@@ -485,9 +446,7 @@ export default {
 
   created() {
     this.connection = new RTCMultiConnection();
-    this.broadcast = new RTCMultiConnection();
     this.connection.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
-    this.broadcast.socketURL = "https://rtcmulticonnection.herokuapp.com:443/";
 
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
@@ -498,7 +457,6 @@ export default {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
@@ -523,27 +481,14 @@ export default {
 </script>
 
 <style>
+#videos-container {
+  width: 640px;
+  /* height: 480px; */
+  height: 100%;
+}
 #videos-container video {
-  height: 99px;
-  margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
-}
-#Mainvideo {
-  position: relative;
-  height: 88%;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#Main-videos-container {
-  width: 640px;
-  height: 480px;
-  border: 2px groove black;
-}
-#Main-videos-container video {
-  height: 100%;
 }
 #MainContent {
   position: relative;
@@ -552,11 +497,11 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-#Minivideo_list {
+#video_list {
   position: relative;
-  height: 100px;
+  height: 100%;
   width: 100%;
-  background-color: rgb(14, 23, 38);
+  background-color: black;
 }
 #note-container {
   display: none;
@@ -588,10 +533,8 @@ export default {
   bottom: 0px;
 }
 
-.footer {
-  float: left;
-  position: absolute;
-  left: 0;
+#footer {
+  position: fixed;
   height: 100px;
   bottom: 0px;
   width: 100%;
@@ -602,10 +545,9 @@ export default {
 #MainContainer {
   position: relative;
   margin-top: 0;
-  /* background-color: rgb(52, 63, 87); */
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 #widget-container {
@@ -630,14 +572,6 @@ export default {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
   padding-left: 12px;
-}
-
-#video_list_videOrshow {
-  position: absolute;
-  width: auto;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 7;
 }
 
 .chat-main {
@@ -678,17 +612,9 @@ export default {
 
 .chats {
   height: 93%;
-
-  overflow-x: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   background: #eceff1;
-  position: relative;
-  vertical-align: bottom;
-}
-.chat-output {
-  height: auto;
-  overflow-x: scroll;
-  overflow-x: hidden;
   position: relative;
 }
 .chats ul li {
@@ -699,6 +625,7 @@ export default {
 }
 .sender-img {
   display: inline;
+  vertical-align: text-top;
 }
 
 .sender-img img {
@@ -707,6 +634,7 @@ export default {
   border-radius: 100%;
   margin: 0px 7px;
   background: white;
+  vertical-align: top;
 }
 
 .msg-box {
@@ -724,25 +652,26 @@ export default {
 
 .chat-content {
   width: 100%;
-  height: 92%;
+  height: 92.4%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-video::-webkit-media-controls {
+/* video::-webkit-media-controls-timeline {
   display: none;
-}
+} */
 
 .receive-msg-username {
+  margin-left: 45px;
   color: gray;
   font-size: 13px;
   /* font-family: 'Noto Sans KR', sans-serif; */
 }
 .receive-msg-context {
+  /* max-width: 190px; */
   font-size: 14px;
   font-family: "Noto Sans KR", sans-serif;
-  word-break: break-all;
 }
 .receive-msg-tb {
   margin: 10px 10px 10px 0px;
