@@ -1,5 +1,5 @@
 {
-  "name": "JoinMeetingTyping",
+  "name": "JoinMeetingAndTyping",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -57,5 +57,19 @@
     "vue-template-compiler": "^2.6.11",
     "vuelidate": "^0.7.5",
     "vuetify-loader": "^1.3.0"
+  },
+  "build":{
+    "win":{
+      "target": ["nsis"],
+      "icon": "./resources/JMT-Logo-ico.ico"
+    },
+    "mac": {
+      "target": ["default"],
+      "icon": "./resources/JMT-Logo-icns.icns"
+    },
+    "dmg":{
+      "title": "JoinMeetingAndTyping",
+      "icon": "./resources/JMT-Logo-icns.icns"
+    }
   }
 }

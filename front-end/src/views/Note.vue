@@ -1,7 +1,6 @@
 <template>
 <v-row id="NoteContainer" style="width: 100%; height: 100%;">
   
-      
       <NoteSearch :propsNoteObj="noteObj"/>
         <!-- :group_list="group_list" 
         @onGetNoteList="getNoteList" 

@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <!-- Login Component -->
-    <div v-if="!isLoggedIn && !tmpLogin">
-      <Login @loginConfirm="enterService" />
+    <div v-if="!isLoggedIn">
+      <Login />
     </div>
 
     <!-- NavBar -->
@@ -74,7 +74,7 @@
       </v-dialog>
     </div >
 
-      <v-main v-if="isLoggedIn || tmpLogin">
+      <v-main v-if="isLoggedIn">
         <router-view @goToGroup="goToGroup" @goToNote="goToNote" />
       </v-main>
   </v-app>
@@ -107,7 +107,6 @@ export default Vue.extend({
 
   data() {
     return {
-      tmpLogin: false,
       sock : null,
       ws : null,
       recv : null,
@@ -128,9 +127,6 @@ export default Vue.extend({
       this.$router.push('Note');
     },
     ...mapActions(['logout']),
-    enterService() {
-      this.tmpLogin = true;
-    },
 
 
     connect() {
@@ -139,7 +135,9 @@ export default Vue.extend({
       this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
         this.ws.subscribe('/send/request/' + this.$store.state.userId, res => {
           this.recv = JSON.parse(res.body);
-          this.inviteModal = true;
+          if(this.recv.receiver == this.$store.state.userId){
+            this.inviteModal = true;
+          }
         });
       }, error => {
         if(this.reconnect++ <= 5) {

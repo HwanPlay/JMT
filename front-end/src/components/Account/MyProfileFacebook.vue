@@ -1,6 +1,6 @@
 <template>
   <div class="modal-bg" >
-    <h2 class="py-3 d-flex justify-center profile-title">Profile</h2>
+    <v-card-title class="py-3 d-flex justify-center top">내 정보</v-card-title>
     <div class="프로필 사진">
 
       <div class="img-holder d-flex justify-center">
@@ -38,7 +38,7 @@
       </div>
 
       <v-divider class="my-1"></v-divider>
-      <div class="d-flex justify-space-around">
+      <div class="d-flex justify-space-around mt-2 pb-2">
         <ProfileDelete />
         <ProfilePasswordModal />
       </div>
@@ -242,7 +242,10 @@ export default {
   right: 0%; /*your button position*/
 }
 
-
+.top {
+  background-color: rgb(52, 63, 87);
+  color: white;
+}
 .profile-title {
   background-color: rgb(14, 23, 38);
   color: white;

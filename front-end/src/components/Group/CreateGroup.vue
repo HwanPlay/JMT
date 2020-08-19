@@ -8,6 +8,7 @@
             id="input-1"
             v-model="createGroupInfo.groupName"
             required
+            :state="createGroupInfo.groupName.length < 11 && 0 < createGroupInfo.groupName.length"
             placeholder="그룹 이름">
           </b-form-input>
         </b-form-group>
@@ -17,6 +18,7 @@
             id="input-2"
             v-model="createGroupInfo.groupIntro"
             required
+            :state="createGroupInfo.groupIntro.length < 51 && 0 < createGroupInfo.groupIntro.length"
             placeholder="그룹 소개"
             rows="5" 
           ></b-form-textarea>
@@ -73,7 +75,7 @@ export default {
   computed:{
     valid (){
       return (this.createGroupInfo.groupIntro && this.createGroupInfo.groupName);
-    }
+    },
   },
   mounted(){
     this.reset();

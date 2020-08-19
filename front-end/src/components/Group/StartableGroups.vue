@@ -12,7 +12,7 @@
       </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
-        <v-btn text color="error" class="mr-4" @click="closeModal">닫기</v-btn>
+        <v-btn text color="error" class="mr-4" style="outline: none" @click="closeModal">닫기</v-btn>
       </v-card-actions>
   </v-card>
 </template>

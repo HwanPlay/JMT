@@ -8,6 +8,7 @@
           id="input-1"
           v-model="editGroupInfo.groupName"
           required
+          :state="editGroupInfo.groupName.length < 11 && 0 < editGroupInfo.groupName.length"
           placeholder="그룹 이름">
         </b-form-input>
       </b-form-group>
@@ -17,6 +18,7 @@
           id="input-2"
           v-model="editGroupInfo.groupIntro"
           required
+          :state="editGroupInfo.groupIntro.length < 51 && 0 < editGroupInfo.groupIntro.length"
           placeholder="그룹 소개"
           rows="5" 
         ></b-form-textarea>
@@ -68,7 +70,6 @@ export default {
       this.snackbar = true;
       axios.put(SERVER.URL + '/group/all/'+this.groupInfo.groupNo, this.editGroupInfo)
         .then(res => {
-          console.log('EditGroupInfo!', res);
           this.$store.commit('SET_GROUP_INFO', res);
           this.$emit('close');
         })
