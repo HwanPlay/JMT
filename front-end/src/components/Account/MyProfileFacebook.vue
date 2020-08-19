@@ -4,20 +4,13 @@
     <div class="프로필 사진">
 
       <div class="img-holder d-flex justify-center">
-        <v-avatar size="164" tile>
-          <div id='preview'>
-            <img id="profileImage" :src="initImageUrl" alt="사진 자리 ㅠㅠ">
-          </div>
-          
-          <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
+        <v-avatar id='preview' size="164" tile>
+          <img id="profileImage" :src="initImageUrl" alt="사진 자리 ㅠㅠ">
+        
+          <v-icon  class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
           <input hidden style="color:black;" id="upload" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
         </v-avatar>
       </div>
-      
-      <!-- <input type='file' id='upload' name='upload'/> -->
-      <!-- <div v-if="imgFlag" id='preview' size="164" tile> -->
-        <!-- 미리보기 공간 -->
-      <!-- </div> -->
 
       <v-divider></v-divider>
       <div class="px-2">
@@ -28,9 +21,7 @@
         <div>
           <i class="mdi mdi-account-circle"></i>
           UserName: <input class="inline" type="text"  v-model="user_name">
-          <!-- <v-form ref="form">
-            <v-text-field v-model="user_name" :counter="max" :rules="rules" label="User Name"></v-text-field>
-          </v-form> -->
+
         </div>
       </div>
       <v-btn @click="submitSave" text color="#526387" class="align-self-end">Save</v-btn>
@@ -61,7 +52,8 @@ export default {
   data() {
     return {
       imgFlag: false,
-      file:'',
+      isFileSelected: false,
+      file: null,
       user_name: this.$store.state.myName,
       initImageUrl: 'http://joinmeeting.tk/images/'+this.$store.state.myPicture,
     };
@@ -72,7 +64,7 @@ export default {
   watch: {
     profileFlag: function() {
       // modal 클릭 할 때.
-      this.file = '';
+      this.file = null;
       this.initImageUrl = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
       var image = document.querySelector('#profileImage');
       image.src = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
@@ -84,13 +76,10 @@ export default {
     },
     fileSelect() {
       console.log(event.target.files.length);
-
-      // console.log(this.$refs);
-      // console.log(typeof this.file);
-
-      // this.file = this.$refs.file.files[0];
       if (event.target.files.length) { 
-        console.log('파일 선택함.');
+        this.file = this.$refs.file.files[0];
+        
+        console.log('파일 선택함.',this.file);
         var oldImage = document.querySelector('#profileImage');
         
         if (oldImage) {
@@ -101,10 +90,9 @@ export default {
           oldImage.remove();
           var newImage = document.createElement('img');
 
-          newImage.id = 'profileImage';
-          newImage.style.height = '100px';
-          newImage.style.width = '100px';
-
+          // newImage.id = 'profileImage';
+          newImage.setAttribute('id', 'profileImage');
+          newImage.setAttribute('style', 'width: 164px; height: 164px; object-fit: cover; border-radius: 50%;');
           /* FileReader 객체 생성 */
           var reader = new FileReader();
 
@@ -133,13 +121,24 @@ export default {
       }
     },
     submitSave() {
-      let formData = new FormData();
-
-      formData.append('name', this.user_name);
-      formData.append('multipartFile', this.file);
+      console.log(event);
       
+      let formData = new FormData();
+      
+      formData.append('name', this.user_name);
+      if (this.file !== null){
+        formData.append('multipartFile', this.file);
+      }
+      
+      console.log(this.file);
+      // console.log(...formData);
+      // formData.forEach(ele=> {
+      //   console.log(ele[key]);
+      // });
+
+
       // 파일크기 3M BYTE
-      if (this.file.size > 3e6) {
+      if (this.file && this.file.size > 3e6) {
         this.makeAlert({'alertColor': 'danger', 'alertMessage': 'Please choose less than 3MB'});
       } else {
         // file upload 가능
@@ -215,7 +214,7 @@ export default {
 </script>
 
 <style scoped>
-#profile {
+#profileImage {
   width: 164px;
   height: 164px;
   object-fit: cover;
@@ -226,8 +225,10 @@ export default {
 }
 .img-holder .profile-edit{
   position: absolute;
-  bottom: -40%; /*your button position*/
-  right: -40%; /*your button position*/
+  height: 30px !important;
+  width: 30px !important;
+  bottom: 5%; /*your button position*/
+  right: 5%; /*your button position*/
 }
 
 
