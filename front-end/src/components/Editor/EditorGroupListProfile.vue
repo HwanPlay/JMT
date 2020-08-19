@@ -1,6 +1,6 @@
 <template>
   
-  <div class="profile-mage" style="text-align:center;">
+  <div class="profile-mage" style="text-align:center; width: 100%;">
     <div >
       <img style="width: 100px;  height: 100px;" id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" />
     </div>
@@ -10,7 +10,7 @@
       </v-list-item-title>
       <v-list-item-subtitle>
         <div id="userIdBoxNote">
-          <p style="color:white;">{{ $store.state.userId }}</p>
+          <p style="color:white; font-size:14px; padding-bottom:9.5px;">{{ $store.state.userId }}</p>
         </div>
       </v-list-item-subtitle>
     </v-list-item-content>

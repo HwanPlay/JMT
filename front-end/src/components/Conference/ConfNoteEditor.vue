@@ -322,6 +322,8 @@ hr {
 }
 .title-form {
   width: 15rem;
+  border: 0px;
   font-family: "NanumSquare", sans-serif;
 }
+
 </style>

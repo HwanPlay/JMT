@@ -23,9 +23,9 @@
       <v-row justify="center">
         <v-col id="conferenceBox">
           <div>
-            <v-row style="margin-bottom : -10px;">
+            <v-row style="margin-bottom : -10px; padding: 0px auto ">
               <v-col>
-                <div id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</div>
+                <div id="GroupContentgroupName" style="font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</div>
                 <v-btn style="float:right;"
                   @click="sModal=true;"
                   v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting"
@@ -64,15 +64,15 @@
               <v-row >
                   <v-col cols="11">
                       <v-row>
-                      <v-badge dot color="rgb(0, 0, 0, 0)">
-                        <v-list-item-avatar color="grey" size="80">
+                      <v-badge dot color="rgb(0, 0, 0, 0)" style="width:95px;">
+                        <v-list-item-avatar color="#F5F5F5" size="70">
                           <v-img :src="'http://joinmeeting.tk/images/'+groupInfo.profile"></v-img>
                         </v-list-item-avatar>
                       </v-badge>
 
                       <v-list-item-content style="width:400px;">
                         <v-list-item-title style="padding-top : 2px; font-size :20px;">{{ groupInfo.hostName }}</v-list-item-title>
-                        <v-list-item-subtitle style="margin-left : 3px; font-size : 13px;">{{ groupInfo.hostId }}</v-list-item-subtitle>
+                        <v-list-item-subtitle style="margin-left : 3px; font-size : 13px; color:rgba(0,0,0,0.6)">{{ groupInfo.hostId }}</v-list-item-subtitle>
                       </v-list-item-content>
                       </v-row>
                   </v-col>
@@ -107,10 +107,10 @@
 
           <div>
             <v-divider class="m-1"></v-divider>
-            <v-col id="MemberListBox"  style="height : 200px; margin-left: -10px;">
+            <v-col id="MemberListBox">
               <div v-if="members && members.length === 0">
-                <v-icon color="rgb(52, 63, 87);" class="d-flex justify-center align-center mt-4" size="100">far fa-dizzy</v-icon>
-                <h4 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h4>
+                <v-icon color="rgb(52, 63, 87);" class="d-flex justify-center align-center mt-4" size="90">far fa-dizzy</v-icon>
+                <h5 class="d-flex justify-center align-center mt-8">그룹원들이 없습니다</h5>
               </div>
               <div v-else>
                 <v-card-text
@@ -335,15 +335,14 @@ export default {
   margin-top: 5px;
   margin-bottom: 20px;
   border-radius: 15px;
-  height: 25vh;
-  padding: 20px;
-  padding-top: 5px;
+  height: 28vh;
+  padding: 20px 30px 30px 30px;
   /* padding: 15px; */
   box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
 }
 
 .GroupListBox {
-  height: 40vh;
+  height: 38vh;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 1px 1px 2px 2px rgb(167, 167, 167);
@@ -353,7 +352,7 @@ export default {
  text-align: center;
 }
 .conferenceStatus {
-  padding-top: 5px;
+  padding-top: 6px;
   font-size: 17px;
   border-radius: 10px;
   display: inline-block;

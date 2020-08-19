@@ -42,7 +42,7 @@
 
       <v-divider class="my-1"></v-divider>
       <div class="d-flex justify-space-around mt-2 pb-2">
-        <ProfileDelete />
+        <!-- <ProfileDelete /> -->
         <ProfilePasswordModal />
       </div>
     </div>
@@ -55,13 +55,13 @@ import axios from 'axios';
 import SERVER from '../../api/spring.js';
 
 import ProfilePasswordModal from '../Profile/ProfilePasswordModal.vue';
-import ProfileDelete from '../Profile/ProfileDelete.vue';
+// import ProfileDelete from '../Profile/ProfileDelete.vue';
 
 export default {
   name: 'MyProfileFacebook',
   components: {
     ProfilePasswordModal,
-    ProfileDelete,
+    // ProfileDelete,
   },
   data() {
     return {
