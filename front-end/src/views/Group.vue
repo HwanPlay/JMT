@@ -1,5 +1,5 @@
 <template>
-  <v-row style="width: 100%; height: 89.2vh;">
+  <v-row style="width: 100%; height: 91.5vh;">
     <div class="nav" id="nav-box">
       <v-navigation-drawer height="100%" permanent>
         <div id="myProfile">
@@ -36,7 +36,7 @@
                     color="red"
                     content="HOST"
                     overlap
-                    offset-x="45"
+                    offset-x="53"
                     offset-y="20"
                   >
                     <div id="groupNameText" v-text="group.groupName"></div>
