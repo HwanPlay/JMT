@@ -12,7 +12,7 @@
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="(nowMeeting == false && !this.conferenceOn)"
+              v-else
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
             >회의 진행중이 아닙니다</p>
@@ -34,6 +34,15 @@
                 >
                   회의 시작 
                 </v-btn>
+                <v-btn
+                  @click="joinMeeting" style="float:right;"
+                  v-else
+                  dark
+                  color="blue darken-2"
+                  class="animate__animated animate__headShake"
+                >
+                  회의 참여
+                </v-btn>
                 <v-dialog v-model="sModal" width="500px">
                   <v-card width="500px">
                     <v-card-title class="top">회의 시작하기</v-card-title>
@@ -48,15 +57,7 @@
                     </v-container>
                   </v-card>
                 </v-dialog>
-                <v-btn
-                  @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && ( nowMeeting || this.conferenceOn)"
-                  dark
-                  color="blue darken-2"
-                  class="animate__animated animate__headShake"
-                >
-                  회의 참여
-                </v-btn>
+                
               </v-col>
             </v-row>
             <div style="margin-top:-30px; " >
