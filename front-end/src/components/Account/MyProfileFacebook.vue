@@ -4,8 +4,10 @@
     <div class="프로필 사진">
 
       <div class="img-holder d-flex justify-center">
-        <v-avatar id="preview" size="164" tile>
-          <img id="profile" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
+        <v-avatar size="164" tile>
+          <div id='preview'>
+            <img id="profileImage" :src="initImageUrl" alt="사진 자리 ㅠㅠ">
+          </div>
           
           <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
           <input hidden style="color:black;" id="upload" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
@@ -42,6 +44,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 import SERVER from '../../api/spring.js';
@@ -60,6 +63,7 @@ export default {
       imgFlag: false,
       file:'',
       user_name: this.$store.state.myName,
+      initImageUrl: 'http://joinmeeting.tk/images/'+this.$store.state.myPicture,
     };
   },
   props: {
@@ -67,21 +71,65 @@ export default {
   },
   watch: {
     profileFlag: function() {
+      // modal 클릭 할 때.
       this.file = '';
-      this.imgFlag = false;
+      this.initImageUrl = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
+      var image = document.querySelector('#profileImage');
+      image.src = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
     }
   },
   methods: {
     getFileInput(){
-      document.querySelector('#upload').click(); 
-      this.imgFlag = true;
+      document.querySelector('#upload').click();
     },
     fileSelect() {
-      console.log(this.$refs);
-      this.file = this.$refs.file.files[0];
-      console.log(typeof this.file);
-      if (this.file !== undefined) { 
+      console.log(event.target.files.length);
+
+      // console.log(this.$refs);
+      // console.log(typeof this.file);
+
+      // this.file = this.$refs.file.files[0];
+      if (event.target.files.length) { 
         console.log('파일 선택함.');
+        var oldImage = document.querySelector('#profileImage');
+        
+        if (oldImage) {
+          var get_file =  event.target.files;
+
+          var preview = document.querySelector('#preview');
+
+          oldImage.remove();
+          var newImage = document.createElement('img');
+
+          newImage.id = 'profileImage';
+          newImage.style.height = '100px';
+          newImage.style.width = '100px';
+
+          /* FileReader 객체 생성 */
+          var reader = new FileReader();
+
+          /* reader 시작시 함수 구현 */
+          reader.onload = (function (aImg) {
+            console.log(1);
+
+            return function (event) {
+              console.log(3);
+              /* base64 인코딩 된 스트링 데이터 */
+              aImg.src = event.target.result;
+            };
+          })(newImage);
+
+          if(get_file){
+            /* 
+                get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
+                onload 에 설정했던 return 으로 넘어간다.
+                이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
+            */
+            reader.readAsDataURL(get_file[0]);
+            console.log(2);
+          }
+          preview.appendChild(newImage);
+        }
       }
     },
     submitSave() {
@@ -116,52 +164,52 @@ export default {
     },
   },
   mounted() {    
-    var upload = document.querySelector('#upload');
-    upload.addEventListener('change',function (e) {
-      var preview = document.querySelector('#preview');
-      var get_file = e.target.files;
+    // var upload = document.querySelector('#upload');
+    // upload.addEventListener('change',function (e) {
+    //   var preview = document.querySelector('#preview');
+    //   var get_file = e.target.files;
       
-      var oldImage = document.querySelector('#Img');
-      if (oldImage) {
-        oldImage.remove();
-      }
+    //   var oldImage = document.querySelector('#Img');
+    //   if (oldImage) {
+    //     oldImage.remove();
+    //   }
 
 
-      var image = document.createElement('img');
-      image.id = 'Img';
-      image.style.height = '100px';
-      image.style.width = '100px';
-      /* FileReader 객체 생성 */
-      var reader = new FileReader();
+    //   var image = document.createElement('img');
+    //   image.id = 'Img';
+    //   image.style.height = '100px';
+    //   image.style.width = '100px';
+    //   /* FileReader 객체 생성 */
+    //   var reader = new FileReader();
 
-      /* reader 시작시 함수 구현 */
-      reader.onload = (function (aImg) {
-        console.log(1);
+    //   /* reader 시작시 함수 구현 */
+    //   reader.onload = (function (aImg) {
+    //     console.log(1);
 
-        return function (e) {
-          console.log(3);
-          /* base64 인코딩 된 스트링 데이터 */
-          aImg.src = e.target.result;
-        };
-      })(image);
+    //     return function (e) {
+    //       console.log(3);
+    //       /* base64 인코딩 된 스트링 데이터 */
+    //       aImg.src = e.target.result;
+    //     };
+    //   })(image);
 
-      if(get_file){
-        /* 
-            get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
-            onload 에 설정했던 return 으로 넘어간다.
-            이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
-        */
-        reader.readAsDataURL(get_file[0]);
-        console.log(2);
-      }
+    //   if(get_file){
+    //     /* 
+    //         get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
+    //         onload 에 설정했던 return 으로 넘어간다.
+    //         이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
+    //     */
+    //     reader.readAsDataURL(get_file[0]);
+    //     console.log(2);
+    //   }
       
       
 
-      preview.appendChild(image);
-      // image.id = 'oldImage';
+    //   preview.appendChild(image);
+    //   // image.id = 'oldImage';
 
-      // preview.replaceChild()
-    });
+    //   // preview.replaceChild()
+    // });
   }
 };
 </script>
