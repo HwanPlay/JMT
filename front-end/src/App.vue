@@ -170,6 +170,9 @@ export default Vue.extend({
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
   },
+  destroyed() {
+    this.ws.disconnect();
+  },
   
   computed: {
     isLoggedIn() {
