@@ -72,7 +72,7 @@
 
                       <v-list-item-content style="width:400px;">
                         <v-list-item-title style="padding-top : 2px; font-size :20px;">{{ groupInfo.hostName }}</v-list-item-title>
-                        <v-list-item-subtitle style="margin-left : 3px;">{{ groupInfo.hostId }}</v-list-item-subtitle>
+                        <v-list-item-subtitle style="margin-left : 3px; font-size : 13px;">{{ groupInfo.hostId }}</v-list-item-subtitle>
                       </v-list-item-content>
                       </v-row>
                   </v-col>
@@ -92,7 +92,7 @@
         <v-col>
           <v-row>
             <v-col cols="8" class="pt-0">
-              <h3>그룹원</h3>
+              <p style="font-size: 24px;">그룹원</p>
             </v-col>
             <v-col cols="4" class="pt-0">
               <div v-if="groupInfo.hostId === this.$store.state.userId" style="float:right;">
