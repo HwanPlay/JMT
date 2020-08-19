@@ -741,9 +741,9 @@ export default {
   box-sizing: border-box;
 }
 
-video::-webkit-media-controls {
+/* video::-webkit-media-controls {
   display: none;
-}
+} */
 
 .receive-msg-username {
   color: gray;
@@ -760,5 +760,10 @@ video::-webkit-media-controls {
 }
 .receive-msg-th-img {
   vertical-align: top;
+}
+
+audio:-webkit-media-controls-timeline,
+video:-webkit-media-controls-timeline{
+  display:none;
 }
 </style>
