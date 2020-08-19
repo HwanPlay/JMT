@@ -64,7 +64,7 @@
 
         <!-- logout Router -->
         <div class="text-center" style="height: 100%">
-          <v-btn text class="mr-2" @click="logout()" style="height: 100%; width:100%; outline:none;">
+          <v-btn text class="mr-2" @click="logout(); ws.disconnect();" style="height: 100%; width:100%; outline:none;">
             <v-icon size="30">mdi-logout</v-icon>
           </v-btn>
         </div>
