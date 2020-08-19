@@ -510,6 +510,7 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect()
+    console.log('여기', this.groupInfo.hostId, this.$store.state.userId)
     var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
@@ -517,7 +518,7 @@ export default {
       axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
       console.log(numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다.");
     } else {
-      console.log(numberOfUsers + "명이 당신과 함께하였습니다.");
+      console.log(numberOfUsers + "명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.");
     }
   },
   destroyed() {
