@@ -352,11 +352,17 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
+      
       var picture = event.data.substring(0, 21);
       var text = event.data.substring(21);
+
+      if(event.data.substring(18, 22) == "jpeg") {
+        picture = event.data.substring(0, 22);
+        text = event.data.substring(22);
+      }
+
       const strCopy = text.split(":");
       console.log("name : " + strCopy[0]);
-
       // this.textArea.innerHTML =
       //   "<ul class='p-0'>" +
       //   "<li class='receive-msg float-left mb-1'>" +
