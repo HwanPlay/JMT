@@ -164,12 +164,14 @@ export default Vue.extend({
 
   mounted() {
     this.$router.push('Home');
-    console.log(this.inviteModal);
   },
   
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
+  },
+  destroyed() {
+    this.ws.disconnect();
   },
   
   computed: {

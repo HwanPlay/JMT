@@ -1,5 +1,6 @@
 <template>
   <v-window v-model="step">
+    <hr>
     <v-window-item :value="1">
       <v-list-item>
         <v-list-item-content>
@@ -12,7 +13,7 @@
     </v-window-item>
     <v-window-item :value="2">
       <v-list-item>
-        <v-text-field style="width: 50%" v-model="meetingTitle" label="회의 명" required></v-text-field>
+        <v-text-field style="width: 50%" v-model="meetingTitle" label="회의 명" required @keypress.enter="startMeeting"></v-text-field>
         <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click='startMeeting'>회의 시작</v-btn>
       </v-list-item>
     </v-window-item>
@@ -86,12 +87,7 @@ export default {
     },
 
     connect() { 
-      this.ws.connect({'token' : this.$store.state.accessToken}, frame => {
-        console.log('소켓 연결 성공', frame);
-        this.ws.subscribe('/send/meeting/' + this.groupInfo.groupNo, res => {
-          this.recvList.push(res.body);
-          console.log('받은 데이터' + this.recvList);
-        });
+      this.ws.connect({'token' : this.$store.state.accessToken}, () => {
       }, () => {
         if(this.reconnect++ <= 5) {
           setTimeout(()=> {
@@ -113,6 +109,9 @@ export default {
   mounted(){
     this.step = 1;
     this.connect();
+  },
+  destroyed() {
+    this.ws.disconnect();
   },
 
   watch:{

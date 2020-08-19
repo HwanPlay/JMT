@@ -1,31 +1,30 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list"
-        center-active
-        show-arrows
-        dark
-      >
+      <v-slide-group id="Minivideo_list" center-active show-arrows dark>
         <v-slide-item id="videos-container">
-          <div class="mx-auto" height="100"></div>
+          <div class="mx-auto"></div>
         </v-slide-item>
       </v-slide-group>
 
       <div id="video_list_videOrshow">
         <div class="text-center">
-          <v-btn text color="rgb(255, 128, 74)" @click="videoBar" background-color="rgba(14, 23, 38, 1)">
-            <v-icon v-show="!videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="videoBarNav">mdi-chevron-up</v-icon>
+          <v-btn
+            text
+            color="rgb(255, 128, 74)"
+            @click="videoBar"
+            background-color="rgba(14, 23, 38, 1)"
+          >
+            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
+            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
       </div>
 
-      <div class="Mainvideo">
-        <div class="Main-videos-container" id="Main-videos-container">
-        </div>
+      <div id="Mainvideo">
+        <div id="Main-videos-container"></div>
       </div>
 
-      <!-- <div class="fixed-bottom"> -->
       <div class="footer">
         <div class="text-center mb-2">
           <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
@@ -38,18 +37,18 @@
           v-model="activeBtn"
           :input-value="showNav"
           color="rgb(255, 128, 74)"
-          background-color="rgb(14, 23, 38)"
+          background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
             <span>Join</span>
             <v-icon>mdi-login</v-icon>
-          </v-btn> -->
+          </v-btn>-->
           <!-- <v-overlay :value="overlay">
           <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-overlay>-->
 
-          <v-btn @click="onCam" >
+          <v-btn @click="onCam">
             <span v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
@@ -72,8 +71,9 @@
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
           </v-btn>
-          <v-btn @click="onCastJoin">
-          </v-btn>
+
+          <!-- <v-btn @click="test">
+          </v-btn>-->
 
           <v-btn @click="onChat">
             <span>Chatting</span>
@@ -88,7 +88,7 @@
           <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
             <span>Canvas</span>
             <v-icon>mdi-palette</v-icon>
-          </v-btn> -->
+          </v-btn>-->
 
           <v-btn @click="onLeave">
             <span>Leave</span>
@@ -101,14 +101,13 @@
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
     </div>
-    
+
     <div id="chat-container">
       <div id="container">
         <div class="row header-one text-white p-1">
           <div class="col-md-8 name pl-3">
             <!-- <i class="fa fa-comment fa-2x" style="float : left; margin-right : 15px;"></i> -->
-            <h6 class="ml-1 mb-0">{{ this.groupInfo.groupName }}
-            </h6>
+            <h6 class="ml-1 mb-0">{{ this.groupInfo.groupName }}</h6>
           </div>
           <div class="col-md-4 options text-right pr-0">
             <i class="fa fa-times hover text-center" @click="onChat"></i>
@@ -119,52 +118,42 @@
           <div class="chats">
             <div class="chat-output"></div>
           </div>
-        <input
-          type="text"
-          id="input-text-chat"
-          placeholder="Enter Text Chat"
-          @keyup.13="textSend"
-          :disabled="disableInputBool"
-        />
+          <input
+            type="text"
+            id="input-text-chat"
+            placeholder="Enter Text Chat"
+            @keyup.13="textSend"
+            :disabled="disableInputBool"
+          />
         </div>
       </div>
     </div>
-
   </div>
 </template>
-<script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
+
 <!-- socket.io for signaling -->
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import axios from 'axios';
+import Vue from "vue";
+import axios from "axios";
+import $ from "jquery";
 
 import RTCMultiConnection from "../../api/RTCMultiConnection";
-import Broadcast from "../../api/broadcast";
-// import Sharescreen from './Sharescreen.vue';
-import $ from "jquery";
-import Vue from "vue";
-// import WebRTC from '../../api/webrtc';
-// import CanvasDesigner from "../../assets/canvas/canvas-designer-widget";
+
 import NoteEditor from "./ConfNoteEditor";
 
-import SERVER from '../../api/spring';
+import SERVER from "../../api/spring";
 
-import SockJS from 'sockjs-client';
-import Stomp from 'webstomp-client';
-
-// Vue.use(WebRTC)
-// Vue.use(BroadCast)
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
 
 export default {
   name: "Videochat",
   components: {
-    // Sharescreen,
     NoteEditor,
-    RTCMultiConnection,
-    Broadcast
   },
-  props:{
+  props: {
     groupInfo: Object,
     meetingInfo: Object,
   },
@@ -181,7 +170,6 @@ export default {
       NoteShow: {},
       NoteBool: false,
       Chatbool: false,
-      Bar: false,
       video: Object,
       div: null,
       inputText: "",
@@ -190,7 +178,7 @@ export default {
       videoLength: null,
 
       // overlay: false,
-      videoBarNav: true,
+      videoBarNav: false,
       showNav: true,
       videoOnOff: true,
       micOnOff: true,
@@ -199,66 +187,86 @@ export default {
 
       myVideoTrackIsMuted: false,
       trackId: null,
-      streamId : null,
+      streamId: null,
 
       endMeeting: null,
 
       //---------------WebSocket-----------------
-      sock : null,
-      ws : null,
-      reconnect : 0,
-      recv : '',
-
-      // broadcast
-      isBoradcast : false,
+      sock: null,
+      ws: null,
+      reconnect: 0,
+      recv: "",
     };
   },
   methods: {
+    test() {},
     //회의방 참가
     onJoin() {
       this.disableInputBool = false;
       this.connection.session = {
         data: true,
         video: true,
-        audio: true
+        audio: true,
       };
-      this.connection.openOrJoin(this.groupInfo.roomId+'a');
+      this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
-      this.overlay = false;
+      // this.overlay = false;
     },
     //회의방 나가기
     onLeave() {
       // console.log(this.$store.state.userId, this.groupInfo.hostId)
-      this.ondisconnect()
+      this.onDisconnect();
 
       var numberOfUsers = this.connection.getAllParticipants().length;
       if (this.$store.state.userId === this.groupInfo.hostId) {
         this.send(true);
-        axios.put(SERVER.URL + '/group/hasmeeting/'+this.groupInfo.groupNo);
-        alert(numberOfUsers + '명이 당신과 함께하였습니다. 회의가 종료되었습니다.');
+        axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
+        axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
+        alert(
+          numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다."
+        );
       } else {
-        alert(numberOfUsers + '명이 당신과 함께하였습니다.');
+        alert(numberOfUsers + "명이 당신과 함께하였습니다.");
       }
       this.$router.push("/Group");
-      this.$store.commit('SET_VIDEO_ON', false);
+      this.$store.commit("SET_VIDEO_ON", false);
     },
-    ondisconnect() {
+    onDisconnect() {
       this.connection.dontAttachStream = true;
-      this.connection.attachStreams.forEach(function(localStream) {
+      this.connection.attachStreams.forEach(function (localStream) {
         localStream.stop();
       });
       var that = this;
-      this.connection.getAllParticipants().forEach(function(pid) {
-        that.connection.disconnectWith(pid); // 특정 리모트 유저(게스트) 와의 연결 끊기 포문돌려서 모든 연결 끊기가 된다.
+      this.connection.getAllParticipants().forEach(function (pid) {
+        that.connection.disconnectWith(pid);
+      });
+    },
+    onBroadDisconnect() {
+      this.broadcast.dontAttachStream = true;
+      this.broadcast.attachStreams.forEach(function (localStream) {
+        localStream.stop();
+      });
+      var that = this;
+      this.broadcast.getAllParticipants().forEach(function (pid) {
+        that.broadcast.disconnectWith(pid);
       });
     },
     //비디오 끄고,켜기
     onCam() {
       // 카메라 끄기
-      
       if (this.videoOnOff == true) {
-        this.connection.streamEvents.selectFirst('local').stream.getTracks()[1].enabled = false;
-      // 카메라 켜기
+        this.connection.streamEvents
+          .selectFirst("local")
+          .stream.getTracks()[1].enabled = false;
+        var postervideo = document.querySelector(
+          "#" + this.connection.attachStreams[0].streamid
+        );
+        postervideo.src = null;
+        postervideo.setAttribute(
+          "poster",
+          "../../assets/profile/blank-profile.png"
+        );
+        // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
@@ -272,48 +280,56 @@ export default {
         let localStream = this.connection.attachStreams[0];
         localStream.mute("audio");
         localStream.muted = true;
-      // 마이크 켜기
+        // 마이크 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         localStream.unmute("audio");
-        this.connection.streamEvents.selectFirst("local").mediaElement.muted = true;
+        this.connection.streamEvents.selectFirst(
+          "local"
+        ).mediaElement.muted = true;
       }
       this.micOnOff = !this.micOnOff;
     },
     onCast() {
-      console.log("broadcase test - isRoom : " + this.broadcast.isInitiator);
-      if (this.castOnOff == false) {
-        console.log('캐스트 켜기1');
-         this.broadcast.session = {
-           video: true
+      if (!this.castOnOff) {
+        var that = this;
+        this.broadcast.session = {
+          audio: true,
+          video: true,
         };
-        this.broadcast.openOrJoin(this.groupInfo.roomId+'a');
-        
+
+        this.broadcast.dontAttachStream = true;
+        navigator.webkitGetUserMedia(
+          {
+            video: true,
+            audio: true,
+          },
+          function (yourExternalStream) {
+            that.broadcast.attachStreams = [yourExternalStream];
+            that.broadcast.openOrJoin(that.groupInfo.roomId);
+          },
+          function (error) {}
+        );
+
+        this.broadcast.attachStreams.forEach(function (localStream) {
+          localStream.stop();
+        });
+
+        this.showNav = !this.showNav;
       } else {
-        console.log('캐스트 끄기1');
-        this.broadcast.closeSoket;
-        console.log('close');
-      }this.broadcast.dontAttachStream = true;
+        this.onBroadDisconnect();
+      }
+      this.videoBar();
       this.castOnOff = !this.castOnOff;
     },
-    // offBroadcast() {
-    //   this.connection.dontAttachStream = true;
-    // },
-    // onBroadcast() {
-    //   this.connection.session = {
-    //     video: true
-    //   };
-    //   this.connection.openOrJoin(this.roomId + "a");
-    // },
     videoBar() {
-      this.videoBarNav = !this.videoBarNav;
       $("#Minivideo_list").toggle();
-      this.Bar = !this.Bar;
-      if (this.Bar == false) {
-        $(".Mainvideo").css("height", "88%");
+      if (this.videoBarNav) {
+        $("#Mainvideo").css("height", "88%");
       } else {
-        $(".Mainvideo").css("height", "100%");
+        $("#Mainvideo").css("height", "100%");
       }
+      this.videoBarNav = !this.videoBarNav;
     },
     onNote() {
       $("#note-container").toggle();
@@ -347,18 +363,6 @@ export default {
         this.Chatbool = false;
       }
     },
-    // onCanvas() {
-    //   this.disableCanvasBool = true;
-    //   this.designer.widgetHtmlURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.html";
-    //   this.designer.widgetJsURL =
-    //     "https://www.webrtc-experiment.com/Canvas-Designer/widget.js";
-    //   this.designer.appendTo(document.getElementById("widget-container"));
-    // },
-    // onCapture() {
-    //   this.img = this.$refs.webrtc.capture();
-    // },
-
 
     onError(error, stream) {
       console.log("On Error Event", error, stream);
@@ -369,10 +373,54 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
+      var picture = event.data.substring(0, 21);
+      var text = event.data.substring(21);
+      const strCopy = text.split(":");
+      console.log("name : " + strCopy[0]);
+
+      // this.textArea.innerHTML =
+      //   "<ul class='p-0'>" +
+      //   "<li class='receive-msg float-left mb-1'>" +
+      //   "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
+      //   strCopy[0] +
+      //   "</p>" +
+      //   "<div class='sender-img'>" +
+      //   "<img src='http://joinmeeting.tk/images/" +
+      //   picture +
+      //   "' class='float-left'>" +
+      //   "</div>" +
+      //   "<div class='receive-msg-desc float-left ml-2'>" +
+      //   "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+      //   (strCopy[1] || event) +
+      //   "</p>" +
+      //   "</div>" +
+      //   "</li></ul>";
+
       this.textArea.innerHTML =
-        "<ul class='p-0'><li class='receive-msg float-left mb-2'><div class='sender-img'><img src='http://joinmeeting.tk/images/"+this.$store.state.myPicture+"' class='float-left'></div><div class='receive-msg-desc float-left ml-2'><p class='bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (event.data || event) +
-        "</p></div></li></ul>";
+        "<table class='receive-msg-tb' style='width:auto'>" +
+        "<tr>" +
+        "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
+        "<div class='sender-img'>" +
+        "<img src='http://joinmeeting.tk/images/" +
+        picture +
+        "' class='float-left'>" +
+        "</div>" +
+        "</th>" +
+        "<td>" +
+        "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
+        strCopy[0] +
+        "</p>" +
+        "</td>" +
+        "</tr>" +
+        "<tr>" +
+        "<td>" +
+        "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        (strCopy[1] || event) +
+        "</p>" +
+        "</td>" +
+        "</tr>" +
+        "</table>";
+
       console.log(this.textArea);
       this.chatContainer.appendChild(this.textArea);
       this.textArea.tabIndex = 0;
@@ -381,61 +429,109 @@ export default {
     },
     textSend(e) {
       if (e.target.value) {
-      // removing trailing/leading whitespace
-        this.value = this.$store.state.myName + ": " +
-        e.target.value.toString().replace(/^\s+|\s+$/g, "");
-      // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
-        this.connection.send(this.value);
-        this.appendDIV(this.value);
+        // removing trailing/leading whitespace
+        this.value =
+          this.$store.state.myName +
+          ": " +
+          e.target.value.toString().replace(/^\s+|\s+$/g, "");
+        // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
+        this.connection.send(this.$store.state.myPicture + this.value);
+        var msg = {
+          data: this.$store.state.myPicture + this.value,
+        };
+        this.appendDIV(msg);
       }
       e.target.value = "";
     },
 
     //---------------WebSocket-----------------
-    
+
     connect() {
-      this.ws.connect({ token : this.$store.state.accessToKen }, frame => {
-        console.log('챗 소켓 연결 성공', frame);
-        this.ws.subscribe('/send/conference/' + this.meetingInfo.meetingNo, res => {
-          this.recv = res.body;
-          // console.log('res.body', res.body);
-          this.endMeeting = JSON.parse(this.recv)
-          console.log('챗 받은 데이터:', this.endMeeting);
-          if (this.endMeeting.host && this.$store.state.userId !== this.groupInfo.hostId) {
-            this.ondisconnect()
-            alert('호스트가 회의를 종료하였습니다.')
-            this.$router.push("/Group");
+      this.ws.connect(
+        { token: this.$store.state.accessToKen },
+        (frame) => {
+          this.ws.subscribe(
+            "/send/conference/" + this.meetingInfo.meetingNo,
+            (res) => {
+              this.recv = res.body;
+              // console.log('res.body', res.body);
+              this.endMeeting = JSON.parse(this.recv);
+              if (
+                this.endMeeting.host &&
+                this.$store.state.userId !== this.groupInfo.hostId
+              ) {
+                this.onDisconnect();
+                alert("호스트가 회의를 종료하였습니다.");
+                this.$router.push("/Group");
+                this.$store.commit("SET_VIDEO_ON", false);
+              }
+            }
+          );
+        },
+        () => {
+          if (this.reconnect++ <= 5) {
+            setTimeout(() => {
+              this.sock = new SockJS(SERVER.URL2);
+              this.ws = Stomp.over(this.sock);
+              this.connect();
+            }, 10 * 1000);
           }
-        });
-      }, () => {
-        if(this.reconnect++ <= 5) {
-          setTimeout(()=> {
-            console.log('connection reconnect');
-            this.sock = new SockJS(SERVER.URL2);
-            this.ws = Stomp.over(this.sock);
-            this.connect();
-          }, 10*1000);
         }
-      });
+      );
     },
 
+    connect() {
+      this.ws.connect(
+        { token: this.$store.state.accessToKen },
+        (frame) => {
+          console.log("챗 소켓 연결 성공", frame);
+          this.ws.subscribe(
+            "/send/conference/" + this.meetingInfo.meetingNo,
+            (res) => {
+              this.recv = res.body;
+              // console.log('res.body', res.body);
+              this.endMeeting = JSON.parse(this.recv);
+              console.log("챗 받은 데이터:", this.endMeeting);
+              if (
+                this.endMeeting.host &&
+                this.$store.state.userId !== this.groupInfo.hostId
+              ) {
+                this.onDisconnect();
+                alert("호스트가 회의를 종료하였습니다.");
+                this.$router.push("/Group");
+                this.$store.commit("SET_VIDEO_ON", false);
+              }
+            }
+          );
+        },
+        () => {
+          if (this.reconnect++ <= 5) {
+            setTimeout(() => {
+              console.log("connection reconnect");
+              this.sock = new SockJS(SERVER.URL2);
+              this.ws = Stomp.over(this.sock);
+              this.connect();
+            }, 10 * 1000);
+          }
+        }
+      );
+    },
 
     send(param) {
       const msg = {
         host: param,
         meetingNo: this.meetingInfo.meetingNo,
       };
-      this.ws.send('/conference', JSON.stringify(msg), {
+      this.ws.send("/conference", JSON.stringify(msg), {
         token: this.$store.state.accessToken,
       });
-    }
+    },
   },
-
 
   updated() {
     this.connection.onmessage = this.appendDIV;
-    this.connection.onclose = function(event) {
-        console.log('data connection closed between you and ' + event.userid);
+    this.connection.onclose = function (event) {
+      console.log("data connection closed between you and " + event.userid);
     };
   },
 
@@ -448,47 +544,49 @@ export default {
     //---------------WebSocket-----------------
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
-
   },
   mounted() {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector("#videos-container");
-    this.broadcast.videosContainer = document.querySelector(".Main-videos-container");
+    this.connection.videosContainer = document.querySelector(
+      "#videos-container"
+    );
+    this.broadcast.videosContainer = document.querySelector(
+      "#Main-videos-container"
+    );
 
-    console.log('check check', this.$store.state.videoOn);
-    this.$store.commit('SET_VIDEO_ON', true);
-    console.log('check check', this.$store.state.videoOn);
+    this.$store.commit("SET_VIDEO_ON", true);
     //---------------WebSocket-----------------
     this.connect();
   },
+  destroyed() {
+    this.ws.disconnect();
+  },
 };
-
 </script>
 
 <style>
-/* #videos-container{
-  
-  white-space: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; 
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-} */
-
-/* .videos-container::-webkit-scrollbar{
-  display: none;
-} */
-
-
 #videos-container video {
-  height: 100px;
-  /* overflow-x: hidden; */
-  border: 1px solid white;
+  height: 99px;
+  margin: 0px 1px;
+  border: 2px groove white;
+  border-radius: 3px;
 }
-
-.Main-videos-container video {
-  height: 90%;
-  overflow-x: hidden;
+#Mainvideo {
+  position: relative;
+  height: 88%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#Main-videos-container {
+  width: 640px;
+  height: 480px;
+  border: 2px groove black;
+}
+#Main-videos-container video {
+  height: 100%;
 }
 #MainContent {
   position: relative;
@@ -502,15 +600,6 @@ export default {
   height: 100px;
   width: 100%;
   background-color: rgb(14, 23, 38);
-  /* border: 1px solid white; */
-}
-.Mainvideo {
-  position: relative;
-  width: 100%;
-  height: 88.2%;
-  overflow-y: hidden;
-  text-align: center;
-  background-color: black;
 }
 #note-container {
   display: none;
@@ -531,16 +620,15 @@ export default {
 #container {
   background-color: lightgrey;
   position: relative;
-  border: 1px #ddd solid;
+  /* border: 1px #ddd solid; */
   height: 100%;
+  /* overflow-y: auto; */
 }
 
 .chat-output {
   float: left;
   position: absolute;
   bottom: 0px;
-  height: 100%;
-  overflow-y: auto;
 }
 
 .footer {
@@ -571,26 +659,27 @@ export default {
   border-top: 0;
   border-bottom: 0;
   margin-top: 50px;
-
 }
 #input-text-chat {
   width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
+  border-top: 1px solid #d9d9d9;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
   background-color: white;
   z-index: 4;
-
+  height: 8%;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  padding-left: 12px;
 }
 
 #video_list_videOrshow {
   position: absolute;
   width: auto;
-  left:50%;
-  transform: translate(-50%,0);
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 7;
 }
 
@@ -601,7 +690,7 @@ export default {
 }
 .header-one {
   margin: 0;
-  height: 60px;
+  height: 7%;
   position: relative;
   width: 100%;
   background: #404040;
@@ -631,7 +720,7 @@ export default {
 }
 
 .chats {
-  height: 93.3%;
+  height: 93%;
   overflow-x: scroll;
   overflow-x: hidden;
   background: #eceff1;
@@ -645,11 +734,16 @@ export default {
 }
 .sender-img {
   display: inline;
+  vertical-align: text-top;
 }
+
 .sender-img img {
-  width: 25px;
-  height: 25px;
+  width: 45px;
+  height: 45px;
   border-radius: 100%;
+  margin: 0px 7px;
+  background: white;
+  vertical-align: top;
 }
 
 .msg-box {
@@ -669,11 +763,29 @@ export default {
   width: 100%;
   height: 92.4%;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;  
-  box-sizing: border-box; 
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 video::-webkit-media-controls {
   display: none;
+}
+
+.receive-msg-username {
+  margin-left: 45px;
+  color: gray;
+  font-size: 13px;
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+.receive-msg-context {
+  /* max-width: 190px; */
+  font-size: 14px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+.receive-msg-tb {
+  margin: 10px 10px 10px 0px;
+}
+.receive-msg-th-img {
+  vertical-align: top;
 }
 </style>

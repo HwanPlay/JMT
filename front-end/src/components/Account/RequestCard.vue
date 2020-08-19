@@ -12,8 +12,8 @@
       </v-window-item>
       <v-window-item :value="2">
         <v-list-item>
-          <v-text-field v-model="nickname" label="닉네임" required></v-text-field>
-          <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click='acceptInvite'>가입</v-btn>
+          <v-text-field v-model="nickname" label="닉네임" required @keypress.enter="acceptInvite"></v-text-field>
+          <v-btn text color='error' style='outline: none;' @click='acceptInvite'>가입</v-btn>
         </v-list-item>
       </v-window-item>
     </v-window>

@@ -24,9 +24,7 @@
             </v-col>
           </v-row>
         </v-container>        
-
         <v-divider></v-divider>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <router-link to="/Profile">

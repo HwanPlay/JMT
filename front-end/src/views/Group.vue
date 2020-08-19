@@ -83,6 +83,7 @@
         :meetingNoteInfo="meetingNoteInfo"
         :conferenceAlert="conferenceAlert"
         :tmpGroupNo="tmpGroupNo"
+        :nowMeeting="nowMeeting"
       />
     </v-col>
     <v-col v-else>
@@ -120,21 +121,23 @@ export default {
       recv: '',
       meetingNoteInfo: [],
       conferenceAlert: false,
-      tmpGroupNo: null
+      tmpGroupNo: null,
+      nowMeeting : null
     };
   },
   methods: {
 
     toggle({i, groupNo}) {
-      
       let meetingList = [];
       const calendar_meeting = [];
       this.conferenceAlert = false;
+
       Axios.get(SERVER.URL +'/meeting/get/group/'+groupNo)
         .then((res)=> {
           console.log(res.data.meetings);
           meetingList = res.data.meetings;
           meetingList.forEach(meeting => {
+            this.nowMeeting = meeting.hasMeeting;
             Axios.get(SERVER.URL +'/note/getno/' + groupNo + '/' + meeting.meetingNo)
               .then((res)=> {
                 // console.log('result', meeting, res);
@@ -156,8 +159,7 @@ export default {
         .catch(err=>console.error(err));
       
       this.meetingNoteInfo = calendar_meeting;
-      
-      console.log(groupNo);
+      this.ws.disconnect();
       console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
@@ -182,8 +184,8 @@ export default {
             '/send/meeting/' + this.$store.state.myGroups[i].groupNo,
             res => {
               this.conferenceAlert = true;
-              this.tmpGroupNo = res.body.groupNo;
               this.recv = res.body;
+              this.tmpGroupNo = JSON.parse(this.recv).groupNo;
               console.log(this.recv);
             }
           );
@@ -206,9 +208,7 @@ export default {
     console.log('res', this.$store.state.myGroups.length);
     if (this.$store.state.myGroups && this.$store.state.myGroups.length != 0) {
       this.connect(this.onboarding);
-      console.log('onboladrsadasd', this.onboarding);
       // console.log('이거 info'+this.$store.state.myGroups[this.onboarding]);
-      console.log(this.$store.state.myGroups[0].groupNo);
     }
 
     const GROUP_URL = '/group/get/all/';
@@ -249,6 +249,10 @@ export default {
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
+  },
+
+  destroyed() {
+    this.ws.disconnect();
   }
 };
 </script>

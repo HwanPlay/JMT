@@ -46,14 +46,12 @@ import SERVER from '../../api/spring.js';
 
 import ProfilePasswordModal from '../Profile/ProfilePasswordModal.vue';
 import ProfileDelete from '../Profile/ProfileDelete.vue';
-// import MyProfileFacebookUpload from './MyProfileFacebookUpload.vue';
 
 export default {
   name: 'MyProfileFacebook',
   components: {
     ProfilePasswordModal,
     ProfileDelete,
-    // MyProfileFacebookUpload,
   },
   data() {
     return {

@@ -7,15 +7,15 @@
           <v-row>
             <div id="conferenceStatusBox" style="width:100%;">
             <p
-              v-if="(groupInfo.hasMeeting || this.conferenceOn)"
+              v-if="(nowMeeting || this.conferenceOn)"
               class="conferenceStatus"
               style="color: red; border: 2px solid red;"
             >회의 진행중</p>
             <p
-              v-if="(groupInfo.hasMeeting == false && !this.conferenceOn)"
+              v-if="(nowMeeting == false && !this.conferenceOn)"
               class="conferenceStatus"
               style="color: green; border: 2px solid green;"
-            >진행중인 회의가 없습니다.</p>
+            >회의 진행중이 아닙니다</p>
             </div>
           </v-row>
         </v-col>
@@ -28,18 +28,18 @@
                 <h3 id="GroupContentgroupName" style="width:230px; margin-top:5px; font-size:22px; float:left; color:Black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ groupInfo.groupName }}</h3>
                 <v-btn style="float:right; "
                   @click="sModal=true;"
-                  v-if="(groupInfo.hostId === this.$store.state.userId) && !groupInfo.hasMeeting"
+                  v-if="(groupInfo.hostId === this.$store.state.userId) && !nowMeeting"
                   dark
                   color="green"
                 >
-                  회의 시작
+                  회의 시작 
                 </v-btn>
                 <v-dialog v-model="sModal" width="500px">
                   <v-card width="500px">
                     <v-card-title class="top">회의 시작하기</v-card-title>
                     <v-container>
                       <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
-                        <v-text-field v-model="meetingTitle" label="회의 명" required></v-text-field>
+                        <v-text-field v-model="meetingTitle" label="회의 명" @keypress.enter="startMeeting" required></v-text-field>
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn :disalbed="!!!meetingTitle" text color="error" class="mr-4" @click="startMeeting">회의 시작</v-btn>
@@ -50,7 +50,7 @@
                 </v-dialog>
                 <v-btn
                   @click="joinMeeting" style="float:right;"
-                  v-if="(groupInfo.hostId != this.$store.state.userId) && (groupInfo.hasMeeting || this.conferenceOn)"
+                  v-if="(groupInfo.hostId != this.$store.state.userId) && ( nowMeeting || this.conferenceOn)"
                   dark
                   color="blue darken-2"
                 >
@@ -140,7 +140,7 @@
         <v-row justify="end">
           <div class="mr-2" v-if="groupInfo.hostId === this.$store.state.userId">
             <v-btn dark color="red" @click="onModal=true" style="margin-top : 20px;">그룹 관리</v-btn>
-            <v-dialog v-model="onModal" max-width="500px">
+            <v-dialog v-model="onModal" max-width="500px" height="100%">
               <EditGroup @close="onModal=false" :groupInfo="groupInfo" />
             </v-dialog>
           </div>
@@ -190,6 +190,7 @@ export default {
     meetingNoteInfo: Array,
     conferenceAlert: Boolean,
     tmpGroupNo: Number,
+    nowMeeting: Boolean,
   },
   data() {
     return {
@@ -226,7 +227,7 @@ export default {
       axios
         .put(SERVER.URL + '/group/hasmeeting/' + this.groupInfo.groupNo)
         .then((res) => {
-          tmp = res.data.hasMeeting;
+          tmp = this.nowMeeting;
         })
         .finally(() => {
           this.send(tmp);
@@ -312,7 +313,6 @@ export default {
   computed: {
     conferenceOn(){
       if(this.tmpGroupNo == this.groupInfo.groupNo){
-        console.log('same Group!!!');
         if(this.conferenceAlert){
           return true;
         }
@@ -331,6 +331,7 @@ export default {
     conferenceAlert(){
       console.log('lookk!!!!!!11');
       console.log(this.groupInfo.groupNo);
+      console.log(this.tmpGroupNo);
       console.log(this.conferenceAlert);
     }
   },
