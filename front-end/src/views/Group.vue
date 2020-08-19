@@ -159,7 +159,7 @@ export default {
         .catch(err=>console.error(err));
       
       this.meetingNoteInfo = calendar_meeting;
-      
+      this.ws.disconnect();
       console.log('change!', i);
       this.onboarding = i;
       this.connect(this.onboarding);
@@ -244,6 +244,10 @@ export default {
   created() {
     this.sock = new SockJS(SERVER.URL2);
     this.ws = Stomp.over(this.sock);
+  },
+
+  destroyed() {
+    this.ws.disconnect();
   }
 };
 </script>
