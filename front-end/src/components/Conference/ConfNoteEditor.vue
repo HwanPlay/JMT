@@ -174,8 +174,8 @@
           v-model="noteObj.title" 
           required
           placeholder="Note Title">
-<!-- 
-          <input
+ 
+          <!--<input
             v-model="noteObj.title"
             type="text"
             required
@@ -188,7 +188,7 @@
 
       </div>
       <hr>
-      <div @click="focusNote" class="border border-secondary rounded">
+      <div @click="focusNote" class="">
         <editor-content class="editor__content scroll" :editor="editor" />
       </div>
     </div>

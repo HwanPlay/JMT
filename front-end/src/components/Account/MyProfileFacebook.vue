@@ -6,11 +6,19 @@
       <div class="img-holder d-flex justify-center">
         <v-avatar size="164" tile>
           <img id="profile" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
+          
           <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
           <input hidden style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="fileSelect()">
-        </v-avatar>
-      </div>
 
+          
+        </v-avatar>
+        
+      </div>
+      
+      <!-- <v-icon class="profile-edit" @click="getFileInput" size="30">mdi-camera-outline</v-icon>
+      <input hidden style="color:black;" id="file" type="file" ref="file" accept="image/*" v-on:change="readURL()"> -->
+      <input type='file' id="imgInput" v-on:change="readURL"/>
+      <img id="image_section" src="#" alt="your image"/>
 
       <div class=" d-flex justify-end">
 
@@ -70,11 +78,22 @@ export default {
   },
   watch: {
     profileFlag: function() {
-      console.log(this.profileFlag);
       this.file = '';
+
     }
   },
   methods: {
+    readURL(input) {
+      console.log(input);
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+      
+        reader.onload = function (e) {
+          document.querySelector('#image_section').attr('src', e.target.result);  
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
     getFileInput(){
       document.querySelector('#file').click();
     },
