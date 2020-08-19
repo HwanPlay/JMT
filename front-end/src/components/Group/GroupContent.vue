@@ -53,6 +53,7 @@
                   v-if="(groupInfo.hostId != this.$store.state.userId) && ( nowMeeting || this.conferenceOn)"
                   dark
                   color="blue darken-2"
+                  class="animate__animated animate__headShake"
                 >
                   회의 참여
                 </v-btn>
