@@ -1,13 +1,14 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <v-slide-group id="Minivideo_list" center-active show-arrows dark next-icon>
-        <v-slide-item id="videos-container">
-          <v-row class="m-auto" ></v-row>
+      <v-slide-group id="video_list" center-active show-arrows dark>
+        <v-slide-item id="videos-container" class="container-fluid d-flex">
+          <div class="row justify-content-center align-items-center"></div>
         </v-slide-item>
       </v-slide-group>
-      
-      <div class="footer">
+    </v-sheet>
+
+      <div id="footer">
         <div class="text-center mb-2">
           <v-btn text color="rgb(255, 128, 74)" @click="showNav = !showNav">
             <v-icon v-show="showNav">mdi-chevron-down</v-icon>
@@ -75,7 +76,7 @@
           </v-btn>
         </v-bottom-navigation>
       </div>
-    </v-sheet>
+    <!-- </v-sheet> -->
 
     <div id="note-container">
       <NoteEditor :meetingInfo="meetingInfo" :groupInfo="groupInfo" />
@@ -481,11 +482,11 @@ export default {
 
 <style>
 #videos-container {
-  overflow-y: auto;
+  width: 640px;
+  /* height: 480px; */
+  height: 100%;
 }
 #videos-container video {
-  height: 100%;
-  margin: 0px 1px;
   border: 2px groove white;
   border-radius: 3px;
 }
@@ -496,7 +497,7 @@ export default {
   float: left;
   overflow-y: hidden;
 }
-#Minivideo_list {
+#video_list {
   position: relative;
   height: 100%;
   width: 100%;
@@ -532,10 +533,8 @@ export default {
   bottom: 0px;
 }
 
-.footer {
-  float: left;
-  position: absolute;
-  left: 0;
+#footer {
+  position: fixed;
   height: 100px;
   bottom: 0px;
   width: 100%;
@@ -546,10 +545,9 @@ export default {
 #MainContainer {
   position: relative;
   margin-top: 0;
-  /* background-color: rgb(52, 63, 87); */
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 #widget-container {
@@ -574,14 +572,6 @@ export default {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
   padding-left: 12px;
-}
-
-#video_list_videOrshow {
-  position: absolute;
-  width: auto;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 7;
 }
 
 .chat-main {
@@ -622,7 +612,7 @@ export default {
 
 .chats {
   height: 93%;
-  overflow-x: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   background: #eceff1;
   position: relative;
@@ -668,9 +658,9 @@ export default {
   box-sizing: border-box;
 }
 
-video::-webkit-media-controls {
+/* video::-webkit-media-controls-timeline {
   display: none;
-}
+} */
 
 .receive-msg-username {
   margin-left: 45px;

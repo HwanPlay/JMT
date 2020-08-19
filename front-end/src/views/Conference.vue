@@ -3,9 +3,8 @@
 </template>
 
 <script>
-import Videochat from '../components/Conference/Videochat.vue';
-// import Videochat from '../components/Conference/VideochatGrid.vue';
-
+// import Videochat from '../components/Conference/Videochat.vue';
+import Videochat from '../components/Conference/devVideochat.vue';
 
 export default {
   name: 'Conference',

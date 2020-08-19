@@ -64,13 +64,13 @@
             <v-icon v-show="micOnOff">mdi-microphone</v-icon>
           </v-btn>
 
-          <v-btn @click="onCast">
+          <!-- <v-btn @click="onCast">
             <span v-show="!castOnOff">OFF</span>
             <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
 
             <span v-show="castOnOff">ON</span>
             <v-icon v-show="castOnOff">mdi-cast</v-icon>
-          </v-btn>
+          </v-btn> -->
 
           <!-- <v-btn @click="test">
           </v-btn>-->
