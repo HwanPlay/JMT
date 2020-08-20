@@ -184,7 +184,6 @@
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
-<<<<<<< HEAD
             
               <v-tooltip v-model="show" top>
                 <template v-slot:activator="{ on, attrs }">
@@ -204,9 +203,6 @@
                 <span style="font-size:12px;">DELTE</span>
               </v-tooltip>
             
-=======
-            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del</b-button>
->>>>>>> branch 'develop' of https://lab.ssafy.com/s03-webmobile1-sub3/s03p13b102.git
           </div>
       </div>
       <hr>
