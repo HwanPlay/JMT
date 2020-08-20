@@ -38,7 +38,7 @@
           <!-- Note Router -->
           <router-link to="/editor" style="text-decoration: none;">
             <v-btn text style="height: 99%; outline:none;">
-              <v-icon>fas fa-sticky-note</v-icon>
+              <v-icon>fas fa-file-alt</v-icon>
               <span class="routerLink mr-2 ml-2">Note</span>
             </v-btn>
           </router-link>

@@ -70,10 +70,10 @@
 
           <v-btn @click="onNote">
             <span class="conferenceBtn" v-show="!noteOnOff">NOTE</span>
-            <v-icon v-show="!noteOnOff">mdi-book</v-icon>
+            <v-icon v-show="!noteOnOff">fas fa-file-alt</v-icon>
 
             <span class="conferenceBtn" v-show="noteOnOff" style="color: rgb(255, 128, 74);">NOTE</span>
-            <v-icon v-show="noteOnOff" color="rgb(255, 128, 74)">mdi-book</v-icon>
+            <v-icon v-show="noteOnOff" color="rgb(255, 128, 74)">fas fa-file-alt</v-icon>
           </v-btn>
 
           <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
