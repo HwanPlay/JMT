@@ -58,16 +58,20 @@
     "vuelidate": "^0.7.5",
     "vuetify-loader": "^1.3.0"
   },
-  "build":{
-    "win":{
-      "target": ["nsis"],
+  "build": {
+    "win": {
+      "target": [
+        "nsis"
+      ],
       "icon": "./resources/JMT-Logo-ico.ico"
     },
     "mac": {
-      "target": ["default"],
+      "target": [
+        "default"
+      ],
       "icon": "./resources/JMT-Logo-icns.icns"
     },
-    "dmg":{
+    "dmg": {
       "title": "JoinMeetingAndTyping",
       "icon": "./resources/JMT-Logo-icns.icns"
     }

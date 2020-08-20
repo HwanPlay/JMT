@@ -3,7 +3,7 @@
     <v-col>
       <v-sheet height='64'>
         <v-toolbar flat color='white'>
-          <v-btn outlined class='mr-4' color='grey darken-2' @click='setToday'>Today</v-btn>
+          <v-btn outlined class='mr-4' color='grey darken-2' @click='setToday'><span class="todayBtn">Today</span></v-btn>
 
           <v-spacer></v-spacer>
           
@@ -232,5 +232,7 @@ export default {
 </script>
 
 <style scoped>
-
+*, .todayBtn{
+    font-family: "NanumSquare", sans-serif;
+}
 </style>

@@ -8,7 +8,7 @@
           id="input-1"
           v-model="editGroupInfo.groupName"
           required
-          :state="editGroupInfo.groupName.length < 11 && 0 < editGroupInfo.groupName.length"
+          :state="editGroupInfo.groupName.length < 9 && 0 < editGroupInfo.groupName.length"
           placeholder="그룹 이름">
         </b-form-input>
       </b-form-group>

@@ -580,6 +580,7 @@ export default {
   height: 100%;
   overflow-y: hidden;
   background-color: white;
+  border-left: 2px solid #b3b3b3;
 }
 
 #chat-container {
