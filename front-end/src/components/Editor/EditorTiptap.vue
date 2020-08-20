@@ -175,7 +175,7 @@
       <div class="d-flex justify-space-around">
         <input 
           type="text" 
-          class="title-form form-control" 
+          style="font-size: 30px;"
           v-model="dataNoteObj.Title" 
           required
           placeholder="Note Title">
@@ -185,7 +185,7 @@
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
-            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del Note</b-button>
+            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del</b-button>
           </div>
       </div>
       <hr>
