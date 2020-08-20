@@ -8,13 +8,13 @@
               v-if="userInfo.id === this.$store.state.userId"
               color="green" content="It's Me" left overlap offset-x="50" offset-y="15"
             >
-              <v-list-item-avatar color="grey" size="40">
+              <v-list-item-avatar color="#F5F5F5" size="40">
                 <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
               </v-list-item-avatar>
             </v-badge>
 
             <v-badge v-else dot color="rgb(0, 0, 0, 0)">
-              <v-list-item-avatar color="grey" size="40">
+              <v-list-item-avatar color="#F5F5F5" size="40">
                 <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
               </v-list-item-avatar>
             </v-badge>
@@ -45,13 +45,13 @@
         v-if="userInfo.id === this.$store.state.userId"
         color="green" content="It's Me" left overlap offset-x="55" offset-y="15"
       >
-        <v-list-item-avatar color="grey" size="40">
+        <v-list-item-avatar color="#F5F5F5" size="40">
           <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
         </v-list-item-avatar>
       </v-badge>
 
       <v-badge v-else dot color="rgb(0, 0, 0, 0)">
-        <v-list-item-avatar color="grey" size="40">
+        <v-list-item-avatar color="#F5F5F5" size="40">
           <v-img :src="'http://joinmeeting.tk/images/'+userInfo.profile"></v-img>
         </v-list-item-avatar>
       </v-badge>

@@ -1,8 +1,8 @@
 <template>
     <div class="editor">
       <!-- Upper Menu -->
-      <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar">
+      <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+        <div class="menubar is-hidden" :class="{'is-focused' : focused}">
           <button
             size="sm"
             class="menubar__button"
@@ -44,13 +44,13 @@
             <b-icon-code v-b-tooltip.hover title="Code" font-scale="2"></b-icon-code>
           </button>
 
-          <button
+          <!-- <button
             class="menubar__button"
             :class="{ 'is-active': isActive.paragraph() }"
             @click="commands.paragraph"
           >
             <b-icon-pencil v-b-tooltip.hover title="Paragraph" font-scale="2"></b-icon-pencil>
-          </button>
+          </button> -->
 
           <button
             class="menubar__button"
@@ -108,17 +108,17 @@
             <b-icon-file-code v-b-tooltip.hover title="Code Block" font-scale="2"></b-icon-file-code>
           </button>
 
-          <button class="menubar__button" @click="commands.horizontal_rule">
+          <!-- <button class="menubar__button" @click="commands.horizontal_rule">
             <b-icon-hr v-b-tooltip.hover title="Br" font-scale="2"></b-icon-hr>
-          </button>
+          </button> -->
 
-          <button class="menubar__button" @click="commands.undo">
+          <!-- <button class="menubar__button" @click="commands.undo">
             <b-icon-arrow90deg-left v-b-tooltip.hover title="Undo" font-scale="2"></b-icon-arrow90deg-left>
           </button>
 
           <button class="menubar__button" @click="commands.redo">
             <b-icon-arrow90deg-right v-b-tooltip.hover title="Redo" font-scale="2"></b-icon-arrow90deg-right>
-          </button>
+          </button> -->
 
 
           <!-- <button class="menubar__button" @click="editNoteHTML">
@@ -182,14 +182,17 @@
             placeholder="Note Title"
           > -->
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
-          <b-button v-if="!isSave" class="menubar__button save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
-          <b-button v-if="isSave" class="menubar__button save_button" @click="EditNote" variant="outline-success">Edit</b-button>
+          <b-button v-if="!isSave" class="save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="isSave" class="save_button" @click="EditNote" variant="outline-success">Edit</b-button>
 
 
       </div>
       <hr>
       <div @click="focusNote" class="">
         <editor-content class="editor__content scroll" :editor="editor" />
+      </div>
+      <div align="right">
+        <p class="saveTime">{{this.time}}</p>
       </div>
     </div>
 </template>
@@ -198,6 +201,9 @@
 import SERVER from '../../api/spring.js';
 import axios from 'axios';
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
+import moment from 'moment';
+
+
 import {
   Blockquote,
   CodeBlock,
@@ -229,6 +235,7 @@ export default {
   },
   data() {
     return {
+      time : '',
       isSave: false,
       groupNo: this.groupInfo.groupNo,
       meetingNo: this.meetingInfo.meetingNo,
@@ -253,7 +260,7 @@ export default {
           new Underline(),
           new History(),
         ],
-        content: '',
+        content: 'Press Enter to Continue with an empty page.',
         onUpdate: ({ getHTML }) => {
           this.noteObj.content = getHTML();
         },
@@ -278,6 +285,7 @@ export default {
       }).then((res)=>{
         console.log('title:', this.noteObj.title);
         console.log('Content:', this.noteObj.content);
+        this.time = '마지막 저장 일시 : ' + moment().format('YYYY-MM-DD hh:mm:ss');
       }).catch((err)=> console.error(err));
 
     },
@@ -294,6 +302,7 @@ export default {
           console.log(res);
           this.noteObj.id = res.data.noteNo;
           this.isSave = true;
+          this.time = '마지막 저장 일시 : '+ moment().format('YYYY-MM-DD hh:mm:ss');
         })
         .catch(err=>console.error(err));
     }
@@ -305,23 +314,51 @@ export default {
 </script>
 
 <style scoped>
+.menubar{ 
+  margin-bottom: 0.2rem;
+  margin-left: 0.4rem;
+  height: 27px;
+}
 .menubar__button {
-  font-size: 80% !important;
+  font-size: 47% !important;
 }
 .editor {
   padding: 0.5rem !important;
 }
 .editor__content{
-    height: 30rem;
+  font-size: 15px;
+  padding: 0.9rem;
+  height: 78vh;
 }
 .save_button{
-  margin: 0 0  0 auto;
+  font-size: 60% !important;
+  height: 35px;
+  margin: 0 0 0 auto;
+  margin-right: 10px;
 }
 hr {
   margin: 0.5rem auto;
 }
 .title-form {
   width: 15rem;
+  border: 0px;
+  font-weight: 700;
+  font-size: 20px;
   font-family: "NanumSquare", sans-serif;
+  padding: 3px 13px;
+  height: calc(1.0em + 0.75rem + 2px);
 }
+.title-form:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.saveTime{
+  width: 100%;
+  font-size: 11px;
+  color: gray;
+  margin-top: 30px;
+  padding-right: 10px;
+}
+
 </style>
