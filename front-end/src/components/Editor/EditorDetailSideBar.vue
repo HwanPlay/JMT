@@ -8,7 +8,7 @@
     </div>
     <v-divider></v-divider>
 
-    <EditorDetailSideBarNoteList   :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
+    <EditorDetailSideBarNoteList :noteList="noteList" @onGetNoteHTML="getNoteHTML" />
   </div>
 
   <!-- </v-col> -->
