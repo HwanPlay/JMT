@@ -11,12 +11,12 @@
         >
           <v-badge
             :content="requests.length"
-            :value="requests.length" 
+            :value="!!requests.length" 
             v-if="haveRequests"
             class="animate__animated animate__headShake"
             color="rgb(255, 128, 74)"
             offset-x="10"
-            offset-y="15"
+            offset-y="13"
           >
             <v-icon size="30">mdi-bell</v-icon>
           </v-badge>
