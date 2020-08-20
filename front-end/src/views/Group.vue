@@ -12,7 +12,7 @@
             </v-list-item-title>
             <v-list-item-subtitle>
               <div id="userIdBox">
-                <p>{{ $store.state.userId }}</p>
+                <p style="font-size:14px;">{{ $store.state.userId }}</p>
               </div>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -26,7 +26,7 @@
                 :key="group.groupNo"
                 @click="toggle({'i':i, 'groupNo': group.groupNo})"
               >
-                <v-list-item-icon style="margin-left:10px">
+                <v-list-item-icon style="margin-left:8px; margin-right:22px;">
                   <v-icon dark>mdi-account-multiple</v-icon>
                 </v-list-item-icon>
 
@@ -36,7 +36,7 @@
                     color="red"
                     content="HOST"
                     overlap
-                    offset-x="53"
+                    offset-x="51"
                     offset-y="20"
                   >
                     <div id="groupNameText" v-text="group.groupName"></div>

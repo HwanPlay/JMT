@@ -35,11 +35,9 @@
             <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-        <v-bottom-navigation 
+        <v-bottom-navigation
           dark
-          v-model="activeBtn"
           :input-value="showNav"
-          color="rgb(255, 128, 74)"
           background-color="rgba(14, 23, 38, 1)"
         >
           <!-- <v-btn @click="overlay = !overlay"> -->
@@ -55,16 +53,16 @@
             <span class="conferenceBtn" v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
 
-            <span class="conferenceBtn" v-show="videoOnOff">ON</span>
-            <v-icon v-show="videoOnOff">mdi-video</v-icon>
+            <span class="conferenceBtn" v-show="videoOnOff" style="color: rgb(255, 128, 74);">ON</span>
+            <v-icon v-show="videoOnOff" color="rgb(255, 128, 74)">mdi-video</v-icon>
           </v-btn>
 
           <v-btn @click="onMic">
             <span class="conferenceBtn" v-show="!micOnOff">OFF</span>
             <v-icon v-show="!micOnOff">mdi-microphone-off</v-icon>
 
-            <span class="conferenceBtn" v-show="micOnOff">ON</span>
-            <v-icon v-show="micOnOff">mdi-microphone</v-icon>
+            <span class="conferenceBtn" v-show="micOnOff" style="color: rgb(255, 128, 74);">ON</span>
+            <v-icon v-show="micOnOff" color="rgb(255, 128, 74)">mdi-microphone</v-icon>
           </v-btn>
 
           <!-- <v-btn @click="onCast">
@@ -79,13 +77,19 @@
           </v-btn>-->
 
           <v-btn @click="onChat">
-            <span class="conferenceBtn">CHAT</span>
-            <v-icon>mdi-forum</v-icon>
+            <span class="conferenceBtn" v-show="!chatOnOff">CHAT</span>
+            <v-icon v-show="!chatOnOff">mdi-forum</v-icon>
+
+            <span class="conferenceBtn" v-show="chatOnOff" style="color: rgb(255, 128, 74);">CHAT</span>
+            <v-icon v-show="chatOnOff" color="rgb(255, 128, 74)">mdi-forum</v-icon>
           </v-btn>
 
           <v-btn @click="onNote">
-            <span class="conferenceBtn">NOTE</span>
-            <v-icon>mdi-book</v-icon>
+            <span class="conferenceBtn" v-show="!noteOnOff">NOTE</span>
+            <v-icon v-show="!noteOnOff">mdi-book</v-icon>
+
+            <span class="conferenceBtn" v-show="noteOnOff" style="color: rgb(255, 128, 74);">NOTE</span>
+            <v-icon v-show="noteOnOff" color="rgb(255, 128, 74)">mdi-book</v-icon>
           </v-btn>
 
           <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
@@ -93,7 +97,7 @@
             <v-icon>mdi-palette</v-icon>
           </v-btn>-->
 
-          <v-btn @click="onLeave">
+          <v-btn @click="onLeave" color="red">
             <span class="conferenceBtn">QUIT</span>
             <v-icon>mdi-export</v-icon>
           </v-btn>
@@ -171,8 +175,6 @@ export default {
       designer: null,
       connection: null,
       NoteShow: {},
-      NoteBool: false,
-      Chatbool: false,
       video: Object,
       div: null,
       inputText: "",
@@ -182,10 +184,12 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: false,
+      showNav: true,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,
+      chatOnOff: false,
+      noteOnOff: false,
       activeBtn: 0,
 
       myVideoTrackIsMuted: false,
@@ -316,34 +320,34 @@ export default {
     },
     onNote() {
       $("#note-container").toggle();
-      if (this.NoteBool == false && this.Chatbool == false) {
+      if (this.noteOnOff == false && this.chatOnOff == false) {
         $("#MainContent").css("width", "70%");
-        this.NoteBool = true;
-      } else if (this.NoteBool == true && this.Chatbool == false) {
+        this.noteOnOff = true;
+      } else if (this.noteOnOff == true && this.chatOnOff == false) {
         $("#MainContent").css("width", "100%");
-        this.NoteBool = false;
-      } else if (this.NoteBool == false && this.Chatbool == true) {
+        this.noteOnOff = false;
+      } else if (this.noteOnOff == false && this.chatOnOff == true) {
         $("#MainContent").css("width", "50%");
-        this.NoteBool = true;
+        this.noteOnOff = true;
       } else {
         $("#MainContent").css("width", "80%");
-        this.NoteBool = false;
+        this.noteOnOff = false;
       }
     },
     onChat() {
       $("#chat-container").toggle();
-      if (this.Chatbool == false && this.NoteBool == false) {
+      if (this.chatOnOff == false && this.noteOnOff == false) {
         $("#MainContent").css("width", "80%");
-        this.Chatbool = true;
-      } else if (this.Chatbool == true && this.NoteBool == false) {
+        this.chatOnOff = true;
+      } else if (this.chatOnOff == true && this.noteOnOff == false) {
         $("#MainContent").css("width", "100%");
-        this.Chatbool = false;
-      } else if (this.Chatbool == false && this.NoteBool == true) {
+        this.chatOnOff = false;
+      } else if (this.chatOnOff == false && this.noteOnOff == true) {
         $("#MainContent").css("width", "50%");
-        this.Chatbool = true;
+        this.chatOnOff = true;
       } else {
         $("#MainContent").css("width", "70%");
-        this.Chatbool = false;
+        this.chatOnOff = false;
       }
     },
 
@@ -420,8 +424,9 @@ export default {
     textSend(e) {
       if (e.target.value) {
         // removing trailing/leading whitespace
+        console.log('내 닉네임 :  ' + this.meetingInfo.nickname);
         this.value =
-          this.$store.state.myName +
+          this.meetingInfo.nickname +
           ": " +
           e.target.value.toString().replace(/^\s+|\s+$/g, "");
         // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
@@ -451,7 +456,7 @@ export default {
                 this.$store.state.userId !== this.groupInfo.hostId
               ) {
                 this.onDisconnect();
-                alert("호스트가 회의를 종료하였습니다.");
+                console.log("호스트가 회의를 종료하였습니다.");
                 this.$router.push("/Group");
                 this.$store.commit("SET_VIDEO_ON", false);
               }
@@ -576,6 +581,7 @@ export default {
   height: 100%;
   overflow-y: hidden;
   background-color: white;
+  border-left: 1px solid #b3b3b3;
 }
 
 #chat-container {

@@ -1,6 +1,6 @@
 <template>
   <div class="justify-center align-content-center">
-    <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="500">
+    <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="450">
       <div id="imgContainer" class="text-center rounded-circle d-inline-flex align-center justify-center ma-3">
         <v-img src="../../assets/JMT/JMTLogo.png" max-width="200px"></v-img>
       </div>

@@ -22,7 +22,7 @@
           </v-btn>
         </v-card-title>
           <v-divider style="margin: 12px;"></v-divider>
-        <v-card-text style="height: 300px;">
+        <v-card-text class="search-container" style="height: 300px;">
           <div v-if='!isSearched'>
             이름을 검색해주세요
           </div>
@@ -93,3 +93,10 @@ export default {
   }
 };
 </script>
+<style>
+.search-container{
+  overflow-x: scroll;
+  overflow-x: hidden;
+  position: relative;
+}
+</style>
