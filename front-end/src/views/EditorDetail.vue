@@ -1,7 +1,6 @@
 <template>
-    <v-row style=" height: 100%; width:100%;">
+    <v-row >
       <EditorDetailSideBar :noteList="noteList" @onGetNoteHTML="getNoteHTML" />      
-      <v-col cols="1"></v-col>
       <EditorTiptap :noteObj="noteObj" @onSaveNote="saveNote" @onDeleteNote="deleteNote" />
     </v-row>
 </template>

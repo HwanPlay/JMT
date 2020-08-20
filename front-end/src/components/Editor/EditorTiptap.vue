@@ -1,10 +1,8 @@
 <template>
-  <b-col cols="8">
-    
-    <div class="editor">
+    <div class="editor editor-container">
       <!-- Upper Menu -->
-      <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar">
+   <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+        <div class="menubar is-hidden" :class="{'is-focused' : focused}">
           <button v-if="false" class="menubar__button">
             <!-- @click="downHTMLDocument" -->
             <b-icon-download v-b-tooltip.hover title="Download File" font-scale=fontScale></b-icon-download>
@@ -175,17 +173,35 @@
       <div class="d-flex justify-space-around">
         <input 
           type="text" 
+          maxlength = "18"
           class="title-form form-control" 
           v-model="dataNoteObj.Title" 
           required
           placeholder="Note Title">
           
           <div class="note_button">
-            <b-button class="mx-1" @click="saveNote" variant="outline-primary">Save</b-button>
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
-            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del Note</b-button>
+            
+              <v-tooltip v-model="show" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn  class="mx-2" :elevation="3" fab dark color="blue" @click="saveNote" v-bind="attrs" v-on="on">
+                     <v-icon style="color:white">mdi-pencil</v-icon>
+                  </v-btn>
+                </template>
+                <span style="font-size:12px;">EDIT</span>
+              </v-tooltip>
+
+              <v-tooltip v-model="show" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn  class="mx-2" :elevation="3" fab dark color="#EF5350" @click="deleteNote" v-bind="attrs" v-on="on">
+                     <i class="fas fa-trash-alt" style="color:white" ></i>
+                  </v-btn>
+                </template>
+                <span style="font-size:12px;">DELTE</span>
+              </v-tooltip>
+            
           </div>
       </div>
       <hr>
@@ -194,7 +210,6 @@
       </div>
       
     </div>
-  </b-col>
 </template>
 
 <script>
@@ -301,10 +316,47 @@ export default {
 };
 </script>
 <style scoped>
+
+hr{
+  height: 1.5px;
+  background:#dfdfdf;
+  margin : 15px 10px 10px 15px;
+}
+
+.menubar__button {
+  margin-left: 10px;
+  margin-top : 15px;
+}
+.editor__content{
+  font-size: 18px;
+  padding: 0.9rem;
+  height: 60.5vh;
+}
+
 .note_button{
   margin: 0 0 0 auto;
 }
+
 .title-form {
-  width: 20rem;
+  width: 28rem;
+  border: 0px;
+  font-weight: 600;
+  font-size: 33px;
+  font-family: "NanumSquare", sans-serif;
+  padding: 3px 13px;
+  height: calc(1.0em + 0.75rem + 2px);
+}
+.title-form:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.noteBtn{
+  font-size: 14px;
+}
+
+.editor-container{
+  margin-left: 70px;
+  width: 65%;
 }
 </style>
