@@ -308,6 +308,7 @@ export default {
 .title-form {
   width: 20rem;
 }
+<<<<<<< HEAD
 .title-form {
   width: 15rem;
   border: 0px;
@@ -323,3 +324,6 @@ export default {
   box-shadow: none;
 }
 </style>
+=======
+</style>
+>>>>>>> 7f702042ad1dc5c1e50e46b0f0866878b3b5ac78
