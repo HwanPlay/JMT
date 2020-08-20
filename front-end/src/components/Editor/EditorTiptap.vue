@@ -175,7 +175,7 @@
           type="text" 
           maxlength = "18"
           class="title-form form-control" 
-          style="font-size: 30px;"
+          style="font-size: 33px; width: 33rem;"
           v-model="dataNoteObj.Title" 
           required
           placeholder="Note Title">
@@ -339,7 +339,7 @@ hr{
 }
 
 .title-form {
-  width: 28rem;
+  
   border: 0px;
   font-weight: 600;
   font-size: 33px;
