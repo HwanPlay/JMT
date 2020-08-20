@@ -5,7 +5,7 @@
         <EditorGroupList :groupList="groupList" @onGetNoteList="getNoteList" />
 
         <v-col v-if="noGroup" class="justify-center align-content-center">
-          <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="500">
+          <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="400">
             <div id="imgContainer" class="text-center rounded-circle d-inline-flex align-center justify-center ma-3">
               <v-img src="../assets/JMT/JMTLogo.png" max-width="200px"></v-img>
             </div>
@@ -19,7 +19,7 @@
         </v-col>
 
         <v-col v-else-if="isEmpty" class="justify-center align-content-center">
-          <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="500">
+          <v-card class="d-flex justify-center align-content-end flex-wrap mt-5" flat tile min-height="400">
             <div id="imgContainer" class="text-center rounded-circle d-inline-flex align-center justify-center ma-3">
               <v-img src="../assets/JMT/JMTLogo.png" max-width="200px"></v-img>
             </div>

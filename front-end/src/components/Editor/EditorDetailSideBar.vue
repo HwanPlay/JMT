@@ -1,7 +1,7 @@
 <template>
   <!-- <v-col cols="3"> -->
   
-  <div style="width:256px; background-color: rgb(52, 63, 87); margin-left:15px;">
+  <div style="width:256px; height:92vh; background-color: rgb(52, 63, 87); margin-left:15px;">
     <EditorGroupListProfile />
     <div style="text-align:center;">
     <v-btn  small  color="primary" id="goToGroupList" @click="goToGroupList">그룹목록보기</v-btn>

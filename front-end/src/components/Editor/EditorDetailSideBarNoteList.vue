@@ -24,16 +24,16 @@
                     <v-list-item-icon>
                       <v-icon
                         dark
-                        style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;"
+                        style="margin-top : 5px;  margin-right : -15px;"
                       >mdi-note-outline</v-icon>
                     </v-list-item-icon>
                   </v-badge>
 
-                  <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15">
+                  <v-badge v-else color="rgb(0, 0, 0, 0)" dot overlap offset-x="25" offset-y="15" style="width:60px;">
                     <v-list-item-icon>
                       <v-icon
                         dark
-                        style="margin-top : 5px; margin-left : 10px; margin-right : -15px;"
+                        style="margin-top : 5px;  margin-right : -15px;"
                       >mdi-note-outline</v-icon>
                     </v-list-item-icon>
                   </v-badge>
@@ -69,8 +69,7 @@ export default {
 <style>
 #v-list-item-box {
   background-color: rgb(52, 63, 87);
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 15px;
   
 }
 #NoteItemBox {
@@ -78,7 +77,13 @@ export default {
   height:400px;
   overflow: auto;
 }
-#NoteName{
+
+#NoteName {
   color: white;
+  width: 100px;
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

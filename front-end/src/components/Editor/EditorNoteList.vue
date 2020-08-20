@@ -1,7 +1,7 @@
 <template>
   
   <!-- <div style="padding: 20px; width:76%; height:92%; floa"> -->
-    <v-row style=" position : absolute; left : 300px; width:80%; height: 85%; margin-top:10px;">
+    <v-row style=" position : absolute; left : 300px; width:80%; height: 85%; margin-top:50px;">
 
     <div style="width:100%; height:100%; ">
 
