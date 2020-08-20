@@ -28,7 +28,6 @@ function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true
     },
-
   });
 
 
