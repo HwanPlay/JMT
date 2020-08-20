@@ -184,7 +184,7 @@ export default {
 
       // overlay: false,
       videoBarNav: false,
-      showNav: false,
+      showNav: true,
       videoOnOff: true,
       micOnOff: true,
       castOnOff: false,

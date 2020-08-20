@@ -6,17 +6,17 @@
           <v-list-item-title>{{ Request.groupName }} 그룹</v-list-item-title>
           <v-list-item-subtitle>{{ Request.hostId }}님의 초대</v-list-item-subtitle>
         </v-list-item-content>
-          <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click="step++">수락</v-btn>
-          <v-btn text color='danger' style='outline: none' @click='removeRequest'>거절</v-btn>
-        </v-list-item>
-      </v-window-item>
-      <v-window-item :value="2">
-        <v-list-item>
-          <v-text-field v-model="nickname" label="닉네임" required @keypress.enter="acceptInvite"></v-text-field>
-          <v-btn text color='error' style='outline: none;' @click='acceptInvite'>가입</v-btn>
-        </v-list-item>
-      </v-window-item>
-    </v-window>
+        <v-btn text color='rgb(255, 128, 74)' style='outline: none;' @click="step++">수락</v-btn>
+        <v-btn text color='danger' style='outline: none' @click='removeRequest'>거절</v-btn>
+      </v-list-item>
+    </v-window-item>
+    <v-window-item :value="2">
+      <v-list-item>
+        <v-text-field v-model="nickname" label="닉네임" required @keypress.enter="acceptInvite"></v-text-field>
+        <v-btn text color='error' style='outline: none;' @click='acceptInvite'>가입</v-btn>
+      </v-list-item>
+    </v-window-item>
+  </v-window>
 </template>
 
 <script>
