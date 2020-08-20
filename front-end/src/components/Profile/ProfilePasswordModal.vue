@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs }">
         <!-- <v-btnclass="p-1 text-center" text small color="error" v-bind="attrs" v-on="on">비밀번호 변경</v-btnclass=> -->
         <div class="text-center">
-          <v-btn rounded outlined color="red" v-bind="attrs" v-on="on" dark>비밀번호 변경</v-btn>
+          <v-btn rounded outlined color="red" @click="initPass" v-bind="attrs" v-on="on" dark>비밀번호 변경</v-btn>
         </div>
       </template>
 
@@ -15,22 +15,11 @@
           <ProfilePasswordForm
             @onClosePassword="ClosePassword"
             @onSubmitSuccess="submitSuccess"
-            @onSubmitWrongPassword="submitWrongPassword"
-            @onSubmitDifferentPassword="submitDifferentPassword"
+            :initbool="initbool"
           />
         </div>
 
-        <b-alert
-          :show="dismissCountDown"
-          dismissible
-          :variant="alertColor"
-          @dismissed="dismissCountDown=0"
-          @dismiss-count-down="countDownChanged"
-        >
-          {{alertMessage}}
-          <br />
-          This alert will dismiss after {{ dismissCountDown }} seconds...
-        </b-alert>
+        
       </v-card>
     </v-dialog>
   </div>
@@ -46,10 +35,7 @@ export default {
   data() {
     return {
       dialog: false,
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      alertColor: '',
-      alertMessage: '',
+      initbool: false,
     };
   },
   components: {
@@ -59,28 +45,13 @@ export default {
     ClosePassword() {
       this.dialog = false;
     },
-    submitWrongPassword() {
-      this.alertColor = 'danger';
-      this.alertMessage = 'password가 틀렸습니다.';
-      this.showAlert();
+    initPass() {
+      this.initbool = !this.initbool;
     },
     submitSuccess() {
-      this.alertColor = 'success';
-      this.alertMessage = '비밀번호를 변경했습니다.';
-      this.showAlert();
       this.ClosePassword();
-    },
-    submitDifferentPassword() {
-      this.alertColor = 'danger';
-      this.alertMessage = 'Check Password';
-      this.showAlert();
-    },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
+      this.$emit('onSubmitSuccess');
+    },    
   },
 };
 </script>

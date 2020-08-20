@@ -2,9 +2,9 @@
   <div id="MainContainer">
     <v-sheet id="MainContent">
       <!-- <v-slide-group id="Minivideo_list" center-active show-arrows dark> -->
-        <!-- <v-slide-item id="videos-container"> -->
-          <!-- <div class="mx-auto"></div> -->
-        <!-- </v-slide-item> -->
+      <!-- <v-slide-item id="videos-container"> -->
+      <!-- <div class="mx-auto"></div> -->
+      <!-- </v-slide-item> -->
       <!-- </v-slide-group> -->
 
       <!-- <div id="video_list_videOrshow">
@@ -19,14 +19,13 @@
             <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-      </div> -->
+      </div>-->
 
-        <div id="Mainvideo">
-          <div style=" width:100%; height: 100%;">
+      <div id="Mainvideo">
+        <div style="width:100%; height: 100%;">
           <div id="videos-container"></div>
-          </div>
         </div>
-
+      </div>
 
       <div class="footer">
         <div class="text-center mb-2">
@@ -35,11 +34,7 @@
             <v-icon v-show="!showNav">mdi-chevron-up</v-icon>
           </v-btn>
         </div>
-        <v-bottom-navigation
-          dark
-          :input-value="showNav"
-          background-color="rgba(14, 23, 38, 1)"
-        >
+        <v-bottom-navigation dark :input-value="showNav" background-color="rgba(14, 23, 38, 1)">
           <!-- <v-btn @click="overlay = !overlay"> -->
           <!-- <v-btn @click="onJoin">
             <span>Join</span>
@@ -65,17 +60,6 @@
             <v-icon v-show="micOnOff" color="rgb(255, 128, 74)">mdi-microphone</v-icon>
           </v-btn>
 
-          <!-- <v-btn @click="onCast">
-            <span v-show="!castOnOff">OFF</span>
-            <v-icon v-show="!castOnOff">mdi-cast-off</v-icon>
-
-            <span v-show="castOnOff">ON</span>
-            <v-icon v-show="castOnOff">mdi-cast</v-icon>
-          </v-btn> -->
-
-          <!-- <v-btn @click="test">
-          </v-btn>-->
-
           <v-btn @click="onChat">
             <span class="conferenceBtn" v-show="!chatOnOff">CHAT</span>
             <v-icon v-show="!chatOnOff">mdi-forum</v-icon>
@@ -86,10 +70,10 @@
 
           <v-btn @click="onNote">
             <span class="conferenceBtn" v-show="!noteOnOff">NOTE</span>
-            <v-icon v-show="!noteOnOff">mdi-book</v-icon>
+            <v-icon v-show="!noteOnOff">fas fa-file-alt</v-icon>
 
             <span class="conferenceBtn" v-show="noteOnOff" style="color: rgb(255, 128, 74);">NOTE</span>
-            <v-icon v-show="noteOnOff" color="rgb(255, 128, 74)">mdi-book</v-icon>
+            <v-icon v-show="noteOnOff" color="rgb(255, 128, 74)">fas fa-file-alt</v-icon>
           </v-btn>
 
           <!-- <v-btn @click="onCanvas" :disabled="disableCanvasBool">
@@ -207,7 +191,6 @@ export default {
     };
   },
   methods: {
-    test() {},
     //회의방 참가
     onJoin() {
       this.disableInputBool = false;
@@ -250,9 +233,6 @@ export default {
       // 카메라 끄기
       if (this.videoOnOff == true) {
         this.connection.streamEvents.selectFirst("local").stream.getTracks()[1].enabled = false;
-        // var postervideo = document.querySelector("#" + this.connection.attachStreams[0].streamid);
-        // postervideo.src = null;
-        // postervideo.setAttribute("poster", "../../assets/profile/blank-profile.png");
         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -360,11 +340,11 @@ export default {
     appendDIV(event) {
       this.textArea = document.createElement("div");
       // console.log(userInfo)
-      
+
       var picture = event.data.substring(0, 21);
       var text = event.data.substring(21);
 
-      if(event.data.substring(18, 22) == "jpeg") {
+      if (event.data.substring(18, 22) == "jpeg") {
         picture = event.data.substring(0, 22);
         text = event.data.substring(22);
       }
@@ -424,7 +404,7 @@ export default {
     textSend(e) {
       if (e.target.value) {
         // removing trailing/leading whitespace
-        console.log('내 닉네임 :  ' + this.meetingInfo.nickname);
+        console.log("내 닉네임 :  " + this.meetingInfo.nickname);
         this.value =
           this.meetingInfo.nickname +
           ": " +
@@ -515,7 +495,7 @@ export default {
     this.connect();
   },
   beforeDestroy() {
-    this.onDisconnect()
+    this.onDisconnect();
     var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
@@ -533,10 +513,10 @@ export default {
 </script>
 
 <style>
-#videos-container{
-  width:100%;
-  height:100%;
-  overflow-y :auto;
+#videos-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 #videos-container video {
   height: 50%;
@@ -759,7 +739,7 @@ video::-webkit-media-controls {
 .receive-msg-context {
   font-size: 14px;
   font-family: "NanumSquare", sans-serif;
- word-break: break-all;
+  word-break: break-all;
 }
 .receive-msg-tb {
   margin: 10px 10px 10px 0px;
@@ -768,7 +748,7 @@ video::-webkit-media-controls {
   vertical-align: top;
 }
 .conferenceBtn {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 12px;
 }
 </style>

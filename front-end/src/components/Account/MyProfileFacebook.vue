@@ -1,8 +1,30 @@
 <template>
   <div class="modal-bg" >
-    <v-card-title class="py-3 top">내 정보
+    <v-card-title class="py-3 top">
+      내 정보
       <v-spacer></v-spacer>
-      <v-btn @click="submitSave" text rounded outlined style="color: white" color="#526387">Save</v-btn>
+      <!-- <v-btn @click="submitSave" text rounded outlined style="color: white" color="#526387">Save</v-btn> -->
+      <template>
+        <div class="text-center ma-2">
+          <v-btn text rounded outlined style="color: white" color="#526387" @click="submitSave">Save</v-btn>
+          <v-snackbar
+            v-model="snackbar"
+          >
+            {{ text }}
+
+            <template v-slot:action="{ attrs }">
+              <v-btn
+                color="pink"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+              >
+                Close
+              </v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+      </template>
     </v-card-title>
     <div class="프로필 사진">
 
@@ -43,7 +65,7 @@
       <v-divider class="my-1"></v-divider>
       <div class="d-flex justify-space-around mt-2 pb-2">
         <!-- <ProfileDelete /> -->
-        <ProfilePasswordModal />
+        <ProfilePasswordModal @onSubmitSuccess="submitSuccess" />
       </div>
     </div>
   </div>
@@ -65,6 +87,9 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      text: 'We saved your profile!',
+
       imgFlag: false,
       isFileSelected: false,
       file: null,
@@ -85,6 +110,10 @@ export default {
     }
   },
   methods: {
+    submitSuccess() {
+      this.snackbar = true;
+      this.text= 'We saved your password!';
+    },
     getFileInput(){
       document.querySelector('#upload').click();
     },
@@ -130,7 +159,8 @@ export default {
       }
     },
     submitSave() {
-      
+      this.snackbar = true;
+      this.text= 'We saved your profile!';
       let formData = new FormData();
       
       formData.append('name', this.user_name);
@@ -168,54 +198,6 @@ export default {
 
     },
   },
-  mounted() {    
-    // var upload = document.querySelector('#upload');
-    // upload.addEventListener('change',function (e) {
-    //   var preview = document.querySelector('#preview');
-    //   var get_file = e.target.files;
-      
-    //   var oldImage = document.querySelector('#Img');
-    //   if (oldImage) {
-    //     oldImage.remove();
-    //   }
-
-
-    //   var image = document.createElement('img');
-    //   image.id = 'Img';
-    //   image.style.height = '100px';
-    //   image.style.width = '100px';
-    //   /* FileReader 객체 생성 */
-    //   var reader = new FileReader();
-
-    //   /* reader 시작시 함수 구현 */
-    //   reader.onload = (function (aImg) {
-    //     console.log(1);
-
-    //     return function (e) {
-    //       console.log(3);
-    //       /* base64 인코딩 된 스트링 데이터 */
-    //       aImg.src = e.target.result;
-    //     };
-    //   })(image);
-
-    //   if(get_file){
-    //     /* 
-    //         get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
-    //         onload 에 설정했던 return 으로 넘어간다.
-    //         이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
-    //     */
-    //     reader.readAsDataURL(get_file[0]);
-    //     console.log(2);
-    //   }
-      
-      
-
-    //   preview.appendChild(image);
-    //   // image.id = 'oldImage';
-
-    //   // preview.replaceChild()
-    // });
-  }
 };
 </script>
 

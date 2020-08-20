@@ -10,7 +10,7 @@ import SERVER from '../api/spring';
 import axios from 'axios';
 
 import EditorDetailSideBar from '../components/Editor/EditorDetailSideBar.vue';
-import EditorTiptap from '../components/Editor/EditorTiptap';
+import EditorTiptap from '../components/Editor/EditorTiptap.vue';
 
 export default {
   name: 'EditorDetail',
@@ -87,7 +87,9 @@ export default {
             this.$router.push({name: 'Editor'});            
           } else {
             this.getNoteHTML(this.noteList[0].noteNo);
+            this.$router.push({name: 'EditorDetail', query: {noteNo: this.noteList[0].noteNo, groupNo: groupNo}});
           }
+          this.getNoteList();
         })
         .catch(err => {
           console.error(err);

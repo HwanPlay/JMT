@@ -25,12 +25,12 @@ const routes = [
     props: true,
     component: () => import('../views/Conference.vue')
   },
-  {
-    path: '/devConference',
-    name: 'devConference',
-    props: true,
-    component: () => import('../components/Conference/dev/devConference.vue')
-  },
+  // {
+  //   path: '/devConference',
+  //   name: 'devConference',
+  //   props: true,
+  //   component: () => import('../components/Conference/dev/devConference.vue')
+  // },
   {
     path: '/Settings',
     name: 'Settings',

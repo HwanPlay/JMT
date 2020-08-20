@@ -86,7 +86,7 @@
                       <v-icon
                         dark
                         style="margin-top : 5px; margin-left : 10px;  margin-right : -15px;"
-                      >mdi-note-outline</v-icon>
+                      >fas fa-file-alt</v-icon>
                     </v-list-item-icon>
                   </v-badge>
 
@@ -95,7 +95,7 @@
                       <v-icon
                         dark
                         style="margin-top : 5px; margin-left : 10px; margin-right : -15px;"
-                      >mdi-note-outline</v-icon>
+                      >fas fa-file-alt</v-icon>
                     </v-list-item-icon>
                   </v-badge>
 

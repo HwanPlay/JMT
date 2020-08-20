@@ -175,6 +175,7 @@
           type="text" 
           maxlength = "18"
           class="title-form form-control" 
+          style="font-size: 30px;"
           v-model="dataNoteObj.Title" 
           required
           placeholder="Note Title">
@@ -183,6 +184,7 @@
 
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
+<<<<<<< HEAD
             
               <v-tooltip v-model="show" top>
                 <template v-slot:activator="{ on, attrs }">
@@ -202,6 +204,9 @@
                 <span style="font-size:12px;">DELTE</span>
               </v-tooltip>
             
+=======
+            <b-button class="mx-1" @click="deleteNote" variant="outline-danger">Del</b-button>
+>>>>>>> branch 'develop' of https://lab.ssafy.com/s03-webmobile1-sub3/s03p13b102.git
           </div>
       </div>
       <hr>
@@ -358,5 +363,19 @@ hr{
 .editor-container{
   margin-left: 70px;
   width: 65%;
+}
+.title-form {
+  width: 15rem;
+  border: 0px;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "NanumSquare", sans-serif;
+  padding: 3px 13px;
+  height: calc(1.0em + 0.75rem + 2px);
+}
+.title-form:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 </style>
