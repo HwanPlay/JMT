@@ -244,6 +244,17 @@ export default {
         .catch((err) => console.log(err.response));
     },
 
+    getMyNickname() {
+      for(var i = 0; i < this.members.length; i++) {
+        if(this.$store.state.userId === this.members[i].id) {
+          return this.members[i].nickname;
+        }
+        else {
+          return this.$store.state.myName;
+        }
+      }
+    },
+
     startMeeting() {
       this.changeHasMeeting();
       axios
@@ -262,7 +273,7 @@ export default {
               groupNo: this.groupInfo.groupNo,
               groupName: this.groupInfo.groupName,
             },
-            query: { meetingNo: this.meetingNo },
+            query: { meetingNo: this.meetingNo , nickname: this.getMyNickname()},
           });
         });
     },
@@ -282,7 +293,7 @@ export default {
               groupNo: this.groupInfo.groupNo,
               groupName: this.groupInfo.groupName,
             },
-            query: { meetingNo: this.meetingNo },
+            query: { meetingNo: this.meetingNo, nickname: this.getMyNickname() },
           });
         });
     },

@@ -424,8 +424,9 @@ export default {
     textSend(e) {
       if (e.target.value) {
         // removing trailing/leading whitespace
+        console.log('내 닉네임 :  ' + this.meetingInfo.nickname);
         this.value =
-          this.$store.state.myName +
+          this.meetingInfo.nickname +
           ": " +
           e.target.value.toString().replace(/^\s+|\s+$/g, "");
         // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
