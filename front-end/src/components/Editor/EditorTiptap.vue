@@ -175,6 +175,7 @@
       <div class="d-flex justify-space-around">
         <input 
           type="text" 
+          class="title-form form-control" 
           style="font-size: 30px;"
           v-model="dataNoteObj.Title" 
           required
@@ -306,5 +307,19 @@ export default {
 }
 .title-form {
   width: 20rem;
+}
+.title-form {
+  width: 15rem;
+  border: 0px;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "NanumSquare", sans-serif;
+  padding: 3px 13px;
+  height: calc(1.0em + 0.75rem + 2px);
+}
+.title-form:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 </style>
