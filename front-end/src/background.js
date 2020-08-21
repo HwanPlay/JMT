@@ -29,7 +29,6 @@ function createWindow() {
       enableRemoteModule: true,
       devTools: false,
     },
-
   });
 
 
