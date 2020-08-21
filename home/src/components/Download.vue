@@ -2,11 +2,11 @@
   <v-row class="d-flex justify-space-around">
     <v-spacer></v-spacer>
     <v-col cols="6" class="text-align">
-      <v-btn href="http://joinmeeting.tk/dist/JoinMeetingTyping%Setup%0.1.0.exe" download text class="btn-color"><span>윈도우 버전 무료 다운로드</span></v-btn>
+      <v-btn href="http://joinmeeting.tk/dist/JoinMeetingTyping%Setup%0.1.0.exe" download text class="btn btn-color"><span>윈도우 버전 무료 다운로드</span></v-btn>
     </v-col>
     <v-spacer></v-spacer>
     <v-col cols="6" class="text-align">
-      <v-btn href="http://joinmeeting.tk/dist/JoinMeetingTyping-0.1.0.dmg" download text class="btn-color"><span>MAC 버전 무료 다운로드</span></v-btn>
+      <v-btn  href="http://joinmeeting.tk/dist/JoinMeetingTyping-0.1.0.dmg" download text class="btn btn-color"><span>MAC 버전 무료 다운로드</span></v-btn>
     </v-col>
 
   </v-row>
@@ -28,7 +28,7 @@ export default {
   text-align: center;
 }
 .btn-color {
-  color : blue;
+  /* color : blue; */
 }
 .btn-color:hover {
   color: rgb(255, 128, 74);
