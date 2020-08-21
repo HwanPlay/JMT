@@ -22,6 +22,10 @@ module.exports = {
             }
           ],
           icon: "./assets/icons/JMTLogo.png"
+        },
+        mac: {
+          icon: './assets/icons/JMTLogo.png',
+          target: 'dmg',
         }
       }
     }
