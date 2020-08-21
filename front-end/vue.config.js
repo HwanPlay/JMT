@@ -5,6 +5,9 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
+        appId: "com.JoinMeetingTyping.app",
+        productName:"JoinMeetingTyping",
+        copyright:"Copyright © 2020",
         nsis: {
           oneClick: false,
           perMachine: true,
