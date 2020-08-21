@@ -24,9 +24,15 @@ module.exports = {
           icon: "./assets/icons/JMTLogo.png"
         },
         mac: {
-          icon: './assets/icons/JMTLogo.png',
-          target: 'dmg',
-        }
+          target: [
+            'default'
+          ],
+          icon: './assets/icons/JMTLogo.png'
+        },
+        dmg: {
+          title: "Join Meeting & Typing",
+          icon: './assets/icons/JMTLogo.png'
+        },
       }
     }
   }
