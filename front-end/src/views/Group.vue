@@ -66,7 +66,7 @@
         </v-list>
           <v-btn id="groupCreate" @click="modalOn= !modalOn" dark class="ml-7 mt-3">
             <v-icon class="mr-2" medium>mdi-account-multiple-plus</v-icon>
-            <p>그룹 만들기</p>
+            <p style="margin: 0px;">그룹 만들기</p>
           </v-btn>
           <v-dialog v-model="modalOn" max-width="500px">
             <CreateGroup :modalOn=modalOn @close="closeModal"/>
