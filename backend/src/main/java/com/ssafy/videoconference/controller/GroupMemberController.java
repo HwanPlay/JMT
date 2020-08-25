@@ -69,7 +69,8 @@ public class GroupMemberController {
 	public ResponseEntity<ApiResult> deleteById(@PathVariable("groupNo") int groupNo,
 												@PathVariable("id") String id) {
 		gmService.deleteById(groupNo, id);
-		return Result.ok();
+		List<GroupMember> gm_list = gmService.findByNo(groupNo);
+		return GroupMemberResult.build(gm_list);
 	}
 	
 	
