@@ -46,4 +46,7 @@ public interface GroupService {
 	void changeAll(ChangeGroupAllCommand command);
 
 
+	void initMeeting(String id);
+
+
 }

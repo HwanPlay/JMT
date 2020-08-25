@@ -8,5 +8,6 @@ import com.ssafy.videoconference.model.group.bean.Group;
 
 public interface GroupRepository extends JpaRepository<Group, Integer>, GroupCustomRepository<Group> {
 
+
 	
 }

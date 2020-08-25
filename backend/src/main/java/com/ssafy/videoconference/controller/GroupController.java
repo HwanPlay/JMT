@@ -184,4 +184,13 @@ public class GroupController {
 	}
 	
 	
+	@PutMapping("/initmeeting")
+	public ResponseEntity<ApiResult> initMeeting(@CurrentUser UserDetail user) {
+		groupService.initMeeting(user.getId());
+		return Result.ok();
+	}
+	
+	
+	
+	
 }

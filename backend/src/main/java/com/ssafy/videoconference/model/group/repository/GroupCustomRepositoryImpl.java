@@ -81,5 +81,15 @@ public class GroupCustomRepositoryImpl implements GroupCustomRepository {
 		query.executeUpdate();
 	}
 	
+	
+	@Override
+	public void initMeeting(String id) {
+		String jpql = 
+				"update meeting_group set has_meeting = false where id = :id";
+		NativeQuery<Group> query = (NativeQuery<Group>) em.createNativeQuery(jpql, Group.class);
+		query.setParameter("id", id);
+		query.executeUpdate();
+	}
+	
 		
 }
