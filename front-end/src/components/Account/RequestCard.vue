@@ -42,7 +42,8 @@ export default {
         id: this.$store.state.userId,
         nickname: this.nickname
       };
-      axios.post(SERVER.URL + '/groupmember/add', Info);
+      axios.post(SERVER.URL + '/groupmember/add', Info)
+        .then(res => console.log(res));
       this.removeRequest();
     },
     removeRequest(){
