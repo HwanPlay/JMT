@@ -185,7 +185,7 @@
             <!-- <b-button class="mx-1" @click="editNoteTitle" variant="primary">Edit Title</b-button>
             <b-button class="mx-1" @click="editNoteContent" variant="primary">Edit Content</b-button> -->
             
-              <v-tooltip v-model="show" top>
+              <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn  class="mx-2" :elevation="3" fab dark color="blue" @click="saveNote" v-bind="attrs" v-on="on">
                      <v-icon style="color:white">mdi-pencil</v-icon>
@@ -194,7 +194,7 @@
                 <span style="font-size:12px;">EDIT</span>
               </v-tooltip>
 
-              <v-tooltip v-model="show" top>
+              <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn  class="mx-2" :elevation="3" fab dark color="#EF5350" @click="deleteNote" v-bind="attrs" v-on="on">
                      <i class="fas fa-trash-alt" style="color:white" ></i>

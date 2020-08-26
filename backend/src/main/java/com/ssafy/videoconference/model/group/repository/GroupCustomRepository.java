@@ -33,6 +33,10 @@ public interface GroupCustomRepository<T> {
 	void changeHostId(ChangeHostIdCommand command);
 	
 	
+	@Modifying
+	void initMeeting(String id);
+	
+	
 //	Group add(Group group);
 	
 	
