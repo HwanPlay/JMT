@@ -191,7 +191,7 @@ export default {
               this.sock = new SockJS(SERVER.URL2);
               this.ws = Stomp.over(this.sock);
               this.connect(i);
-            }, 10 * 1000);
+            }, 1 * 1000);
           }
         }
       );

@@ -145,7 +145,7 @@ export default Vue.extend({
             this.sock = new SockJS(SERVER.URL2);
             this.ws = Stomp.over(this.sock);
             this.connect();
-          }, 10*1000);
+          }, 1*1000);
         }
       });
     },
