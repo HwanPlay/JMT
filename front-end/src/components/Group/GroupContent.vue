@@ -47,7 +47,7 @@
                     <v-card width="500px">
                       <v-card-title class="top">회의 시작하기</v-card-title>
                       <v-container>
-                        <v-form ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
+                        <v-form v-on:submit.prevent="noop" ref="form" width="500px;" lazy-validation class="ml-2 mr-2">
                           <v-text-field v-model="meetingTitle" label="회의 명" @keypress.enter="startMeeting" required></v-text-field>
                           <v-card-actions>
                             <v-spacer></v-spacer>
@@ -208,6 +208,9 @@ export default {
     };
   },
   methods: {
+    noop() {
+
+    },
     exitGroup() {
       axios
         .delete(
