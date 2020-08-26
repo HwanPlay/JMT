@@ -31,6 +31,24 @@
         </v-card-actions>
 
       </v-container>
+      
+      <v-snackbar
+        v-model="snackbar"
+      >
+        {{ text }}
+  
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="pink"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
   </v-card>
 </template>
 
@@ -52,6 +70,10 @@ export default {
         groupName: '',
         hostId: this.$store.state.userId,
       },
+
+      // alert
+      snackbar: false,
+      text: '그룹 이름을 확인해 주세요.',
     };
   },
 
@@ -61,13 +83,26 @@ export default {
       this.createGroupInfo.groupName = '';
     },
     submit () {
-      axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
-        .then(res => {
-          this.$store.commit('SET_GROUP_INFO', res);
-          this.reset();
-          this.$emit('close');
-        })
-        .catch(err => console.log(err.response));
+      let flag = false;
+
+      for ( const group in this.$store.state.myGroups){
+        if ( this.$store.state.myGroups[group].groupName === this.createGroupInfo.groupName ) {
+          flag = true;
+          break;
+        }        
+      } 
+
+      if (flag) {
+        this.snackbar = true;
+      } else {
+        axios.post(SERVER.URL + '/group/add', this.createGroupInfo)
+          .then(res => {
+            this.$store.commit('SET_GROUP_INFO', res);
+            this.reset();
+            this.$emit('close');
+          })
+          .catch(err => console.log(err.response));
+      }
     },
   },
   computed:{
