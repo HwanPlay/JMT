@@ -20,9 +20,14 @@ import com.ssafy.videoconference.controller.payload.AddMemberPayload;
 import com.ssafy.videoconference.controller.payload.ChangeNicknamePayload;
 import com.ssafy.videoconference.controller.result.ApiResult;
 import com.ssafy.videoconference.controller.result.GroupMemberResult;
+import com.ssafy.videoconference.controller.result.GroupResult;
 import com.ssafy.videoconference.controller.result.Result;
+import com.ssafy.videoconference.model.group.bean.Group;
+import com.ssafy.videoconference.model.group.service.GroupService;
 import com.ssafy.videoconference.model.groupmember.bean.GroupMember;
 import com.ssafy.videoconference.model.groupmember.service.Group_memberService;
+import com.ssafy.videoconference.model.user.bean.CurrentUser;
+import com.ssafy.videoconference.model.user.bean.UserDetail;
 
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -34,12 +39,18 @@ public class GroupMemberController {
 	@Autowired
 	private Group_memberService gmService;
 	
+	@Autowired
+	private GroupService groupService;
+	
 	
 	@PostMapping("/add")
-	public ResponseEntity<ApiResult> addMember(@RequestBody AddMemberPayload payload) {
+	public ResponseEntity<ApiResult> addMember(@RequestBody AddMemberPayload payload,
+												@CurrentUser UserDetail user) {
 		AddMemberCommand command = payload.toCommand();
 		GroupMember gm = gmService.addMember(command);
-		return GroupMemberResult.build(gm);
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
