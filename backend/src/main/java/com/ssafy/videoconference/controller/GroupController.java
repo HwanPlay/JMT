@@ -149,19 +149,26 @@ public class GroupController {
 	
 	@PutMapping("/name/{groupNo}")
 	public ResponseEntity<ApiResult> changeGroupName(@PathVariable("groupNo") int groupNo,
-														@RequestBody ChangeGroupNamePayload payload) {
+														@RequestBody ChangeGroupNamePayload payload,
+														@CurrentUser UserDetail user) {
+												
 		ChangeGroupNameCommand command = payload.toCommand(groupNo);
 		groupService.changeGroupName(command);
-		return Result.ok();
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
 	@PutMapping("/intro/{groupNo}")
 	public ResponseEntity<ApiResult> changeIntro(@PathVariable("groupNo") int groupNo,
-													@RequestBody ChangeIntroPayload payload) {
+													@RequestBody ChangeIntroPayload payload,
+													@CurrentUser UserDetail user) {
 		ChangeIntroCommand command = payload.toCommand(groupNo);
 		groupService.changeIntro(command);
-		return Result.ok();
+		List<Group> gp_list_host = groupService.findByHostId(user.getId());
+		List<Group> gp_list_member = groupService.findByUserId(user.getId());
+		return GroupResult.build(gp_list_host, gp_list_member);
 	}
 	
 	
@@ -182,6 +189,15 @@ public class GroupController {
 		boolean hasMeeting = groupService.changeHasMeeting(groupNo);
 		return GroupResult.build(hasMeeting);
 	}
+	
+	
+	@PutMapping("/initmeeting")
+	public ResponseEntity<ApiResult> initMeeting(@CurrentUser UserDetail user) {
+		groupService.initMeeting(user.getId());
+		return Result.ok();
+	}
+	
+	
 	
 	
 }

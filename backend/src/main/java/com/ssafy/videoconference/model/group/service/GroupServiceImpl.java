@@ -107,4 +107,10 @@ public class GroupServiceImpl implements GroupService {
 		groupRepository.save(group);
 	}
 
+
+	@Override
+	public void initMeeting(String id) {
+		groupRepository.initMeeting(id);
+	}
+
 }

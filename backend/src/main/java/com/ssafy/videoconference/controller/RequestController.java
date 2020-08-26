@@ -76,7 +76,8 @@ public class RequestController {
 												 @PathVariable("hostId") String hostId,
 												 @PathVariable("groupNo") int groupNo) {
 		reqService.deleteByAll(userId, hostId, groupNo);
-		return Result.ok();
+		List<Request> req_list = reqService.findReceiveRequest(userId);
+		return RequestResult.build(req_list);
 	}
 
 }
