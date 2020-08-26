@@ -38,14 +38,6 @@ public class RedisConfig {
         return lettuceConnectionFactory;
     }
     
-
-    @Bean
-    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        return container;
-    }
-    
     
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {

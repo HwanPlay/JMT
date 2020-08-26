@@ -94,7 +94,7 @@ export default {
       isFileSelected: false,
       file: null,
       user_name: this.$store.state.myName,
-      initImageUrl: 'http://joinmeeting.tk/images/'+this.$store.state.myPicture,
+      initImageUrl: 'https://joinmeeting.tk/images/'+this.$store.state.myPicture,
     };
   },
   props: {
@@ -104,9 +104,9 @@ export default {
     profileFlag: function() {
       // modal 클릭 할 때.
       this.file = null;
-      this.initImageUrl = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
+      this.initImageUrl = 'https://joinmeeting.tk/images/'+this.$store.state.myPicture;
       var image = document.querySelector('#profileImage');
-      image.src = 'http://joinmeeting.tk/images/'+this.$store.state.myPicture;
+      image.src = 'https://joinmeeting.tk/images/'+this.$store.state.myPicture;
     }
   },
   methods: {

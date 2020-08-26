@@ -4,7 +4,7 @@
       <v-row align="start" class="fill-height">
         <v-col align-self="start" class="pa-0" cols="4">
           <v-avatar class="profile"  size="164" tile>
-            <img :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
+            <img :src="'https://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="사진 자리 ㅠㅠ">
           </v-avatar>
         </v-col>
         <v-spacer></v-spacer>

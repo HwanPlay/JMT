@@ -10,7 +10,7 @@
       </div>
       
       <div>
-        <img class="profile-image" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="">
+        <img class="profile-image" :src="'https://joinmeeting.tk/images/'+this.$store.state.myPicture" alt="">
 
       </div>
     </div>

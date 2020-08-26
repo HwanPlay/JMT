@@ -375,7 +375,7 @@ export default {
         "<tr>" +
         "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
         "<div class='sender-img'>" +
-        "<img src='http://joinmeeting.tk/images/" +
+        "<img src='https://joinmeeting.tk/images/" +
         picture +
         "' class='float-left'>" +
         "</div>" +

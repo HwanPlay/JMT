@@ -66,7 +66,7 @@
                       <v-row>
                       <v-badge dot color="rgb(0, 0, 0, 0)" style="width:95px;">
                         <v-list-item-avatar color="#F5F5F5" size="70">
-                          <v-img :src="'http://joinmeeting.tk/images/'+groupInfo.profile"></v-img>
+                          <v-img :src="'https://joinmeeting.tk/images/'+groupInfo.profile"></v-img>
                         </v-list-item-avatar>
                       </v-badge>
 

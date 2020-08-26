@@ -2,9 +2,6 @@ module.exports = {
   'transpileDependencies': [
     'vuetify'
   ],
-  devServer: {
-    host:'localhost'
-  },
   pluginOptions: {
     electronBuilder: {
       builderOptions: {

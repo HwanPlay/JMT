@@ -2,7 +2,7 @@
   
   <div class="profile-mage" style="text-align:center; width: 100%;">
     <div >
-      <img style="width: 100px;  height: 100px;" id="myImage" :src="'http://joinmeeting.tk/images/'+this.$store.state.myPicture" />
+      <img style="width: 100px;  height: 100px;" id="myImage" :src="'https://joinmeeting.tk/images/'+this.$store.state.myPicture" />
     </div>
     <v-list-item-content class="item-content">
       <v-list-item-title class="myName">

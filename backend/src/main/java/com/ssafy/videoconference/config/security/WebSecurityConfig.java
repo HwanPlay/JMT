@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.headers().frameOptions().disable().and()
 				// 기본 로그인 페이지 사용 안함
 			//	.httpBasic().disable()
 				

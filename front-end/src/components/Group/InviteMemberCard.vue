@@ -1,6 +1,6 @@
 <template>
   <v-list-item>
-    <v-list-item-avatar color="grey" size="55"> <v-img :src="'http://joinmeeting.tk/images/'+user.profile_img"></v-img></v-list-item-avatar>
+    <v-list-item-avatar color="grey" size="55"> <v-img :src="'https://joinmeeting.tk/images/'+user.profile_img"></v-img></v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title class="headline">{{ user.name }}</v-list-item-title>
       <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
