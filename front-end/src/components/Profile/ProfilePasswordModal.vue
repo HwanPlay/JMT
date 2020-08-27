@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import SERVER from '../../api/spring.js';
+// import axios from 'axios';
+// import SERVER from '../../api/spring.js';
 import ProfilePasswordForm from './ProfilePasswordForm.vue';
 
 export default {

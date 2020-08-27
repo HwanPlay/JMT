@@ -191,7 +191,7 @@ export default {
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
-      const events = [];
+      // const events = [];
 
       const groupIds = [];
       const noteList = [];
