@@ -5433,10 +5433,10 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         var paused = e.mediaElement.pause();
         if (typeof paused !== 'undefined') {
           paused.then(function() {
-            e.mediaElement.poster = e.snapshot || 'https://cdn.webrtc-experiment.com/images/muted.png';
+            e.mediaElement.poster = e.snapshot || 'https://joinmeeting.tk/images/conf_default.PNG';
           });
         } else {
-          e.mediaElement.poster = e.snapshot || 'https://cdn.webrtc-experiment.com/images/muted.png';
+          e.mediaElement.poster = e.snapshot || 'https://joinmeeting.tk/images/conf_default.PNG';
         }
       } else if (e.muteType === 'audio') {
         e.mediaElement.muted = true;
