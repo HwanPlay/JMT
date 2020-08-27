@@ -142,11 +142,11 @@ import Stomp from "webstomp-client";
 export default {
   name: "Videochat",
   components: {
-    NoteEditor,
+    NoteEditor
   },
   props: {
     groupInfo: Object,
-    meetingInfo: Object,
+    meetingInfo: Object
   },
   data() {
     return {
@@ -187,7 +187,7 @@ export default {
       sock: null,
       ws: null,
       reconnect: 0,
-      recv: "",
+      recv: ""
     };
   },
   methods: {
@@ -197,8 +197,85 @@ export default {
       this.connection.session = {
         data: true,
         video: true,
-        audio: true,
+        audio: true
       };
+
+    //Voice Detect & change Bordor color 
+      var that = this;
+      this.connection.onstream = function(event) {
+        var parentNode = that.connection.videosContainer;
+        parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
+        var played = event.mediaElement.play();
+
+        initHark({
+          stream: event.stream,
+          streamedObject: event,
+          connection: that.connection
+        });
+
+        if (typeof played !== "undefined") {
+          played
+            .catch(function() {
+              /*** iOS 11 doesn't allow automatic play and rejects ***/
+            })
+            .then(function() {
+              setTimeout(function() {
+                event.mediaElement.play();
+              }, 2000);
+            });
+          return;
+        }
+
+        setTimeout(function() {
+          event.mediaElement.play();
+        }, 2000);
+      };
+
+      this.connection.onspeaking = function(e) {
+        // e.streamid, e.userid, e.stream, etc.
+        e.mediaElement.style.border = "1px solid red";
+        console.log(e.mediaElement);
+      };
+
+      this.connection.onsilence = function(e) {
+        // e.streamid, e.userid, e.stream, etc.
+        e.mediaElement.style.border = "";
+        console.log(e.mediaElement);
+      };
+
+      this.connection.onvolumechange = function(event) {
+        event.mediaElement.style.borderWidth = event.volume;
+      };
+
+      function initHark(args) {
+        if (!window.hark) {
+          throw "Please link hark.js";
+          return;
+        }
+        var connection = args.connection;
+        var streamedObject = args.streamedObject;
+        var stream = args.stream;
+
+        var options = {};
+        var speechEvents = hark(stream, options);
+
+        speechEvents.on("speaking", function() {
+          connection.onspeaking(streamedObject);
+        });
+
+        speechEvents.on("stopped_speaking", function() {
+          connection.onsilence(streamedObject);
+        });
+
+        speechEvents.on("volume_change", function(volume, threshold) {
+          streamedObject.volume = volume;
+          streamedObject.threshold = threshold;
+          connection.onvolumechange(streamedObject);
+        });
+      }
+      // end Voice Detect
+
+
       this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
       // this.overlay = false;
@@ -210,21 +287,21 @@ export default {
     },
     onDisconnect() {
       this.connection.dontAttachStream = true;
-      this.connection.attachStreams.forEach(function (localStream) {
+      this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
       });
       var that = this;
-      this.connection.getAllParticipants().forEach(function (pid) {
+      this.connection.getAllParticipants().forEach(function(pid) {
         that.connection.disconnectWith(pid);
       });
     },
     onBroadDisconnect() {
       this.broadcast.dontAttachStream = true;
-      this.broadcast.attachStreams.forEach(function (localStream) {
+      this.broadcast.attachStreams.forEach(function(localStream) {
         localStream.stop();
       });
       var that = this;
-      this.broadcast.getAllParticipants().forEach(function (pid) {
+      this.broadcast.getAllParticipants().forEach(function(pid) {
         that.broadcast.disconnectWith(pid);
       });
     },
@@ -232,7 +309,9 @@ export default {
     onCam() {
       // 카메라 끄기
       if (this.videoOnOff == true) {
-        this.connection.streamEvents.selectFirst("local").stream.getTracks()[1].enabled = false;
+        this.connection.streamEvents
+          .selectFirst("local")
+          .stream.getTracks()[1].enabled = false;
         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -262,23 +341,23 @@ export default {
         var that = this;
         this.broadcast.session = {
           audio: true,
-          video: true,
+          video: true
         };
 
         this.broadcast.dontAttachStream = true;
         navigator.webkitGetUserMedia(
           {
             video: true,
-            audio: true,
+            audio: true
           },
-          function (yourExternalStream) {
+          function(yourExternalStream) {
             that.broadcast.attachStreams = [yourExternalStream];
             that.broadcast.openOrJoin(that.groupInfo.roomId);
           },
-          function (error) {}
+          function(error) {}
         );
 
-        this.broadcast.attachStreams.forEach(function (localStream) {
+        this.broadcast.attachStreams.forEach(function(localStream) {
           localStream.stop();
         });
 
@@ -412,7 +491,7 @@ export default {
         // .replace(/^\s+|\s+$/g,'') : 앞뒤 공백 제거
         this.connection.send(this.$store.state.myPicture + this.value);
         var msg = {
-          data: this.$store.state.myPicture + this.value,
+          data: this.$store.state.myPicture + this.value
         };
         this.appendDIV(msg);
       }
@@ -424,10 +503,10 @@ export default {
     connect() {
       this.ws.connect(
         { token: this.$store.state.accessToKen },
-        (frame) => {
+        frame => {
           this.ws.subscribe(
             "/send/conference/" + this.meetingInfo.meetingNo,
-            (res) => {
+            res => {
               this.recv = res.body;
               // console.log('res.body', res.body);
               this.endMeeting = JSON.parse(this.recv);
@@ -458,17 +537,17 @@ export default {
     send(param) {
       const msg = {
         host: param,
-        meetingNo: this.meetingInfo.meetingNo,
+        meetingNo: this.meetingInfo.meetingNo
       };
       this.ws.send("/conference", JSON.stringify(msg), {
-        token: this.$store.state.accessToken,
+        token: this.$store.state.accessToken
       });
-    },
+    }
   },
 
   updated() {
     this.connection.onmessage = this.appendDIV;
-    this.connection.onclose = function (event) {
+    this.connection.onclose = function(event) {
       console.log("data connection closed between you and " + event.userid);
     };
   },
@@ -487,7 +566,17 @@ export default {
   mounted() {
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
-    this.connection.videosContainer = document.querySelector("#videos-container");
+    this.connection.videosContainer = document.querySelector(
+      "#videos-container"
+    );
+    // voice detect를 위해 필요한 hark.js 스크립트 삽입
+    let src = document.createElement("script");
+    src.setAttribute(
+      "src",
+      "https://cdn.webrtc-experiment.com/hark.js"
+    );
+    document.body.appendChild(src);
+
     // this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
 
     this.$store.commit("SET_VIDEO_ON", true);
@@ -501,14 +590,19 @@ export default {
       this.send(true);
       axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
       axios.put(SERVER.URL + "/meeting/update/" + this.meetingInfo.meetingNo);
-      console.log(numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다.");
+      console.log(
+        numberOfUsers + "명이 당신과 함께하였습니다. 회의가 종료되었습니다."
+      );
     } else {
-      console.log(numberOfUsers + "명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다.");
+      console.log(
+        numberOfUsers +
+          "명이 당신과 함께하였습니다. 호스트가 회의를 종료하였습니다."
+      );
     }
   },
   destroyed() {
     this.ws.disconnect();
-  },
+  }
 };
 </script>
 

@@ -277,7 +277,7 @@ export default {
               groupNo: this.groupInfo.groupNo,
               groupName: this.groupInfo.groupName,
             },
-            query: { meetingNo: this.meetingNo , nickname: this.getMyNickname()},
+            query: { meetingNo: this.meetingNo , nickname: this.$store.state.myName},
           });
         });
     },

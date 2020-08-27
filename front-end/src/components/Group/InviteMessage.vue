@@ -43,7 +43,7 @@ export default {
       };
       axios.post(SERVER.URL + '/groupmember/add', Info)
         .then(res => {
-          console.log(res);
+          this.$store.commit('SET_GROUP_INFO', res);
         });
       this.removeRequest();
     },
