@@ -43,7 +43,9 @@ export default {
         nickname: this.nickname
       };
       axios.post(SERVER.URL + '/groupmember/add', Info)
-        .then(res => console.log(res));
+        .then(res => {
+          this.$store.commit('SET_GROUP_INFO', res);
+        });
       this.removeRequest();
     },
     removeRequest(){

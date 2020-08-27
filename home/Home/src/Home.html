@@ -4,9 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>JoinMeeting and Typing</title>
-    <meta name="author" content="Matthew Howell" />
-    <meta name="description" content="fullPage continuous scrolling demo." />
-    <meta name="keywords" content="fullpage,jquery,demo,scroll,loop,continuous" />
+    <meta name="author" content="Team DNS" />
+    <meta name="description" content="JMT Lending Page" />
     <meta name="Resource-type" content="Document" />
 
 
@@ -64,7 +63,16 @@
                 transform: translateY(26px)
             }
         }
-        #scroll{
+        #scroll1{
+            position:fixed;
+            height: 50px;
+            z-index: 70;
+            width: 30px;
+            padding: 0;
+            margin:0;
+        }
+
+        #scroll2{
             position:fixed;
             height: 50px;
             z-index: 70;
@@ -83,8 +91,12 @@
         }
 
         #section1{
-            background-image: url(2_30.jpg);
+            background-image: url(2_20.jpg);
             background-size: cover;
+        }
+
+        #section2{
+            opacity: 0.9;
         }
 
     </style>
@@ -92,9 +104,6 @@
 </head>
 
 <body>
-    
-    <div id="scroll" class="icon-scroll"></div>
-
 
     <div id="fullpage">
         <div class="section" id="section0">
@@ -109,10 +118,10 @@
                     <div>
                         <h3 style='color: white'>Join Meeting & Typing</h3>
                         <div class="inline p-0 ml-4 mt-5 font-weight-bolder text-left" style="font-size: 50px; color: white">About JMT</div>
-                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">어쩌구</div>
-                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">저쩌구</div>
-                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">솰라솰라</div>
-                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">블라블라</div>
+                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">화상회의와 에디터가 하나에!</div>
+                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">간편한 마크다운 에디터</div>
+                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">그룹을 기반으로 한 안전한 화상회의</div>
+                        <div class="inline p-0 ml-4 mt-4 font-weight-bolder text-left" style="font-size: 25px; color: white">회의 기록을 통한 에디터 관리까지</div>
                     </div>
                     <div id="downloadBtn" class="row col-3 d-flex justify-content-center" style="height: 100px;">
                         <a href="#3rdPage" class="text-warning" style="text-decoration:none">
@@ -122,6 +131,7 @@
                     
                 </div>
             </div>
+            <div id="scroll1" class="icon-scroll"></div>
         </div>
         <div class="section" id="section1">
             <div class="row" style="height: 20%; padding-bottom:250px;">
@@ -129,24 +139,34 @@
                     <div class="inline p-0 mt-5 font-weight-bolder text-left" style="font-size: 75px; color: white">주요 기능</div>
                 </div>
             </div>
-            <div class="row" style="height: 25%;">
+            <div class="row" style="height: 30%;">
                 <div class="col-2"></div>
                 <div class="col-3">
-                    <i class="fas fa-user-friends fa-7x" style="color:white;"></i>
+                    <i class="fas fa-user-friends fa-9x" style="color:white;"></i>
+                    <div class="inline p-0 ml-4 mt-4 font-weight-bolder mr-4" style="font-size: 35px; color: white">그룹 구성/관리</div>
                 </div>
                 <div class="col-2"></div>
-                <div class="col-3" style="background-color:orange"></div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row" style="height: 25%;">
-                <div class="col-2"></div>
-                <div class="col-3" style="background-color:green">
-                    
+                <div class="col-3">
+                    <i class="fas fa-solar-panel fa-9x" style="color: white;"></i>
+                    <div class="inline p-0 ml-4 mt-4 font-weight-bolder mr-4" style="font-size: 35px; color: white">화상 회의/채팅</div>
                 </div>
                 <div class="col-2"></div>
-                <div class="col-3" style="background-color:orange"></div>
+            </div>
+            <div class="row mt-5" style="height: 30%;">
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <i class="fab fa-markdown fa-9x" style="color: white;"></i>
+                    <div class="inline p-0 ml-4 mt-4 font-weight-bolder mr-4" style="font-size: 35px; color: white">마크다운 에디터</div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <i class="far fa-calendar-alt fa-9x" style="color: white;"></i>
+                    <div class="inline p-0 ml-4 mt-4 font-weight-bolder mr-4" style="font-size: 35px; color: white">회의 일정 관리</div>
+
+                </div>
                 <div class="col-2"></div>
             </div>
+            <div id="scroll2" class="icon-scroll"></div>
         </div>
         <div class="section" id="section2">
             <h1>Section 3</h1>
@@ -157,7 +177,7 @@
     <script type="text/javascript" src="examples.js"></script>
     <script type="text/javascript">
         var myFullpage = new fullpage('#fullpage', {
-            sectionsColor: ['white', 'rgb(52, 63, 87)', 'white', 'black', 'black'],
+            sectionsColor: ['white', 'rgb(52, 63, 87)', 'black', 'black', 'black'],
             anchors: ['firstPage', 'secondPage', '3rdPage'],
             navigation: false,
             navigationTooltips: ['Page 1', 'Page 2', 'Any text!'],
