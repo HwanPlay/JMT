@@ -278,6 +278,7 @@ export default {
 
       this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
+      
       // this.overlay = false;
     },
     //회의방 나가기
@@ -309,6 +310,8 @@ export default {
     onCam() {
       // 카메라 끄기
       if (this.videoOnOff == true) {
+                let localStream = this.connection.attachStreams[0];
+        localStream.mute("video");
         this.connection.streamEvents
           .selectFirst("local")
           .stream.getTracks()[1].enabled = false;
@@ -613,10 +616,10 @@ export default {
   overflow-y: auto;
 }
 #videos-container video {
-  height: 50%;
-  width: 30%;
-  margin: 0px 1px;
-  border: 2px groove white;
+  height: 30%;
+  width: 33%;
+  /* margin: 0px 1px; */
+  border: 1px groove white;
   border-radius: 3px;
 }
 #Mainvideo {
