@@ -105,7 +105,8 @@ export default {
     },
     openNoteDetail({noteNo, groupNo}) {
       // currentGroup를 groupNo로 고쳐야 함.
-      this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: this.currentGroup }});
+      // this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: this.currentGroup }});
+      this.$router.push({ name: 'EditorDetail', query: { noteNo: noteNo, groupNo: groupNo }});
     },
     initGetNoteList() {
       const GROUP_URL = '/group/get/all/';

@@ -34,7 +34,7 @@ new Vue({
 
 import SERVER from '@/api/spring';
 import axios from 'axios';
-import { nodeName } from 'jquery';
+// import { nodeName } from 'jquery';
 
 
 axios.interceptors.request.use(

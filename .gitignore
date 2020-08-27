@@ -17,7 +17,9 @@ local.properties
 .project
 
 # External tool builders
-.externalToolBuilders/
+.externalToolBuilders/	
+
+!home/Home/**
 
 # Locally stored "Eclipse launch configurations"
 *.launch
@@ -124,7 +126,6 @@ typings/
 
 # Optional eslint cache
 .eslintcache
-
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/
@@ -214,3 +215,4 @@ yarn-error.log
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn,eclipse,vue,vuejs
+

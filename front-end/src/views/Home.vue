@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import SERVER from '../api/spring.js';
+// import SERVER from '../api/spring.js';
 
 import CreateGroup from '../components/Group/CreateGroup.vue';
 import StartableGroups from '../components/Group/StartableGroups.vue';

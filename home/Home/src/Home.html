@@ -9,7 +9,7 @@
     <meta name="Resource-type" content="Document" />
 
 
-    <link rel="stylesheet" type="text/css" href="../dist/fullpage.css" />
+    <link rel="stylesheet" type="text/css" href="./fullpage.css" />
     <link rel="stylesheet" type="text/css" href="examples.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
@@ -104,7 +104,7 @@
 </head>
 
 <body>
-
+    <div id="scroll1" class="icon-scroll"></div>
     <div id="fullpage">
         <div class="section" id="section0">
             <div class="row" style="height: 100%">
@@ -131,7 +131,6 @@
                     
                 </div>
             </div>
-            <div id="scroll1" class="icon-scroll"></div>
         </div>
         <div class="section" id="section1">
             <div class="row" style="height: 20%; padding-bottom:250px;">
@@ -166,14 +165,13 @@
                 </div>
                 <div class="col-2"></div>
             </div>
-            <div id="scroll2" class="icon-scroll"></div>
         </div>
         <div class="section" id="section2">
             <h1>Section 3</h1>
         </div>
     </div>
 
-    <script type="text/javascript" src="../dist/fullpage.js"></script>
+    <script type="text/javascript" src="./fullpage.js"></script>
     <script type="text/javascript" src="examples.js"></script>
     <script type="text/javascript">
         var myFullpage = new fullpage('#fullpage', {
@@ -182,6 +180,7 @@
             navigation: false,
             navigationTooltips: ['Page 1', 'Page 2', 'Any text!'],
             showActiveTooltip: true,
+            continuousVertical: true,
             menu: '#menu'
         });
     </script>
