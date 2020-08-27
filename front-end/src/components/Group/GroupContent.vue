@@ -231,7 +231,8 @@ export default {
       axios
         .put(SERVER.URL + '/group/hasmeeting/' + this.groupInfo.groupNo)
         .then((res) => {
-          tmp = this.nowMeeting;
+          // tmp = this.nowMeeting;
+          tmp = res.data.hasMeeting;
         })
         .finally(() => {
           this.send(tmp);
