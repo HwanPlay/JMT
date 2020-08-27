@@ -19,6 +19,8 @@ local.properties
 # External tool builders
 .externalToolBuilders/	
 
+!home/Home/**
+
 # Locally stored "Eclipse launch configurations"
 *.launch
 
@@ -124,7 +126,6 @@ typings/
 
 # Optional eslint cache
 .eslintcache
-!home/Home/dist/*
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/
