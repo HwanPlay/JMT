@@ -24,12 +24,9 @@
       <div id="Mainvideo">
         <div style="width:100%; height: 100%;">
           <div id="videos-container">
-<<<<<<< HEAD
-=======
             <div class="overlayText">
               <p id="topText"></p>
             </div>
->>>>>>> refs/remotes/origin/develop
           </div>
         </div>
       </div>
@@ -439,10 +436,6 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-<<<<<<< HEAD
-      this.textArea = document.createElement("div");
-      // console.log(userInfo)
-=======
       if (this.connection.enableLogs) {
         console.debug("data-message", event.userid, event.data);
       }
@@ -462,7 +455,6 @@ export default {
 
         var picture = event.data.substring(0, 21);
         var text = event.data.substring(21);
->>>>>>> refs/remotes/origin/develop
 
         if (event.data.substring(18, 22) == "jpeg") {
           picture = event.data.substring(0, 22);
@@ -515,45 +507,12 @@ export default {
           "</tr>" +
           "</table>";
 
-<<<<<<< HEAD
-      this.textArea.innerHTML =
-        "<table class='receive-msg-tb' style='width:auto;'>" +
-        "<tr>" +
-        "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
-        "<div class='sender-img'>" +
-        "<img src='https://joinmeeting.tk/images/" +
-        picture +
-        "' class='float-left'>" +
-        "</div>" +
-        "</th>" +
-        "<td>" +
-        "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
-        strCopy[0] +
-        "</p>" +
-        "</td>" +
-        "</tr>" +
-        "<tr>" +
-        "<td>" +
-        "<div class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (strCopy[1] || event) +
-        "</div>" +
-        "</td>" +
-        "</tr>" +
-        "</table>";
-
-      // console.log(this.textArea);
-      this.chatContainer.appendChild(this.textArea);
-      this.textArea.tabIndex = 0;
-      this.textArea.focus();
-      document.getElementById("input-text-chat").focus();
-=======
         // console.log(this.textArea);
         this.chatContainer.appendChild(this.textArea);
         this.textArea.tabIndex = 0;
         this.textArea.focus();
         document.getElementById("input-text-chat").focus();
       }
->>>>>>> refs/remotes/origin/develop
     },
     textSend(e) {
       if (e.target.value) {
