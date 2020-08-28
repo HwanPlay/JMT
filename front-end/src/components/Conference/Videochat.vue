@@ -3,7 +3,11 @@
     <v-sheet id="MainContent">
       <div id="Mainvideo">
         <div style="width:100%; height: 100%;">
-          <div id="videos-container"></div>
+          <div id="videos-container">
+            <div class="overlayText">
+              <p id="topText"></p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -175,7 +179,14 @@ export default {
       var that = this;
       this.connection.onstream = function(event) {
         var parentNode = that.connection.videosContainer;
+        var container = document.createElement("span");
+        var text = document.createTextNode(that.meetingInfo.nickname);
+
+        container.appendChild(text);
+        container.style.color = "red";
+
         parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
+        parentNode.insertBefore(container, parentNode.firstChild);
         var played = event.mediaElement.play();
 
         initHark({
@@ -253,6 +264,7 @@ export default {
       // end Voice Detect
 
       this.connection.openOrJoin(this.groupInfo.roomId);
+      // document.getElementById("topText").innerHTML = this.meetingInfo.nickname;
       document.getElementById("videos-container").style.display = "block";
 
       // this.overlay = false;
@@ -396,81 +408,82 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-      
-      
-      if (event.data.speaking) {
-        var mediaElement = document.getElementById(event.data.streamid);
-        if (mediaElement) mediaElement.style.border = "1px solid red";
+      if (this.connection.enableLogs) {
+        console.debug("data-message", event.userid, event.data);
       }
-      if (event.data.silence) {
-        var mediaElement = document.getElementById(event.data.streamid);
-        if (mediaElement) mediaElement.style.border = "";
+      if (typeof event.data != "string") {
+        if (event.data.speaking) {
+          var mediaElement = document.getElementById(event.data.streamid);
+          if (mediaElement) mediaElement.style.border = "1px solid red";
+        }
+        if (event.data.silence) {
+          var mediaElement = document.getElementById(event.data.streamid);
+          if (mediaElement) mediaElement.style.border = "";
+        }
       }
-      if(typeof(event.data) === 'string'){
+      if (typeof event.data === "string") {
+        this.textArea = document.createElement("div");
+        // console.log(userInfo)
 
-      
-      this.textArea = document.createElement("div");
-      // console.log(userInfo)
+        var picture = event.data.substring(0, 21);
+        var text = event.data.substring(21);
 
-      var picture = event.data.substring(0, 21);
-      var text = event.data.substring(21);
+        if (event.data.substring(18, 22) == "jpeg") {
+          picture = event.data.substring(0, 22);
+          text = event.data.substring(22);
+        }
 
-      if (event.data.substring(18, 22) == "jpeg") {
-        picture = event.data.substring(0, 22);
-        text = event.data.substring(22);
-      }
+        const strCopy = text.split(":");
+        // console.log("name : " + strCopy[0]);
 
-      const strCopy = text.split(":");
-      // console.log("name : " + strCopy[0]);
+        // this.textArea.innerHTML =
+        //   "<ul class='p-0'>" +
+        //   "<li class='receive-msg float-left mb-1'>" +
+        //   "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
+        //   strCopy[0] +
+        //   "</p>" +
+        //   "<div class='sender-img'>" +
+        //   "<img src='http://joinmeeting.tk/images/" +
+        //   picture +
+        //   "' class='float-left'>" +
+        //   "</div>" +
+        //   "<div class='receive-msg-desc float-left ml-2'>" +
+        //   "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+        //   (strCopy[1] || event) +
+        //   "</p>" +
+        //   "</div>" +
+        //   "</li></ul>";
 
-      // this.textArea.innerHTML =
-      //   "<ul class='p-0'>" +
-      //   "<li class='receive-msg float-left mb-1'>" +
-      //   "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
-      //   strCopy[0] +
-      //   "</p>" +
-      //   "<div class='sender-img'>" +
-      //   "<img src='http://joinmeeting.tk/images/" +
-      //   picture +
-      //   "' class='float-left'>" +
-      //   "</div>" +
-      //   "<div class='receive-msg-desc float-left ml-2'>" +
-      //   "<p class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-      //   (strCopy[1] || event) +
-      //   "</p>" +
-      //   "</div>" +
-      //   "</li></ul>";
+        this.textArea.innerHTML =
+          "<table class='receive-msg-tb' style='width:auto;'>" +
+          "<tr>" +
+          "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
+          "<div class='sender-img'>" +
+          "<img src='https://joinmeeting.tk/images/" +
+          picture +
+          "' class='float-left'>" +
+          "</div>" +
+          "</th>" +
+          "<td>" +
+          "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
+          strCopy[0] +
+          "</p>" +
+          "</td>" +
+          "</tr>" +
+          "<tr>" +
+          "<td>" +
+          "<div class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
+          (strCopy[1] || event) +
+          "</div>" +
+          "</td>" +
+          "</tr>" +
+          "</table>";
 
-      this.textArea.innerHTML =
-        "<table class='receive-msg-tb' style='width:auto;'>" +
-        "<tr>" +
-        "<th class='receive-msg-th-img' rowspan='2' style='width:57px;'>" +
-        "<div class='sender-img'>" +
-        "<img src='https://joinmeeting.tk/images/" +
-        picture +
-        "' class='float-left'>" +
-        "</div>" +
-        "</th>" +
-        "<td>" +
-        "<p class='receive-msg-username' style='margin-bottom:2px;'>" +
-        strCopy[0] +
-        "</p>" +
-        "</td>" +
-        "</tr>" +
-        "<tr>" +
-        "<td>" +
-        "<div class='receive-msg-context bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded'>" +
-        (strCopy[1] || event) +
-        "</div>" +
-        "</td>" +
-        "</tr>" +
-        "</table>";
-
-      // console.log(this.textArea);
-      this.chatContainer.appendChild(this.textArea);
-      this.textArea.tabIndex = 0;
-      this.textArea.focus();
-      document.getElementById("input-text-chat").focus();
+        // console.log(this.textArea);
+        this.chatContainer.appendChild(this.textArea);
+        this.textArea.tabIndex = 0;
+        this.textArea.focus();
+        document.getElementById("input-text-chat").focus();
       }
     },
     textSend(e) {
@@ -835,5 +848,18 @@ video::-webkit-media-controls {
 .conferenceBtn {
   font-family: "Open Sans", sans-serif;
   font-size: 12px;
+}
+
+#overlayText {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  z-index: 1;
+}
+
+#topText {
+  color: white;
+  font-size: 20px;
+  align-self: center;
 }
 </style>
