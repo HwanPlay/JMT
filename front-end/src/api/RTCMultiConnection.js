@@ -5907,6 +5907,7 @@ var RTCMultiConnection = function (roomid, forceOptions) {
 
     if (forceOptions.autoOpenOrJoin) {
       connection.openOrJoin(connection.sessionid);
+      console.log(openorjoin);
     }
 
     connection.onUserIdAlreadyTaken = function (useridAlreadyTaken, yourNewUserId) {

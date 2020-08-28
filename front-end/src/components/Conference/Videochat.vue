@@ -210,9 +210,10 @@ export default {
         var parentNode = that.connection.videosContainer;
         var container = document.createElement("span");
         var text = document.createTextNode(that.meetingInfo.nickname);
-
+        console.log(that.meetingInfo.nickname);
         container.appendChild(text);
-        container.style.color = "red";
+        // container.style.color = "red";
+        container.className = "nickname";
 
         parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
         parentNode.insertBefore(container, parentNode.firstChild);
@@ -648,15 +649,13 @@ export default {
 }
 #videos-container video {
   height: 30%;
-  width: 33%;
+  width: 30%;
   /* margin: 0px 1px; */
   border: 1px groove white;
   border-radius: 3px;
   padding : 0px;
 }
 .video-off{
-   height: 0%;
-   width: 33%;
    display: none;
    /* opacity : 0; */
 }
@@ -667,7 +666,7 @@ export default {
 
 .canvas-video{
   height: 30%;
-  width: 33%;
+  width: 30%;
   border: 1px groove white;
   border-radius: 3px;
   padding : 0px;
@@ -789,7 +788,14 @@ export default {
   transform: translate(-50%, 0);
   z-index: 7;
 }
-
+.nickname{
+  color: #404040;
+  background:rgba(255, 255, 255, 0.6);
+  width: 150px;
+  position:absolute;
+  /* top : 25%; */
+  z-index:1;
+}
 .chat-main {
   position: relative;
   width: 100%;
