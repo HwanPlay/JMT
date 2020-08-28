@@ -1,26 +1,6 @@
 <template>
   <div id="MainContainer">
     <v-sheet id="MainContent">
-      <!-- <v-slide-group id="Minivideo_list" center-active show-arrows dark> -->
-      <!-- <v-slide-item id="videos-container"> -->
-      <!-- <div class="mx-auto"></div> -->
-      <!-- </v-slide-item> -->
-      <!-- </v-slide-group> -->
-
-      <!-- <div id="video_list_videOrshow">
-        <div class="text-center">
-          <v-btn
-            text
-            color="rgb(255, 128, 74)"
-            @click="videoBar"
-            background-color="rgba(14, 23, 38, 1)"
-          >
-            <v-icon v-show="videoBarNav">mdi-chevron-down</v-icon>
-            <v-icon v-show="!videoBarNav">mdi-chevron-up</v-icon>
-          </v-btn>
-        </div>
-      </div>-->
-
       <div id="Mainvideo">
         <div style="width:100%; height: 100%;">
           <div id="videos-container"></div>
@@ -35,15 +15,6 @@
           </v-btn>
         </div>
         <v-bottom-navigation dark :input-value="showNav" background-color="rgba(14, 23, 38, 1)">
-          <!-- <v-btn @click="overlay = !overlay"> -->
-          <!-- <v-btn @click="onJoin">
-            <span>Join</span>
-            <v-icon>mdi-login</v-icon>
-          </v-btn>-->
-          <!-- <v-overlay :value="overlay">
-          <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-overlay>-->
-
           <v-btn @click="onCam">
             <span class="conferenceBtn" v-show="!videoOnOff">OFF</span>
             <v-icon v-show="!videoOnOff">mdi-video-off</v-icon>
@@ -200,7 +171,7 @@ export default {
         audio: true
       };
 
-    //Voice Detect & change Bordor color 
+      //Voice Detect & change Bordor color
       var that = this;
       this.connection.onstream = function(event) {
         var parentNode = that.connection.videosContainer;
@@ -233,14 +204,20 @@ export default {
 
       this.connection.onspeaking = function(e) {
         // e.streamid, e.userid, e.stream, etc.
+        that.connection.send({
+          streamid: e.streamid,
+          speaking: true
+        });
         e.mediaElement.style.border = "1px solid red";
-        console.log(e.mediaElement);
       };
 
       this.connection.onsilence = function(e) {
         // e.streamid, e.userid, e.stream, etc.
+        that.connection.send({
+          streamid: e.streamid,
+          silence: true
+        });
         e.mediaElement.style.border = "";
-        console.log(e.mediaElement);
       };
 
       this.connection.onvolumechange = function(event) {
@@ -275,9 +252,9 @@ export default {
       }
       // end Voice Detect
 
-
       this.connection.openOrJoin(this.groupInfo.roomId);
       document.getElementById("videos-container").style.display = "block";
+
       // this.overlay = false;
     },
     //회의방 나가기
@@ -312,6 +289,8 @@ export default {
         this.connection.streamEvents
           .selectFirst("local")
           .stream.getTracks()[1].enabled = false;
+        let localStream = this.connection.attachStreams[0];
+        localStream.mute("hi");
         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
@@ -417,6 +396,19 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
+      
+      
+      if (event.data.speaking) {
+        var mediaElement = document.getElementById(event.data.streamid);
+        if (mediaElement) mediaElement.style.border = "1px solid red";
+      }
+      if (event.data.silence) {
+        var mediaElement = document.getElementById(event.data.streamid);
+        if (mediaElement) mediaElement.style.border = "";
+      }
+      if(typeof(event.data) === 'string'){
+
+      
       this.textArea = document.createElement("div");
       // console.log(userInfo)
 
@@ -479,6 +471,7 @@ export default {
       this.textArea.tabIndex = 0;
       this.textArea.focus();
       document.getElementById("input-text-chat").focus();
+      }
     },
     textSend(e) {
       if (e.target.value) {
@@ -571,10 +564,7 @@ export default {
     );
     // voice detect를 위해 필요한 hark.js 스크립트 삽입
     let src = document.createElement("script");
-    src.setAttribute(
-      "src",
-      "https://cdn.webrtc-experiment.com/hark.js"
-    );
+    src.setAttribute("src", "https://cdn.webrtc-experiment.com/hark.js");
     document.body.appendChild(src);
 
     // this.broadcast.videosContainer = document.querySelector("#Main-videos-container");
@@ -613,11 +603,12 @@ export default {
   overflow-y: auto;
 }
 #videos-container video {
-  height: 50%;
-  width: 30%;
-  margin: 0px 1px;
-  border: 2px groove white;
+  height: 30%;
+  width: 33%;
+  /* margin: 0px 1px; */
+  border: 1px groove white;
   border-radius: 3px;
+  padding: 0px;
 }
 #Mainvideo {
   position: relative;
