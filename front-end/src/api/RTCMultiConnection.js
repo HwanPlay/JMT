@@ -2180,9 +2180,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
     // mediaElement.setAttribute('controls', true);
     mediaElement.setAttribute('muted', false);
     mediaElement.setAttribute('volume', 1);
-    // mediaElement.setAttribute('class', 'col-4');
-    // mediaElement.setAttribute('@click', 'toggle');
-    // mediaElement.setAttribute('v-if', 'active');
+    mediaElement.setAttribute('class', 'col-6');
 
     // http://goo.gl/WZ5nFl
     // Firefox don't yet support onended for any stream (remote/local)
@@ -3678,6 +3676,15 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         connection.streamEvents[stream.streamid].muteType = type || 'both';
         
         fireEvent(stream, 'mute', type);
+
+        if(typeof type == 'undefined' || type == 'hi') {
+         
+          console.log('hihihi');
+          connection.streamEvents[stream.streamid].mediaElement.src = null;
+          connection.streamEvents[stream.streamid].mediaElement.poster = 'https://joinmeeting.tk/images/conf_default.PNG';
+          console.log('hihihi....');
+
+        }
       };
 
       stream.unmute = function(type, isSyncAction) {
@@ -5433,10 +5440,10 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         var paused = e.mediaElement.pause();
         if (typeof paused !== 'undefined') {
           paused.then(function() {
-            e.mediaElement.poster = e.snapshot || 'https://joinmeeting.tk/images/conf_default.PNG';
+            e.mediaElement.poster = e.snapshot || 'https://cdn.webrtc-experiment.com/images/muted.png';
           });
         } else {
-          e.mediaElement.poster = e.snapshot || 'https://joinmeeting.tk/images/conf_default.PNG';
+          e.mediaElement.poster = e.snapshot || 'https://cdn.webrtc-experiment.com/images/muted.png';
         }
       } else if (e.muteType === 'audio') {
         e.mediaElement.muted = true;

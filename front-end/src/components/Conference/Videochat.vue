@@ -310,12 +310,12 @@ export default {
     onCam() {
       // 카메라 끄기
       if (this.videoOnOff == true) {
-                let localStream = this.connection.attachStreams[0];
-        localStream.mute("video");
         this.connection.streamEvents
           .selectFirst("local")
           .stream.getTracks()[1].enabled = false;
-        // 카메라 켜기
+        let localStream = this.connection.attachStreams[0];
+        localStream.mute("hi");
+         // 카메라 켜기
       } else {
         let localStream = this.connection.attachStreams[0];
         this.connection.streamEvents.selectFirst("local").isAudioMuted = false;
@@ -621,6 +621,7 @@ export default {
   /* margin: 0px 1px; */
   border: 1px groove white;
   border-radius: 3px;
+  padding : 0px;
 }
 #Mainvideo {
   position: relative;
