@@ -3668,6 +3668,11 @@ var RTCMultiConnection = function (roomid, forceOptions) {
           });
           console.log("비디오 끄기");
         }
+        if (typeof type == 'undefined' || type == 'exit') {
+          if( document.getElementById(stream.streamid + 'img') != null){
+            document.getElementById(stream.streamid + 'img').remove();
+          }
+        }
 
         if (typeof syncAction == 'undefined' || syncAction == true) {
           StreamsHandler.onSyncNeeded(stream.streamid, 'mute', type);
@@ -3677,12 +3682,15 @@ var RTCMultiConnection = function (roomid, forceOptions) {
 
         fireEvent(stream, 'mute', type);
 
-        if (typeof type == 'undefined' || type == 'hi') {
+        if (typeof type == 'undefined' || type == 'video-onoff') {
 
-          console.log('hihihi');
-          connection.streamEvents[stream.streamid].mediaElement.src = null;
-          connection.streamEvents[stream.streamid].mediaElement.poster = 'https://joinmeeting.tk/images/conf_default.PNG';
-          console.log('hihihi....');
+          var img = new Image;
+          img.src = 'https://joinmeeting.tk/images/conf_default.PNG';
+          img.className = 'canvas-video';
+          img.id = stream.streamid + 'img';
+          document.getElementById(stream.streamid).after(img);
+          console.log(img);
+          document.getElementById(stream.streamid).className = 'video-off'; 
 
         }
       };
@@ -3728,6 +3736,8 @@ var RTCMultiConnection = function (roomid, forceOptions) {
               }
             })();
           }
+          document.getElementById(stream.streamid).className = 'video-on';
+          document.getElementById(stream.streamid + 'img').remove();
           console.log("비디오 켜기");
         }
 
