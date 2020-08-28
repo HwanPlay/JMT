@@ -208,15 +208,21 @@ export default {
       var that = this;
       this.connection.onstream = function(event) {
         var parentNode = that.connection.videosContainer;
-        var container = document.createElement("span");
+        var container = document.createElement("div");
         var text = document.createTextNode(that.meetingInfo.nickname);
         console.log(that.meetingInfo.nickname);
         container.appendChild(text);
-        // container.style.color = "red";
+        container.style.display = "inline";
         container.className = "nickname";
 
-        parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
-        parentNode.insertBefore(container, parentNode.firstChild);
+        var parentContainer = document.createElement("div");
+        parentContainer.appendChild(container)
+        parentContainer.appendChild(event.mediaElement)
+        parentContainer.className = "parentContainer";
+
+        parentNode.insertBefore(parentContainer, parentNode.firstChild);
+        // parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
+        // parentNode.insertBefore(container, parentNode.firstChild);
         var played = event.mediaElement.play();
 
         initHark({
@@ -648,8 +654,8 @@ export default {
   overflow-y: auto;
 }
 #videos-container video {
-  height: 30%;
-  width: 30%;
+  height: 100%;
+  /* width: 30%; */
   /* margin: 0px 1px; */
   border: 1px groove white;
   border-radius: 3px;
@@ -788,13 +794,20 @@ export default {
   transform: translate(-50%, 0);
   z-index: 7;
 }
+.parentContainer {
+  position: relative;
+  width: 30%;
+  height: 30%;
+  display: inline-block;
+}
 .nickname{
   color: #404040;
   background:rgba(255, 255, 255, 0.6);
   width: 150px;
-  position:absolute;
+  position: absolute;
   /* top : 25%; */
   z-index:1;
+  margin: auto;
 }
 .chat-main {
   position: relative;
