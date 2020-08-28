@@ -182,8 +182,26 @@
             placeholder="Note Title"
           > -->
           <!-- <b-button class="menubar__button save_button" @click="SaveNote" variant="primary">Save</b-button>   -->
-          <b-button v-if="!isSave" class="save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
-          <b-button v-if="isSave" class="save_button" @click="EditNote" variant="outline-success">Edit</b-button>
+          <v-tooltip v-if="!isSave" top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn @click="SaveNote" class="mx-2 save-btn" :elevation="2" outlined fab dark color="blue" v-bind="attrs" v-on="on">
+                <v-icon style="color:#007bff; font-size:24px;">mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+           <span style="font-size:10px;">SAVE</span>
+          </v-tooltip>      
+
+          <v-tooltip v-if="isSave" top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn @click="EditNote" class="mx-2 save-btn" :elevation="2" outlined fab dark color="green" v-bind="attrs" v-on="on">
+                <v-icon style="color:#4CAF30; font-size:24px;">mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+           <span style="font-size:10px;">EDIT</span>
+          </v-tooltip>      
+
+          <!-- <b-button v-if="!isSave" class="save_button" @click="SaveNote" variant="outline-primary">Save</b-button>
+          <b-button v-if="isSave" class="save_button" @click="EditNote" variant="outline-success">Edit</b-button> -->
 
 
       </div>
@@ -340,13 +358,13 @@ hr {
   margin: 0.5rem auto;
 }
 .title-form {
-  width: 15rem;
+  /* width: 20.5rem; */
   border: 0px;
   font-weight: 700;
   font-size: 20px;
   font-family: "NanumSquare", sans-serif;
   padding: 3px 13px;
-  height: calc(1.0em + 0.75rem + 2px);
+  /* height: calc(1.0em + 0.75rem + 2px); */
 }
 .title-form:focus {
   border-color: inherit;
@@ -361,4 +379,9 @@ hr {
   padding-right: 10px;
 }
 
+.save-btn{
+  border: 0px;
+  width: 45px;
+  height: 45px;
+}
 </style>

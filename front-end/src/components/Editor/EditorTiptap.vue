@@ -187,7 +187,7 @@
             
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn  class="mx-2" :elevation="3" fab dark color="blue" @click="saveNote" v-bind="attrs" v-on="on">
+                  <v-btn  class="mx-1 note-manager-btn" :elevation="1" fab dark color="green" @click="saveNote" v-bind="attrs" v-on="on">
                      <v-icon style="color:white">mdi-pencil</v-icon>
                   </v-btn>
                 </template>
@@ -196,7 +196,7 @@
 
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn  class="mx-2" :elevation="3" fab dark color="#EF5350" @click="deleteNote" v-bind="attrs" v-on="on">
+                  <v-btn  class="mx-2 note-manager-btn" :elevation="1" fab dark color="#EF5350" @click="deleteNote" v-bind="attrs" v-on="on">
                      <i class="fas fa-trash-alt" style="color:white" ></i>
                   </v-btn>
                 </template>
@@ -373,5 +373,10 @@ hr{
   border-color: inherit;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.note-manager-btn{
+  height: 50px;
+  width: 50px;
 }
 </style>

@@ -655,7 +655,7 @@ export default {
 }
 #videos-container video {
   height: 100%;
-  /* width: 30%; */
+  width: 100%;
   /* margin: 0px 1px; */
   border: 1px groove white;
   border-radius: 3px;
@@ -671,8 +671,8 @@ export default {
 }
 
 .canvas-video{
-  height: 30%;
-  width: 30%;
+  height: 100%;
+  width: 100%;
   border: 1px groove white;
   border-radius: 3px;
   padding : 0px;
@@ -850,7 +850,7 @@ export default {
 
   overflow-x: scroll;
   overflow-x: hidden;
-  background: #eceff1;
+  background: #f0f2f3;
   position: relative;
   vertical-align: bottom;
 }
