@@ -2177,6 +2177,7 @@ var RTCMultiConnection = function (roomid, forceOptions) {
 
     mediaElement.setAttribute('autoplay', true);
     mediaElement.setAttribute('playsinline', true);
+    
     // mediaElement.setAttribute('controls', true);
     mediaElement.setAttribute('muted', false);
     mediaElement.setAttribute('volume', 1);
@@ -5461,7 +5462,7 @@ var RTCMultiConnection = function (roomid, forceOptions) {
       }
     };
 
-    connection.autoCloseEntireSession = false;
+    connection.autoCloseEntireSession = true;
 
     connection.filesContainer = connection.videosContainer = document.body || document.documentElement;
     connection.isInitiator = false;

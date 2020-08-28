@@ -1,0 +1,24 @@
+<p>Click the button to call function</p>
+YoutubeURL: <input id="url" type="text">
+<button onclick="myFunction()">Try it</button>
+
+<div id="video_div">
+</div>
+
+<script>
+function myFunction() {
+    var urlValue = document.getElementById("url").value;
+    var videoID = urlValue.substring(urlValue.indexOf('=') + 1);
+
+    var video = document.createElement("iframe");
+    video.setAttribute(title, "Test");
+    video.setAttribute(width, "440");
+    video.setAttribute(height, "390");
+    video.setAttribute(src, "http://www.youtube.com/embed/" + videoID);
+    video.setAttribute(frameborder, "0");
+
+    var div_element = document.getElementById("video_div");
+
+    div_element.appendChild(video);
+}
+</script>
