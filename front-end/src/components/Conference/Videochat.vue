@@ -207,7 +207,7 @@ export default {
 
       var that = this;
       this.connection.onopen = function(event) {
-        that.tmp_nickname = event.userid;
+        that.tmp_nickname = event.extra.fullName;
         console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#');
       }
 
@@ -612,9 +612,8 @@ export default {
 
   mounted() {
     this.tmp_nickname = this.meetingInfo.nickname;
-    this.connection.userid = this.meetingInfo.nickname;
     this.connection.extra = {
-      joinedAt: (new Date).toISOString()
+      fullName : this.meetingInfo.nickname
     };
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
