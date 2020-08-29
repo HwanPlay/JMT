@@ -208,7 +208,6 @@ export default {
       var that = this;
       this.connection.onopen = function(event) {
         that.tmp_nickname = event.extra.fullName;
-        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#');
       }
 
 
@@ -218,8 +217,6 @@ export default {
         var parentNode = that.connection.videosContainer;
 
         var container = document.createElement("div");
-        var cnt = 0;
-        console.log(++cnt + "!!!!!!!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         var text = document.createTextNode(that.tmp_nickname);
         container.appendChild(text);
         container.style.display = "inline";
