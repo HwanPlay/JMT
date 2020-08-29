@@ -614,7 +614,7 @@ export default {
     this.tmp_nickname = this.meetingInfo.nickname;
     this.connection.userid = this.meetingInfo.nickname;
     this.connection.extra = {
-      joinedAt: (cnew Date).toISOString()
+      joinedAt: (new Date).toISOString()
     };
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
