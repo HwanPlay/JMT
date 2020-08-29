@@ -208,7 +208,7 @@ export default {
       var that = this;
       this.connection.onopen = function(event) {
         that.tmp_nickname = event.userid;
-        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#')
+        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#');
       }
 
 
@@ -449,7 +449,6 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-      console.log(event.data + '!@@!@!@@!!@!@@!')
       this.tmp_nickname = event.data;
       if (this.connection.enableLogs) {
         console.debug("data-message", event.userid, event.data);
@@ -614,6 +613,9 @@ export default {
   mounted() {
     this.tmp_nickname = this.meetingInfo.nickname;
     this.connection.userid = this.meetingInfo.nickname;
+    this.connection.extra = {
+      joinedAt: (cnew Date).toISOString()
+    };
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
@@ -635,7 +637,7 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect();
-    var numberOfUsers = this.connection.getAllParticipants().length;
+    var numberOfUsers = this.connection.getAllParticipants().length;z
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
       axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
