@@ -204,13 +204,22 @@ export default {
         audio: true
       };
 
+      var that = this;
+      this.connection.onopen = function(event) {
+        that.connection.send(that.meetingInfo.nickname);
+      }
+
+      this.connection.onmessage = function(event) {
+        console.log(event.data);
+      }
+
     //Voice Detect & change Bordor color 
       var that = this;
       this.connection.onstream = function(event) {
         var parentNode = that.connection.videosContainer;
+
         var container = document.createElement("div");
         var text = document.createTextNode(that.meetingInfo.nickname);
-        console.log(that.meetingInfo.nickname);
         container.appendChild(text);
         container.style.display = "inline";
         container.className = "nickname";
@@ -252,13 +261,11 @@ export default {
       this.connection.onspeaking = function(e) {
         // e.streamid, e.userid, e.stream, etc.
         e.mediaElement.style.border = "1px solid red";
-        console.log(e.mediaElement);
       };
 
       this.connection.onsilence = function(e) {
         // e.streamid, e.userid, e.stream, etc.
         e.mediaElement.style.border = "";
-        console.log(e.mediaElement);
       };
 
       this.connection.onvolumechange = function(event) {
@@ -443,6 +450,7 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
+      console.log(event + '!@@!@!@@!!@!@@!')
       if (this.connection.enableLogs) {
         console.debug("data-message", event.userid, event.data);
       }
@@ -524,7 +532,6 @@ export default {
     textSend(e) {
       if (e.target.value) {
         // removing trailing/leading whitespace
-        console.log("내 닉네임 :  " + this.meetingInfo.nickname);
         this.value =
           this.meetingInfo.nickname +
           ": " +
@@ -606,6 +613,7 @@ export default {
 
   mounted() {
     this.onJoin();
+
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       "#videos-container"
