@@ -669,6 +669,11 @@ export default {
   border: 1px groove white;
   border-radius: 3px;
   padding : 0px;
+
+  /* 반전 */
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+  -moz-transform:rotateY(180deg); /* Firefox */
 }
 .video-off{
    display: none;
@@ -817,6 +822,8 @@ export default {
   /* top : 25%; */
   z-index:1;
   margin: auto;
+  padding-top: 4px;
+  font-size: 16px;
 }
 .chat-main {
   position: relative;
