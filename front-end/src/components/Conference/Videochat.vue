@@ -208,7 +208,6 @@ export default {
       var that = this;
       this.connection.onopen = function(event) {
         that.tmp_nickname = event.extra.fullName;
-        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#');
       }
 
 
