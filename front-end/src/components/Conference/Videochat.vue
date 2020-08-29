@@ -612,11 +612,7 @@ export default {
   mounted() {
     this.tmp_nickname = this.meetingInfo.nickname;
     this.connection.extra = {
-<<<<<<< HEAD
-      joinedAt: (new Date).toISOString()
-=======
       fullName : this.meetingInfo.nickname
->>>>>>> 1269f337465de3786cc851164cb876630e9592c7
     };
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
