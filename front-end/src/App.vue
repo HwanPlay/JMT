@@ -89,6 +89,7 @@ import Login from './components/Account/Login.vue';
 import MyProfile from './components/Account/MyProfile.vue';
 import RequestModal from './components/Account/RequestModal.vue';
 import InviteMessage from './components/Group/InviteMessage.vue';
+import Axios from 'axios';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
@@ -172,6 +173,9 @@ export default Vue.extend({
     isLoggedIn(){
       if (this.isLoggedIn){
         this.connect();
+
+        Axios.put(SERVER.URL +'/group/initmeeting')
+          .then();
       }
     }
   }
