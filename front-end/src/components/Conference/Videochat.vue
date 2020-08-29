@@ -207,8 +207,7 @@ export default {
 
       var that = this;
       this.connection.onopen = function(event) {
-        that.tmp_nickname = event.userid;
-        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#');
+        that.tmp_nickname = event.extra.fullName;
       }
 
 
@@ -222,13 +221,14 @@ export default {
         container.appendChild(text);
         container.style.display = "inline";
         container.className = "nickname";
-
+       
         var parentContainer = document.createElement("div");
         parentContainer.appendChild(container)
         parentContainer.appendChild(event.mediaElement)
         parentContainer.className = "parentContainer";
 
         parentNode.insertBefore(parentContainer, parentNode.firstChild);
+
         // parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
         // parentNode.insertBefore(container, parentNode.firstChild);
         var played = event.mediaElement.play();
@@ -308,10 +308,9 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      // console.log('나갈건데 이미지부터 ' +stream.streamid);
       let localStream = this.connection.attachStreams[0];
       localStream.mute("exit");
-
+      
       this.$router.push("/Group");
       this.$store.commit("SET_VIDEO_ON", false);
     },
@@ -612,9 +611,12 @@ export default {
 
   mounted() {
     this.tmp_nickname = this.meetingInfo.nickname;
-    this.connection.userid = this.meetingInfo.nickname;
     this.connection.extra = {
+<<<<<<< HEAD
       joinedAt: (new Date).toISOString()
+=======
+      fullName : this.meetingInfo.nickname
+>>>>>>> 1269f337465de3786cc851164cb876630e9592c7
     };
     this.onJoin();
     this.chatContainer = document.querySelector(".chat-output");
@@ -637,7 +639,7 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect();
-    var numberOfUsers = this.connection.getAllParticipants().length;z
+    var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
       axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
