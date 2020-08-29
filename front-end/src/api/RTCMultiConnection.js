@@ -3692,8 +3692,8 @@ var RTCMultiConnection = function (roomid, forceOptions) {
           document.getElementById(stream.streamid).after(img);
           console.log(img);
           document.getElementById(stream.streamid).className = 'video-off'; 
-
         }
+        
       };
 
       stream.unmute = function (type, isSyncAction) {

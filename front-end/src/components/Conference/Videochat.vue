@@ -223,10 +223,13 @@ export default {
         container.style.display = "inline";
         container.className = "nickname";
 
+        console.log('이게 맞나? ' + that.connection.userid);
+
         var parentContainer = document.createElement("div");
         parentContainer.appendChild(container)
         parentContainer.appendChild(event.mediaElement)
         parentContainer.className = "parentContainer";
+        parentContainer.id = that.connection.userid+'Nickname';
 
         parentNode.insertBefore(parentContainer, parentNode.firstChild);
         // parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
@@ -308,9 +311,11 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      // console.log('나갈건데 이미지부터 ' +stream.streamid);
+      console.log('나갈건데 지워야해 ' + this.connection.userid);
       let localStream = this.connection.attachStreams[0];
       localStream.mute("exit");
+
+      document.getElementById(this.connection.userid+'Nickname').remove();
 
       this.$router.push("/Group");
       this.$store.commit("SET_VIDEO_ON", false);
@@ -636,7 +641,7 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect();
-    var numberOfUsers = this.connection.getAllParticipants().length;z
+    var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
       axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
