@@ -218,6 +218,8 @@ export default {
         var parentNode = that.connection.videosContainer;
 
         var container = document.createElement("div");
+        var cnt = 0;
+        console.log(++cnt + "!!!!!!!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         var text = document.createTextNode(that.tmp_nickname);
         container.appendChild(text);
         container.style.display = "inline";
@@ -636,7 +638,7 @@ export default {
   },
   beforeDestroy() {
     this.onDisconnect();
-    var numberOfUsers = this.connection.getAllParticipants().length;z
+    var numberOfUsers = this.connection.getAllParticipants().length;
     if (this.$store.state.userId === this.groupInfo.hostId) {
       this.send(true);
       axios.put(SERVER.URL + "/group/hasmeeting/" + this.groupInfo.groupNo);
