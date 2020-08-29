@@ -3633,6 +3633,7 @@ var RTCMultiConnection = function (roomid, forceOptions) {
       return;
     }
 
+ 
     function setHandlers(stream, syncAction, connection) {
       if (!stream || !stream.addEventListener) return;
 
@@ -3669,9 +3670,12 @@ var RTCMultiConnection = function (roomid, forceOptions) {
           });
           console.log("비디오 끄기");
         }
-        if (typeof type == 'undefined' || type == 'exit') {
+        if (type == 'exit') {
           if( document.getElementById(stream.streamid + 'img') != null){
             document.getElementById(stream.streamid + 'img').remove();
+          }
+          if( document.getElementById(stream.streamid) != null){
+            document.getElementById(stream.streamid).parentElement.remove();
           }
         }
 
@@ -5286,6 +5290,8 @@ var RTCMultiConnection = function (roomid, forceOptions) {
         mPeer.replaceTrack(track, participant, isVideoTrack);
       });
     }
+
+
 
     connection.replaceTrack = function (session, remoteUserId, isVideoTrack) {
       session = session || {};

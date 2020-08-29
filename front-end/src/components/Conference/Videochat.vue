@@ -221,16 +221,14 @@ export default {
         container.appendChild(text);
         container.style.display = "inline";
         container.className = "nickname";
-
-        console.log('이게 맞나? ' + that.connection.userid);
-
+       
         var parentContainer = document.createElement("div");
         parentContainer.appendChild(container)
         parentContainer.appendChild(event.mediaElement)
         parentContainer.className = "parentContainer";
-        parentContainer.id = that.connection.userid+'Nickname';
 
         parentNode.insertBefore(parentContainer, parentNode.firstChild);
+
         // parentNode.insertBefore(event.mediaElement, parentNode.firstChild);
         // parentNode.insertBefore(container, parentNode.firstChild);
         var played = event.mediaElement.play();
@@ -310,12 +308,9 @@ export default {
     },
     //회의방 나가기
     onLeave() {
-      console.log('나갈건데 지워야해 ' + this.connection.userid);
       let localStream = this.connection.attachStreams[0];
       localStream.mute("exit");
-
-      document.getElementById(this.connection.userid+'Nickname').remove();
-
+      
       this.$router.push("/Group");
       this.$store.commit("SET_VIDEO_ON", false);
     },
