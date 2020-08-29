@@ -191,7 +191,8 @@ export default {
       sock: null,
       ws: null,
       reconnect: 0,
-      recv: ""
+      recv: "",
+      tmp_nickname : null,
     };
   },
   methods: {
@@ -206,12 +207,10 @@ export default {
 
       var that = this;
       this.connection.onopen = function(event) {
-        that.connection.send(that.meetingInfo.nickname);
+        that.tmp_nickname = event.userid;
+        console.log(that.tmp_nickname + '!@#!@$!#!@$!@#!@#')
       }
 
-      this.connection.onmessage = function(event) {
-        console.log(event.data);
-      }
 
     //Voice Detect & change Bordor color 
       var that = this;
@@ -219,7 +218,7 @@ export default {
         var parentNode = that.connection.videosContainer;
 
         var container = document.createElement("div");
-        var text = document.createTextNode(that.meetingInfo.nickname);
+        var text = document.createTextNode(that.tmp_nickname);
         container.appendChild(text);
         container.style.display = "inline";
         container.className = "nickname";
@@ -450,7 +449,8 @@ export default {
       console.log("Event : ", event);
     },
     appendDIV(event) {
-      console.log(event + '!@@!@!@@!!@!@@!')
+      console.log(event.data + '!@@!@!@@!!@!@@!')
+      this.tmp_nickname = event.data;
       if (this.connection.enableLogs) {
         console.debug("data-message", event.userid, event.data);
       }
@@ -612,8 +612,9 @@ export default {
   },
 
   mounted() {
+    this.tmp_nickname = this.meetingInfo.nickname;
+    this.connection.userid = this.meetingInfo.nickname;
     this.onJoin();
-
     this.chatContainer = document.querySelector(".chat-output");
     this.connection.videosContainer = document.querySelector(
       "#videos-container"
