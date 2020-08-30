@@ -310,7 +310,7 @@ export default {
     onLeave() {
       let localStream = this.connection.attachStreams[0];
       localStream.mute("exit");
-      
+      this.onDisconnect()
       this.$router.push("/Group");
       this.$store.commit("SET_VIDEO_ON", false);
     },
